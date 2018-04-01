@@ -11,8 +11,8 @@ use function getenv;
  *
  * @return string
  */
-function appPath(string $path = '')
-: string {
+function appPath(string $path = ''): string
+{
     return dirname(__DIR__) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
 

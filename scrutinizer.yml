@@ -1,11 +1,11 @@
 build:
-  nodes:
-    analysis:
-      project_setup:
-        override: true
+    nodes:
+        api:
+            # ... All other options under "build" except "nodes"
 
-      environment:
-        selenium: true
+    root_path: './'
+    environment:
+        selenium: false
         memcached: true
         elasticsearch: false
         rabbitmq: false
@@ -31,13 +31,12 @@ build:
           DATA_API_MYSQL_USER: "root"
           DATA_API_MYSQL_NAME: "gonano"
           APP_IP: "api.phalcon.ld"
-          DATA_TDM_SELENIUM_HOST: "127.0.0.1"
 
-      cache:
+    cache:
         directories:
           - ~/cphalcon
 
-      dependencies:
+    dependencies:
         before:
           - cd /home/scrutinizer/build
           - cp storage/ci/.env.example .env
@@ -59,7 +58,10 @@ build:
           - ./vendor/bin/phinx migrate
           - ./vendor/bin/codecept build
 
-      tests:
+    project_setup:
+        override: true
+
+    tests:
         override:
           - phpcs-run --standard=PSR2 --extensions=php --ignore=tests/*,storage/*,vendor/* ./
           -
@@ -68,7 +70,6 @@ build:
               file: './tests/_output/coverage.xml'
               format: 'clover'
           - php-scrutinizer-run --enable-security-analysis
-
 
 filter:
   paths: ['./*']

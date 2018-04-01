@@ -26,10 +26,10 @@ build:
               web_root: 'public'
               host: 'api.phalcon.ld'
         variables:
-          DATA_TDM_MYSQL_HOST: "localhost"
-          DATA_TDM_MYSQL_PASS: "password"
-          DATA_TDM_MYSQL_USER: "root"
-          DATA_TDM_MYSQL_NAME: "gonano"
+          DATA_API_MYSQL_HOST: "localhost"
+          DATA_API_MYSQL_PASS: "password"
+          DATA_API_MYSQL_USER: "root"
+          DATA_API_MYSQL_NAME: "gonano"
           APP_IP: "api.phalcon.ld"
           DATA_TDM_SELENIUM_HOST: "127.0.0.1"
 

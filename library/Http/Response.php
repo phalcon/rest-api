@@ -12,7 +12,7 @@ class Response extends PhResponse
     /** @var int */
     const STATUS_ERROR   = 3000;
 
-    /** @var array */
+    /** @var int */
     protected $payloadCode = self::STATUS_SUCCESS;
 
     /**

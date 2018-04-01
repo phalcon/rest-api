@@ -2,8 +2,7 @@ build:
   nodes:
     analysis:
       project_setup:
-        override:
-          - 'true'
+        override: true
 
       environment:
         selenium: true
@@ -42,7 +41,7 @@ build:
           - cp storage/ci/.env.example .env
           - cp storage/ci/phinx.php.example phinx.php
           -
-            command: 'cd ~/ && git clone -q --depth=1 https://github.com/phalcon/cphalcon.git && cd cphalcon/build && ./install'
+            command: 'cd ~/ && git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b v3.2.2 && cd cphalcon/build && ./install'
             not_if: 'test -e /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so'
           -
             command: 'cp -v /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so  /home/scrutinizer/.phpenv/versions/7.1.6/lib/php/extensions/no-debug-zts-20160303/'
@@ -55,7 +54,7 @@ build:
           - mysql -e "FLUSH PRIVILEGES"
           - cd /home/scrutinizer/build
           - composer install --no-interaction
-#          - ./vendor/bin/phinx migrate
+          - ./vendor/bin/phinx migrate
           - ./vendor/bin/codecept build
 
       tests:
@@ -68,17 +67,20 @@ build:
               format: 'clover'
           - php-scrutinizer-run --enable-security-analysis
 
+
 filter:
+  paths: ['./*']
   excluded_paths:
     - 'tests/*'
     - 'storage/*'
     - 'vendor/*'
+    - 'phinx.php'
 
 build_failure_conditions:
     # No classes/methods with a rating of D or worse
-    - 'elements.rating(<= D).exists'
+    - 'elements.rating(<= C).exists'
     # No new classes/methods with a rating of D or worse allowed
-    - 'elements.rating(<= D).new.exists'
+    - 'elements.rating(<= C).new.exists'
 
     # No coding style issues allowed - Removing it for now until we fix index.php
     - 'issues.label("coding-style").exists'
@@ -90,10 +92,10 @@ build_failure_conditions:
     # New issues of major or higher severity
     - 'issues.severity(>= MAJOR).new.exists'
 
-    # Code Quality Rating drops below 6
+    # Code Quality Rating drops below 8
     - 'project.metric("scrutinizer.quality", < 8)'
     # Code Coverage drops below 60%
-    - 'project.metric("scrutinizer.test_coverage", < 0.90)'
+    - 'project.metric("scrutinizer.test_coverage", < 0.80)'
 
     # Code Coverage decreased from previous inspection by more than 10%
     - 'project.metric_change("scrutinizer.test_coverage", < -0.10)'
@@ -104,8 +106,6 @@ tools:
   php_code_sniffer:
     config:
       standard: PSR2
-    filter:
-      paths: ['app']
   php_loc:
     enabled: true
     excluded_dirs: ['vendor', 'tests', 'storage']
@@ -160,7 +160,7 @@ checks:
     no_property_on_interface: true
     no_non_implemented_abstract_methods: true
     no_long_variable_names:
-      maximum: '40'
+      maximum: '20'
     no_goto: true
     no_exit: true
     no_eval: true
@@ -210,89 +210,4 @@ checks:
       parameter_name: '^[a-z][a-zA-Z0-9]*$'
       interface_name: '^[A-Z][a-zA-Z0-9]*Interface$'
       exception_name: '^[A-Z][a-zA-Z0-9]*Exception$'
-      isser_method_name: '^(?:is|has|should|may|supports|before|after|*store)'
-  javascript:
-    var_sometimes_initialized: true
-    var_never_initialized: true
-    valid_typeof: true
-    use_isnan: true
-    unsafe_undefined: true
-    unsafe_mutable_variable_usage: true
-    nsp_vulnerabilities: true
-    no_with: true
-    no_void: true
-    no_var: true
-    no_use_before_define: true
-    no_unused_vars: true
-    no_unused_function: true
-    no_unused_expressions: true
-    no_unused_const: true
-    no_unused_assignment: true
-    no_unreachable: true
-    no_undef_init: true
-    no_undef: true
-    no_sparse_arrays: true
-    no_shadow_builtins: true
-    no_sequences: true
-    no_return_assign: true
-    no_redeclared_const: true
-    no_redeclare: true
-    no_process_exit: true
-    no_path_concat: true
-    no_param_assign: true
-    no_new_wrappers: true
-    no_new_require: true
-    no_new_func: true
-    no_negated_in_lhs: true
-    no_native_reassign: true
-    no_loop_var_assign: true
-    no_label_var: true
-    no_invalid_regexp: true
-    no_inner_declarations: true
-    no_implied_eval: true
-    no_func_assign: true
-    no_implicit_undefined_return: true
-    no_extra_bind: true
-    no_extend_native: true
-    no_ex_assign: true
-    no_empty_label: true
-    no_empty: true
-    no_else_return: true
-    no_delete_var: true
-    no_constant_condition: true
-    no_caller: true
-    no_bitwise: true
-    no_array_constructor: true
-    no_alias_builtins: true
-    no_alert: true
-    new_cap: true
-    guard_for_in: true
-    eqeqeq: true
-    duplicate_code: true
-    curly: true
-    consistent_return: true
-    code_rating: true
-    jsdoc_non_existent_params: true
-    jsdoc_no_duplicate_params: true
-    no_console: true
-    no_comma_dangle: true
-    no_dupe_keys: true
-    no_empty_class: true
-    no_eval: true
-    no_debugger: true
-    check_for_loops_test: true
-    check_loop_no_body: true
-    check_switch_ambiguous_test: true
-    check_switch_default_not_last: true
-    check_switch_default_only: true
-    check_switch_no_default: true
-    'check_switch_no_uncommented_fallthrough"': true
-    'check_switch_unintended label': true
-    check_too_many_arguments: true
-    check_unused_parameters: true
-    check_unused_object_creation: true
-    check_unused_member_calls: true
-    check_unnecessary_return: true
-    check_undeclared_vars: true
-    check_try_statement: true
-    check_unnecessary_continue: true
+      isser_method_name: '^(?:is|has|should|may|supports|before|after)'

@@ -1,8 +1,11 @@
 <?php
 
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 
-$app = new Micro();
+$diContainer = new FactoryDefault();
+
+$app = new Micro($diContainer);
 
 $app->get(
     '/',

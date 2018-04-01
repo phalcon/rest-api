@@ -1,10 +1,13 @@
 <?php
 
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 
 require __DIR__ . '/../config/autoload.php';
 
-$app = new Micro();
+$diContainer = new FactoryDefault();
+
+$app = new Micro($diContainer);
 
 $app->get(
     '/',
@@ -19,4 +22,4 @@ $app->notFound(
     }
 );
 
-$app->handle();
+return $app->handle();

@@ -24,8 +24,8 @@ if (true !== function_exists('Niden\Functions\envValue')) {
      * Gets a variable from the environment, returns it properly formatted or the
      * default if it does not exist
      *
-     * @param string $variable
-     * @param null   $default
+     * @param string     $variable
+     * @param mixed|null $default
      *
      * @return mixed
      */

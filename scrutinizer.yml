@@ -54,8 +54,8 @@ build:
           - ./vendor/bin/phinx migrate
           - ./vendor/bin/codecept build
 
-    project_setup:
-        override: true
+#    project_setup:
+#        override: true
 
     tests:
         override:

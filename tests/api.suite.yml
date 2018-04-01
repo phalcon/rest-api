@@ -1,0 +1,6 @@
+actor: ApiTester
+modules:
+  enabled:
+    - \Helper\Api
+    - REST:
+        depends: Phalcon

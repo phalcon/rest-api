@@ -1,0 +1,51 @@
+actor_suffix: Tester
+
+paths:
+  tests: tests
+  output: tests/_output
+  data: tests/_data
+  support: tests/_support
+  envs: tests/_envs
+
+settings:
+  bootstrap: _bootstrap.php
+  colors: true
+  memory_limit: 128M
+  log: true
+
+coverage:
+  enabled: true
+  remote: false
+  include:
+    - ./*.php
+  exclude:
+    - phinx.php
+    - storage/*
+    - tests/*
+    - vendor/*
+
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed # default extension
+
+# Get params from .env file
+params:
+  - .env
+
+# Global modules configuration.
+modules:
+  config:
+    Phalcon:
+      bootstrap: "tests/_config/bootstrap.php"
+      cleanup: false
+      savepoints: false
+    Db:
+      dsn: 'mysql:host=%DATA_API_MYSQL_HOST%;dbname=gonano'
+      user: '%DATA_API_MYSQL_USER%'
+      password: '%DATA_API_MYSQL_PASS%'
+      #dump: 'tests/_data/dump.sql'
+      populate: false
+      cleanup: false
+      reconnect: true
+
+error_level: "E_ALL"

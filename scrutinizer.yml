@@ -2,7 +2,8 @@ build:
   nodes:
     analysis:
       project_setup:
-        override: true
+        override:
+          - 'true'
 
       environment:
         selenium: true
@@ -67,6 +68,8 @@ build:
               format: 'clover'
           - php-scrutinizer-run --enable-security-analysis
 
+    tests: true
+
 filter:
   excluded_paths:
     - 'tests/*'
@@ -90,12 +93,12 @@ build_failure_conditions:
     - 'issues.severity(>= MAJOR).new.exists'
 
     # Code Quality Rating drops below 6
-    #- 'project.metric("scrutinizer.quality", < 6)'
+    - 'project.metric("scrutinizer.quality", < 8)'
     # Code Coverage drops below 60%
-    #- 'project.metric("scrutinizer.test_coverage", < 0.60)'
+    - 'project.metric("scrutinizer.test_coverage", < 0.90)'
 
     # Code Coverage decreased from previous inspection by more than 10%
-    #- 'project.metric_change("scrutinizer.test_coverage", < -0.10)'
+    - 'project.metric_change("scrutinizer.test_coverage", < -0.10)'
 
 tools:
   php_analyzer: true

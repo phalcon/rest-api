@@ -32,20 +32,4 @@ extensions:
 params:
   - .env
 
-# Global modules configuration.
-modules:
-  config:
-    Phalcon:
-      bootstrap: "tests/_config/bootstrap.php"
-      cleanup: false
-      savepoints: false
-    Db:
-      dsn: 'mysql:host=%DATA_API_MYSQL_HOST%;dbname=gonano'
-      user: '%DATA_API_MYSQL_USER%'
-      password: '%DATA_API_MYSQL_PASS%'
-      #dump: 'tests/_data/dump.sql'
-      populate: false
-      cleanup: false
-      reconnect: true
-
 error_level: "E_ALL"

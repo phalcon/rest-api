@@ -3,7 +3,7 @@
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 
-require __DIR__ . '/../config/autoload.php';
+require_once __DIR__ . '/../config/autoload.php';
 
 $diContainer = new FactoryDefault();
 
@@ -22,4 +22,8 @@ $app->notFound(
     }
 );
 
-return $app->handle();
+if (true === defined('API_TESTS')) {
+    return $app;
+} else {
+    return $app->handle();
+}

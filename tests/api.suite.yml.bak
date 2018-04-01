@@ -1,6 +1,19 @@
 actor: ApiTester
 modules:
   enabled:
+    - Asserts
     - \Helper\Api
+    - Phalcon:
+        bootstrap: public/index.php
+        cleanup: true
+        savepoints: true
+    - Db:
+        dsn: 'mysql:host=%DATA_API_MYSQL_HOST%;dbname=gonano'
+        user: '%DATA_API_MYSQL_USER%'
+        password: '%DATA_API_MYSQL_PASS%'
+        #dump: 'tests/_data/dump.sql'
+        populate: false
+        cleanup: false
+        reconnect: true
     - REST:
         depends: Phalcon

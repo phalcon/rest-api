@@ -59,15 +59,15 @@ build:
           - ./vendor/bin/phinx migrate
           - ./vendor/bin/codecept build
 
-    tests:
-      override:
-        - phpcs-run --standard=PSR2 --extensions=php --ignore=tests/*,storage/*,vendor/* ./
-        -
-          command: './vendor/bin/codecept run --coverage-xml'
-          coverage:
-            file: './tests/_output/coverage.xml'
-            format: 'clover'
-        - php-scrutinizer-run --enable-security-analysis
+      tests:
+        override:
+          - phpcs-run --standard=PSR2 --extensions=php --ignore=tests/*,storage/*,vendor/* ./
+          -
+            command: './vendor/bin/codecept run --coverage-xml'
+            coverage:
+              file: './tests/_output/coverage.xml'
+              format: 'clover'
+          - php-scrutinizer-run --enable-security-analysis
 
 
 filter:

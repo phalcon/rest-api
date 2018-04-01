@@ -1,0 +1,31 @@
+{
+  "require": {
+    "php": ">= 7.1",
+    "ext-openssl": "*",
+    "ext-phalcon": ">=3.2.0 <4.0",
+    "lcobucci/jwt": "^3.2",
+    "robmorgan/phinx": "^0.9.2",
+    "vlucas/phpdotenv": "^2.4"
+  },
+  "require-dev": {
+    "codeception/codeception": "^2.4",
+    "phalcon/ide-stubs": "^3.3",
+    "phpmd/phpmd": "^2.6",
+    "symfony/console": "3.4.*",
+    "symfony/debug": "3.4.*",
+    "symfony/finder": "3.4.*",
+    "symfony/yaml": "3.4.*",
+    "symfony/process": "3.4.*",
+    "phpstan/phpstan": "0.9.*",
+    "phpunit/phpunit": "6.5.*",
+    "squizlabs/php_codesniffer": "3.2.*",
+    "infection/infection": "^0.7.0",
+    "doctrine/instantiator": "1.0.*",
+    "ocramius/package-versions": "1.2.*"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}

@@ -1,2 +1,7 @@
-/cache/
-/config/development/
+.idea/
+.env
+phinx.php
+storage/logs
+storage/cache
+storage/files
+vendor/

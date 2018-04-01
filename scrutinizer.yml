@@ -1,8 +1,4 @@
 build:
-    nodes:
-        api:
-            # ... All other options under "build" except "nodes"
-
     root_path: './'
     environment:
         selenium: false

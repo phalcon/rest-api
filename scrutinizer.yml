@@ -16,11 +16,11 @@ build:
           ini:
             'date.timezone': 'UTC'
         hosts:
-          tdm.faa.ld: '127.0.0.1'
+          api.phalcon.ld: '127.0.0.1'
         apache2:
           modules: ['rewrite']
           sites:
-            tdm:
+            api:
               web_root: 'public'
               host: 'api.phalcon.ld'
         variables:

@@ -1,10 +1,18 @@
 <?php
+
 namespace Helper;
 
-// here you can define custom actions
-// all public methods declared in helper class will be available in $I
+use Codeception\Module;
 
-class Unit extends \Codeception\Module
+/**
+ * Unit Helper
+ *
+ * Here you can define custom actions
+ * all public methods declared in helper class will be available in $I
+ *
+ * @package Helper
+ */
+class Unit extends Module
 {
     public function getNewFileName($prefix = '', $suffix = 'log')
     {

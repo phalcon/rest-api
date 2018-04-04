@@ -7,4 +7,6 @@ modules:
     enabled:
         - Asserts
         - Filesystem
-        - \Helper\Unit
+        - Helper\Unit
+        - Phalcon:
+            part: services

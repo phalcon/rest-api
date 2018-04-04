@@ -6,10 +6,10 @@ run.config:
     # Using the PHP 7.2 runtime
     runtime: php-7.2
     # Apache
-    document_root: public
+    document_root: api/public
 
     # php.ini settings
-    allow_url_fopen: 'Off'
+    allow_url_fopen: 'On'
 
     # Timezone/Locale/Mimetype/Encoding
     date_timezone: 'UTC'
@@ -47,9 +47,7 @@ run.config:
 
     # Enabled extensions
     extensions:
-      - ctype
       - curl
-      - dom
       - json
       - iconv
       - igbinary
@@ -59,12 +57,16 @@ run.config:
       - pdo_mysql
       - phalcon
       - session
-      - simplexml
-      - tokenizer
-      - xml
-      - xmlwriter
     zend_extensions:
       - opcache
+    dev_extensions:
+      add:
+        - ctype
+        - dom
+        - simplexml
+        - tokenizer
+        - xml
+        - xmlwriter
     dev_zend_extensions:
       add:
         - xdebug

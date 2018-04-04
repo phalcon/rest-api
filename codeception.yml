@@ -1,15 +1,23 @@
+# Can be changed while bootstrapping project
 actor_suffix: Tester
 
 paths:
+  # Where the modules stored
   tests: tests
   output: tests/_output
+  # Directory for fixture data
   data: tests/_data
+  # Directory for custom modules (helpers)
   support: tests/_support
   envs: tests/_envs
 
 settings:
+  # The name of bootstrap that will be used.
+  # Each bootstrap file should be inside a suite directory.
   bootstrap: _bootstrap.php
   colors: true
+  # Tests (especially functional) can take a lot of memory
+  # We set a high limit for them by default.
   memory_limit: 128M
   log: true
 
@@ -27,6 +35,24 @@ coverage:
 extensions:
   enabled:
     - Codeception\Extension\RunFailed # default extension
+
+# Global modules configuration.
+modules:
+  config:
+    Phalcon:
+      bootstrap: public/index.php
+      cleanup: true
+      savepoints: true
+    REST:
+      url: "%APP_URL%"
+    DB:
+      dsn: 'mysql:host=%DATA_API_MYSQL_HOST%;dbname=%DATA_API_MYSQL_NAME%'
+      user: '%DATA_API_MYSQL_USER%'
+      password: '%DATA_API_MYSQL_PASS%'
+      dump: 'tests/_data/dump.sql'
+      populate: false
+      cleanup: false
+      reconnect: true
 
 # Get params from .env file
 params:

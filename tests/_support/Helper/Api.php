@@ -1,10 +1,21 @@
 <?php
+
 namespace Helper;
 
-// here you can define custom actions
-// all public methods declared in helper class will be available in $I
+use Codeception\Module;
 
-class Api extends \Codeception\Module
+/**
+ * Acceptance Helper
+ *
+ * Here you can define custom actions
+ * all public methods declared in helper class will be available in $I
+ *
+ * @package Helper
+ */
+class Api extends Module
 {
-
+    public function seeResponseRegexp($regexp, $content)
+    {
+        $this->assertRegExp($regexp, $content);
+    }
 }

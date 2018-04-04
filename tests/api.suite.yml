@@ -1,0 +1,11 @@
+# Codeception Test Suite Configuration
+#
+# Suite for API tests.
+
+actor: ApiTester
+modules:
+  enabled:
+    - Asserts
+    - Helper\Api
+    - REST:
+        depends: PhpBrowser

@@ -40,7 +40,7 @@ extensions:
 modules:
   config:
     Phalcon:
-      bootstrap: api/public/index.php
+      bootstrap: public/index.php
       cleanup: true
       savepoints: true
     REST:

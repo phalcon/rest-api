@@ -3,7 +3,7 @@
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 
-require_once __DIR__ . '/../../config/autoload.php';
+require_once __DIR__ . '/../config/autoload.php';
 
 $diContainer = new FactoryDefault();
 

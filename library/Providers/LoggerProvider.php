@@ -24,20 +24,16 @@ class LoggerProvider implements ServiceProviderInterface
         $container->setShared(
             'logger',
             function () use ($config) {
-                $logger  = new Logger(
-                    sprintf(
-                        appPath('%s/%s.log'),
-                        $config->path('logger.path'),
-                        $config->path('logger.name')
-                    )
+                $logFile   = $config->path('logger.path')
+                           . $config->path('logger.name')
+                           . '.log';
+                $formatter = new Line(
+                    '[%date%][%type%] %message%',
+                    'Y-m-d H:i:s'
                 );
 
-                $logger->setFormatter(
-                    new Line(
-                        '[%date%][%type%] %message%',
-                        'Y-m-d H:i:s'
-                    )
-                );
+                $logger = new Logger($logFile);
+                $logger->setFormatter($formatter);
                 $logger->setLogLevel(Logger::DEBUG);
 
                 return $logger;

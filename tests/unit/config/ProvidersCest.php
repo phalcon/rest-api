@@ -12,6 +12,6 @@ class ProvidersCest
         $providers = require_once(appPath('config/providers.php'));
 
         $I->assertTrue(is_array($providers));
-        $I->assertEquals(0, count($providers));
+        $I->assertEquals(2, count($providers));
     }
 }

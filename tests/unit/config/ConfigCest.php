@@ -18,6 +18,8 @@ class ConfigCest
         $I->assertTrue(isset($config['app']));
         $I->assertTrue(isset($config['db']));
         $I->assertTrue(isset($config['cache']));
-        $I->assertTrue(isset($config['loggerName']));
+        $I->assertTrue(isset($config['logger']));
+        $I->assertTrue(isset($config['routes']));
+        $I->assertTrue(isset($config['middleware']));
     }
 }

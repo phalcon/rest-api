@@ -64,5 +64,21 @@ return [
             ],
         ],
     ],
-    'loggerName' => envValue('LOGGER_DEFAULT_FILENAME', 'api.log'),
+    'logger'     => [
+        'name'     => envValue('LOGGER_DEFAULT_FILENAME', 'api.log'),
+        'path'     => envValue('LOGGER_DEFAULT_PATH', 'storage/logs'),
+    ],
+    'routes'     => [
+        [
+            'class'    => Niden\Api\Controllers\IndexController::class,
+            'prefix'   => '',
+            'methods'  => [
+                'get'  => [
+                    '/'       => 'indexAction',
+                ],
+            ],
+        ],
+    ],
+    'middleware' => [
+    ],
 ];

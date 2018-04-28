@@ -5,4 +5,6 @@
  */
 
 return [
+    Niden\Providers\ConfigProvider::class,
+    Niden\Providers\LoggerProvider::class,
 ];

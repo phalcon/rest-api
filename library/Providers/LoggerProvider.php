@@ -1,0 +1,52 @@
+<?php
+
+namespace Niden\Providers;
+
+use function Niden\Functions\appPath;
+use Niden\Logger;
+use Phalcon\Config;
+use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\DiInterface;
+use Phalcon\Logger\Formatter\Line;
+
+class LoggerProvider implements ServiceProviderInterface
+{
+    /**
+     * Registers the logger component
+     *
+     * @param DiInterface $container
+     */
+    public function register(DiInterface $container)
+    {
+        /** @var Config $config */
+        $config  = $container->getShared('config');
+        $devMode = $config->path('app.devMode', false);
+        $prefix  = (true === $devMode) ? date('Y-m-d') . '-' : '';
+        $logPath = $config->path('logger.path');
+        $logName = $config->path('logger.name');
+
+        $container->setShared(
+            'logger',
+            function () use ($config, $logPath, $logName, $prefix) {
+                $logger  = new Logger(
+                    sprintf(
+                        appPath('%s/%s%s.log'),
+                        $logPath,
+                        $prefix,
+                        $logName
+                    )
+                );
+
+                $logger->setFormatter(
+                    new Line(
+                        '[%date%][%type%] %message%',
+                        'Y-m-d H:i:s'
+                    )
+                );
+                $logger->setLogLevel(Logger::DEBUG);
+
+                return $logger;
+            }
+        );
+    }
+}

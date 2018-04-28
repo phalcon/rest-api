@@ -1,43 +1,53 @@
 <?php
 
-namespace Retail\Middleware;
+namespace Niden\Middleware;
 
-use Phalcon\Events\Event as PhEvent;
-use Phalcon\Mvc\Micro as PhMicro;
-use Phalcon\Mvc\Micro\MiddlewareInterface as PhMiddlewareInterface;
+use Niden\Http\Response;
+use Phalcon\Events\Event;
+use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Micro\MiddlewareInterface;
 
-use Common\Exceptions\Exception as CException;
-use Common\Mvc\Plugin as CPlugin;
-
-use Retail\Constants\ErrorCodes as RErrorCodes;
-
-class PayloadMiddleware extends CPlugin implements PhMiddlewareInterface
+/**
+ * Class PayloadMiddleware
+ *
+ * @package Niden\Middleware
+ *
+ * @property Response $response
+ */
+class PayloadMiddleware implements MiddlewareInterface
 {
     /**
-     * @param PhEvent $event
-     * @param PhMicro $api
+     * @param Event $event
+     * @param Micro $api
+     *
+     * @return bool
      */
-    public function beforeExecuteRoute(PhEvent $event, PhMicro $api)
+    public function beforeExecuteRoute(Event $event, Micro $api)
     {
-        json_decode($api->request->getRawBody());
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            $this
-                ->returnResponse(
-                    RErrorCodes::CODE_INCORRECT_PAYLOAD,
-                    RErrorCodes::STATUS_ERROR,
-                    'Malformed JSON'
-                );
+        if ($api->request->isPost()) {
+            json_decode($api->request->getRawBody());
+            if (JSON_ERROR_NONE !== json_last_error()) {
+                $this
+                    ->response
+                    ->setPayloadStatusError()
+                    ->setErrorDetail('Malformed JSON')
+                    ->setPayloadContent()
+                    ->send()
+                ;
+
+                return false;
+            }
         }
     }
 
     /**
      * Call me
      *
-     * @param \Phalcon\Mvc\Micro $api
+     * @param Micro $api
      *
      * @return bool
      */
-    public function call(PhMicro $api)
+    public function call(Micro $api)
     {
         return true;
     }

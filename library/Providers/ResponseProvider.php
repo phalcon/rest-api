@@ -13,11 +13,6 @@ class ResponseProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
-        $container->getShared(
-            'response',
-            function () {
-                new Response();
-            }
-        );
+        $container->setShared('response', new Response());
     }
 }

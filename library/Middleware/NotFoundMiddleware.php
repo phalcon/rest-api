@@ -2,9 +2,7 @@
 
 namespace Niden\Middleware;
 
-use function get_class;
 use Niden\Http\Response;
-use Phalcon\Di;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Mvc\User\Plugin;

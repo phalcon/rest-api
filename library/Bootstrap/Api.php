@@ -10,7 +10,7 @@ class Bootstrap extends AbstractBootstrap
     /**
      * Run/Setup the application
      *
-     * @return Micro
+     * @return string
      */
     public function run()
     {

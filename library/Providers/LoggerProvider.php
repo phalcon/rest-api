@@ -27,7 +27,7 @@ class LoggerProvider implements ServiceProviderInterface
 
         $container->setShared(
             'logger',
-            function () use ($config, $logPath, $logName, $prefix) {
+            function () use ($logPath, $logName, $prefix) {
                 $logger  = new Logger(
                     sprintf(
                         appPath('%s/%s%s.log'),

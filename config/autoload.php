@@ -10,8 +10,9 @@ require __DIR__ . '/functions.php';
 
 $loader     = new Loader();
 $namespaces = [
-    'Niden'       => appPath('/library'),
-    'Niden\Tests' => appPath('/tests'),
+    'Niden'                 => appPath('/library'),
+    'Niden\Api\Controllers' => appPath('/api/controllers'),
+    'Niden\Tests'           => appPath('/tests'),
 ];
 
 $loader->registerNamespaces($namespaces);

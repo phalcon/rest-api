@@ -4,7 +4,7 @@ namespace Niden\Bootstrap;
 
 use Phalcon\Mvc\Micro;
 
-class Api extends AbstractBootstrap
+class Tests extends AbstractBootstrap
 {
     /**
      * Run the application
@@ -13,6 +13,6 @@ class Api extends AbstractBootstrap
      */
     protected function runApplication()
     {
-        return $this->application->handle();
+        return $this->application;
     }
 }

@@ -2,6 +2,7 @@
 
 use function Niden\Functions\appPath;
 use function Niden\Functions\envValue;
+use Niden\Middleware\NotFoundMiddleware;
 
 return [
     'app'        => [
@@ -80,5 +81,6 @@ return [
         ],
     ],
     'middleware' => [
+        0 => NotFoundMiddleware::class
     ],
 ];

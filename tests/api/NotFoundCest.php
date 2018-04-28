@@ -1,5 +1,9 @@
 <?php
 
+namespace Niden\Tests\api;
+
+use ApiTester;
+use Niden\Http\Response;
 
 class NotFoundCest
 {
@@ -7,6 +11,19 @@ class NotFoundCest
     {
         $I->sendGET('/something');
         $I->seeResponseCodeIs(200);
-        $I->seeResponseContains('Route not found');
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(
+            [
+                'jsonapi' => [
+                    'version' => '1.0',
+                ],
+                'data'   => [],
+                'errors' => [
+                    'code'   => Response::STATUS_ERROR,
+                    'source' => '',
+                    'detail' => '404 Not Found',
+                ],
+            ]
+        );
     }
 }

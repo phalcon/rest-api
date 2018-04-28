@@ -2,6 +2,7 @@
 
 namespace Niden\Bootstrap;
 
+use function Niden\Functions\appPath;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\ServiceProviderInterface;
@@ -14,9 +15,6 @@ abstract class AbstractBootstrap
 
     /** @var FactoryDefault */
     protected $container = null;
-
-    /** @var array */
-    protected $providers = [];
 
     /**
      * Runs the application
@@ -34,9 +32,15 @@ abstract class AbstractBootstrap
     }
 
     /**
-     * @return mixed
+     * Setup the application object in the container
+     *
+     * @return void
      */
-    abstract protected function setupApplication();
+    protected function setupApplication()
+    {
+        $this->application = new Micro($this->container);
+        $this->container->setShared('application', $this->application);
+    }
 
     /**
      * Registers available services
@@ -45,8 +49,13 @@ abstract class AbstractBootstrap
      */
     private function registerServices()
     {
+        /**
+         * Get the providers from the config file
+         */
+        $providers = require appPath('config/providers.php');
+
         /** @var ServiceProviderInterface $provider */
-        foreach ($this->providers as $provider) {
+        foreach ($providers as $provider) {
             (new $provider())->register($this->container);
         }
     }

@@ -40,7 +40,7 @@ extensions:
 modules:
   config:
     Phalcon:
-      bootstrap: public/index.php
+      bootstrap: 'tests/_ci/bootstrap.php'
       cleanup: true
       savepoints: true
     REST:

@@ -46,12 +46,30 @@ class ResponseCest
 
         $response
             ->setPayloadStatusError()
-            ->setPayloadContent('error');
+            ->setPayloadContent('error content');
 
         $payload = $this->checkPayload($I, $response);
 
         $I->assertEquals(Response::STATUS_ERROR, $payload['errors']['code']);
-        $I->assertEquals(['error'], $payload['data']);
+        $I->assertEquals(['error content'], $payload['data']);
+    }
+
+    public function checkResponseWithErrorSourceAndDetail(UnitTester $I)
+    {
+        $response = new Response();
+
+        $response
+            ->setPayloadStatusError()
+            ->setErrorDetail('error detail')
+            ->setErrorSource('error source')
+            ->setPayloadContent('error content');
+
+        $payload = $this->checkPayload($I, $response);
+
+        $I->assertEquals(Response::STATUS_ERROR, $payload['errors']['code']);
+        $I->assertEquals(['error content'], $payload['data']);
+        $I->assertEquals('error source', $payload['errors']['source']);
+        $I->assertEquals('error detail', $payload['errors']['detail']);
     }
 
     private function checkPayload(UnitTester $I, Response $response): array

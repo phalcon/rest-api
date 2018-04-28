@@ -15,6 +15,33 @@ class Response extends PhResponse
     /** @var int */
     protected $payloadCode = self::STATUS_SUCCESS;
 
+    /** @var string  */
+    protected $payloadErrorDetail = '';
+
+    /** @var string  */
+    protected $payloadErrorSource = '';
+
+    public function setErrorDetail(string $detail): Response
+    {
+        $this->payloadErrorDetail = $detail;
+
+        return $this;
+    }
+
+    /**
+     * Sets the payload error source
+     *
+     * @param string $source
+     *
+     * @return Response
+     */
+    public function setErrorSource(string $source): Response
+    {
+        $this->payloadErrorSource = $source;
+
+        return $this;
+    }
+
     /**
      * Sets the payload code as Error
      *
@@ -50,30 +77,42 @@ class Response extends PhResponse
      */
     public function setPayloadContent($content = []): Response
     {
-        $data      = (true === is_array($content)) ? $content : [$content];
-        $timestamp = date('c');
-        $payload   = [
-            'jsonapi' => [
-                'version' => '1.0',
-            ],
-            'data'   => $data,
-            'errors' => [
-                'code'   => $this->payloadCode,
-                'source' => '',
-                'detail' => '',
-            ],
-            'meta'   => [
-                'timestamp' => $timestamp,
-                'hash'      => sha1($timestamp . json_encode($data)),
-            ],
-        ];
+        $data = (true === is_array($content)) ? $content : [$content];
 
-        parent::setJsonContent($payload);
+        parent::setJsonContent($this->processPayload($data));
 
         $this->setStatusCode(200);
         $this->setContentType('application/vnd.api+json', 'UTF-8');
         $this->setHeader('E-Tag', sha1($this->getContent()));
 
         return $this;
+    }
+
+    /**
+     * Returns the response array based in the JSONAPI spec
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    private function processPayload(array $data): array
+    {
+        $timestamp = date('c');
+
+        return [
+            'jsonapi' => [
+                'version' => '1.0',
+            ],
+            'data'   => $data,
+            'errors' => [
+                'code'   => $this->payloadCode,
+                'source' => $this->payloadErrorSource,
+                'detail' => $this->payloadErrorDetail,
+            ],
+            'meta'   => [
+                'timestamp' => $timestamp,
+                'hash'      => sha1($timestamp . json_encode($data)),
+            ],
+        ];
     }
 }

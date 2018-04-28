@@ -2,12 +2,11 @@
 
 namespace Niden\Providers;
 
+use function memory_get_usage;
+use Niden\Logger;
 use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
-use Phalcon\Registry;
-use Niden\Logger;
-use Niden\View;
 
 class ErrorHandlerProvider implements ServiceProviderInterface
 {
@@ -19,11 +18,11 @@ class ErrorHandlerProvider implements ServiceProviderInterface
     public function register(DiInterface $container)
     {
         /** @var Logger $logger */
-        $logger   = $container->getShared('logger');
-        /** @var Registry $registry */
-        $registry = $container->getShared('registry');
+        $logger  = $container->getShared('logger');
+        /** @var Config $registry */
+        $config  = $container->getShared('config');
 
-        ini_set('display_errors', $registry->offsetGet('devMode'));
+        ini_set('display_errors', $config->path('app.devMode'));
         error_reporting(E_ALL);
 
         set_error_handler(
@@ -43,21 +42,19 @@ class ErrorHandlerProvider implements ServiceProviderInterface
         );
 
         register_shutdown_function(
-            function () use ($logger, $registry) {
-                if (true === $registry->offsetGet('devMode')) {
+            function () use ($logger, $config) {
+                if (true === $config->path('app.devMode')) {
                     $logger->info(
                         sprintf(
-                            'Shutdown completed [%s]s - [%s]MB - [%s] Queries',
-                            $registry->offsetGet('execution'),
-                            $registry->offsetGet('memory'),
-                            $registry->offsetGet('queries')
+                            'Shutdown completed [%s]s - [%s]MB',
+                            microtime(true) - $config->path('app.time'),
+                            round(memory_get_usage(true) / 1048576, 2)
                         )
                     );
                 }
             }
         );
 
-
-        date_default_timezone_set('UTC');
+        date_default_timezone_set($config->path('app.timezone'));
     }
 }

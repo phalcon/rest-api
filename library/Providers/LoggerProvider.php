@@ -24,7 +24,8 @@ class LoggerProvider implements ServiceProviderInterface
         $container->setShared(
             'logger',
             function () use ($config) {
-                $logFile   = $config->path('logger.path')
+                $logFile   = appPath($config->path('logger.path'))
+                           . '/'
                            . $config->path('logger.name')
                            . '.log';
                 $formatter = new Line(

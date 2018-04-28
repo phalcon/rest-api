@@ -16,6 +16,7 @@ return [
         ),
         'baseUri'      => envValue('APP_BASE_URI'),
         'supportEmail' => envValue('APP_SUPPORT_EMAIL'),
+        'time'         => microtime(true),
     ],
     'db'         => [
         'host'     => envValue('DATA_API_MYSQL_HOST'),

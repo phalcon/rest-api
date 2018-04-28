@@ -2,6 +2,7 @@
 
 namespace Niden\Bootstrap;
 
+use function microtime;
 use function Niden\Functions\appPath;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;
@@ -24,7 +25,7 @@ abstract class AbstractBootstrap
     public function run()
     {
         $this->container = new FactoryDefault();
-
+        $this->container->set('metrics', microtime(true));
         $this->setupApplication();
         $this->registerServices();
 

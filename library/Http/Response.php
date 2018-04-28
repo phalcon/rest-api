@@ -53,16 +53,25 @@ class Response extends PhResponse
         $data      = (true === is_array($content)) ? $content : [$content];
         $timestamp = date('c');
         $payload   = [
-            'code'      => $this->payloadCode,
-            'timestamp' => $timestamp,
-            'hash'      => sha1($timestamp . json_encode($data)),
-            'data'      => $data,
+            'jsonapi' => [
+                'version' => '1.0',
+            ],
+            'data'   => $data,
+            'errors' => [
+                'code'   => $this->payloadCode,
+                'source' => '',
+                'detail' => '',
+            ],
+            'meta'   => [
+                'timestamp' => $timestamp,
+                'hash'      => sha1($timestamp . json_encode($data)),
+            ],
         ];
 
         parent::setJsonContent($payload);
 
         $this->setStatusCode(200);
-        $this->setContentType('application/json', 'UTF-8');
+        $this->setContentType('application/vnd.api+json', 'UTF-8');
         $this->setHeader('E-Tag', sha1($this->getContent()));
 
         return $this;

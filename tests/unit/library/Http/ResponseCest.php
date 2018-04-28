@@ -22,7 +22,7 @@ class ResponseCest
 
         $payload = $this->checkPayload($I, $response);
 
-        $I->assertEquals(Response::STATUS_SUCCESS, $payload['code']);
+        $I->assertEquals(Response::STATUS_SUCCESS, $payload['errors']['code']);
         $I->assertEquals(['test'], $payload['data']);
     }
 
@@ -36,7 +36,7 @@ class ResponseCest
 
         $payload = $this->checkPayload($I, $response);
 
-        $I->assertEquals(Response::STATUS_SUCCESS, $payload['code']);
+        $I->assertEquals(Response::STATUS_SUCCESS, $payload['errors']['code']);
         $I->assertEquals(['a' => 'b'], $payload['data']);
     }
 
@@ -50,7 +50,7 @@ class ResponseCest
 
         $payload = $this->checkPayload($I, $response);
 
-        $I->assertEquals(Response::STATUS_ERROR, $payload['code']);
+        $I->assertEquals(Response::STATUS_ERROR, $payload['errors']['code']);
         $I->assertEquals(['error'], $payload['data']);
     }
 
@@ -61,10 +61,10 @@ class ResponseCest
 
         $payload = json_decode($contents, true);
         $I->assertEquals(4, count($payload));
-        $I->assertTrue(isset($payload['code']));
-        $I->assertTrue(isset($payload['timestamp']));
-        $I->assertTrue(isset($payload['hash']));
+        $I->assertTrue(isset($payload['jsonapi']));
         $I->assertTrue(isset($payload['data']));
+        $I->assertTrue(isset($payload['errors']));
+        $I->assertTrue(isset($payload['meta']));
 
         return $payload;
     }

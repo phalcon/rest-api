@@ -20,20 +20,15 @@ class LoggerProvider implements ServiceProviderInterface
     {
         /** @var Config $config */
         $config  = $container->getShared('config');
-        $devMode = $config->path('app.devMode', false);
-        $prefix  = (true === $devMode) ? date('Y-m-d') . '-' : '';
-        $logPath = $config->path('logger.path');
-        $logName = $config->path('logger.name');
 
         $container->setShared(
             'logger',
-            function () use ($logPath, $logName, $prefix) {
+            function () use ($config) {
                 $logger  = new Logger(
                     sprintf(
-                        appPath('%s/%s%s.log'),
-                        $logPath,
-                        $prefix,
-                        $logName
+                        appPath('%s/%s.log'),
+                        $config->path('logger.path'),
+                        $config->path('logger.name')
                     )
                 );
 

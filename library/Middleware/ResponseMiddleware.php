@@ -24,8 +24,10 @@ class ResponseMiddleware implements MiddlewareInterface
     public function call(Micro $api)
     {
         $contents = $api->getReturnedValue();
-        return $api
-                ->response
+        /** @var Response $response */
+        $response = $api->response;
+
+        return $response
                 ->setPayloadContent($contents)
                 ->send()
             ;

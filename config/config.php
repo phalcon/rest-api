@@ -2,8 +2,6 @@
 
 use function Niden\Functions\appPath;
 use function Niden\Functions\envValue;
-use Niden\Middleware\NotFoundMiddleware;
-use Niden\Middleware\PayloadMiddleware;
 
 return [
     'app'        => [
@@ -70,20 +68,5 @@ return [
     'logger'     => [
         'name'     => envValue('LOGGER_DEFAULT_FILENAME', 'api.log'),
         'path'     => envValue('LOGGER_DEFAULT_PATH', 'storage/logs'),
-    ],
-    'routes'     => [
-        [
-            'class'    => Niden\Api\Controllers\IndexController::class,
-            'prefix'   => '',
-            'methods'  => [
-                'get'  => [
-                    '/'       => 'indexAction',
-                ],
-            ],
-        ],
-    ],
-    'middleware' => [
-        0 => NotFoundMiddleware::class,
-        1 => PayloadMiddleware::class,
     ],
 ];

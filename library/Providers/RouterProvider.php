@@ -5,7 +5,6 @@ namespace Niden\Providers;
 use Niden\Api\Controllers\IndexController;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
-use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
@@ -21,8 +20,6 @@ class RouterProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
-        /** @var Config $config */
-        $config        = $container->getShared('config');
         /** @var Micro $application */
         $application   = $container->getShared('application');
         /** @var Manager $eventsManager */
@@ -42,17 +39,14 @@ class RouterProvider implements ServiceProviderInterface
      */
     private function attachMiddleware(Micro $application, Manager $eventsManager)
     {
-        $middleware = [
-            NotFoundMiddleware::class,
-            PayloadMiddleware::class,
-        ];
+        $middleware = $this->getMiddleware();
 
         /**
          * Get the events manager and attach the middleware to it
          */
-        foreach ($middleware as $class) {
+        foreach ($middleware as $function => $class) {
             $eventsManager->attach('micro', new $class());
-            $application->before(new $class());
+            $application->$function(new $class());
         }
     }
 
@@ -63,18 +57,7 @@ class RouterProvider implements ServiceProviderInterface
      */
     private function attachRoutes(Micro $application)
     {
-
-        $routes = [
-            [
-                'class'    => IndexController::class,
-                'prefix'   => '',
-                'methods'  => [
-                    'get'  => [
-                        '/'       => 'indexAction',
-                    ],
-                ],
-            ],
-        ];
+        $routes = $this->getRoutes();
 
         foreach ($routes as $route) {
             $collection = new Collection();
@@ -91,5 +74,40 @@ class RouterProvider implements ServiceProviderInterface
 
             $application->mount($collection);
         }
+    }
+
+    /**
+     * Returns the array for the middleware with the action to attach
+     *
+     * @return array
+     */
+    private function getMiddleware(): array
+    {
+        return [
+            'before' => [
+                NotFoundMiddleware::class,
+                PayloadMiddleware::class,
+            ]
+        ];
+    }
+
+    /**
+     * Returns the array for the routes
+     *
+     * @return array
+     */
+    private function getRoutes(): array
+    {
+        return [
+            [
+                'class'    => IndexController::class,
+                'prefix'   => '',
+                'methods'  => [
+                    'get'  => [
+                        '/'       => 'indexAction',
+                    ],
+                ],
+            ],
+        ];
     }
 }

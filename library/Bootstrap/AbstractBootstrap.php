@@ -20,7 +20,7 @@ abstract class AbstractBootstrap
     /**
      * Runs the application
      *
-     * @return Micro|string
+     * @return Micro|Console|string
      */
     public function run()
     {

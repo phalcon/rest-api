@@ -3,7 +3,9 @@
 namespace Niden\Tests\unit\library\Providers;
 
 use Niden\Providers\ConfigProvider;
+use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
+
 use \UnitTester;
 
 class ConfigCest
@@ -17,16 +19,21 @@ class ConfigCest
         $provider    = new ConfigProvider();
         $provider->register($diContainer);
 
-//        $I->assertTrue($diContainer->has('config'));
-        $config = $diContainer->getShared('config')->toArray();
+        $I->assertTrue($diContainer->has('config'));
+        $config = $diContainer->getShared('config');
+        $I->assertTrue($config instanceof Config);
 
-        $I->assertTrue(isset($config['app']['version']));
-        $I->assertTrue(isset($config['app']['timezone']));
-        $I->assertTrue(isset($config['app']['debug']));
-        $I->assertTrue(isset($config['app']['env']));
-        $I->assertTrue(isset($config['app']['devMode']));
-        $I->assertTrue(isset($config['app']['baseUri']));
-        $I->assertTrue(isset($config['app']['supportEmail']));
-        $I->assertTrue(isset($config['app']['time']));
+        $configArray = $config->toArray();
+        $I->assertTrue(isset($configArray['app']['version']));
+        $I->assertTrue(isset($configArray['app']['timezone']));
+        $I->assertTrue(isset($configArray['app']['debug']));
+        $I->assertTrue(isset($configArray['app']['env']));
+        $I->assertTrue(isset($configArray['app']['devMode']));
+        $I->assertTrue(isset($configArray['app']['baseUri']));
+        $I->assertTrue(isset($configArray['app']['supportEmail']));
+        $I->assertTrue(isset($configArray['app']['time']));
+        $I->assertTrue(isset($configArray['db']));
+        $I->assertTrue(isset($configArray['cache']));
+        $I->assertTrue(isset($configArray['logger']));
     }
 }

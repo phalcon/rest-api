@@ -22,9 +22,21 @@ class ErrorHandlerProvider implements ServiceProviderInterface
         /** @var Config $registry */
         $config  = $container->getShared('config');
 
+        date_default_timezone_set($config->path('app.timezone'));
         ini_set('display_errors', $config->path('app.devMode'));
         error_reporting(E_ALL);
 
+        $this->registerErrorHandler($logger);
+        $this->registerShutdownFunction($logger, $config);
+    }
+
+    /**
+     * Registers the error handler
+     *
+     * @param Logger $logger
+     */
+    private function registerErrorHandler(Logger $logger)
+    {
         set_error_handler(
             function ($errorNumber, $errorString, $errorFile, $errorLine, $errorContext) use ($logger) {
                 $logger->error(
@@ -40,21 +52,27 @@ class ErrorHandlerProvider implements ServiceProviderInterface
                 );
             }
         );
+    }
 
+    private function registerShutdownFunction(Logger $logger, Config $config)
+    {
         register_shutdown_function(
             function () use ($logger, $config) {
                 if (true === $config->path('app.devMode')) {
+                    $memory    = number_format(memory_get_usage() / 1000000, 2);
+                    $execution = number_format(
+                        microtime(true) -  $config->path('app.time'),
+                        4
+                    );
                     $logger->info(
                         sprintf(
                             'Shutdown completed [%s]s - [%s]MB',
-                            microtime(true) - $config->path('app.time'),
-                            round(memory_get_usage(true) / 1048576, 2)
+                            $execution,
+                            $memory
                         )
                     );
                 }
             }
         );
-
-        date_default_timezone_set($config->path('app.timezone'));
     }
 }

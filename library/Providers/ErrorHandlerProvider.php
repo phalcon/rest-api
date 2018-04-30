@@ -54,6 +54,11 @@ class ErrorHandlerProvider implements ServiceProviderInterface
         );
     }
 
+    /**
+     * Registers the shutdown function (devMode only) to show metrics in the log
+     * @param Logger $logger
+     * @param Config $config
+     */
     private function registerShutdownFunction(Logger $logger, Config $config)
     {
         register_shutdown_function(

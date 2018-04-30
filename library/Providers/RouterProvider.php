@@ -44,11 +44,9 @@ class RouterProvider implements ServiceProviderInterface
         /**
          * Get the events manager and attach the middleware to it
          */
-        foreach ($middleware as $function => $classes) {
-            foreach ($classes as $class) {
-                $eventsManager->attach('micro', new $class());
-                $application->{$function}(new $class());
-            }
+        foreach ($middleware as $class => $function) {
+            $eventsManager->attach('micro', new $class());
+            $application->{$function}(new $class());
         }
     }
 
@@ -86,10 +84,8 @@ class RouterProvider implements ServiceProviderInterface
     private function getMiddleware(): array
     {
         return [
-            'before' => [
-                NotFoundMiddleware::class,
-                PayloadMiddleware::class,
-            ]
+            NotFoundMiddleware::class => 'before',
+            PayloadMiddleware::class  => 'before',
         ];
     }
 

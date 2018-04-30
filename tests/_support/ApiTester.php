@@ -1,5 +1,7 @@
 <?php
 
+use Codeception\Util\HttpCode;
+use Niden\Http\Response;
 
 /**
  * Inherited Methods
@@ -26,7 +28,23 @@ class ApiTester extends \Codeception\Actor
     public function seeResponseIsSuccessful()
     {
         $this->seeResponseIsJson();
-        $this->seeResponseCodeIs(200);
-        $this->seeResponseContainsJson(['code' => 2000]);
+        $this->seeResponseCodeIs(HttpCode::OK);
+        $this->seeResponseMatchesJsonType(
+            [
+                'jsonapi' => [
+                    'version' => 'string'
+                ],
+                'data'    => 'array',
+                'errors'  => [
+                    'code'   => 'integer',
+                    'source' => 'string',
+                    'detail' => 'string',
+                ],
+                'meta'    => [
+                    'timestamp' => 'string:date',
+                    'hash'      => 'string',
+                ]
+            ]
+        );
     }
 }

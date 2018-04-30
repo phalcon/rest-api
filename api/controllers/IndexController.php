@@ -16,14 +16,16 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        return 'Phalcon API';
-    }
+        /**
+         * Send some random text out - why not
+         */
+        $digits    = intval(rand(2, 24));
+        $precision = ini_get('precision');
 
-    /**
-     * Status page
-     */
-    public function notfoundAction()
-    {
-        return 'Not found';
+        ini_set('precision', $digits);
+        $pi = pi();
+        ini_set('precision', $precision);
+
+        return $pi;
     }
 }

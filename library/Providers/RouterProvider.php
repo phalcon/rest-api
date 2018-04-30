@@ -2,6 +2,9 @@
 
 namespace Niden\Providers;
 
+use Niden\Api\Controllers\IndexController;
+use Niden\Middleware\NotFoundMiddleware;
+use Niden\Middleware\PayloadMiddleware;
 use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
@@ -24,8 +27,54 @@ class RouterProvider implements ServiceProviderInterface
         $application   = $container->getShared('application');
         /** @var Manager $eventsManager */
         $eventsManager = $container->getShared('eventsManager');
-        $routes        = $config->path('routes')->toArray();
-        $middleware    = $config->path('middleware')->toArray();
+
+        $this->attachRoutes($application);
+        $this->attachMiddleware($application, $eventsManager);
+
+        $application->setEventsManager($eventsManager);
+    }
+
+    /**
+     * Attaches the middleware to the application
+     *
+     * @param Micro   $application
+     * @param Manager $eventsManager
+     */
+    private function attachMiddleware(Micro $application, Manager $eventsManager)
+    {
+        $middleware = [
+            NotFoundMiddleware::class,
+            PayloadMiddleware::class,
+        ];
+
+        /**
+         * Get the events manager and attach the middleware to it
+         */
+        foreach ($middleware as $class) {
+            $eventsManager->attach('micro', new $class());
+            $application->before(new $class());
+        }
+    }
+
+    /**
+     * Attaches the routes to the application; lazy loaded
+     *
+     * @param Micro $application
+     */
+    private function attachRoutes(Micro $application)
+    {
+
+        $routes = [
+            [
+                'class'    => IndexController::class,
+                'prefix'   => '',
+                'methods'  => [
+                    'get'  => [
+                        '/'       => 'indexAction',
+                    ],
+                ],
+            ],
+        ];
 
         foreach ($routes as $route) {
             $collection = new Collection();
@@ -42,15 +91,5 @@ class RouterProvider implements ServiceProviderInterface
 
             $application->mount($collection);
         }
-
-        /**
-         * Get the events manager and attach the middleware to it
-         */
-        foreach ($middleware as $class) {
-            $eventsManager->attach('micro', new $class());
-            $application->before(new $class());
-        }
-
-        $application->setEventsManager($eventsManager);
     }
 }

@@ -62,7 +62,7 @@ abstract class AbstractBootstrap
     }
 
     /**
-     * @return Micro|string
+     * @return Micro|Console|string
      */
     abstract protected function runApplication();
 }

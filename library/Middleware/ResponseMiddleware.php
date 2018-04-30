@@ -3,7 +3,6 @@
 namespace Niden\Middleware;
 
 use Niden\Http\Response;
-use Phalcon\Events\Event;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 

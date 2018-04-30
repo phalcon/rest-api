@@ -10,8 +10,7 @@ class NotFoundCest
     public function checkNotFoundRoute(ApiTester $I)
     {
         $I->sendGET('/something');
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
+        $I->seeResponseIsSuccessful();
         $I->seeResponseContainsJson(
             [
                 'jsonapi' => [

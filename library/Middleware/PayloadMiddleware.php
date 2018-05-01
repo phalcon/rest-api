@@ -4,6 +4,7 @@ namespace Niden\Middleware;
 
 use Niden\Http\Response;
 use Phalcon\Events\Event;
+use Phalcon\Http\Request;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
@@ -24,11 +25,13 @@ class PayloadMiddleware implements MiddlewareInterface
      */
     public function beforeExecuteRoute(Event $event, Micro $api)
     {
-        if (true === $api->request->isPost()) {
-            json_decode($api->request->getRawBody());
+        /** @var Request $request */
+        $request = $api->getService('request');
+        if (true === $request->isPost()) {
+            json_decode($request->getRawBody());
             if (JSON_ERROR_NONE !== json_last_error()) {
                 /** @var Response $response */
-                $response = $api->response;
+                $response = $api->getService('response');
                 $response
                     ->setPayloadStatusError()
                     ->setErrorSource($event->getType())

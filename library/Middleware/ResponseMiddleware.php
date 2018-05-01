@@ -24,7 +24,7 @@ class ResponseMiddleware implements MiddlewareInterface
     {
         $contents = $api->getReturnedValue();
         /** @var Response $response */
-        $response = $api->response;
+        $response = $api->getService('response');
 
         return $response
                 ->setPayloadContent($contents)

@@ -2,14 +2,16 @@
 
 namespace Niden\Tests\unit\config;
 
+use function function_exists;
 use function Niden\Functions\appPath;
+use Niden\Http\Response;
 use \UnitTester;
 
 class AutoloaderCest
 {
     public function checkDotenvVariables(UnitTester $I)
     {
-        require_once appPath('config/autoload.php');
+        require appPath('config/autoload.php');
 
         $I->assertNotEquals(false, getenv('APP_DEBUG'));
         $I->assertNotEquals(false, getenv('APP_ENV'));
@@ -40,5 +42,14 @@ class AutoloaderCest
         $I->assertEquals('gonano', getenv('DATA_API_MYSQL_NAME'));
         $I->assertEquals('api', getenv('LOGGER_DEFAULT_FILENAME'));
         $I->assertEquals('20180401', getenv('VERSION'));
+    }
+
+    public function checkAutoloader(UnitTester $I)
+    {
+        require appPath('config/autoload.php');
+
+        $class = new Response();
+        $I->assertTrue($class instanceof Response);
+        $I->assertTrue(function_exists('Niden\Functions\envValue'));
     }
 }

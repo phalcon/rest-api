@@ -96,6 +96,7 @@ class RouterProvider implements ServiceProviderInterface
         return [
             // Class, Prefix, Method, Route, Handler
             [IndexController::class, '', 'get', '/', 'indexAction'],
+            [IndexController::class, '', 'post', '/', 'indexAction'],
         ];
     }
 }

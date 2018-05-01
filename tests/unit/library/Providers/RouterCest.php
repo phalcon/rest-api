@@ -29,8 +29,10 @@ class RouterCest
         /** @var RouterInterface $router */
         $router = $application->getRouter();
         $routes = $router->getRoutes();
-        $I->assertEquals(1, count($routes));
+        $I->assertEquals(2, count($routes));
         $I->assertEquals('GET', $routes[0]->getHttpMethods());
         $I->assertEquals('/', $routes[0]->getPattern());
+        $I->assertEquals('POST', $routes[1]->getHttpMethods());
+        $I->assertEquals('/', $routes[1]->getPattern());
     }
 }

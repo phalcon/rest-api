@@ -2,10 +2,10 @@
 
 namespace Niden\Tests\unit\config;
 
+use Niden\Http\Response;
+use UnitTester;
 use function function_exists;
 use function Niden\Functions\appPath;
-use Niden\Http\Response;
-use \UnitTester;
 
 class AutoloaderCest
 {

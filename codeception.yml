@@ -43,8 +43,6 @@ modules:
       bootstrap: 'tests/_ci/bootstrap.php'
       cleanup: true
       savepoints: true
-    REST:
-      url: "%APP_URL%"
     DB:
       dsn: 'mysql:host=%DATA_API_MYSQL_HOST%;dbname=%DATA_API_MYSQL_NAME%'
       user: '%DATA_API_MYSQL_USER%'

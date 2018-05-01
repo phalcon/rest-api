@@ -8,4 +8,4 @@ modules:
     - Asserts
     - Helper\Api
     - REST:
-        depends: PhpBrowser
+        depends: Phalcon

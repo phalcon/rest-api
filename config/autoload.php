@@ -25,8 +25,4 @@ $loader->register();
 require appPath('/vendor/autoload.php');
 
 // Load environment
-try {
-    (new Dotenv(appPath()))->load();
-} catch (InvalidPathException $e) {
-    // Skip
-}
+(new Dotenv(appPath()))->load();

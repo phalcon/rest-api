@@ -24,12 +24,14 @@ class PayloadMiddleware implements MiddlewareInterface
      */
     public function beforeExecuteRoute(Event $event, Micro $api)
     {
-        if ($api->request->isPost()) {
+        if (true === $api->request->isPost()) {
             json_decode($api->request->getRawBody());
             if (JSON_ERROR_NONE !== json_last_error()) {
-                $this
-                    ->response
+                /** @var Response $response */
+                $response = $api->response;
+                $response
                     ->setPayloadStatusError()
+                    ->setErrorSource($event->getType())
                     ->setErrorDetail('Malformed JSON')
                     ->setPayloadContent()
                     ->send()

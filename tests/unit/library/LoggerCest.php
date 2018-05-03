@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit\Logger;
+namespace Niden\Tests\unit;
 
 use function Niden\Functions\appPath;
 use function strtolower;
@@ -8,7 +8,7 @@ use Niden\Logger;
 use Phalcon\Logger\Formatter\Line;
 use \UnitTester;
 
-class FileCest
+class LoggerCest
 {
     protected $logPath = '';
 

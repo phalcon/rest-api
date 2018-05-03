@@ -3,10 +3,14 @@
 namespace Niden\Tests\unit\library\Providers;
 
 use function date_default_timezone_get;
+use const E_NOTICE;
+use const E_USER_NOTICE;
+use function Niden\Functions\appPath;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\ErrorHandlerProvider;
 use Niden\Providers\LoggerProvider;
 use Phalcon\Di\FactoryDefault;
+use function trigger_error;
 use \UnitTester;
 
 class ErrorHandlerCest

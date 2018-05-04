@@ -33,19 +33,14 @@ if (true !== function_exists('Niden\Functions\envValue')) {
     {
         $return = $default;
         $value  = getenv($variable);
+        $values = [
+            'false' => false,
+            'true'  => true,
+            'null'  => null,
+        ];
 
         if (false !== $value) {
-            switch ($value) {
-                case 'false':
-                    $return = false;
-                    break;
-                case 'true':
-                    $return = true;
-                    break;
-                default:
-                    $return = $value;
-                    break;
-            }
+            $return = $values[$value] ?? $value;
         }
 
         return $return;

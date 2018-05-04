@@ -6,7 +6,7 @@ run.config:
     # Using the PHP 7.2 runtime
     runtime: php-7.2
     # Apache
-    document_root: public
+    document_root: api/public
 
     # php.ini settings
     allow_url_fopen: 'On'

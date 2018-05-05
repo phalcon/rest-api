@@ -3,6 +3,9 @@
 namespace Niden\JWT;
 
 use function array_keys;
+use function json_encode;
+use function json_last_error;
+use Niden\JWT\Exception\DomainException;
 use function strtoupper;
 use Niden\JWT\Claims;
 
@@ -26,6 +29,26 @@ class Base
         $algorithms = Claims::JWT_ALGORITHMS;
 
         return isset($algorithms[$algorithm]);
+    }
+
+    /**
+     * Encode a PHP object into a JSON string
+     *
+     * @param object|array $input
+     *
+     * @return string
+     * @throws DomainException
+     */
+    public function jsonEncode($input): string
+    {
+        $json      = json_encode($input);
+        $jsonError = json_last_error();
+
+        if (JSON_ERROR_NONE !== $jsonError) {
+            $this->processJsonError($jsonError);
+        }
+
+        return $json;
     }
 
     /**
@@ -60,5 +83,27 @@ class Base
     public function urlSafeBase64Encode(string $string): string
     {
         return strtr(base64_encode($string), ['+/=' => '-_|']);
+    }
+
+    /**
+     * Translates json_last_error to a human readable form
+     *
+     * @param int $jsonError
+     *
+     * @throws DomainException
+     */
+    private function processJsonError(int $jsonError)
+    {
+        $messages  = [
+            JSON_ERROR_CTRL_CHAR      => 'Unexpected control character found',
+            JSON_ERROR_DEPTH          => 'Maximum stack depth exceeded',
+            JSON_ERROR_STATE_MISMATCH => 'Invalid or malformed JSON',
+            JSON_ERROR_SYNTAX         => 'Syntax error, malformed JSON',
+            JSON_ERROR_UTF8           => 'Malformed UTF-8 characters',
+        ];
+
+        $return = $messages[$jsonError] ?? 'Unknown JSON error: ' . $jsonError;
+
+        throw new DomainException($return);
     }
 }

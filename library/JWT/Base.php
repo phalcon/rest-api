@@ -44,12 +44,8 @@ class Base
      */
     public function jsonDecode(string $input, bool $assoc = false)
     {
-        $result    = json_decode($input, $assoc, 512, JSON_BIGINT_AS_STRING);
-        $jsonError = json_last_error();
-
-        if (JSON_ERROR_NONE !== $jsonError) {
-            $this->processJsonError($jsonError);
-        }
+        $result = json_decode($input, $assoc, 512, JSON_BIGINT_AS_STRING);
+        $this->processJsonError()
 
         return $result;
     }
@@ -65,11 +61,7 @@ class Base
     public function jsonEncode($input): string
     {
         $result    = json_encode($input);
-        $jsonError = json_last_error();
-
-        if (JSON_ERROR_NONE !== $jsonError) {
-            $this->processJsonError($jsonError);
-        }
+        $this->processJsonError();
 
         return $result;
     }
@@ -111,22 +103,24 @@ class Base
     /**
      * Translates json_last_error to a human readable form
      *
-     * @param int $jsonError
-     *
      * @throws DomainException
      */
-    private function processJsonError(int $jsonError)
+    private function processJsonError()
     {
-        $messages  = [
-            JSON_ERROR_CTRL_CHAR      => 'Unexpected control character found',
-            JSON_ERROR_DEPTH          => 'Maximum stack depth exceeded',
-            JSON_ERROR_STATE_MISMATCH => 'Invalid or malformed JSON',
-            JSON_ERROR_SYNTAX         => 'Syntax error, malformed JSON',
-            JSON_ERROR_UTF8           => 'Malformed UTF-8 characters',
-        ];
+        $jsonError = json_last_error();
 
-        $return = $messages[$jsonError] ?? 'Unknown JSON error: ' . $jsonError;
+        if (JSON_ERROR_NONE !== $jsonError) {
+            $messages = [
+                JSON_ERROR_CTRL_CHAR      => 'Unexpected control character found',
+                JSON_ERROR_DEPTH          => 'Maximum stack depth exceeded',
+                JSON_ERROR_STATE_MISMATCH => 'Invalid or malformed JSON',
+                JSON_ERROR_SYNTAX         => 'Syntax error, malformed JSON',
+                JSON_ERROR_UTF8           => 'Malformed UTF-8 characters',
+            ];
 
-        throw new DomainException($return);
+            $return = $messages[$jsonError] ?? 'Unknown JSON error: ' . $jsonError;
+
+            throw new DomainException($return);
+        }
     }
 }

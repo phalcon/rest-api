@@ -3,7 +3,9 @@
 namespace Niden\JWT;
 
 use function array_keys;
+use function json_decode;
 use function json_encode;
+use const JSON_ERROR_NONE;
 use function json_last_error;
 use Niden\JWT\Exception\DomainException;
 use function strtoupper;
@@ -32,6 +34,27 @@ class Base
     }
 
     /**
+     * Decode a JSON string to a PHP object/array
+     *
+     * @param string $input
+     * @param bool   $assoc
+     *
+     * @return mixed
+     * @throws DomainException
+     */
+    public function jsonDecode(string $input, bool $assoc = false)
+    {
+        $result    = json_decode($input, $assoc, 512, JSON_BIGINT_AS_STRING);
+        $jsonError = json_last_error();
+
+        if (JSON_ERROR_NONE !== $jsonError) {
+            $this->processJsonError($jsonError);
+        }
+
+        return $result;
+    }
+
+    /**
      * Encode a PHP object into a JSON string
      *
      * @param object|array $input
@@ -41,14 +64,14 @@ class Base
      */
     public function jsonEncode($input): string
     {
-        $json      = json_encode($input);
+        $result    = json_encode($input);
         $jsonError = json_last_error();
 
         if (JSON_ERROR_NONE !== $jsonError) {
             $this->processJsonError($jsonError);
         }
 
-        return $json;
+        return $result;
     }
 
     /**

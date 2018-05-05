@@ -37,4 +37,28 @@ class Base
     {
         return array_keys(Claims::JWT_ALGORITHMS);
     }
+
+    /**
+     * Decodes a string encoded with the urlSafeBase64Encode function
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    public function urlSafeBase64Decode(string $string): string
+    {
+        return base64_decode(strtr($string, ['-_|' => '+/=']));
+    }
+
+    /**
+     * Encodes a string with base64 keeping it URL safe
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    public function urlSafeBase64Encode(string $string): string
+    {
+        return strtr(base64_encode($string), ['+/=' => '-_|']);
+    }
 }

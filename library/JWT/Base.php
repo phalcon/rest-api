@@ -91,10 +91,10 @@ class Base
      * @param string $key
      * @param string $cipher
      *
-     * @return string
+     * @return string|null
      * @throws Exception
      */
-    public function sign(string $message, string $key, string $cipher = Claims::JWT_CIPHER_HS256): string
+    public function sign(string $message, string $key, string $cipher = Claims::JWT_CIPHER_HS256)
     {
         if (true !== $this->isAlgorithmSupported($cipher)) {
             throw new Exception('Cipher not supported');

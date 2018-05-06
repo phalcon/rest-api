@@ -12,13 +12,13 @@ class AlgorithmsCest
     {
         $jwt      = new Base();
         $expected = [
-            Claims::JWT_ALGORITHM_HS256,
-            Claims::JWT_ALGORITHM_HS384,
-            Claims::JWT_ALGORITHM_HS512,
-            Claims::JWT_ALGORITHM_RS256,
-            Claims::JWT_ALGORITHM_RS384,
-            Claims::JWT_ALGORITHM_RS512,
-            Claims::JWT_ALGORITHM_NONE,
+            Claims::JWT_CIPHER_HS256,
+            Claims::JWT_CIPHER_HS384,
+            Claims::JWT_CIPHER_HS512,
+            Claims::JWT_CIPHER_RS256,
+            Claims::JWT_CIPHER_RS384,
+            Claims::JWT_CIPHER_RS512,
+            Claims::JWT_CIPHER_NONE,
         ];
 
         $I->assertEquals($expected, $jwt->getSupportedAlgorithms());
@@ -28,7 +28,7 @@ class AlgorithmsCest
     {
         $jwt = new Base();
 
-        $I->assertTrue($jwt->isAlgorithmSupported(Claims::JWT_ALGORITHM_HS256));
+        $I->assertTrue($jwt->isAlgorithmSupported(Claims::JWT_CIPHER_HS256));
         $I->assertFalse($jwt->isAlgorithmSupported('something random'));
     }
 }

@@ -3,8 +3,7 @@
 namespace Niden\Tests\unit;
 
 use Niden\JWT\Base;
-use Niden\JWT\Claims;
-use Niden\JWT\Exception\DomainException;
+use Niden\JWT\Exception;
 use \UnitTester;
 
 class JsonCest
@@ -20,7 +19,9 @@ class JsonCest
     public function checkJsonEncodeThrowsExceptionWithUTF8(UnitTester $I)
     {
         $I->expectException(
-            new DomainException('Malformed UTF-8 characters'),
+            new Exception(
+                'json_decode error: Malformed UTF-8 characters, possibly incorrectly encoded'
+            ),
             function () {
                 $jwt   = new Base();
                 $input = "\xB1\x31";
@@ -40,7 +41,7 @@ class JsonCest
     public function checkJsonDecodeThrowsExceptionWithMalformedJson(UnitTester $I)
     {
         $I->expectException(
-            new DomainException('Syntax error, malformed JSON'),
+            new Exception('json_decode error: Syntax error'),
             function () {
                 $jwt   = new Base();
                 $input = '{"a"';

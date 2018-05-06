@@ -2,14 +2,14 @@
 
 namespace Niden\JWT;
 
+use const JSON_BIGINT_AS_STRING;
+use const JSON_ERROR_NONE;
 use function array_keys;
 use function json_decode;
 use function json_encode;
-use const JSON_ERROR_NONE;
 use function json_last_error;
-use Niden\JWT\Exception\DomainException;
+use function json_last_error_msg;
 use function strtoupper;
-use Niden\JWT\Claims;
 
 class Base
 {
@@ -19,7 +19,7 @@ class Base
     private $timestamp = 0;
 
     /**
-     * Checks if the algorithm supplied is supported or not
+     * Checks if the cipher supplied is supported or not
      *
      * @param string $name
      *
@@ -27,43 +27,10 @@ class Base
      */
     public function isAlgorithmSupported(string $name): bool
     {
-        $algorithm  = strtoupper($name);
-        $algorithms = Claims::JWT_ALGORITHMS;
+        $cipher  = strtoupper($name);
+        $ciphers = Claims::JWT_CIPHERS;
 
-        return isset($algorithms[$algorithm]);
-    }
-
-    /**
-     * Decode a JSON string to a PHP object/array
-     *
-     * @param string $input
-     * @param bool   $assoc
-     *
-     * @return mixed
-     * @throws DomainException
-     */
-    public function jsonDecode(string $input, bool $assoc = false)
-    {
-        $result = json_decode($input, $assoc, 512, JSON_BIGINT_AS_STRING);
-        $this->processJsonError()
-
-        return $result;
-    }
-
-    /**
-     * Encode a PHP object into a JSON string
-     *
-     * @param object|array $input
-     *
-     * @return string
-     * @throws DomainException
-     */
-    public function jsonEncode($input): string
-    {
-        $result    = json_encode($input);
-        $this->processJsonError();
-
-        return $result;
+        return isset($ciphers[$cipher]);
     }
 
     /**
@@ -73,7 +40,79 @@ class Base
      */
     public function getSupportedAlgorithms(): array
     {
-        return array_keys(Claims::JWT_ALGORITHMS);
+        return array_keys(Claims::JWT_CIPHERS);
+    }
+
+    /**
+     * Decode a JSON string to a PHP object/array
+     *
+     * @param string $input
+     * @param bool   $assoc
+     * @param int    $depth
+     * @param int    $options
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function jsonDecode(
+        string $input,
+        bool $assoc = true,
+        int $depth = 512,
+        int $options = JSON_BIGINT_AS_STRING
+    ) {
+        $result = json_decode($input, $assoc, $depth, $options);
+        $this->processJsonError();
+
+        return $result;
+    }
+
+    /**
+     * Encode a PHP object into a JSON string
+     *
+     * @param object|array $input
+     * @param int          $options
+     * @param int          $depth
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function jsonEncode($input, int $options = JSON_BIGINT_AS_STRING, int $depth = 512): string
+    {
+        $result = json_encode($input, $options, $depth);
+        $this->processJsonError();
+
+        return $result;
+    }
+
+    /**
+     * Sign a string given a key and an cipher
+     *
+     * @param string $message
+     * @param string $key
+     * @param string $cipher
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function sign(string $message, string $key, string $cipher = Claims::JWT_CIPHER_HS256): string
+    {
+        if (true !== $this->isAlgorithmSupported($cipher)) {
+            throw new Exception('Cipher not supported');
+        }
+
+        list($function, $cipher) = Claims::JWT_CIPHERS[$cipher];
+        switch ($function) {
+            case 'hash_hmac':
+                return hash_hmac($cipher, $message, $key, true);
+            case 'openssl':
+                $signature = '';
+                $success   = openssl_sign($message, $signature, $key, $cipher);
+                if (true !== $success) {
+                    throw new Exception('OpenSSL unable to sign data');
+                }
+
+                return $signature;
+        }
     }
 
     /**
@@ -101,26 +140,16 @@ class Base
     }
 
     /**
-     * Translates json_last_error to a human readable form
+     * If there was an error, throw an exception with the message
      *
-     * @throws DomainException
+     * @throws Exception
      */
     private function processJsonError()
     {
-        $jsonError = json_last_error();
-
-        if (JSON_ERROR_NONE !== $jsonError) {
-            $messages = [
-                JSON_ERROR_CTRL_CHAR      => 'Unexpected control character found',
-                JSON_ERROR_DEPTH          => 'Maximum stack depth exceeded',
-                JSON_ERROR_STATE_MISMATCH => 'Invalid or malformed JSON',
-                JSON_ERROR_SYNTAX         => 'Syntax error, malformed JSON',
-                JSON_ERROR_UTF8           => 'Malformed UTF-8 characters',
-            ];
-
-            $return = $messages[$jsonError] ?? 'Unknown JSON error: ' . $jsonError;
-
-            throw new DomainException($return);
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new Exception(
+                'json_decode error: ' . json_last_error_msg()
+            );
         }
     }
 }

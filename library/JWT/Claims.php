@@ -28,14 +28,14 @@ class Claims
     const JWT_CIPHER_NONE  = 'none';
 
     const JWT_CIPHERS = [
-        self::JWT_CIPHER_HS256 => ['hash_hmac', 'SHA256'],
-        self::JWT_CIPHER_HS384 => ['hash_hmac', 'SHA384'],
-        self::JWT_CIPHER_HS512 => ['hash_hmac', 'SHA512'],
+        self::JWT_CIPHER_HS256 => ['hmac', 'SHA256'],
+        self::JWT_CIPHER_HS384 => ['hmac', 'SHA384'],
+        self::JWT_CIPHER_HS512 => ['hmac', 'SHA512'],
 
         self::JWT_CIPHER_RS256 => ['openssl', 'SHA256'],
         self::JWT_CIPHER_RS384 => ['openssl', 'SHA384'],
         self::JWT_CIPHER_RS512 => ['openssl', 'SHA512'],
-        self::JWT_CIPHER_NONE  => [],
+        self::JWT_CIPHER_NONE  => ['none', ''],
 
         /**
          * These come from the definition document.

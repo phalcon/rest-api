@@ -10,6 +10,7 @@ use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
 use function strtoupper;
+use function ucfirst;
 
 class Base
 {
@@ -101,18 +102,10 @@ class Base
         }
 
         list($function, $cipher) = Claims::JWT_CIPHERS[$cipher];
-        switch ($function) {
-            case 'hash_hmac':
-                return hash_hmac($cipher, $message, $key, true);
-            case 'openssl':
-                $signature = '';
-                $success   = openssl_sign($message, $signature, $key, $cipher);
-                if (true !== $success) {
-                    throw new Exception('OpenSSL unable to sign data');
-                }
 
-                return $signature;
-        }
+        $method = 'sign' . ucfirst($function);
+
+        return $this->{$method}($cipher, $message, $key);
     }
 
     /**
@@ -151,5 +144,40 @@ class Base
                 'json_decode error: ' . json_last_error_msg()
             );
         }
+    }
+
+    /**
+     * Sign with hash_hmac
+     *
+     * @param string $cipher
+     * @param string $message
+     * @param string $key
+     *
+     * @return string
+     */
+    private function signHmac(string $cipher, string $message, string $key)
+    {
+        return hash_hmac($cipher, $message, $key, true);
+    }
+
+    /**
+     * Sign with openssl
+     *
+     * @param string $cipher
+     * @param string $message
+     * @param string $key
+     *
+     * @return string
+     * @throws Exception
+     */
+    private function signOpenssl(string $cipher, string $message, string $key)
+    {
+        $signature = '';
+        $success   = openssl_sign($message, $signature, $key, $cipher);
+        if (true !== $success) {
+            throw new Exception('OpenSSL unable to sign data');
+        }
+
+        return $signature;
     }
 }

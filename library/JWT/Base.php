@@ -101,11 +101,11 @@ class Base
             throw new Exception('Cipher not supported');
         }
 
-        list($function, $cipher) = Claims::JWT_CIPHERS[$cipher];
+        list($function, $signCipher) = Claims::JWT_CIPHERS[$cipher];
 
         $method = 'sign' . ucfirst($function);
 
-        return $this->{$method}($cipher, $message, $key);
+        return $this->{$method}($signCipher, $message, $key);
     }
 
     /**
@@ -173,11 +173,36 @@ class Base
     private function signOpenssl(string $cipher, string $message, string $key)
     {
         $signature = '';
-        $success   = openssl_sign($message, $signature, $key, $cipher);
+        $success   = openssl_sign($message, $signature, $key, $this->cipherToOpenssl($cipher));
         if (true !== $success) {
             throw new Exception('OpenSSL unable to sign data');
         }
 
         return $signature;
+    }
+
+    /**
+     * Converts a passed string cipher to the OPENSSL numeric constant
+     *
+     * @param string $cipher
+     *
+     * @return int
+     */
+    private function cipherToOpenssl(string $cipher): int
+    {
+        $ciphers = [
+            'SHA1'   => OPENSSL_ALGO_SHA1,
+            'MD5'    => OPENSSL_ALGO_MD5,
+            'MD4'    => OPENSSL_ALGO_MD4,
+            'MD2'    => OPENSSL_ALGO_MD2,
+            'DSS1'   => OPENSSL_ALGO_DSS1,
+            'SHA224' => OPENSSL_ALGO_SHA224,
+            'SHA256' => OPENSSL_ALGO_SHA256,
+            'SHA384' => OPENSSL_ALGO_SHA384,
+            'SHA512' => OPENSSL_ALGO_SHA512,
+            'RMD160' => OPENSSL_ALGO_RMD160,
+        ];
+
+        return $ciphers[$cipher] ?? OPENSSL_ALGO_SHA256;
     }
 }

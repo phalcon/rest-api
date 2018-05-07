@@ -2,7 +2,7 @@
 
 namespace Niden\Tests\unit;
 
-use Niden\JWT\Base;
+use Niden\JWT\Hmac;
 use Niden\JWT\Claims;
 use \UnitTester;
 
@@ -10,7 +10,7 @@ class AlgorithmsCest
 {
     public function checkSupportedAlgorithms(UnitTester $I)
     {
-        $jwt      = new Base();
+        $jwt      = new Hmac();
         $expected = [
             Claims::JWT_CIPHER_HS256,
             Claims::JWT_CIPHER_HS384,
@@ -21,14 +21,14 @@ class AlgorithmsCest
             Claims::JWT_CIPHER_NONE,
         ];
 
-        $I->assertEquals($expected, $jwt->getSupportedAlgorithms());
+        $I->assertEquals($expected, $jwt->getSupportedCiphers());
     }
 
     public function checkIfAnAlgorithmIsSupported(UnitTester $I)
     {
-        $jwt = new Base();
+        $jwt = new Hmac();
 
-        $I->assertTrue($jwt->isAlgorithmSupported(Claims::JWT_CIPHER_HS256));
-        $I->assertFalse($jwt->isAlgorithmSupported('something random'));
+        $I->assertTrue($jwt->isCipherSupported(Claims::JWT_CIPHER_HS256));
+        $I->assertFalse($jwt->isCipherSupported('something random'));
     }
 }

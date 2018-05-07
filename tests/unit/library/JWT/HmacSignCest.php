@@ -8,7 +8,7 @@ use Niden\JWT\Exception;
 use \UnitTester;
 use function unpack;
 
-class SignCest
+class HmacSignCest
 {
     /**
      * @param UnitTester $I
@@ -31,7 +31,7 @@ class SignCest
      *
      * @throws Exception
      */
-    public function signWithHmac(UnitTester $I)
+    public function checkSign(UnitTester $I)
     {
         $jwt = new Hmac();
 
@@ -39,23 +39,5 @@ class SignCest
         $actual   = $jwt->sign('My Message', '1234567890', Claims::JWT_CIPHER_HS256);
         $actual   = unpack('H*', $actual);
         $I->assertEquals($expected, $actual[1]);
-    }
-
-    /**
-     * @param UnitTester $I
-     *
-     * @throws Exception
-     */
-    public function signWithOpenssl(UnitTester $I)
-    {
-        $I->expectException(
-            new Exception(
-                'OpenSSL unable to sign data'
-            ),
-            function () {
-                $jwt = new Hmac();
-                $jwt->sign('message', '1234', Claims::JWT_CIPHER_RS256);
-            }
-        );
     }
 }

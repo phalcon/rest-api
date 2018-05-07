@@ -38,8 +38,8 @@ class OpensslCest
     {
         $jwt = new Openssl();
 
-        $signature = $jwt->sign($this->message, $this->getPrivateKey(), 'SHA1');
-        $I->assertTrue($jwt->verify($signature, $this->message, $this->getPublicKey(), 'SHA1'));
+        $signature = $jwt->sign($this->message, $this->getPrivateKey(), Claims::JWT_CIPHER_SHA1);
+        $I->assertTrue($jwt->verify($signature, $this->message, $this->getPublicKey(), Claims::JWT_CIPHER_SHA1));
     }
 
     /**

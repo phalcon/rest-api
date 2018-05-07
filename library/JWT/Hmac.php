@@ -43,17 +43,12 @@ class Hmac extends AbstractJWT
     }
 
     /**
-     * Checks cipher support and returns the actual cipher name
+     * Returns the supported ciphers
      *
-     * @param string $cipher
-     *
-     * @return string
-     * @throws Exception
+     * @return array
      */
-    private function checkCipher(string $cipher): string
+    protected function getCiphers(): array
     {
-        $this->checkCipherSupport($cipher);
-
-        return Claims::JWT_CIPHERS[$cipher][1];
+        return Claims::JWT_CIPHERS_HMAC;
     }
 }

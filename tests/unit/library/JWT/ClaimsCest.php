@@ -23,16 +23,16 @@ class ClaimsCest
         $I->assertEquals('RS256', Claims::JWT_CIPHER_RS256);
         $I->assertEquals('RS384', Claims::JWT_CIPHER_RS384);
         $I->assertEquals('RS512', Claims::JWT_CIPHER_RS512);
-        $I->assertEquals('none', Claims::JWT_CIPHER_NONE);
+        $I->assertEquals('SHA1', Claims::JWT_CIPHER_SHA1);
 
-        $I->assertEquals(7, count(Claims::JWT_CIPHERS));
+        $I->assertEquals(3, count(Claims::JWT_CIPHERS_HMAC));
+        $I->assertEquals(4, count(Claims::JWT_CIPHERS_OPENSSL));
 
-        $I->assertEquals(['hmac', 'SHA256'], Claims::JWT_CIPHERS[Claims::JWT_CIPHER_HS256]);
-        $I->assertEquals(['hmac', 'SHA384'], Claims::JWT_CIPHERS[Claims::JWT_CIPHER_HS384]);
-        $I->assertEquals(['hmac', 'SHA512'], Claims::JWT_CIPHERS[Claims::JWT_CIPHER_HS512]);
-        $I->assertEquals(['openssl', 'SHA256'], Claims::JWT_CIPHERS[Claims::JWT_CIPHER_RS256]);
-        $I->assertEquals(['openssl', 'SHA384'], Claims::JWT_CIPHERS[Claims::JWT_CIPHER_RS384]);
-        $I->assertEquals(['openssl', 'SHA512'], Claims::JWT_CIPHERS[Claims::JWT_CIPHER_RS512]);
-        $I->assertEquals(['none', ''], Claims::JWT_CIPHERS[Claims::JWT_CIPHER_NONE]);
+        $I->assertEquals('SHA256', Claims::JWT_CIPHERS_HMAC[Claims::JWT_CIPHER_HS256]);
+        $I->assertEquals('SHA384', Claims::JWT_CIPHERS_HMAC[Claims::JWT_CIPHER_HS384]);
+        $I->assertEquals('SHA512', Claims::JWT_CIPHERS_HMAC[Claims::JWT_CIPHER_HS512]);
+        $I->assertEquals(OPENSSL_ALGO_SHA256, Claims::JWT_CIPHERS_OPENSSL[Claims::JWT_CIPHER_RS256]);
+        $I->assertEquals(OPENSSL_ALGO_SHA384, Claims::JWT_CIPHERS_OPENSSL[Claims::JWT_CIPHER_RS384]);
+        $I->assertEquals(OPENSSL_ALGO_SHA512, Claims::JWT_CIPHERS_OPENSSL[Claims::JWT_CIPHER_RS512]);
     }
 }

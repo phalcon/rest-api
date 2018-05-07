@@ -3,24 +3,11 @@
 namespace Niden\JWT;
 
 use function boolval;
-use function extension_loaded;
 use function openssl_sign;
 use function openssl_verify;
 
 class Openssl extends AbstractJWT
 {
-    /**
-     * OpensslSignCest constructor.
-     *
-     * @throws Exception
-     */
-    public function __construct()
-    {
-        if (true !== extension_loaded('openssl')) {
-            throw new Exception('This module requires the "openssl" PHP extension');
-        }
-    }
-
     /**
      * Sign a string given a key and an cipher
      *
@@ -31,10 +18,11 @@ class Openssl extends AbstractJWT
      * @return string|null
      * @throws Exception
      */
-    public function sign(string $message, string $key, string $cipher = Claims::JWT_CIPHER_HS256)
+    public function sign(string $message, string $key, string $cipher = Claims::JWT_CIPHER_RS256)
     {
-        $signature = '';
-        $success   = openssl_sign($message, $signature, $key, $this->cipherToOpenssl($cipher));
+        $signature  = '';
+        $signCipher = $this->checkCipher($cipher);
+        $success    = openssl_sign($message, $signature, $key, $signCipher);
         if (true !== $success) {
             throw new Exception('OpenSSL unable to sign data');
         }
@@ -49,38 +37,25 @@ class Openssl extends AbstractJWT
      * @param string $cipher
      *
      * @return bool
+     * @throws Exception
      */
     public function verify(
         string $signature,
         string $message,
         string $key,
-        $cipher = Claims::JWT_CIPHER_HS256
+        $cipher = Claims::JWT_CIPHER_RS256
     ): bool {
-        return boolval(openssl_verify($message, $signature, $key, $cipher));
+        $signCipher = $this->checkCipher($cipher);
+        return boolval(openssl_verify($message, $signature, $key, $signCipher));
     }
 
     /**
-     * Converts a passed string cipher to the OPENSSL numeric constant
+     * Returns the supported ciphers
      *
-     * @param string $cipher
-     *
-     * @return int
+     * @return array
      */
-    private function cipherToOpenssl(string $cipher): int
+    protected function getCiphers(): array
     {
-        $ciphers = [
-            'SHA1'   => OPENSSL_ALGO_SHA1,
-            'MD5'    => OPENSSL_ALGO_MD5,
-            'MD4'    => OPENSSL_ALGO_MD4,
-            'MD2'    => OPENSSL_ALGO_MD2,
-            'DSS1'   => OPENSSL_ALGO_DSS1,
-            'SHA224' => OPENSSL_ALGO_SHA224,
-            'SHA256' => OPENSSL_ALGO_SHA256,
-            'SHA384' => OPENSSL_ALGO_SHA384,
-            'SHA512' => OPENSSL_ALGO_SHA512,
-            'RMD160' => OPENSSL_ALGO_RMD160,
-        ];
-
-        return $ciphers[$cipher] ?? OPENSSL_ALGO_SHA256;
+        return Claims::JWT_CIPHERS_OPENSSL;
     }
 }

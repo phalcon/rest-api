@@ -20,7 +20,7 @@ abstract class AbstractJWT
      */
     public function getSupportedCiphers(): array
     {
-        return array_keys(Claims::JWT_CIPHERS);
+        return array_keys($this->getCiphers());
     }
 
     /**
@@ -34,7 +34,7 @@ abstract class AbstractJWT
     {
         $cipher = strtoupper($name);
 
-        return isset(Claims::JWT_CIPHERS[$cipher]);
+        return isset($this->getCiphers()[$cipher]);
     }
 
     /**
@@ -131,19 +131,29 @@ abstract class AbstractJWT
     ) : bool;
 
     /**
-     * Checks if a cipher is supported and throws an exception if it does not
+     * Checks if a cipher is supported and throws an exception if it does not.
+     * Returns the actual cipher name
      *
      * @param string $cipher
      *
-     * @return void
+     * @return string|int
      * @throws Exception
      */
-    protected function checkCipherSupport(string $cipher)
+    protected function checkCipher(string $cipher)
     {
         if (true !== $this->isCipherSupported($cipher)) {
             throw new Exception('Cipher not supported');
         }
+
+        return $this->getCiphers()[$cipher];
     }
+
+    /**
+     * Returns the supported ciphers
+     *
+     * @return array
+     */
+    abstract protected function getCiphers(): array;
 
     /**
      * If there was an error, throw an exception with the message

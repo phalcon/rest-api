@@ -3,8 +3,8 @@ run.config:
   # Main engine
   engine: php
   engine.config:
-    # Using the PHP 7.1 runtime
-    runtime: php-7.1
+    # Using the PHP 7.2 runtime
+    runtime: php-7.2
     # Apache
     document_root: api/public
 

@@ -2,6 +2,7 @@
 
 namespace Niden\JWT;
 
+use function boolval;
 use function extension_loaded;
 use function openssl_sign;
 use function openssl_verify;
@@ -48,7 +49,6 @@ class Openssl extends AbstractJWT
      * @param string $cipher
      *
      * @return bool
-     * @throws Exception
      */
     public function verify(
         string $signature,
@@ -56,13 +56,7 @@ class Openssl extends AbstractJWT
         string $key,
         string $cipher = Claims::JWT_CIPHER_HS256
     ): bool {
-        $success = openssl_verify($message, $signature, $key, $cipher);
-
-        if ($success < 0) {
-            throw new Exception('OpenSSL error: ' . openssl_error_string());
-        }
-
-        return (1 === $success);
+        return boolval(openssl_verify($message, $signature, $key, $cipher));
     }
 
     /**

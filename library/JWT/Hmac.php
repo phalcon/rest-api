@@ -16,9 +16,7 @@ class Hmac extends AbstractJWT
      */
     public function sign(string $message, string $key, string $cipher = Claims::JWT_CIPHER_HS256)
     {
-        $this->checkCipherSupport($cipher);
-
-        $signCipher = Claims::JWT_CIPHERS[$cipher][1];
+        $signCipher = $this->checkCipher($cipher);
 
         return hash_hmac($signCipher, $message, $key, true);
     }
@@ -38,11 +36,24 @@ class Hmac extends AbstractJWT
         string $key,
         string $cipher = Claims::JWT_CIPHER_HS256
     ): bool {
-        $this->checkCipherSupport($cipher);
-
-        $signCipher = Claims::JWT_CIPHERS[$cipher][1];
+        $signCipher = $this->checkCipher($cipher);
         $hash       = hash_hmac($signCipher, $message, $key, true);
 
         return hash_equals($signature, $hash);
+    }
+
+    /**
+     * Checks cipher support and returns the actual cipher name
+     *
+     * @param string $cipher
+     *
+     * @return string
+     * @throws Exception
+     */
+    private function checkCipher(string $cipher): string
+    {
+        $this->checkCipherSupport($cipher);
+
+        return Claims::JWT_CIPHERS[$cipher][1];
     }
 }

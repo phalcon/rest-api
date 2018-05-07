@@ -62,9 +62,11 @@ class RouterProvider implements ServiceProviderInterface
 
         foreach ($routes as $route) {
             $collection = new Collection();
-            $collection->setHandler($route[0], true);
-            $collection->setPrefix($route[1]);
-            $collection->{$route[2]}($route[3], $route[4]);
+            $collection
+                ->setHandler($route[0], true)
+                ->setPrefix($route[1])
+                ->{$route[2]}($route[3], $route[4]);
+
             $application->mount($collection);
         }
     }

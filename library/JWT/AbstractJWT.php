@@ -10,15 +10,9 @@ use function json_encode;
 use function json_last_error;
 use function json_last_error_msg;
 use function strtoupper;
-use function var_dump;
 
 abstract class AbstractJWT
 {
-    /** @var int */
-    private $timeDrift = 0;
-    /** @var int */
-    private $timestamp = 0;
-
     /**
      * Returns an array of all supported algoritms
      *
@@ -133,9 +127,8 @@ abstract class AbstractJWT
         string $signature,
         string $message,
         string $key,
-        string $cipher = Claims::JWT_CIPHER_HS256
-    )
-    : bool;
+        $cipher = Claims::JWT_CIPHER_HS256
+    ) : bool;
 
     /**
      * Checks if a cipher is supported and throws an exception if it does not

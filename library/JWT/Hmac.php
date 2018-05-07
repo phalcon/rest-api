@@ -34,7 +34,7 @@ class Hmac extends AbstractJWT
         string $signature,
         string $message,
         string $key,
-        string $cipher = Claims::JWT_CIPHER_HS256
+        $cipher = Claims::JWT_CIPHER_HS256
     ): bool {
         $signCipher = $this->checkCipher($cipher);
         $hash       = hash_hmac($signCipher, $message, $key, true);

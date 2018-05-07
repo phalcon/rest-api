@@ -54,7 +54,7 @@ class Openssl extends AbstractJWT
         string $signature,
         string $message,
         string $key,
-        string $cipher = Claims::JWT_CIPHER_HS256
+        $cipher = Claims::JWT_CIPHER_HS256
     ): bool {
         return boolval(openssl_verify($message, $signature, $key, $cipher));
     }

@@ -63,7 +63,8 @@ class RouterProvider implements ServiceProviderInterface
         foreach ($routes as $route) {
             $collection = new Collection();
             $collection->setHandler($route[0], true);
-            $collection->{$route[1]}($route[2], $route[3]);
+            $collection->setPrefix($route[1]);
+            $collection->{$route[2]}($route[3], $route[4]);
             $application->mount($collection);
         }
     }
@@ -91,8 +92,8 @@ class RouterProvider implements ServiceProviderInterface
     {
         return [
             // Class, Method, Route, Handler
-            [IndexController::class, 'get', '/', 'indexAction'],
-            [IndexController::class, 'post', '/', 'indexAction'],
+            [IndexController::class, '', 'get', '/', 'indexAction'],
+            [IndexController::class, '', 'post', '/', 'indexAction'],
         ];
     }
 }

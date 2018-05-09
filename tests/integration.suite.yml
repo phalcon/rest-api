@@ -1,0 +1,9 @@
+actor: IntegrationTester
+modules:
+  enabled:
+    - Asserts
+    - \Helper\Integration
+    - Phalcon:
+        bootstrap: "tests/_config/bootstrap.php"
+        cleanup: false
+        savepoints: false

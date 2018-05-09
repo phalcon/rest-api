@@ -4,6 +4,7 @@
  * Enabled providers. Order does matter
  */
 use Niden\Providers\ConfigProvider;
+use Niden\Providers\DatabaseProvider;
 use Niden\Providers\ErrorHandlerProvider;
 use Niden\Providers\EventsManagerProvider;
 use Niden\Providers\LoggerProvider;
@@ -15,6 +16,7 @@ return [
     EventsManagerProvider::class,
     LoggerProvider::class,
     ErrorHandlerProvider::class,
+    DatabaseProvider::class,
     ResponseProvider::class,
     RouterProvider::class,
 ];

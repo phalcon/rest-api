@@ -2,6 +2,7 @@ actor: IntegrationTester
 modules:
   enabled:
     - Asserts
+    - Filesystem
     - \Helper\Integration
     - Phalcon:
         bootstrap: "tests/_config/bootstrap.php"

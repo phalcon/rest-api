@@ -2,9 +2,13 @@
 
 namespace Niden\Tests\integration;
 
+use Codeception\Stub;
 use \IntegrationTester;
+use function Niden\Functions\appPath;
+use Niden\Logger;
 use Niden\Models\Users;
 use Niden\Exception\ModelException;
+use Phalcon\Mvc\Model\Message;
 
 /**
  * Class ModelCest
@@ -112,6 +116,64 @@ class ModelCest
              ->save()
         ;
         $I->assertEquals($user->get('usr_password'), 'abcde\nfg');
+    }
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function checkModelMessages(IntegrationTester $I)
+    {
+        $user = Stub::construct(
+            Users::class,
+            [],
+            [
+                'save'        => false,
+                'getMessages' => [
+                    new Message('error 1'),
+                    new Message('error 2'),
+                ],
+            ]
+        );
+
+        $result = $user
+            ->set('usr_username', 'test')
+            ->save();
+        $I->assertFalse($result);
+
+        $I->assertEquals('error 1<br />error 2<br />', $user->getModelMessages());
+    }
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function checkModelMessagesWithLogger(IntegrationTester $I)
+    {
+        /** @var Logger $logger */
+        $logger = $I->grabFromDi('logger');
+        $user   = Stub::construct(
+            Users::class,
+            [],
+            [
+                'save'        => false,
+                'getMessages' => [
+                    new Message('error 1'),
+                    new Message('error 2'),
+                ],
+            ]
+        );
+
+        $fileName = appPath('storage/logs/api.log');
+        $result   = $user
+            ->set('usr_username', 'test')
+            ->save();
+        $I->assertFalse($result);
+        $I->assertEquals('error 1<br />error 2<br />', $user->getModelMessages());
+
+        $user->getModelMessages($logger);
+
+        $I->openFile($fileName);
+        $I->seeInThisFile("error 1\n");
+        $I->seeInThisFile("error 2\n");
     }
 
     /**

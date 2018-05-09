@@ -102,12 +102,7 @@ abstract class AbstractModel extends PhModel
      */
     public function set($field, $value, $sanitize = true): AbstractModel
     {
-        $s = $sanitize;
-        if (null === $value) {
-            $s = false;
-        }
-
-        $this->getSetFields('set', $field, $value, $s);
+        $this->getSetFields('set', $field, $value, $sanitize);
 
         return $this;
     }

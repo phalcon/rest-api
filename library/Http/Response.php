@@ -77,7 +77,8 @@ class Response extends PhResponse
      */
     public function setPayloadContent($content = []): Response
     {
-        $data = (true === is_array($content)) ? $content : [$content];
+        $data = (null !== $content)        ? $content : [];
+        $data = (true === is_array($data)) ? $data    : [$data];
 
         parent::setJsonContent($this->processPayload($data));
 

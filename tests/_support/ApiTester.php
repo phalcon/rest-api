@@ -46,5 +46,12 @@ class ApiTester extends \Codeception\Actor
                 ]
             ]
         );
+
+        $response  = $this->grabResponse();
+        $response  = json_decode($response, true);
+        $data      = json_encode($response['data']);
+        $timestamp = $response['meta']['timestamp'];
+        $hash      = $response['meta']['hash'];
+        $this->assertEquals($hash, sha1($timestamp . $data));
     }
 }

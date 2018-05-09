@@ -4,6 +4,7 @@ namespace Niden\Tests\unit\config;
 
 use function Niden\Functions\appPath;
 use Niden\Providers\ConfigProvider;
+use Niden\Providers\DatabaseProvider;
 use Niden\Providers\ErrorHandlerProvider;
 use Niden\Providers\EventsManagerProvider;
 use Niden\Providers\LoggerProvider;
@@ -21,7 +22,8 @@ class ProvidersCest
         $I->assertEquals(EventsManagerProvider::class, $providers[1]);
         $I->assertEquals(LoggerProvider::class, $providers[2]);
         $I->assertEquals(ErrorHandlerProvider::class, $providers[3]);
-        $I->assertEquals(ResponseProvider::class, $providers[4]);
-        $I->assertEquals(RouterProvider::class, $providers[5]);
+        $I->assertEquals(DatabaseProvider::class, $providers[4]);
+        $I->assertEquals(ResponseProvider::class, $providers[5]);
+        $I->assertEquals(RouterProvider::class, $providers[6]);
     }
 }

@@ -3,6 +3,7 @@
 namespace Niden\Providers;
 
 use Niden\Api\Controllers\IndexController;
+use Niden\Api\Controllers\LoginController;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\ResponseMiddleware;
@@ -96,6 +97,7 @@ class RouterProvider implements ServiceProviderInterface
             // Class, Method, Route, Handler
             [IndexController::class, '', 'get', '/', 'indexAction'],
             [IndexController::class, '', 'post', '/', 'indexAction'],
+            [LoginController::class, '', 'post', '/login', 'indexAction'],
         ];
     }
 }

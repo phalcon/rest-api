@@ -20,8 +20,7 @@ class NotFoundMiddleware extends Plugin implements MiddlewareInterface
     {
         $this
             ->response
-            ->setPayloadStatusError()
-            ->setErrorDetail('404 Not Found')
+            ->setError('', '404 Not Found')
             ->setPayloadContent()
             ->send();
         ;

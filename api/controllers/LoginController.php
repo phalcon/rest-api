@@ -25,19 +25,14 @@ class LoginController extends Controller
         $userName = $this->request->getPost('user', Filter::FILTER_STRING);
         $password = $this->request->getPost('pass', Filter::FILTER_STRING);
 
-        /**
-         * Get the user
-         */
-        $user = Users::findFirst(
-            [
-                'conditions' => 'usr_username = :usr_username: AND '
-                             .  'usr_password = :usr_password:',
-                'bind'       => [
-                    'usr_username' => $userName,
-                    'usr_password' => $password,
-                ]
-            ]
-        );
+        $buikder = new Builder();
+        $user    = $buikder
+            ->addFrom(Users::class)
+            ->andWhere('usr_username = :u:', ['u' => $userName])
+            ->andWhere('usr_password = :p:', ['p' => $password])
+            ->getQuery()
+            ->setUniqueRow(true)
+            ->execute();
 
         /**
          * User not found
@@ -45,9 +40,7 @@ class LoginController extends Controller
         if (false === $user) {
             $this
                 ->response
-                ->setPayloadStatusError()
-                ->setErrorSource('Login')
-                ->setErrorDetail('Incorrect credentials')
+                ->setError('Login', 'Incorrect credentials')
             ;
         } else {
             /**

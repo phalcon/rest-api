@@ -21,35 +21,19 @@ class Response extends PhResponse
     /** @var string  */
     protected $payloadErrorSource = '';
 
-    public function setErrorDetail(string $detail): Response
-    {
-        $this->payloadErrorDetail = $detail;
-
-        return $this;
-    }
-
     /**
-     * Sets the payload error source
+     * Sets the error code, source and detail if supplied
      *
      * @param string $source
+     * @param string $detail
      *
      * @return Response
      */
-    public function setErrorSource(string $source): Response
+    public function setError(string $source = '', string $detail = ''): Response
     {
+        $this->payloadCode        = self::STATUS_ERROR;
         $this->payloadErrorSource = $source;
-
-        return $this;
-    }
-
-    /**
-     * Sets the payload code as Error
-     *
-     * @return Response
-     */
-    public function setPayloadStatusError(): Response
-    {
-        $this->payloadCode = self::STATUS_ERROR;
+        $this->payloadErrorDetail = $detail;
 
         return $this;
     }

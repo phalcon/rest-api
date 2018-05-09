@@ -33,9 +33,7 @@ class PayloadMiddleware implements MiddlewareInterface
                 /** @var Response $response */
                 $response = $api->getService('response');
                 $response
-                    ->setPayloadStatusError()
-                    ->setErrorSource($event->getType())
-                    ->setErrorDetail('Malformed JSON')
+                    ->setError($event->getType(), 'Malformed JSON')
                     ->setPayloadContent()
                     ->send()
                 ;

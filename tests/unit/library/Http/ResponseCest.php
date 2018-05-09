@@ -45,7 +45,7 @@ class ResponseCest
         $response = new Response();
 
         $response
-            ->setPayloadStatusError()
+            ->setError()
             ->setPayloadContent('error content');
 
         $payload = $this->checkPayload($I, $response);
@@ -59,9 +59,7 @@ class ResponseCest
         $response = new Response();
 
         $response
-            ->setPayloadStatusError()
-            ->setErrorDetail('error detail')
-            ->setErrorSource('error source')
+            ->setError('error source', 'error detail')
             ->setPayloadContent('error content');
 
         $payload = $this->checkPayload($I, $response);

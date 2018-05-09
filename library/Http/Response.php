@@ -71,7 +71,7 @@ class Response extends PhResponse
      * setJsonContent, so as to provide a uniformed payload no matter what
      * the response is
      *
-     * @param string|array $content The content
+     * @param null|string|array $content The content
      *
      * @return Response
      */

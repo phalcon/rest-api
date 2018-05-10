@@ -19,6 +19,7 @@ class UsersCest
                 'usr_password',
                 'usr_domain_name',
                 'usr_token',
+                'usr_token_id',
             ]
         );
     }

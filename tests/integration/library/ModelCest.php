@@ -52,7 +52,7 @@ class ModelCest
             ModelException::class,
             function () {
                 $fixture = new Users();
-                $fixture->set('usr_id', $I, 1000)
+                $fixture->set('usr_id', 1000)
                         ->set('some_field', true)
                         ->save()
                 ;
@@ -97,6 +97,7 @@ class ModelCest
         $I->assertEquals($user->get('usr_password'), 'testpass');
         $I->assertEquals($user->get('usr_domain_name'), 'phalconphp.com');
         $I->assertEquals($user->get('usr_token'), '12345');
+        $I->assertEquals($user->get('usr_token_id'), '00110011');
     }
 
     /**
@@ -209,6 +210,7 @@ class ModelCest
             ->set('usr_status_flag', 1)
             ->set('usr_domain_name', 'phalconphp.com')
             ->set('usr_token', '12345')
+            ->set('usr_token_id', '00110011')
             ->save()
         ;
 
@@ -232,5 +234,8 @@ class ModelCest
         $I->assertEquals($user->get('usr_username'), 'testusername');
         $I->assertEquals($user->get('usr_password'), 'testpass');
         $I->assertEquals($user->get('usr_status_flag'), 1);
+        $I->assertEquals($user->get('usr_domain_name'), 'phalconphp.com');
+        $I->assertEquals($user->get('usr_token'), '12345');
+        $I->assertEquals($user->get('usr_token_id'), '00110011');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace Niden\Api\Controllers;
 
+use Niden\Exception\Exception;
 use Niden\Http\Response;
-use Niden\Models\Users;
+use Niden\Traits\UserTrait;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
-use Phalcon\Mvc\Model\Query\Builder;
 
 /**
  * Class LoginController
@@ -17,37 +17,33 @@ use Phalcon\Mvc\Model\Query\Builder;
  */
 class LoginController extends Controller
 {
+    use UserTrait;
+
     /**
      * Default action for integrations
      */
     public function indexAction()
     {
-        $userName = $this->request->getPost('user', Filter::FILTER_STRING);
-        $password = $this->request->getPost('pass', Filter::FILTER_STRING);
+        try {
+            $username = $this->request->getPost('username', Filter::FILTER_STRING);
+            $password = $this->request->getPost('password', Filter::FILTER_STRING);
 
-        $buikder = new Builder();
-        $user    = $buikder
-            ->addFrom(Users::class)
-            ->andWhere('usr_username = :u:', ['u' => $userName])
-            ->andWhere('usr_password = :p:', ['p' => $password])
-            ->getQuery()
-            ->setUniqueRow(true)
-            ->execute();
+            $user = $this->getUserByUsernameAndPassword(
+                $username,
+                $password,
+                'Incorrect credentials'
+            );
 
-        /**
-         * User not found
-         */
-        if (false === $user) {
-            $this
-                ->response
-                ->setError('Login', 'Incorrect credentials')
-            ;
-        } else {
             /**
              * User found - Return token
              */
 
-            return 'mytoken';
+            return 'mytoken ' . $user->get('usr_token');
+
+        } catch (Exception $ex) {
+            $this
+                ->response
+                ->setError('Login', $ex->getMessage());
         }
     }
 }

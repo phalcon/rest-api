@@ -23,7 +23,19 @@ class ModelCest
     public function modelGetTablePrefix(IntegrationTester $I)
     {
         /** @var Users $result */
-        $user = $this->createFixture($I, 1000);
+        $user = $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_id'          => 1000,
+                'usr_username'    => 'testusername',
+                'usr_password'    => 'testpass',
+                'usr_status_flag' => 1,
+                'usr_domain_name' => 'phalconphp.com',
+                'usr_token'       => '12345',
+                'usr_token_id'    => '00110011',
+
+            ]
+        );
 
         $I->assertEquals('usr', $user->getTablePrefix());
     }
@@ -35,10 +47,32 @@ class ModelCest
      */
     public function modelGetSetFields(IntegrationTester $I)
     {
-        /** @var Users $user */
-        $user = $this->createFixture($I, 1000);
+        /** @var Users $result */
+        $user = $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_id'          => 1000,
+                'usr_username'    => 'testusername',
+                'usr_password'    => 'testpass',
+                'usr_status_flag' => 1,
+                'usr_domain_name' => 'phalconphp.com',
+                'usr_token'       => '12345',
+                'usr_token_id'    => '00110011',
+            ]
+        );
 
-        $this->checkFields($I, $user, 1000);
+        $I->seeRecord(
+            Users::class,
+            [
+                'usr_id'          => 1000,
+                'usr_username'    => 'testusername',
+                'usr_password'    => 'testpass',
+                'usr_status_flag' => 1,
+                'usr_domain_name' => 'phalconphp.com',
+                'usr_token'       => '12345',
+                'usr_token_id'    => '00110011',
+            ]
+        );
     }
 
     /**
@@ -67,8 +101,21 @@ class ModelCest
      */
     public function modelGetNonExistingFields(IntegrationTester $I)
     {
-        /** @var Users $user */
-        $user = $this->createFixture($I, 1000);
+        /** @var Users $result */
+        $user = $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_id'          => 1000,
+                'usr_username'    => 'testusername',
+                'usr_password'    => 'testpass',
+                'usr_status_flag' => 1,
+                'usr_domain_name' => 'phalconphp.com',
+                'usr_token'       => '12345',
+                'usr_token_id'    => '00110011',
+
+            ]
+        );
+
         $I->expectException(
             ModelException::class,
             function () use ($user) {
@@ -86,8 +133,20 @@ class ModelCest
      */
     public function modelUpdateFields(IntegrationTester $I)
     {
-        /** @var Users $user */
-        $user = $this->createFixture($I, 1000);
+        /** @var Users $result */
+        $user = $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_id'          => 1000,
+                'usr_username'    => 'testusername',
+                'usr_password'    => 'testpass',
+                'usr_status_flag' => 1,
+                'usr_domain_name' => 'phalconphp.com',
+                'usr_token'       => '12345',
+                'usr_token_id'    => '00110011',
+
+            ]
+        );
 
         $user->set('usr_username', 'testusername')
              ->save()
@@ -107,8 +166,21 @@ class ModelCest
      */
     public function modelUpdateFieldsNotSanitized(IntegrationTester $I)
     {
-        /** @var Users $user */
-        $user = $this->createFixture($I, 1000);
+        /** @var Users $result */
+        $user = $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_id'          => 1000,
+                'usr_username'    => 'testusername',
+                'usr_password'    => 'testpass',
+                'usr_status_flag' => 1,
+                'usr_domain_name' => 'phalconphp.com',
+                'usr_token'       => '12345',
+                'usr_token_id'    => '00110011',
+
+            ]
+        );
+
         $user->set('usr_password', 'abcde\nfg')
              ->save()
         ;
@@ -177,65 +249,5 @@ class ModelCest
         $I->openFile($fileName);
         $I->seeInThisFile("error 1\n");
         $I->seeInThisFile("error 2\n");
-    }
-
-    /**
-     * Creates a new record in the database
-     *
-     * @param IntegrationTester $I
-     * @param int               $userId
-     *
-     * @return Users
-     * @throws ModelException
-     */
-    private function createFixture(IntegrationTester $I, int $userId)
-    {
-        /**
-         * Just in case delete any records that might be already in there
-         */
-        $fixture = Users::findFirst(
-            [
-                'conditions' => 'usr_id = :usr_id:',
-                'bind'       => ['usr_id' => $userId]]
-        );
-        if (false !== $fixture) {
-            $fixture->delete();
-        }
-
-        $fixture = new Users();
-        $result  = $fixture
-            ->set('usr_id', $userId)
-            ->set('usr_username', 'testusername')
-            ->set('usr_password', 'testpass')
-            ->set('usr_status_flag', 1)
-            ->set('usr_domain_name', 'phalconphp.com')
-            ->set('usr_token', '12345')
-            ->set('usr_token_id', '00110011')
-            ->save()
-        ;
-
-        $I->assertNotSame(false, $result);
-
-        return $fixture;
-    }
-
-    /**
-     * Asserts whether the fields of a model are the same as what we expect
-     *
-     * @param IntegrationTester $I
-     * @param Users             $user
-     * @param int               $userId
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    private function checkFields(IntegrationTester $I, Users $user, int $userId)
-    {
-        $I->assertEquals($user->get('usr_id'), $userId);
-        $I->assertEquals($user->get('usr_username'), 'testusername');
-        $I->assertEquals($user->get('usr_password'), 'testpass');
-        $I->assertEquals($user->get('usr_status_flag'), 1);
-        $I->assertEquals($user->get('usr_domain_name'), 'phalconphp.com');
-        $I->assertEquals($user->get('usr_token'), '12345');
-        $I->assertEquals($user->get('usr_token_id'), '00110011');
     }
 }

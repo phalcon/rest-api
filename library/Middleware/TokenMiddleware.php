@@ -43,21 +43,11 @@ class TokenMiddleware implements MiddlewareInterface
                  * This is where we will validate the token that was sent to us
                  * using Bearer Authentication
                  */
-                $header = $request->getHeader('Authorization');
-                $bearer = sscanf($header, 'Bearer %s');
-                $token  = $bearer[0] ?? '';
+                $token  = $this->getTokenFromHeader($request);
                 $user   = $this->getUserByToken($token, 'Invalid Token');
 
-                $audience    = $user->get('usr_domain_name');
-                $issuer      = 'phalconphp.com';
-                $token       = $user->get('usr_token');
-                $tokenObject = (new Parser())->parse($token);
-                $tokenId     = $user->get('usr_token_id');
-
-                $validationData = new ValidationData();
-                $validationData->setIssuer($issuer);
-                $validationData->setAudience($audience);
-                $validationData->setId($tokenId);
+                $tokenObject    = $this->parseToken($user, $token);
+                $validationData = $this->getValidationData($user);
 
                 $valid = $tokenObject->validate($validationData);
 
@@ -72,9 +62,51 @@ class TokenMiddleware implements MiddlewareInterface
                     ->setPayloadContent()
                     ->send()
                 ;
+
+                return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    private function getTokenFromHeader(Request $request)
+    {
+        $header = $request->getHeader('Authorization');
+        $bearer = sscanf($header, 'Bearer %s');
+
+        return $bearer[0] ?? '';
+    }
+
+    /**
+     * @param Users $user
+     *
+     * @return ValidationData
+     * @throws \Niden\Exception\ModelException
+     */
+    private function getValidationData(Users $user)
+    {
+        $validationData = new ValidationData();
+        $validationData->setIssuer('phalconphp.com');
+        $validationData->setAudience($user->get('usr_domain_name'));
+        $validationData->setId($user->get('usr_token_id'));
+
+        return $validationData;
+    }
+
+    /**
+     * @param Users  $user
+     * @param string $token
+     *
+     * @return \Lcobucci\JWT\Token
+     */
+    private function parseToken(Users $user, string $token)
+    {
+        return (new Parser())->parse($token);
     }
 }

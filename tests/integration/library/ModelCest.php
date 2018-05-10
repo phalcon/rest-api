@@ -2,9 +2,9 @@
 
 namespace Niden\Tests\integration;
 
+use function Niden\Functions\appPath;
 use Codeception\Stub;
 use \IntegrationTester;
-use function Niden\Functions\appPath;
 use Niden\Logger;
 use Niden\Models\Users;
 use Niden\Exception\ModelException;
@@ -95,6 +95,8 @@ class ModelCest
 
         $I->assertEquals($user->get('usr_username'), 'testusername');
         $I->assertEquals($user->get('usr_password'), 'testpass');
+        $I->assertEquals($user->get('usr_domain_name'), 'phalconphp.com');
+        $I->assertEquals($user->get('usr_token'), '12345');
     }
 
     /**
@@ -205,6 +207,8 @@ class ModelCest
             ->set('usr_username', 'testusername')
             ->set('usr_password', 'testpass')
             ->set('usr_status_flag', 1)
+            ->set('usr_domain_name', 'phalconphp.com')
+            ->set('usr_token', '12345')
             ->save()
         ;
 

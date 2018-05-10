@@ -17,6 +17,8 @@ class UsersCest
                 'usr_status_flag',
                 'usr_username',
                 'usr_password',
+                'usr_domain_name',
+                'usr_token',
             ]
         );
     }

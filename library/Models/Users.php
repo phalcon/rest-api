@@ -24,6 +24,8 @@ class Users extends AbstractModel
             'usr_status_flag' => Filter::FILTER_ABSINT,
             'usr_username'    => Filter::FILTER_STRING,
             'usr_password'    => Filter::FILTER_STRING,
+            'usr_domain_name' => Filter::FILTER_STRING,
+            'usr_token'       => Filter::FILTER_STRING,
         ];
     }
 

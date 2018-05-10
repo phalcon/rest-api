@@ -64,7 +64,6 @@ class TokenMiddleware implements MiddlewareInterface
                 if (false === $valid) {
                     throw new Exception('Invalid Token');
                 }
-
             } catch (Exception $ex) {
                 /** @var Response $response */
                 $response = $api->getService('response');

@@ -7,7 +7,7 @@ use Niden\Api\Controllers\LoginController;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\ResponseMiddleware;
-use Niden\Middleware\TokenMiddleware;
+//use Niden\Middleware\TokenMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;

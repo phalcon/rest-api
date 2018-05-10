@@ -46,7 +46,7 @@ class TokenMiddleware implements MiddlewareInterface
                 $token  = $this->getTokenFromHeader($request);
                 $user   = $this->getUserByToken($token, 'Invalid Token');
 
-                $tokenObject    = $this->parseToken($user, $token);
+                $tokenObject    = (new Parser())->parse($token);
                 $validationData = $this->getValidationData($user);
 
                 $valid = $tokenObject->validate($validationData);
@@ -97,16 +97,5 @@ class TokenMiddleware implements MiddlewareInterface
         $validationData->setId($user->get('usr_token_id'));
 
         return $validationData;
-    }
-
-    /**
-     * @param Users  $user
-     * @param string $token
-     *
-     * @return \Lcobucci\JWT\Token
-     */
-    private function parseToken(Users $user, string $token)
-    {
-        return (new Parser())->parse($token);
     }
 }

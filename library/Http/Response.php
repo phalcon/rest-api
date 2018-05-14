@@ -22,18 +22,76 @@ class Response extends PhResponse
     protected $payloadErrorSource = '';
 
     /**
-     * Sets the error code, source and detail if supplied
+     * Send an error response
      *
      * @param string $source
      * @param string $detail
      *
-     * @return Response
+     * @return PhResponse
      */
-    public function setError(string $source = '', string $detail = ''): Response
+    public function sendError(string $source = '', string $detail = ''): PhResponse
     {
         $this->payloadCode        = self::STATUS_ERROR;
         $this->payloadErrorSource = $source;
         $this->payloadErrorDetail = $detail;
+
+        $this->setPayloadContent();
+
+        return $this->send();
+    }
+
+    /**
+     * Send a successful response
+     *
+     * @param array $content
+     *
+     * @return PhResponse
+     */
+    public function sendSuccess(array $content): PhResponse
+    {
+        $this->payloadCode = self::STATUS_SUCCESS;
+
+        $this->setPayloadContent($content);
+
+        return $this->send();
+    }
+
+    /**
+     * Sets the payload code as Error
+     *
+     * @param string $detail
+     *
+     * @return Response
+     */
+    public function setPayloadErrorDetail(string $detail): Response
+    {
+        $this->payloadErrorDetail = $detail;
+
+        return $this;
+    }
+
+    /**
+     * Sets the payload error source
+     *
+     * @param string $source
+     *
+     * @return Response
+     */
+    public function setPayloadErrorSource(string $source): Response
+    {
+        $this->payloadErrorSource = $source;
+
+        return $this;
+    }
+
+    /**
+     * Sets the payload code as Error
+     *
+     * @return Response
+     */
+    public function setPayloadStatusError(): Response
+    {
+        $this->payloadCode = self::STATUS_ERROR;
 
         return $this;
     }

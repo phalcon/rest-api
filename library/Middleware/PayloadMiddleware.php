@@ -38,11 +38,7 @@ class PayloadMiddleware implements MiddlewareInterface
                 $this->parsePayload($data);
             } catch (Exception $ex) {
                 /** @var Response $response */
-                $response
-                    ->setError($event->getType(), $ex->getMessage())
-                    ->setPayloadContent()
-                    ->send()
-                ;
+                $response->sendError($event->getType(), $ex->getMessage());
 
                 return false;
             }

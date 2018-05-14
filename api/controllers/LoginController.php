@@ -41,7 +41,10 @@ class LoginController extends Controller
         } catch (Exception $ex) {
             $this
                 ->response
-                ->setError('Login', $ex->getMessage());
+                ->setPayloadStatusError()
+                ->setPayloadErrorSource('Login')
+                ->setPayloadErrorDetail($ex->getMessage())
+            ;
         }
     }
 }

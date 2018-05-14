@@ -18,12 +18,7 @@ class NotFoundMiddleware extends Plugin implements MiddlewareInterface
 {
     public function beforeNotFound()
     {
-        $this
-            ->response
-            ->setError('', '404 Not Found')
-            ->setPayloadContent()
-            ->send();
-        ;
+        $this->response->sendError('', '404 Not Found');
 
         return false;
     }

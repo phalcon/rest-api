@@ -2,6 +2,7 @@
 
 namespace Niden\Middleware;
 
+use Niden\Exception\Exception;
 use Niden\TokenParser;
 use Niden\Http\Response;
 use Niden\Traits\UserTrait;
@@ -29,11 +30,17 @@ class TokenMiddleware implements MiddlewareInterface
      */
     public function call(Micro $api)
     {
-        /** @var Request $request */
-        $request  = $api->getService('request');
-        /** @var Response $response */
-        $response = $api->getService('response');
+        try {
+            /** @var Request $request */
+            $request  = $api->getService('request');
+            /** @var Response $response */
+            $response = $api->getService('response');
 
-        return (new TokenParser($request, $response))->call();
+            return (new TokenParser($request, $response))->call();
+        } catch (Exception $ex) {
+            $this->response->sendError('Auth', $ex->getMessage());
+
+            return false;
+        }
     }
 }

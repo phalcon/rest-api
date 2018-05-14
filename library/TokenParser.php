@@ -5,6 +5,7 @@ namespace Niden;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\ValidationData;
 use Niden\Exception\Exception;
+use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Models\Users;
 use Niden\Traits\UserTrait;
@@ -28,35 +29,40 @@ class TokenParser
     /** @var Response */
     private $response;
 
+    /**
+     * TokenParser constructor.
+     *
+     * @param Request  $request
+     * @param Response $response
+     */
     public function __construct(Request $request, Response $response)
     {
         $this->request  = $request;
         $this->response = $response;
     }
 
+    /**
+     * @return bool
+     * @throws Exception
+     * @throws ModelException|Exception
+     */
     public function call(): bool
     {
         $uri = $this->request->getURI();
         if ('/login' === $uri) {
-            try {
-                /**
-                 * This is where we will validate the token that was sent to us
-                 * using Bearer Authentication
-                 */
-                $token = $this->getTokenFromHeader();
-                $user  = $this->getUserByToken($token, 'Invalid Token');
+            /**
+             * This is where we will validate the token that was sent to us
+             * using Bearer Authentication
+             */
+            $token = $this->getTokenFromHeader();
+            $user  = $this->getUserByToken($token, 'Invalid Token');
 
-                $tokenObject    = (new Parser())->parse($token);
-                $validationData = $this->getValidationData($user);
+            $tokenObject    = (new Parser())->parse($token);
+            $validationData = $this->getValidationData($user);
 
-                $valid = $tokenObject->validate($validationData);
-                if (false === $valid) {
-                    throw new Exception('Invalid Token');
-                }
-            } catch (Exception $ex) {
-                $this->response->sendError('Auth', $ex->getMessage());
-
-                return false;
+            $valid = $tokenObject->validate($validationData);
+            if (false === $valid) {
+                throw new Exception('Invalid Token');
             }
         }
 

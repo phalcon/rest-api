@@ -31,11 +31,10 @@ class Response extends PhResponse
      */
     public function sendError(string $source = '', string $detail = ''): PhResponse
     {
-        $this->payloadCode        = self::STATUS_ERROR;
-        $this->payloadErrorSource = $source;
-        $this->payloadErrorDetail = $detail;
-
-        $this->setPayloadContent();
+        $this
+            ->setPayloadError($source, $detail)
+            ->setPayloadContent()
+        ;
 
         return $this->send();
     }
@@ -49,9 +48,7 @@ class Response extends PhResponse
      */
     public function sendSuccess(array $content): PhResponse
     {
-        $this->payloadCode = self::STATUS_SUCCESS;
-
-        $this->setPayloadContent($content);
+        $this->setPayloadSuccess($content);
 
         return $this->send();
     }
@@ -59,26 +56,15 @@ class Response extends PhResponse
     /**
      * Sets the payload code as Error
      *
+     * @param string $source
      * @param string $detail
      *
      * @return Response
      */
-    public function setPayloadErrorDetail(string $detail): Response
+    public function setPayloadError(string $source = '', string $detail = ''): Response
     {
+        $this->payloadCode        = self::STATUS_ERROR;
         $this->payloadErrorDetail = $detail;
-
-        return $this;
-    }
-
-    /**
-     * Sets the payload error source
-     *
-     * @param string $source
-     *
-     * @return Response
-     */
-    public function setPayloadErrorSource(string $source): Response
-    {
         $this->payloadErrorSource = $source;
 
         return $this;
@@ -87,23 +73,14 @@ class Response extends PhResponse
     /**
      * Sets the payload code as Error
      *
-     * @return Response
-     */
-    public function setPayloadStatusError(): Response
-    {
-        $this->payloadCode = self::STATUS_ERROR;
-
-        return $this;
-    }
-
-    /**
-     * Sets the payload code as Success
+     * @param null|string|array $content The content
      *
      * @return Response
      */
-    public function setPayloadStatusSuccess(): Response
+    public function setPayloadSuccess($content = []): Response
     {
         $this->payloadCode = self::STATUS_SUCCESS;
+        $this->setPayloadContent($content);
 
         return $this;
     }

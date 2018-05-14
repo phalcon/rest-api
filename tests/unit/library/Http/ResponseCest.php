@@ -14,8 +14,7 @@ class ResponseCest
         $response = new Response();
 
         $response
-            ->setPayloadStatusSuccess()
-            ->setPayloadContent('test');
+            ->setPayloadSuccess('test');
 
         $contents = $response->getContent();
         $I->assertTrue(is_string($contents));
@@ -31,8 +30,7 @@ class ResponseCest
         $response = new Response();
 
         $response
-            ->setPayloadStatusSuccess()
-            ->setPayloadContent(['a' => 'b']);
+            ->setPayloadSuccess(['a' => 'b']);
 
         $payload = $this->checkPayload($I, $response);
 
@@ -45,7 +43,7 @@ class ResponseCest
         $response = new Response();
 
         $response
-            ->setPayloadStatusError()
+            ->setPayloadError()
             ->setPayloadContent('error content');
 
         $payload = $this->checkPayload($I, $response);
@@ -59,9 +57,7 @@ class ResponseCest
         $response = new Response();
 
         $response
-            ->setPayloadStatusError()
-            ->setPayloadErrorSource('error source')
-            ->setPayloadErrorDetail('error detail')
+            ->setPayloadError('error source', 'error detail')
             ->setPayloadContent('error content');
 
         $payload = $this->checkPayload($I, $response);

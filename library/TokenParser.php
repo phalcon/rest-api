@@ -54,12 +54,7 @@ class TokenParser
                     throw new Exception('Invalid Token');
                 }
             } catch (Exception $ex) {
-                $this
-                    ->response
-                    ->setError('Auth', $ex->getMessage())
-                    ->setPayloadContent()
-                    ->send()
-                ;
+                $this->response->sendError('Auth', $ex->getMessage());
 
                 return false;
             }

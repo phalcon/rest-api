@@ -39,12 +39,7 @@ class LoginController extends Controller
              */
             return ['token' => $user->get('usr_token')];
         } catch (Exception $ex) {
-            $this
-                ->response
-                ->setPayloadStatusError()
-                ->setPayloadErrorSource('Login')
-                ->setPayloadErrorDetail($ex->getMessage())
-            ;
+            $this->response->setPayloadError('Login', $ex->getMessage());
         }
     }
 }

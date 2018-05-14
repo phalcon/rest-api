@@ -7,5 +7,6 @@ modules:
   enabled:
     - Asserts
     - Helper\Api
+    - \Helper\Integration
     - REST:
         depends: Phalcon

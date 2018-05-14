@@ -2,6 +2,7 @@
 
 namespace Niden\Middleware;
 
+use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Phalcon\Events\Event;
 use Phalcon\Http\Request;
@@ -27,13 +28,18 @@ class PayloadMiddleware implements MiddlewareInterface
     {
         /** @var Request $request */
         $request = $api->getService('request');
+        /** @var Response $response */
+        $response = $api->getService('response');
         if (true === $request->isPost()) {
-            json_decode($request->getRawBody());
-            if (JSON_ERROR_NONE !== json_last_error()) {
+            try {
+                $data = json_decode($request->getRawBody(), true);
+                $this->checkJson();
+                $this->checkDataElement($data);
+                $this->parsePayload($data);
+            } catch (Exception $ex) {
                 /** @var Response $response */
-                $response = $api->getService('response');
                 $response
-                    ->setError($event->getType(), 'Malformed JSON')
+                    ->setError($event->getType(), $ex->getMessage())
                     ->setPayloadContent()
                     ->send()
                 ;
@@ -41,6 +47,8 @@ class PayloadMiddleware implements MiddlewareInterface
                 return false;
             }
         }
+
+        return true;
     }
 
     /**
@@ -53,5 +61,41 @@ class PayloadMiddleware implements MiddlewareInterface
     public function call(Micro $api)
     {
         return true;
+    }
+
+    /**
+     * Checks if the 'data' element has been sent
+     *
+     * @param array $data
+     *
+     * @throws Exception
+     */
+    private function checkDataElement(array $data)
+    {
+        if (true !== isset($data['data'])) {
+            throw new Exception('"data" element not present in the payload');
+        }
+    }
+
+    /**
+     * Check if we have a JSON error
+     *
+     * @throws Exception
+     */
+    private function checkJson()
+    {
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new Exception('Malformed JSON');
+        }
+    }
+
+    /**
+     * Parses the payload and injects the posted data in the POST array
+     *
+     * @param array $data
+     */
+    private function parsePayload(array $data)
+    {
+        $_POST = $data['data'];
     }
 }

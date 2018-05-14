@@ -25,7 +25,7 @@ class ErrorHandlerProvider implements ServiceProviderInterface
         $config  = $container->getShared('config');
 
         date_default_timezone_set($config->path('app.timezone'));
-        ini_set('display_errors', $config->path('app.devMode'));
+        ini_set('display_errors', false);
         error_reporting(E_ALL);
 
         $handler = new ErrorHandler($logger, $config);

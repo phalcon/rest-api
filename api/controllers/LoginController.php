@@ -37,8 +37,7 @@ class LoginController extends Controller
             /**
              * User found - Return token
              */
-
-            return 'mytoken ' . $user->get('usr_token');
+            return ['token' => $user->get('usr_token')];
         } catch (Exception $ex) {
             $this
                 ->response

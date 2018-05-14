@@ -31,7 +31,7 @@ class ErrorHandlerCest
         $config = $diContainer->getShared('config');
 
         $I->assertEquals(date_default_timezone_get(), $config->path('app.timezone'));
-        $I->assertEquals(ini_get('display_errors'), $config->path('app.devMode'));
+        $I->assertEquals(ini_get('display_errors'), false);
         $I->assertEquals(E_ALL, ini_get('error_reporting'));
     }
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace Niden;
+namespace Niden\Token;
 
 use Lcobucci\JWT\Parser;
 use Niden\Exception\Exception;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Http\Response;
-use Niden\Token\Validation;
 use Niden\Traits\UserTrait;
 
 /**
@@ -18,7 +17,7 @@ use Niden\Traits\UserTrait;
  * @property Request  $request
  * @property Response $response
  */
-class TokenParser
+class Parse
 {
     use UserTrait;
 

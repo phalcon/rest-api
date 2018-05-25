@@ -10,18 +10,6 @@ use Phalcon\Mvc\Model as PhModel;
 
 abstract class AbstractModel extends PhModel
 {
-    /** @var array */
-    protected $belong = [];
-
-    /** @var array */
-    protected $many = [];
-
-    /** @var array */
-    protected $manyToMany = [];
-
-    /** @var array */
-    protected $one = [];
-
     /**
      * Master initializer
      */
@@ -29,7 +17,7 @@ abstract class AbstractModel extends PhModel
     {
         $this->setup(
             [
-                'phqlLiterals'       => true,
+                'phqlLiterals'       => false,
                 'notNullValidations' => false,
             ]
         );
@@ -38,11 +26,6 @@ abstract class AbstractModel extends PhModel
 
         $eventsManager = $this->getDI()->getShared('eventsManager');
         $this->setEventsManager($eventsManager);
-
-        $this->setRelationships('hasOne', $this->one);
-        $this->setRelationships('hasMany', $this->many);
-        $this->setRelationships('belongsTo', $this->belong);
-        $this->setRelationships('hasManyToMany', $this->manyToMany);
     }
 
     /**
@@ -179,24 +162,6 @@ abstract class AbstractModel extends PhModel
             return $filterService->sanitize($value, $filter);
         } else {
             return $value;
-        }
-    }
-
-    /**
-     * Loops through the set relationship arrays and calls the relevant function
-     *
-     * @param string $method
-     * @param array  $relationships
-     */
-    private function setRelationships(string $method, array $relationships)
-    {
-        foreach ($relationships as $relationship) {
-            $lastElement = end($relationship);
-            $key         = key($relationship);
-
-            $relationship[$key] = $this->getRelationshipOptions($lastElement);
-
-            call_user_func_array([$this, $method], $relationship);
         }
     }
 }

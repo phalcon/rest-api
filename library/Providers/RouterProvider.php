@@ -84,7 +84,7 @@ class RouterProvider implements ServiceProviderInterface
         return [
             NotFoundMiddleware::class => 'before',
             PayloadMiddleware::class  => 'before',
-            TokenMiddleware::class    => 'before',
+//            TokenMiddleware::class    => 'before',
             ResponseMiddleware::class => 'after',
         ];
     }

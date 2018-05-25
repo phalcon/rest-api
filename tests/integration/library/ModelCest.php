@@ -47,7 +47,6 @@ class ModelCest
      */
     public function modelGetSetFields(IntegrationTester $I)
     {
-        /** @var Users $result */
         $user = $I->haveRecordWithFields(
             Users::class,
             [
@@ -61,18 +60,7 @@ class ModelCest
             ]
         );
 
-        $I->seeRecord(
-            Users::class,
-            [
-                'usr_id'          => 1000,
-                'usr_username'    => 'testusername',
-                'usr_password'    => 'testpass',
-                'usr_status_flag' => 1,
-                'usr_domain_name' => 'phalconphp.com',
-                'usr_token'       => '12345',
-                'usr_token_id'    => '00110011',
-            ]
-        );
+        $I->assertEquals(1000, $user->get('usr_id'));
     }
 
     /**

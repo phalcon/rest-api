@@ -3,21 +3,18 @@
 namespace Niden\Middleware;
 
 use Niden\Exception\Exception;
-use Niden\Token\Parse;
+use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Traits\UserTrait;
-use Niden\Http\Request;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 /**
- * Class TokenMiddleware
+ * Class AuthenticationMiddleware
  *
  * @package Niden\Middleware
- *
- * @property Response $response
  */
-class TokenMiddleware implements MiddlewareInterface
+class AuthenticationMiddleware implements MiddlewareInterface
 {
     use UserTrait;
 
@@ -30,15 +27,16 @@ class TokenMiddleware implements MiddlewareInterface
      */
     public function call(Micro $api)
     {
-        try {
-            /** @var Request $request */
-            $request  = $api->getService('request');
-            /** @var Response $response */
-            $response = $api->getService('response');
+        /** @var Request $request */
+        $request  = $api->getService('request');
+        /** @var Response $response */
+        $response = $api->getService('response');
 
-            return (new Parse($request, $response))->call();
-        } catch (Exception $ex) {
-            $this->response->sendError('Auth', $ex->getMessage());
+        $uri   = $request->getURI();
+        $token = $request->getBearerTokenFromHeader();
+
+        if ('/' !== $uri && '/login' !== $uri && true === empty($token)) {
+            $response->sendError('Auth', 'Authentication Error');
 
             return false;
         }

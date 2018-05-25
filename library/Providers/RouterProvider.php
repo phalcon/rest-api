@@ -3,12 +3,12 @@
 namespace Niden\Providers;
 
 use Niden\Api\Controllers\IndexController;
+use Niden\Api\Controllers\UserGetController;
 use Niden\Api\Controllers\LoginController;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\ResponseMiddleware;
-//use Niden\Middleware\TokenMiddleware;
-use Niden\Middleware\TokenMiddleware;
+use Niden\Middleware\AuthenticationMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
@@ -82,10 +82,10 @@ class RouterProvider implements ServiceProviderInterface
     private function getMiddleware(): array
     {
         return [
-            NotFoundMiddleware::class => 'before',
-            PayloadMiddleware::class  => 'before',
-//            TokenMiddleware::class    => 'before',
-            ResponseMiddleware::class => 'after',
+            NotFoundMiddleware::class       => 'before',
+            PayloadMiddleware::class        => 'before',
+            AuthenticationMiddleware::class => 'before',
+            ResponseMiddleware::class       => 'after',
         ];
     }
 
@@ -101,6 +101,7 @@ class RouterProvider implements ServiceProviderInterface
             [IndexController::class, '', 'get', '/', 'indexAction'],
             [IndexController::class, '', 'post', '/', 'indexAction'],
             [LoginController::class, '', 'post', '/login', 'indexAction'],
+            [UserGetController::class, '/user', 'post', '/get', 'getAction'],
         ];
     }
 }

@@ -8,6 +8,7 @@ use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\ResponseMiddleware;
 //use Niden\Middleware\TokenMiddleware;
+use Niden\Middleware\TokenMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
@@ -83,7 +84,7 @@ class RouterProvider implements ServiceProviderInterface
         return [
             NotFoundMiddleware::class => 'before',
             PayloadMiddleware::class  => 'before',
-//            TokenMiddleware::class    => 'before',
+            TokenMiddleware::class    => 'before',
             ResponseMiddleware::class => 'after',
         ];
     }

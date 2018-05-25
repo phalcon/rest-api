@@ -6,6 +6,7 @@ use function microtime;
 use function Niden\Functions\appPath;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Di\FactoryDefault\Cli;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Micro;
 
@@ -14,17 +15,16 @@ abstract class AbstractBootstrap
     /** @var Micro|Console */
     protected $application;
 
-    /** @var FactoryDefault */
-    protected $container = null;
+    /** @var FactoryDefault|Cli */
+    protected $container;
 
     /**
      * Runs the application
      *
-     * @return Micro|Console|string
+     * @return mixed
      */
     public function run()
     {
-        $this->container = new FactoryDefault();
         $this->container->set('metrics', microtime(true));
         $this->setupApplication();
         $this->registerServices();

@@ -2,14 +2,24 @@
 
 namespace Niden\Bootstrap;
 
-use Phalcon\Mvc\Micro;
+use Phalcon\Di\FactoryDefault;
 
 class Api extends AbstractBootstrap
 {
     /**
+     * @return mixed
+     */
+    public function run()
+    {
+        $this->container = new FactoryDefault();
+
+        return parent::run();
+    }
+
+    /**
      * Run the application
      *
-     * @return Micro|string|void
+     * @return mixed
      */
     protected function runApplication()
     {

@@ -2,15 +2,12 @@
 
 namespace Niden\Bootstrap;
 
-use Phalcon\Cli\Console;
-use Phalcon\Mvc\Micro;
-
-class Tests extends AbstractBootstrap
+class Tests extends Api
 {
     /**
      * Run the application
      *
-     * @return Micro|Console|string|void
+     * @return mixed
      */
     protected function runApplication()
     {

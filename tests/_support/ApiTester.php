@@ -37,7 +37,6 @@ class ApiTester extends \Codeception\Actor
                 'data'    => 'array',
                 'errors'  => [
                     'code'   => 'integer',
-                    'source' => 'string',
                     'detail' => 'string',
                 ],
                 'meta'    => [

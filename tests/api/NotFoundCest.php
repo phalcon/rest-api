@@ -19,7 +19,6 @@ class NotFoundCest
                 'data'   => [],
                 'errors' => [
                     'code'   => Response::STATUS_ERROR,
-                    'source' => '',
                     'detail' => '404 Not Found',
                 ],
             ]

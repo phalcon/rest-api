@@ -9,7 +9,7 @@ modules:
     - Helper\Api
     - \Helper\Integration
     - PhpBrowser:
-        url: 'http://api.phalcon.ld'
+        url: 'http://%APP_IP%'
     - REST:
         depends: PhpBrowser
 #        depends: Phalcon

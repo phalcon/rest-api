@@ -14,7 +14,6 @@ try {
 
     /** @var Response $response */
     $response = $bootstrap->getResponse();
-    $response->setPayloadSuccess($application->getReturnedValue());
 } catch (\Exception $ex) {
     /** @var Response $response */
     $response = $bootstrap->getResponse();

@@ -4,7 +4,3 @@ modules:
     - Asserts
     - Filesystem
     - \Helper\Integration
-    - Phalcon:
-        bootstrap: "api/public/index.php"
-        cleanup: false
-        savepoints: false

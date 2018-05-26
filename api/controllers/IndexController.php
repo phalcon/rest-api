@@ -2,12 +2,17 @@
 
 namespace Niden\Api\Controllers;
 
+use Niden\Http\Response;
 use Phalcon\Mvc\Controller;
+use function pi;
+use function round;
 
 /**
  * Class IndexController
  *
  * @package Niden\Api\Controllers
+ *
+ * @property Response $response
  */
 class IndexController extends Controller
 {
@@ -19,13 +24,6 @@ class IndexController extends Controller
         /**
          * Send some random text out - why not
          */
-        $digits    = intval(rand(2, 24));
-        $precision = ini_get('precision');
-
-        ini_set('precision', $digits);
-        $pi = pi();
-        ini_set('precision', $precision);
-
-        return $pi;
+        $this->response->setPayloadContent(round(pi(), 4));
     }
 }

@@ -76,7 +76,6 @@ class UserCest
                 ],
                 'errors' => [
                     'code'   => Response::STATUS_SUCCESS,
-                    'source' => '',
                     'detail' => '',
                 ],
             ]
@@ -105,7 +104,6 @@ class UserCest
                 ],
                 'errors' => [
                     'code'   => Response::STATUS_SUCCESS,
-                    'source' => '',
                     'detail' => '',
                 ],
             ]

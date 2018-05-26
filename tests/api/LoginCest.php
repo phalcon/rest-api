@@ -28,7 +28,6 @@ class LoginCest
                 'data'   => [],
                 'errors' => [
                     'code'   => Response::STATUS_ERROR,
-                    'source' => 'beforeExecuteRoute',
                     'detail' => '"data" element not present in the payload',
                 ],
             ]
@@ -57,7 +56,6 @@ class LoginCest
                 'data'   => [],
                 'errors' => [
                     'code'   => Response::STATUS_ERROR,
-                    'source' => 'Login',
                     'detail' => 'Incorrect credentials',
                 ],
             ]
@@ -101,7 +99,6 @@ class LoginCest
                 ],
                 'errors' => [
                     'code'   => Response::STATUS_SUCCESS,
-                    'source' => '',
                     'detail' => '',
                 ],
             ]

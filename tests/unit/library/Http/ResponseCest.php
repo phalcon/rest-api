@@ -57,14 +57,13 @@ class ResponseCest
         $response = new Response();
 
         $response
-            ->setPayloadError('error source', 'error detail')
+            ->setPayloadError('error detail')
             ->setPayloadContent('error content');
 
         $payload = $this->checkPayload($I, $response);
 
         $I->assertEquals(Response::STATUS_ERROR, $payload['errors']['code']);
         $I->assertEquals(['error content'], $payload['data']);
-        $I->assertEquals('error source', $payload['errors']['source']);
         $I->assertEquals('error detail', $payload['errors']['detail']);
     }
 

@@ -40,9 +40,9 @@ extensions:
 modules:
   config:
     Phalcon:
-      bootstrap: 'tests/_ci/bootstrap.php'
-      cleanup: true
-      savepoints: true
+      bootstrap: "api/public/index.php"
+      cleanup: false
+      savepoints: false
     DB:
       dsn: 'mysql:host=%DATA_API_MYSQL_HOST%;dbname=%DATA_API_MYSQL_NAME%'
       user: '%DATA_API_MYSQL_USER%'

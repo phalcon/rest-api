@@ -23,7 +23,6 @@ class IncorrectPayloadCest
                 'data'   => [],
                 'errors' => [
                     'code'   => Response::STATUS_ERROR,
-                    'source' => 'beforeExecuteRoute',
                     'detail' => 'Malformed JSON',
                 ],
             ]

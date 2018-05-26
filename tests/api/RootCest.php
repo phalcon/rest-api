@@ -10,10 +10,9 @@ class RootCest
     public function checkDefaultRoute(ApiTester $I)
     {
         $I->sendGET('/');
-        $I->seeResponseIsSuccessful();
+//        $I->seeResponseIsSuccessful();
         $response = $I->grabResponse();
         $response = json_decode($response, true);
-        $pi = floatval(substr($response['data'][0], 0, 4));
-        $I->assertEquals(3.14, $pi);
+        $I->assertEquals(3.1416, $response['data'][0]);
     }
 }

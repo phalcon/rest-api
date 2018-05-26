@@ -30,10 +30,10 @@ class PayloadMiddleware implements MiddlewareInterface
         /** @var Request $request */
         $request = $api->getService('request');
         if (true === $request->isPost()) {
-                $data = json_decode($request->getRawBody(), true);
-                $this->checkJson();
-                $this->checkDataElement($data);
-                $this->parsePayload($data);
+            $data = json_decode($request->getRawBody(), true);
+            $this->checkJson();
+            $this->checkDataElement($data);
+            $this->parsePayload($data);
         }
 
         return true;

@@ -2,7 +2,7 @@
 
 namespace Niden\Api\Controllers;
 
-use Niden\Exception\Exception;
+use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Traits\UserTrait;
 use Phalcon\Filter;
@@ -22,24 +22,24 @@ class LoginController extends Controller
     /**
      * Default action for integrations
      */
+    /**
+     * @return array
+     * @throws ModelException
+     */
     public function indexAction()
     {
-        try {
-            $username = $this->request->getPost('username', Filter::FILTER_STRING);
-            $password = $this->request->getPost('password', Filter::FILTER_STRING);
+        $username = $this->request->getPost('username', Filter::FILTER_STRING);
+        $password = $this->request->getPost('password', Filter::FILTER_STRING);
 
-            $user = $this->getUserByUsernameAndPassword(
-                $username,
-                $password,
-                'Incorrect credentials'
-            );
+        $user = $this->getUserByUsernameAndPassword(
+            $username,
+            $password,
+            'Incorrect credentials'
+        );
 
-            /**
-             * User found - Return token
-             */
-            return ['token' => $user->get('usr_token')];
-        } catch (Exception $ex) {
-            $this->response->setPayloadError('Login', $ex->getMessage());
-        }
+        /**
+         * User found - Return token
+         */
+        $this->response->setPayloadContent(['token' => $user->get('usr_token')]);
     }
 }

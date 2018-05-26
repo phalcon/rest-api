@@ -18,54 +18,17 @@ class Response extends PhResponse
     /** @var string  */
     protected $payloadErrorDetail = '';
 
-    /** @var string  */
-    protected $payloadErrorSource = '';
-
-    /**
-     * Send an error response
-     *
-     * @param string $source
-     * @param string $detail
-     *
-     * @return PhResponse
-     */
-    public function sendError(string $source = '', string $detail = ''): PhResponse
-    {
-        $this
-            ->setPayloadError($source, $detail)
-            ->setPayloadContent()
-        ;
-
-        return $this->send();
-    }
-
-    /**
-     * Send a successful response
-     *
-     * @param array $content
-     *
-     * @return PhResponse
-     */
-    public function sendSuccess(array $content): PhResponse
-    {
-        $this->setPayloadSuccess($content);
-
-        return $this->send();
-    }
-
     /**
      * Sets the payload code as Error
      *
-     * @param string $source
      * @param string $detail
      *
      * @return Response
      */
-    public function setPayloadError(string $source = '', string $detail = ''): Response
+    public function setPayloadError(string $detail = ''): Response
     {
         $this->payloadCode        = self::STATUS_ERROR;
         $this->payloadErrorDetail = $detail;
-        $this->payloadErrorSource = $source;
         $this->setPayloadContent();
 
         return $this;
@@ -127,7 +90,6 @@ class Response extends PhResponse
             'data'   => $data,
             'errors' => [
                 'code'   => $this->payloadCode,
-                'source' => $this->payloadErrorSource,
                 'detail' => $this->payloadErrorDetail,
             ],
             'meta'   => [

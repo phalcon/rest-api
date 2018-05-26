@@ -2,7 +2,6 @@
 
 namespace Niden\Api\Controllers;
 
-use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Traits\UserTrait;
 use Phalcon\Mvc\Controller;
@@ -23,13 +22,9 @@ class UserGetController extends Controller
      */
     public function getAction()
     {
-        try {
-            /**
-             * User found - Return token
-             */
-            return 'Hello';
-        } catch (Exception $ex) {
-            $this->response->setPayloadError('User', $ex->getMessage());
-        }
+        /**
+         * User found - Return token
+         */
+        return 'Hello';
     }
 }

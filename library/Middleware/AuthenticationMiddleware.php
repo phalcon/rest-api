@@ -2,7 +2,6 @@
 
 namespace Niden\Middleware;
 
-use Niden\Exception\Exception;
 use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Traits\UserTrait;

@@ -4,6 +4,7 @@ namespace Niden\Bootstrap;
 
 use function microtime;
 use function Niden\Functions\appPath;
+use Niden\Http\Response;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli;
@@ -19,17 +20,42 @@ abstract class AbstractBootstrap
     protected $container;
 
     /**
-     * Runs the application
-     *
+     * @return Console|Micro
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+
+    /**
+     * @return FactoryDefault|Cli
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @return Response
+     */
+    public function getResponse()
+    {
+        return $this->container->getShared('response');
+    }
+
+    /**
      * @return mixed
      */
-    public function run()
+    abstract public function run();
+
+    /**
+     * Runs the application
+     */
+    public function setup()
     {
         $this->container->set('metrics', microtime(true));
         $this->setupApplication();
         $this->registerServices();
-
-        return $this->runApplication();
     }
 
     /**
@@ -60,9 +86,4 @@ abstract class AbstractBootstrap
             (new $provider())->register($this->container);
         }
     }
-
-    /**
-     * @return Micro|Console|string
-     */
-    abstract protected function runApplication();
 }

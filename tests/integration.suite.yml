@@ -5,6 +5,6 @@ modules:
     - Filesystem
     - \Helper\Integration
     - Phalcon:
-        bootstrap: "tests/_config/bootstrap.php"
+        bootstrap: "api/public/index.php"
         cleanup: false
         savepoints: false

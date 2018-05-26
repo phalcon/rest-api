@@ -6,7 +6,7 @@ use Codeception\Module;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\TestInterface;
 
-use Niden\Bootstrap\Tests;
+use Niden\Bootstrap\Api;
 use Niden\Mvc\Model\AbstractModel;
 use Phalcon\DI\FactoryDefault as PhDI;
 use Phalcon\Config as PhConfig;
@@ -31,10 +31,9 @@ class Integration extends Module
     {
         PhDI::reset();
 
-        $app = new Tests();
-        $app->run();
-
-        $this->diContainer = PhDI::getDefault();
+        $app = new Api();
+        $app->setup();
+        $this->diContainer = $app->getContainer();
 
         if ($this->config['rollback']) {
             $this->diContainer->get('db')->begin();

@@ -2,8 +2,8 @@
 
 namespace Niden\Middleware;
 
+use Niden\Exception\Exception;
 use Niden\Http\Request;
-use Niden\Http\Response;
 use Niden\Traits\UserTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
@@ -23,22 +23,21 @@ class AuthenticationMiddleware implements MiddlewareInterface
      * @param Micro $api
      *
      * @return bool
+     * @throws Exception
      */
     public function call(Micro $api)
     {
         /** @var Request $request */
         $request  = $api->getService('request');
-        /** @var Response $response */
-        $response = $api->getService('response');
 
         $uri   = $request->getURI();
         $token = $request->getBearerTokenFromHeader();
 
         if ('/' !== $uri && '/login' !== $uri && true === empty($token)) {
-            $response->sendError('Auth', 'Authentication Error');
-
-            return false;
+            throw new Exception('Invalid Token');
         }
+
+        return true;
     }
 }
 

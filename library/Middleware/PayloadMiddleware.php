@@ -23,25 +23,17 @@ class PayloadMiddleware implements MiddlewareInterface
      * @param Micro $api
      *
      * @return bool
+     * @throws Exception
      */
     public function beforeExecuteRoute(Event $event, Micro $api)
     {
         /** @var Request $request */
         $request = $api->getService('request');
-        /** @var Response $response */
-        $response = $api->getService('response');
         if (true === $request->isPost()) {
-            try {
                 $data = json_decode($request->getRawBody(), true);
                 $this->checkJson();
                 $this->checkDataElement($data);
                 $this->parsePayload($data);
-            } catch (Exception $ex) {
-                /** @var Response $response */
-                $response->sendError($event->getType(), $ex->getMessage());
-
-                return false;
-            }
         }
 
         return true;

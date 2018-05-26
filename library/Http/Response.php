@@ -66,6 +66,7 @@ class Response extends PhResponse
         $this->payloadCode        = self::STATUS_ERROR;
         $this->payloadErrorDetail = $detail;
         $this->payloadErrorSource = $source;
+        $this->setPayloadContent();
 
         return $this;
     }

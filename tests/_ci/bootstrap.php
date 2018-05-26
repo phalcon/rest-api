@@ -4,4 +4,7 @@ use Niden\Bootstrap\Tests;
 
 require_once __DIR__ . '/../../config/autoload.php';
 
-return (new Tests())->run();
+$bootstrap = new Tests();
+$bootstrap->setup();
+
+return $bootstrap->run();

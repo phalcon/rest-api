@@ -9,7 +9,7 @@ class Tests extends Api
      *
      * @return mixed
      */
-    protected function runApplication()
+    public function run()
     {
         return $this->application;
     }

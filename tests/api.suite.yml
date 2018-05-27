@@ -8,8 +8,5 @@ modules:
     - Asserts
     - Helper\Api
     - \Helper\Integration
-    - PhpBrowser:
-        url: 'http://%APP_IP%'
     - REST:
-        depends: PhpBrowser
-#        depends: Phalcon
+        depends: Phalcon

@@ -3,6 +3,7 @@
 namespace Niden\Tests\api;
 
 use ApiTester;
+use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Models\Users;
 
@@ -10,55 +11,39 @@ class LoginCest
 {
     public function loginNoDataElement(ApiTester $I)
     {
-        $I->sendPOST(
-            '/login',
-            json_encode(
-                [
-                    'username' => 'user',
-                    'password' => 'pass',
-                ]
-            )
-        );
-        $I->seeResponseIsSuccessful();
-        $I->seeResponseContainsJson(
-            [
-                'jsonapi' => [
-                    'version' => '1.0',
-                ],
-                'data'   => [],
-                'errors' => [
-                    'code'   => Response::STATUS_ERROR,
-                    'detail' => '"data" element not present in the payload',
-                ],
-            ]
+        $I->expectException(
+            new Exception('"data" element not present in the payload'),
+            function () use ($I) {
+                $I->sendPOST(
+                    '/login',
+                    json_encode(
+                        [
+                            'username' => 'user',
+                            'password' => 'pass',
+                        ]
+                    )
+                );
+            }
         );
     }
 
     public function loginUnknownUser(ApiTester $I)
     {
-        $I->sendPOST(
-            '/login',
-            json_encode(
-                [
-                    'data' => [
-                        'username' => 'user',
-                        'password' => 'pass',
-                    ]
-                ]
-            )
-        );
-        $I->seeResponseIsSuccessful();
-        $I->seeResponseContainsJson(
-            [
-                'jsonapi' => [
-                    'version' => '1.0',
-                ],
-                'data'   => [],
-                'errors' => [
-                    'code'   => Response::STATUS_ERROR,
-                    'detail' => 'Incorrect credentials',
-                ],
-            ]
+        $I->expectException(
+            new Exception('Incorrect credentials'),
+            function () use ($I) {
+                $I->sendPOST(
+                    '/login',
+                    json_encode(
+                        [
+                            'data' => [
+                                'username' => 'user',
+                                'password' => 'pass',
+                            ]
+                        ]
+                    )
+                );
+            }
         );
     }
 

@@ -3,40 +3,31 @@
 namespace Niden\Tests\api;
 
 use ApiTester;
+use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Models\Users;
 
 class UserCest
 {
-//    public function loginKnownUserIncorrectToken(ApiTester $I)
-//    {
-//        $I->deleteHeader('Authorization');
-//        $I->sendPOST(
-//            '/user/get',
-//            json_encode(
-//                [
-//                    'data' => [
-//                        'userId' => 1,
-//                    ]
-//                ]
-//            )
-//        );
-//
-//        $I->seeResponseIsSuccessful();
-//        $I->seeResponseContainsJson(
-//            [
-//                'jsonapi' => [
-//                    'version' => '1.0',
-//                ],
-//                'data'   => [],
-//                'errors' => [
-//                    'code'   => Response::STATUS_ERROR,
-//                    'source' => 'Auth',
-//                    'detail' => 'Authentication Error',
-//                ],
-//            ]
-//        );
-//    }
+    public function loginKnownUserIncorrectToken(ApiTester $I)
+    {
+        $I->expectException(
+            new Exception('Invalid Token'),
+            function () use ($I) {
+                $I->deleteHeader('Authorization');
+                $I->sendPOST(
+                    '/user/get',
+                    json_encode(
+                        [
+                            'data' => [
+                                'userId' => 1,
+                            ]
+                        ]
+                    )
+                );
+            }
+        );
+    }
 
     public function loginKnownUserCorrectToken(ApiTester $I)
     {

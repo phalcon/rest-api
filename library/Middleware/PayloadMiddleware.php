@@ -25,7 +25,7 @@ class PayloadMiddleware implements MiddlewareInterface
      * @return bool
      * @throws Exception
      */
-    public function beforeExecuteRoute(Event $event, Micro $api)
+    public function beforeExecuteRoute(/** @scrutinizer ignore-unused */Event $event, Micro $api)
     {
         /** @var Request $request */
         $request = $api->getService('request');

@@ -28,10 +28,9 @@ class AuthenticationMiddleware implements MiddlewareInterface
     public function call(Micro $api)
     {
         /** @var Request $request */
-        $request  = $api->getService('request');
-
-        $uri   = $request->getURI();
-        $token = $request->getBearerTokenFromHeader();
+        $request = $api->getService('request');
+        $uri     = $request->getURI();
+        $token   = $request->getBearerTokenFromHeader();
 
         if (true === $request->isPost() && '/login' !== $uri && true === empty($token)) {
             throw new Exception('Invalid Token');
@@ -40,5 +39,3 @@ class AuthenticationMiddleware implements MiddlewareInterface
         return true;
     }
 }
-
-// eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIiwianRpIjoiYWFhYWFhIn0.eyJpc3MiOiJodHRwczpcL1wvcGhhbGNvbnBocC5jb20iLCJhdWQiOiJodHRwczpcL1wvbmlkZW4ubmV0IiwianRpIjoiYWFhYWFhIiwiaWF0IjoxNTI3MjgyMzYyLCJuYmYiOjE1MjcyODI0MjIsImV4cCI6MTUyNzI4NTk2MiwidWlkIjoxfQ

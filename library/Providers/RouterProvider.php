@@ -5,6 +5,7 @@ namespace Niden\Providers;
 use Niden\Api\Controllers\IndexController;
 use Niden\Api\Controllers\UserGetController;
 use Niden\Api\Controllers\LoginController;
+use Niden\Middleware\AuthorizationMiddleware;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\AuthenticationMiddleware;
@@ -84,6 +85,7 @@ class RouterProvider implements ServiceProviderInterface
             NotFoundMiddleware::class       => 'before',
             PayloadMiddleware::class        => 'before',
             AuthenticationMiddleware::class => 'before',
+            AuthorizationMiddleware::class  => 'before',
         ];
     }
 

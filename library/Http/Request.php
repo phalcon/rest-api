@@ -9,7 +9,7 @@ class Request extends PhRequest
     /**
      * @return string
      */
-    public function getBearerTokenFromHeader()
+    public function getBearerTokenFromHeader(): string
     {
         $header = $this->getHeader('Authorization');
         $bearer = sscanf($header, 'Bearer %s');

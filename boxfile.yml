@@ -57,6 +57,7 @@ run.config:
       - pdo_mysql
       - phalcon
       - session
+      - zip
     zend_extensions:
       - opcache
     dev_extensions:

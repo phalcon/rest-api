@@ -33,7 +33,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
         $uri   = $request->getURI();
         $token = $request->getBearerTokenFromHeader();
 
-        if ('/' !== $uri && '/login' !== $uri && true === empty($token)) {
+        if (true === $request->isPost() && '/login' !== $uri && true === empty($token)) {
             throw new Exception('Invalid Token');
         }
 

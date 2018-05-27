@@ -11,9 +11,6 @@ try {
     $application = $bootstrap->getApplication();
 
     $bootstrap->run();
-
-    /** @var Response $response */
-    $response = $bootstrap->getResponse();
 } catch (\Exception $ex) {
     /** @var Response $response */
     $response = $bootstrap->getResponse();
@@ -21,8 +18,5 @@ try {
 } finally {
     /** @var Response $response */
     $response = $bootstrap->getResponse();
-
-    if (true !== $response->isSent()) {
-        $response->send();
-    }
+    $response->send();
 }

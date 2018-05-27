@@ -40,6 +40,6 @@ class LoginController extends Controller
         /**
          * User found - Return token
          */
-        $this->response->setPayloadContent(['token' => $user->get('usr_token')]);
+        $this->response->setPayloadSuccess(['token' => $user->get('usr_token')]);
     }
 }

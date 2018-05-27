@@ -25,6 +25,6 @@ class UserGetController extends Controller
         /**
          * User found - Return token
          */
-        $this->response->setPayloadContent('Hello');
+        $this->response->setPayloadSuccess('Hello');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Niden\Api\Controllers;
 
+use Lcobucci\JWT\Builder;
 use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Traits\UserTrait;
@@ -37,9 +38,26 @@ class LoginController extends Controller
             'Incorrect credentials'
         );
 
+        $builder = new Builder();
+        $token   = $builder
+                        ->setIssuer('http://phalconphp.com')
+                        ->setAudience($user->get('usr_domain_name'))
+                        ->setId($user->get('usr_token_id'), true)
+                        ->setIssuedAt(time())
+                        ->setNotBefore(time() + 60)
+                        ->setExpiration(time() + 3600)
+                        ->getToken();
+
+        $stringToken = $token->__toString();
+
+        $result = $user
+                    ->set('usr_token', $stringToken)
+                    ->save();
+        $this->checkResult($result, 'Cannot update user record');
+
         /**
          * User found - Return token
          */
-        $this->response->setPayloadSuccess(['token' => $user->get('usr_token')]);
+        $this->response->setPayloadSuccess(['token' => $stringToken]);
     }
 }

@@ -3,6 +3,7 @@
 namespace Niden\Http;
 
 use Phalcon\Http\Request as PhRequest;
+use function str_replace;
 
 class Request extends PhRequest
 {
@@ -11,9 +12,6 @@ class Request extends PhRequest
      */
     public function getBearerTokenFromHeader(): string
     {
-        $header = $this->getHeader('Authorization');
-        $bearer = sscanf($header, 'Bearer %s');
-
-        return $bearer[0] ?? '';
+        return str_replace('Bearer ', '', $this->getHeader('Authorization'));
     }
 }

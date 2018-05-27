@@ -3,13 +3,14 @@
 namespace Niden\Tests\api;
 
 use ApiTester;
+use Lcobucci\JWT\Builder;
 use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Models\Users;
 
 class UserCest
 {
-    public function loginKnownUserIncorrectToken(ApiTester $I)
+    public function loginKnownUserNoToken(ApiTester $I)
     {
         $I->expectException(
             new Exception('Invalid Token'),
@@ -29,20 +30,56 @@ class UserCest
         );
     }
 
+    public function loginKnownUserIncorrectToken(ApiTester $I)
+    {
+        $I->expectException(
+            new Exception('Invalid Token'),
+            function () use ($I) {
+                $this->addRecord($I);
+
+                $I->deleteHeader('Authorization');
+                $I->sendPOST(
+                    '/login',
+                    json_encode(
+                        [
+                            'data' => [
+                                'username' => 'testuser',
+                                'password' => 'testpassword',
+                            ]
+                        ]
+                    )
+                );
+                $I->seeResponseIsSuccessful();
+                $I->seeResponseContainsJson(
+                    [
+                        'jsonapi' => [
+                            'version' => '1.0',
+                        ],
+                        'errors'  => [
+                            'code'   => Response::STATUS_SUCCESS,
+                            'detail' => '',
+                        ],
+                    ]
+                );
+
+                $I->haveHttpHeader('Authorization', 'Bearer abcde');
+                $I->sendPOST(
+                    '/user/get',
+                    json_encode(
+                        [
+                            'data' => [
+                                'userId' => 1,
+                            ]
+                        ]
+                    )
+                );
+            }
+        );
+    }
+
     public function loginKnownUserCorrectToken(ApiTester $I)
     {
-        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIiwianRpIjoiYWFhYWFhIn0.eyJpc3MiOiJodHRwczpcL1wvcGhhbGNvbnBocC5jb20iLCJhdWQiOiJodHRwczpcL1wvbmlkZW4ubmV0IiwianRpIjoiYWFhYWFhIiwiaWF0IjoxNTI3MjgyMzYyLCJuYmYiOjE1MjcyODI0MjIsImV4cCI6MTUyNzI4NTk2MiwidWlkIjoxfQ';
-        $I->haveRecordWithFields(
-            Users::class,
-            [
-                'usr_status_flag' => 1,
-                'usr_username'    => 'testuser',
-                'usr_password'    => 'testpassword',
-                'usr_domain_name' => 'https://phalconphp.com',
-                'usr_token'       => $token,
-                'usr_token_id'    => '110011',
-            ]
-        );
+        $this->addRecord($I);
 
         $I->deleteHeader('Authorization');
         $I->sendPOST(
@@ -57,20 +94,10 @@ class UserCest
             )
         );
         $I->seeResponseIsSuccessful();
-        $I->seeResponseContainsJson(
-            [
-                'jsonapi' => [
-                    'version' => '1.0',
-                ],
-                'data'   => [
-                    'token' => $token,
-                ],
-                'errors' => [
-                    'code'   => Response::STATUS_SUCCESS,
-                    'detail' => '',
-                ],
-            ]
-        );
+        $response = $I->grabResponse();
+        $response  = json_decode($response, true);
+        $data      = json_encode($response['data']);
+        $token     = $data['token'];
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendPOST(
@@ -100,4 +127,34 @@ class UserCest
             ]
         );
     }
+
+    private function addRecord(ApiTester $I)
+    {
+        $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_status_flag' => 1,
+                'usr_username'    => 'testuser',
+                'usr_password'    => 'testpassword',
+                'usr_domain_name' => 'https://niden.net',
+                'usr_token'       => '',
+                'usr_token_id'    => '110011',
+            ]
+        );
+    }
+//
+//    private function getToken()
+//    {
+//        $builder = new Builder();
+//        $token   = $builder
+//            ->setIssuer('https://phalconphp.com')
+//            ->setAudience('https://niden.net')
+//            ->setId('110011', true)
+//            ->setIssuedAt(time())
+//            ->setNotBefore(time() + 60)
+//            ->setExpiration(time() + 3600)
+//            ->getToken();
+//
+//        return $token->__toString();
+//    }
 }

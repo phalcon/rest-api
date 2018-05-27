@@ -36,7 +36,7 @@ class AuthorizationMiddleware implements MiddlewareInterface
         $uri     = $request->getURI();
         $token   = $request->getBearerTokenFromHeader();
 
-        if (true === $request->isPost() && '/login' !== $uri && true === empty($token)) {
+        if (true === $request->isPost() && '/login' !== $uri && true !== empty($token)) {
             /**
              * This is where we will validate the token that was sent to us
              * using Bearer Authentication

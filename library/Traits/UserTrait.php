@@ -67,10 +67,10 @@ trait UserTrait
      * @param        $result
      * @param string $message
      *
-     * @return Users
+     * @return mixed
      * @throws ModelException
      */
-    private function checkResult($result, string $message = 'Record not found'): Users
+    private function checkResult($result, string $message = 'Record not found')
     {
         if (false === $result) {
             throw new ModelException($message);

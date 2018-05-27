@@ -49,7 +49,6 @@ class LoginCest
 
     public function loginKnownUser(ApiTester $I)
     {
-        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIiwianRpIjoiYWFhYWFhIn0.eyJpc3MiOiJodHRwczpcL1wvcGhhbGNvbnBocC5jb20iLCJhdWQiOiJodHRwczpcL1wvbmlkZW4ubmV0IiwianRpIjoiYWFhYWFhIiwiaWF0IjoxNTI3MjgyMzYyLCJuYmYiOjE1MjcyODI0MjIsImV4cCI6MTUyNzI4NTk2MiwidWlkIjoxfQ';
         $I->haveRecordWithFields(
             Users::class,
             [
@@ -57,7 +56,7 @@ class LoginCest
                 'usr_username'    => 'testuser',
                 'usr_password'    => 'testpassword',
                 'usr_domain_name' => 'https://phalconphp.com',
-                'usr_token'       => $token,
+                'usr_token'       => '',
                 'usr_token_id'    => '110011',
             ]
         );
@@ -78,9 +77,6 @@ class LoginCest
             [
                 'jsonapi' => [
                     'version' => '1.0',
-                ],
-                'data'   => [
-                    'token' => $token,
                 ],
                 'errors' => [
                     'code'   => Response::STATUS_SUCCESS,

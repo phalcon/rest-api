@@ -2,6 +2,7 @@
 
 namespace Niden\Traits;
 
+use function explode;
 use Niden\Exception\ModelException;
 use Niden\Models\Users;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -24,10 +25,13 @@ trait UserTrait
      */
     protected function getUserByToken(string $token, string $message = 'Record not found'): Users
     {
+        list($pre, $mid, $post) = explode('.', $token);
         $builder = new Builder();
         $user    = $builder
             ->addFrom(Users::class)
-            ->andWhere('usr_token = :usr_token:', ['usr_token' => $token])
+            ->andWhere('usr_token_pre = :pre:', ['pre' => $pre])
+            ->andWhere('usr_token_mid = :mid:', ['mid' => $mid])
+            ->andWhere('usr_token_post = :post:', ['post' => $post])
             ->getQuery()
             ->setUniqueRow(true)
             ->execute()

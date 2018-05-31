@@ -2,6 +2,7 @@
 
 namespace Niden\Api\Controllers;
 
+use function explode;
 use Lcobucci\JWT\Builder;
 use Niden\Exception\ModelException;
 use Niden\Http\Response;
@@ -49,9 +50,11 @@ class LoginController extends Controller
                         ->getToken();
 
         $stringToken = $token->__toString();
-
+        list($pre, $mid, $post) = explode('.', $stringToken);
         $result = $user
-                    ->set('usr_token', $stringToken)
+                    ->set('usr_token_pre', $pre)
+                    ->set('usr_token_mid', $mid)
+                    ->set('usr_token_post', $post)
                     ->save();
         $this->checkResult($result, 'Cannot update user record');
 

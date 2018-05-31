@@ -94,39 +94,76 @@ class UserCest
             )
         );
         $I->seeResponseIsSuccessful();
+
+        $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
+        $dbToken = $record->get('usr_token_pre') . '.'
+                 . $record->get('usr_token_mid') . '.'
+                 . $record->get('usr_token_post');
+
         $response = $I->grabResponse();
         $response  = json_decode($response, true);
-        $data      = json_encode($response['data']);
+        $data      = $response['data'];
         $token     = $data['token'];
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(
-            '/user/get',
-            json_encode(
-                [
-                    'data' => [
-                        'userId' => 1,
-                    ]
-                ]
-            )
-        );
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIsSuccessful();
-        $I->seeResponseContainsJson(
-            [
-                'jsonapi' => [
-                    'version' => '1.0',
-                ],
-                'data'   => [
-                    'Hello',
-                ],
-                'errors' => [
-                    'code'   => Response::STATUS_SUCCESS,
-                    'detail' => '',
-                ],
-            ]
-        );
+        $I->assertEquals($dbToken, $token);
     }
+
+//    public function loginKnownUserValidToken(ApiTester $I)
+//    {
+//        $this->addRecord($I);
+//
+//        $I->deleteHeader('Authorization');
+//        $I->sendPOST(
+//            '/login',
+//            json_encode(
+//                [
+//                    'data' => [
+//                        'username' => 'testuser',
+//                        'password' => 'testpassword',
+//                    ]
+//                ]
+//            )
+//        );
+//        $I->seeResponseIsSuccessful();
+//
+//        $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
+//        $dbToken = $record->get('usr_token_pre') . '.'
+//                 . $record->get('usr_token_mid') . '.'
+//                 . $record->get('usr_token_post');
+//
+//        $response = $I->grabResponse();
+//        $response  = json_decode($response, true);
+//        $data      = $response['data'];
+//        $token     = $data['token'];
+//        $I->assertEquals($dbToken, $token);
+//
+//        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+//        $I->sendPOST(
+//            '/user/get',
+//            json_encode(
+//                [
+//                    'data' => [
+//                        'userId' => 1,
+//                    ]
+//                ]
+//            )
+//        );
+//        $I->deleteHeader('Authorization');
+//        $I->seeResponseIsSuccessful();
+//        $I->seeResponseContainsJson(
+//            [
+//                'jsonapi' => [
+//                    'version' => '1.0',
+//                ],
+//                'data'   => [
+//                    'Hello',
+//                ],
+//                'errors' => [
+//                    'code'   => Response::STATUS_SUCCESS,
+//                    'detail' => '',
+//                ],
+//            ]
+//        );
+//    }
 
     private function addRecord(ApiTester $I)
     {

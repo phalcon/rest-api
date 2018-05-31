@@ -14,4 +14,20 @@ class Request extends PhRequest
     {
         return str_replace('Bearer ', '', $this->getHeader('Authorization'));
     }
+
+    /**
+     * @return bool
+     */
+    public function isEmptyBearerToken(): bool
+    {
+        return true === empty($this->getBearerTokenFromHeader());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLoginPage(): bool
+    {
+        return ('/login' === $this->getURI());
+    }
 }

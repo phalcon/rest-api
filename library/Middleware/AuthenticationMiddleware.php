@@ -29,10 +29,10 @@ class AuthenticationMiddleware implements MiddlewareInterface
     {
         /** @var Request $request */
         $request = $api->getService('request');
-        $uri     = $request->getURI();
-        $token   = $request->getBearerTokenFromHeader();
 
-        if (true === $request->isPost() && '/login' !== $uri && true === empty($token)) {
+        if (true === $request->isPost() &&
+            true !== $request->isLoginPage() &&
+            true === $request->isEmptyBearerToken()) {
             throw new Exception('Invalid Token');
         }
 

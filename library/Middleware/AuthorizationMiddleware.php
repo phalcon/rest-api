@@ -33,15 +33,16 @@ class AuthorizationMiddleware implements MiddlewareInterface
     {
         /** @var Request $request */
         $request = $api->getService('request');
-        $uri     = $request->getURI();
-        $token   = $request->getBearerTokenFromHeader();
 
-        if (true === $request->isPost() && '/login' !== $uri && true !== empty($token)) {
+        if (true === $request->isPost() &&
+            true !== $request->isLoginPage() &&
+            true !== $request->isEmptyBearerToken()) {
             /**
              * This is where we will validate the token that was sent to us
              * using Bearer Authentication
              */
-            $user = $this->getUserByToken($token, 'Invalid Token');
+            $token = $request->getBearerTokenFromHeader();
+            $user  = $this->getUserByToken($token, 'Invalid Token');
 
             $tokenObject    = (new Parser())->parse($token);
             $validationData = $this->getValidation($user);

@@ -18,6 +18,7 @@ class UsersCest
                 'usr_username',
                 'usr_password',
                 'usr_domain_name',
+                'usr_token_password',
                 'usr_token_pre',
                 'usr_token_mid',
                 'usr_token_post',

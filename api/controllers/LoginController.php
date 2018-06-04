@@ -4,6 +4,7 @@ namespace Niden\Api\Controllers;
 
 use function explode;
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Models\Users;
@@ -58,14 +59,17 @@ class LoginController extends Controller
      */
     private function getToken(Users $user): string
     {
+        $signer  = new Sha512();
         $builder = new Builder();
+
         $token   = $builder
-            ->setIssuer('http://phalconphp.com')
-            ->setAudience($user->get('usr_domain_name'))
+            ->setIssuer($user->get('usr_domain_name'))
+            ->setAudience('https://phalconphp.com')
             ->setId($user->get('usr_token_id'), true)
             ->setIssuedAt(time())
-            ->setNotBefore(time() + 60)
+            ->setNotBefore(time() + 10)
             ->setExpiration(time() + 3600)
+            ->sign($signer, $user->get('usr_token_password'))
             ->getToken();
 
         return $token->__toString();

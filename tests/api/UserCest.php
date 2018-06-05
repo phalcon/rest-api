@@ -3,7 +3,6 @@
 namespace Niden\Tests\api;
 
 use ApiTester;
-use Lcobucci\JWT\Builder;
 use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Models\Users;
@@ -16,6 +15,64 @@ class UserCest
             new Exception('Invalid Token'),
             function () use ($I) {
                 $I->deleteHeader('Authorization');
+                $I->sendPOST(
+                    '/user/get',
+                    json_encode(
+                        [
+                            'data' => [
+                                'userId' => 1,
+                            ]
+                        ]
+                    )
+                );
+            }
+        );
+    }
+
+    public function loginKnownUserIncorrectSignatureInToken(ApiTester $I)
+    {
+        $I->expectException(
+            new Exception('Invalid Token'),
+            function () use ($I) {
+                $this->addRecord($I);
+                $I->deleteHeader('Authorization');
+                $I->sendPOST(
+                    '/login',
+                    json_encode(
+                        [
+                            'data' => [
+                                'username' => 'testuser',
+                                'password' => 'testpassword',
+                            ]
+                        ]
+                    )
+                );
+                $I->seeResponseIsSuccessful();
+                $I->seeResponseContainsJson(
+                    [
+                        'jsonapi' => [
+                            'version' => '1.0',
+                        ],
+                        'errors'  => [
+                            'code'   => Response::STATUS_SUCCESS,
+                            'detail' => '',
+                        ],
+                    ]
+                );
+
+                $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
+                $dbToken = $record->get('usr_token_pre') . '.'
+                         . $record->get('usr_token_mid') . '.'
+                         . $record->get('usr_token_post');
+                $record->set('usr_token_password', '456789')->save();
+
+                $response = $I->grabResponse();
+                $response  = json_decode($response, true);
+                $data      = $response['data'];
+                $token     = $data['token'];
+                $I->assertEquals($dbToken, $token);
+
+                $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
                 $I->sendPOST(
                     '/user/get',
                     json_encode(

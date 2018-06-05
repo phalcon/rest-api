@@ -5,13 +5,13 @@ namespace Niden\Tests\unit\config;
 use Niden\Http\Response;
 use UnitTester;
 use function function_exists;
-use function Niden\Functions\appPath;
+use function Niden\Core\appPath;
 
 class AutoloaderCest
 {
     public function checkDotenvVariables(UnitTester $I)
     {
-        require appPath('config/autoload.php');
+        require appPath('library/Core/autoload.php');
 
         $I->assertNotEquals(false, getenv('APP_DEBUG'));
         $I->assertNotEquals(false, getenv('APP_ENV'));
@@ -46,10 +46,10 @@ class AutoloaderCest
 
     public function checkAutoloader(UnitTester $I)
     {
-        require appPath('config/autoload.php');
+        require appPath('library/Core/autoload.php');
 
         $class = new Response();
         $I->assertTrue($class instanceof Response);
-        $I->assertTrue(function_exists('Niden\Functions\envValue'));
+        $I->assertTrue(function_exists('Niden\Core\envValue'));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Niden\Providers;
 
-use function Niden\Functions\appPath;
+use function Niden\Core\appPath;
 use Niden\Logger;
 use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;

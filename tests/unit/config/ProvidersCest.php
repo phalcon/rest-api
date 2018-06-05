@@ -2,7 +2,8 @@
 
 namespace Niden\Tests\unit\config;
 
-use function Niden\Functions\appPath;
+use function Niden\Core\appPath;
+use Niden\Providers\CliDispatcherProvider;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\DatabaseProvider;
 use Niden\Providers\ErrorHandlerProvider;
@@ -15,9 +16,9 @@ use \UnitTester;
 
 class ProvidersCest
 {
-    public function checkProviders(UnitTester $I)
+    public function checkApiProviders(UnitTester $I)
     {
-        $providers = require(appPath('config/providers.php'));
+        $providers = require(appPath('api/config/providers.php'));
 
         $I->assertEquals(ConfigProvider::class, $providers[0]);
         $I->assertEquals(EventsManagerProvider::class, $providers[1]);
@@ -27,5 +28,17 @@ class ProvidersCest
         $I->assertEquals(RequestProvider::class, $providers[5]);
         $I->assertEquals(ResponseProvider::class, $providers[6]);
         $I->assertEquals(RouterProvider::class, $providers[7]);
+    }
+
+    public function checkCliProviders(UnitTester $I)
+    {
+        $providers = require(appPath('cli/config/providers.php'));
+
+        $I->assertEquals(ConfigProvider::class, $providers[0]);
+        $I->assertEquals(EventsManagerProvider::class, $providers[1]);
+        $I->assertEquals(LoggerProvider::class, $providers[2]);
+        $I->assertEquals(ErrorHandlerProvider::class, $providers[3]);
+        $I->assertEquals(DatabaseProvider::class, $providers[4]);
+        $I->assertEquals(CliDispatcherProvider::class, $providers[5]);
     }
 }

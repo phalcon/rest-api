@@ -1,7 +1,7 @@
 <?php
 
-use function Niden\Functions\appPath;
-use function Niden\Functions\envValue;
+use function Niden\Core\appPath;
+use function Niden\Core\envValue;
 
 return [
     'app'        => [

@@ -2,6 +2,7 @@
 
 namespace Niden\Bootstrap;
 
+use function Niden\Core\appPath;
 use Phalcon\Di\FactoryDefault;
 
 class Api extends AbstractBootstrap
@@ -22,6 +23,7 @@ class Api extends AbstractBootstrap
     public function setup()
     {
         $this->container = new FactoryDefault();
+        $this->providers = require appPath('api/config/providers.php');
 
         parent::setup();
     }

@@ -2,7 +2,7 @@
 
 use Niden\Bootstrap\Tests;
 
-require_once __DIR__ . '/../../config/autoload.php';
+require_once __DIR__ . '/../../library/Core/autoload.php';
 
 $bootstrap = new Tests();
 $bootstrap->setup();

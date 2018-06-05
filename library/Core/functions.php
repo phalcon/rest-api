@@ -1,11 +1,11 @@
 <?php
 
-namespace Niden\Functions;
+namespace Niden\Core;
 
 use function function_exists;
 use function getenv;
 
-if (true !== function_exists('Niden\Functions\appPath')) {
+if (true !== function_exists('Niden\Core\appPath')) {
     /**
      * Get the application path.
      *
@@ -15,11 +15,11 @@ if (true !== function_exists('Niden\Functions\appPath')) {
      */
     function appPath(string $path = ''): string
     {
-        return dirname(__DIR__) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+        return dirname(dirname(__DIR__)) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
-if (true !== function_exists('Niden\Functions\envValue')) {
+if (true !== function_exists('Niden\Core\envValue')) {
     /**
      * Gets a variable from the environment, returns it properly formatted or the
      * default if it does not exist

@@ -20,7 +20,7 @@ run.config:
     # Security
     expose_php: 'Off'
     disable_functions:
-      - exec
+#      - exec
       - shell_exec
       - system
 

@@ -2,8 +2,8 @@
 
 namespace Niden\Tests\unit\config;
 
-use function Niden\Functions\appPath;
-use function Niden\Functions\envValue;
+use function Niden\Core\appPath;
+use function Niden\Core\envValue;
 use \UnitTester;
 
 class FunctionsCest
@@ -16,8 +16,8 @@ class FunctionsCest
 
     public function checkApppathWithParameter(UnitTester $I)
     {
-        $path = dirname(dirname(dirname(__DIR__))) . '/config/config.php';
-        $I->assertEquals($path, appPath('config/config.php'));
+        $path = dirname(dirname(dirname(__DIR__))) . '/library/Core/config.php';
+        $I->assertEquals($path, appPath('library/Core/config.php'));
     }
 
     public function checkEnvvalueAsFalse(UnitTester $I)

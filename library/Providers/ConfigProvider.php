@@ -2,7 +2,7 @@
 
 namespace Niden\Providers;
 
-use function Niden\Functions\appPath;
+use function Niden\Core\appPath;
 use Phalcon\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Config;
@@ -17,7 +17,7 @@ class ConfigProvider implements ServiceProviderInterface
         $container->setShared(
             'config',
             function () {
-                $data = require appPath('config/config.php');
+                $data = require appPath('library/Core/config.php');
 
                 return new Config($data);
             }

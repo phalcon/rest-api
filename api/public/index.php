@@ -3,7 +3,7 @@
 use Niden\Bootstrap\Api;
 use Niden\Http\Response;
 
-require_once __DIR__ . '/../../config/autoload.php';
+require_once __DIR__ . '/../../library/Core/autoload.php';
 
 try {
     $bootstrap = new Api();

@@ -2,7 +2,7 @@
 
 namespace Niden\Tests\unit;
 
-use function Niden\Functions\appPath;
+use function Niden\Core\appPath;
 use function strtolower;
 use Niden\Logger;
 use Phalcon\Logger\Formatter\Line;

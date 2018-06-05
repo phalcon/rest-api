@@ -2,7 +2,7 @@
 
 namespace Niden\Tests\integration;
 
-use function Niden\Functions\appPath;
+use function Niden\Core\appPath;
 use Codeception\Stub;
 use \IntegrationTester;
 use Niden\Logger;

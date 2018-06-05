@@ -3,7 +3,7 @@
 namespace Niden\Bootstrap;
 
 use function microtime;
-use function Niden\Functions\appPath;
+use function Niden\Core\appPath;
 use Niden\Http\Response;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;
@@ -18,6 +18,12 @@ abstract class AbstractBootstrap
 
     /** @var FactoryDefault|Cli */
     protected $container;
+
+    /** @var array */
+    protected $options = [];
+
+    /** @var array */
+    protected $providers = [];
 
     /**
      * @return Console|Micro
@@ -76,13 +82,8 @@ abstract class AbstractBootstrap
      */
     private function registerServices()
     {
-        /**
-         * Get the providers from the config file
-         */
-        $providers = require appPath('config/providers.php');
-
         /** @var ServiceProviderInterface $provider */
-        foreach ($providers as $provider) {
+        foreach ($this->providers as $provider) {
             (new $provider())->register($this->container);
         }
     }

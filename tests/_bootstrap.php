@@ -2,7 +2,7 @@
 
 define('API_TESTS', true);
 
-require __DIR__ . '/../config/autoload.php';
+require __DIR__ . '/../library/Core/autoload.php';
 
 ini_set('date.timezone', 'UTC');
 ini_set('display_errors', 1);

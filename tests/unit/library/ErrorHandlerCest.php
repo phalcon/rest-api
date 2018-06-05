@@ -4,7 +4,7 @@ namespace Niden\Tests\unit;
 
 use const E_USER_NOTICE;
 use Niden\ErrorHandler;
-use function Niden\Functions\appPath;
+use function Niden\Core\appPath;
 use Niden\Logger;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\LoggerProvider;

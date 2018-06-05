@@ -43,7 +43,7 @@ class UserGetController extends Controller
             ]
         );
 
-        if (false === $user) {
+        if (0 === count($user)) {
             throw new Exception('User not found');
         }
 

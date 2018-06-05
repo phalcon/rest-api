@@ -82,19 +82,20 @@ class Response extends PhResponse
     private function processPayload(array $data): array
     {
         $timestamp = date('c');
+        $payload   = $data['data'] ?? $data;
 
         return [
             'jsonapi' => [
                 'version' => '1.0',
             ],
-            'data'   => $data,
+            'data'   => $payload,
             'errors' => [
                 'code'   => $this->payloadCode,
                 'detail' => $this->payloadErrorDetail,
             ],
             'meta'   => [
                 'timestamp' => $timestamp,
-                'hash'      => sha1($timestamp . json_encode($data)),
+                'hash'      => sha1($timestamp . json_encode($payload)),
             ],
         ];
     }

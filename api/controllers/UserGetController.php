@@ -33,7 +33,6 @@ class UserGetController extends Controller
     {
         /** @var int $userId */
         $userId = $this->request->getPost('userId', Filter::FILTER_ABSINT, 0);
-        /** @var Users|false $user */
         $user   = Users::find(
             [
                 'conditions' => 'usr_id = :usr_id:',

@@ -2,10 +2,14 @@
 
 namespace Niden\Api\Controllers;
 
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
 use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Models\Users;
 use Niden\Traits\UserTrait;
+use Niden\Transformers\UsersTransformer;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 
@@ -30,7 +34,7 @@ class UserGetController extends Controller
         /** @var int $userId */
         $userId = $this->request->getPost('userId', Filter::FILTER_ABSINT, 0);
         /** @var Users|false $user */
-        $user   = Users::findFirst(
+        $user   = Users::find(
             [
                 'conditions' => 'usr_id = :usr_id:',
                 'bind'       => [
@@ -44,8 +48,15 @@ class UserGetController extends Controller
         }
 
         /**
+         * Transform the record
+         */
+        $manager  = new Manager();
+        $resource = new Collection($user, new UsersTransformer());
+        $data     = $manager->createData($resource)->toArray();
+
+        /**
          * User found - Return token
          */
-        $this->response->setPayloadSuccess($user->getApiRecord());
+        $this->response->setPayloadSuccess($data);
     }
 }

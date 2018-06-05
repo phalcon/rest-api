@@ -8,7 +8,7 @@ use Niden\Models\Users;
 /**
  * Class UserTransformer
  */
-class UserTransformer extends TransformerAbstract
+class UsersTransformer extends TransformerAbstract
 {
     /**
      * @param Users $user

@@ -2,6 +2,7 @@
 
 namespace Niden\Models;
 
+use Niden\Exception\ModelException;
 use Niden\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
 
@@ -12,6 +13,24 @@ use Phalcon\Filter;
  */
 class Users extends AbstractModel
 {
+    /**
+     * Returns the record in an array format; used by the API calls
+     *
+     * @return array
+     * @throws ModelException
+     */
+    public function getApiRecord(): array
+    {
+        return [
+            'id'            => $this->get('usr_id'),
+            'status'        => $this->get('usr_status_flag'),
+            'username'      => $this->get('usr_username'),
+            'domainName'    => $this->get('usr_domain_name'),
+            'tokenPassword' => $this->get('usr_token_password'),
+            'tokenId'       => $this->get('usr_token_id'),
+        ];
+    }
+
     /**
      * Model filters
      *

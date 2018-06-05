@@ -89,6 +89,9 @@ class LoginController extends Controller
             ->set('usr_token_mid', $mid)
             ->set('usr_token_post', $post)
             ->save();
-        $this->checkResult($result, 'Cannot update user record');
+
+        if (false === $result) {
+            throw new ModelException('Cannot update user record');
+        }
     }
 }

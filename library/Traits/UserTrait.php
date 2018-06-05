@@ -26,18 +26,15 @@ trait UserTrait
     protected function getUserByToken(string $token, string $message = 'Record not found'): Users
     {
         list($pre, $mid, $post) = explode('.', $token);
-        $builder = new Builder();
-        $user    = $builder
-            ->addFrom(Users::class)
-            ->andWhere('usr_token_pre = :pre:', ['pre' => $pre])
-            ->andWhere('usr_token_mid = :mid:', ['mid' => $mid])
-            ->andWhere('usr_token_post = :post:', ['post' => $post])
-            ->getQuery()
-            ->setUniqueRow(true)
-            ->execute()
-        ;
 
-        return $this->checkResult($user, $message);
+        $parameters = [
+            'usr_token_pre'  => $pre,
+            'usr_token_mid'  => $mid,
+            'usr_token_post' => $post,
+        ];
+        $results    = $this->getUsers($parameters, $message);
+
+        return $results[0];
     }
 
     /**
@@ -55,31 +52,41 @@ trait UserTrait
         $password,
         string $message = 'Record not found'
     ): Users {
-        $buider = new Builder();
-        $user   = $buider
-            ->addFrom(Users::class)
-            ->andWhere('usr_username = :u:', ['u' => $username])
-            ->andWhere('usr_password = :p:', ['p' => $password])
-            ->getQuery()
-            ->setUniqueRow(true)
-            ->execute();
+        $parameters = [
+            'usr_username'  => $username,
+            'usr_password'  => $password,
+        ];
 
-        return $this->checkResult($user, $message);
+        $results    = $this->getUsers($parameters, $message);
+
+        return $results[0];
     }
 
     /**
-     * @param        $result
+     * @param array  $parameters
      * @param string $message
      *
-     * @return mixed
+     * @return \Phalcon\Mvc\Model\ResultsetInterface
      * @throws ModelException
      */
-    private function checkResult($result, string $message = 'Record not found')
+    protected function getUsers(array $parameters, string $message = 'Record not found')
     {
-        if (false === $result) {
+        $builder = new Builder();
+        $builder->addFrom(Users::class);
+
+        foreach ($parameters as $field => $value) {
+            $builder->andWhere(
+                sprintf('%s = :%s:', $field, $field),
+                [$field => $value]
+            );
+        }
+
+        $results = $builder->getQuery()->execute();
+
+        if (0 === count($results)) {
             throw new ModelException($message);
         }
 
-        return $result;
+        return $results;
     }
 }

@@ -91,25 +91,6 @@ abstract class AbstractModel extends PhModel
     }
 
     /**
-     * Returns an array with the options for a relationship
-     *
-     * @param string $relationship
-     * @param array  $options
-     *
-     * @return array
-     */
-    protected function getRelationshipOptions(string $relationship, array $options = []): array
-    {
-        return array_merge(
-            [
-                'alias'    => $relationship,
-                'reusable' => true,
-            ],
-            $options
-        );
-    }
-
-    /**
      * Gets or sets a field and sanitizes it if necessary
      *
      * @param string $type

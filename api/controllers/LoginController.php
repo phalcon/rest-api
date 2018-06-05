@@ -24,13 +24,11 @@ class LoginController extends Controller
     use UserTrait;
 
     /**
-     * Default action for integrations
-     */
-    /**
-     * @return array
+     * Default action logging in
+     *
      * @throws ModelException
      */
-    public function indexAction()
+    public function callAction()
     {
         $username = $this->request->getPost('username', Filter::FILTER_STRING);
         $password = $this->request->getPost('password', Filter::FILTER_STRING);

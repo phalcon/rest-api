@@ -3,7 +3,8 @@
 namespace Niden\Providers;
 
 use Niden\Api\Controllers\IndexController;
-use Niden\Api\Controllers\UserGetController;
+use Niden\Api\Controllers\Users\GetOneController;
+use Niden\Api\Controllers\Users\GetManyController;
 use Niden\Api\Controllers\LoginController;
 use Niden\Middleware\AuthorizationMiddleware;
 use Niden\Middleware\NotFoundMiddleware;
@@ -68,7 +69,7 @@ class RouterProvider implements ServiceProviderInterface
             $collection
                 ->setHandler($route[0], true)
                 ->setPrefix($route[1])
-                ->{$route[2]}($route[3], $route[4]);
+                ->{$route[2]}($route[3], 'callAction');
 
             $application->mount($collection);
         }
@@ -98,10 +99,11 @@ class RouterProvider implements ServiceProviderInterface
     {
         return [
             // Class, Method, Route, Handler
-            [IndexController::class, '', 'get', '/', 'indexAction'],
-            [IndexController::class, '', 'post', '/', 'indexAction'],
-            [LoginController::class, '', 'post', '/login', 'indexAction'],
-            [UserGetController::class, '/user', 'post', '/get', 'getAction'],
+            [IndexController::class,   '',       'get',  '/'],
+            [IndexController::class,   '',       'post', '/'],
+            [LoginController::class,   '',       'post', '/login'],
+            [GetOneController::class,  '/user',  'post', '/get'],
+            [GetManyController::class, '/users', 'post', '/get'],
         ];
     }
 }

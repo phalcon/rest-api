@@ -69,7 +69,7 @@ trait UserTrait
      * @return \Phalcon\Mvc\Model\ResultsetInterface
      * @throws ModelException
      */
-    protected function getUsers(array $parameters, string $message = 'Record not found')
+    protected function getUsers(array $parameters = [], string $message = 'Record not found')
     {
         $builder = new Builder();
         $builder->addFrom(Users::class);

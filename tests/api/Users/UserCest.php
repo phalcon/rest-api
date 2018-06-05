@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\api;
+namespace Niden\Tests\api\Users;
 
 use ApiTester;
 use Niden\Exception\Exception;
@@ -232,7 +232,7 @@ class UserCest
     public function loginUnknownUserValidToken(ApiTester $I)
     {
         $I->expectException(
-            new Exception('User not found'),
+            new Exception('Record not found'),
             function () use ($I) {
                 $this->addRecord($I);
                 $I->deleteHeader('Authorization');

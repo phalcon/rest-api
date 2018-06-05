@@ -19,7 +19,7 @@ class IndexController extends Controller
     /**
      * Default action for integrations
      */
-    public function indexAction()
+    public function callAction()
     {
         /**
          * Send some random text out - why not

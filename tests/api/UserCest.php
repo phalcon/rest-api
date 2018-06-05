@@ -109,7 +109,7 @@ class UserCest
 
     public function loginKnownUserValidToken(ApiTester $I)
     {
-        $this->addRecord($I);
+        $user = $this->addRecord($I);
 
         $I->deleteHeader('Authorization');
         $I->sendPOST(
@@ -142,7 +142,7 @@ class UserCest
             json_encode(
                 [
                     'data' => [
-                        'userId' => 1,
+                        'userId' => $user->get('usr_id'),
                     ]
                 ]
             )
@@ -155,7 +155,12 @@ class UserCest
                     'version' => '1.0',
                 ],
                 'data'   => [
-                    'Hello',
+                    'id'            => $user->get('usr_id'),
+                    'status'        => $user->get('usr_status_flag'),
+                    'username'      => $user->get('usr_username'),
+                    'domainName'    => $user->get('usr_domain_name'),
+                    'tokenPassword' => $user->get('usr_token_password'),
+                    'tokenId'       => $user->get('usr_token_id'),
                 ],
                 'errors' => [
                     'code'   => Response::STATUS_SUCCESS,
@@ -165,9 +170,55 @@ class UserCest
         );
     }
 
+    public function loginUnknownUserValidToken(ApiTester $I)
+    {
+        $I->expectException(
+            new Exception('User not found'),
+            function () use ($I) {
+                $this->addRecord($I);
+                $I->deleteHeader('Authorization');
+                $I->sendPOST(
+                    '/login',
+                    json_encode(
+                        [
+                            'data' => [
+                                'username' => 'testuser',
+                                'password' => 'testpassword',
+                            ]
+                        ]
+                    )
+                );
+                $I->seeResponseIsSuccessful();
+
+                $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
+                $dbToken = $record->get('usr_token_pre') . '.'
+                         . $record->get('usr_token_mid') . '.'
+                         . $record->get('usr_token_post');
+
+                $response = $I->grabResponse();
+                $response  = json_decode($response, true);
+                $data      = $response['data'];
+                $token     = $data['token'];
+                $I->assertEquals($dbToken, $token);
+
+                $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+                $I->sendPOST(
+                    '/user/get',
+                    json_encode(
+                        [
+                            'data' => [
+                                'userId' => 1,
+                            ]
+                        ]
+                    )
+                );
+            }
+        );
+    }
+
     private function addRecord(ApiTester $I)
     {
-        $I->haveRecordWithFields(
+        return $I->haveRecordWithFields(
             Users::class,
             [
                 'usr_status_flag'    => 1,
@@ -182,19 +233,4 @@ class UserCest
             ]
         );
     }
-//
-//    private function getToken()
-//    {
-//        $builder = new Builder();
-//        $token   = $builder
-//            ->setIssuer('https://phalconphp.com')
-//            ->setAudience('https://niden.net')
-//            ->setId('110011', true)
-//            ->setIssuedAt(time())
-//            ->setNotBefore(time() + 60)
-//            ->setExpiration(time() + 3600)
-//            ->getToken();
-//
-//        return $token->__toString();
-//    }
 }

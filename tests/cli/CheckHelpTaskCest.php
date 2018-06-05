@@ -6,9 +6,7 @@ use \CliTester;
 
 class CheckHelpTaskCest
 {
-
-    // tests
-    public function tryToTest(CliTester $I)
+    public function checkHelp(CliTester $I)
     {
         $I->runShellCommand('./runCli');
         $I->seeResultCodeIs(0);

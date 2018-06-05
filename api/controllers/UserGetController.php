@@ -33,18 +33,7 @@ class UserGetController extends Controller
     {
         /** @var int $userId */
         $userId = $this->request->getPost('userId', Filter::FILTER_ABSINT, 0);
-        $user   = Users::find(
-            [
-                'conditions' => 'usr_id = :usr_id:',
-                'bind'       => [
-                    'usr_id' => $userId,
-                ]
-            ]
-        );
-
-        if (0 === count($user)) {
-            throw new Exception('User not found');
-        }
+        $user   = $this->getData($userId);
 
         /**
          * Transform the record
@@ -57,5 +46,29 @@ class UserGetController extends Controller
          * User found - Return token
          */
         $this->response->setPayloadSuccess($data);
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return \Phalcon\Mvc\Model\ResultsetInterface
+     * @throws Exception
+     */
+    private function getData(int $userId)
+    {
+        $users = Users::find(
+            [
+                'conditions' => 'usr_id = :usr_id:',
+                'bind'       => [
+                    'usr_id' => $userId,
+                ]
+            ]
+        );
+
+        if (0 === count($users)) {
+            throw new Exception('User not found');
+        }
+
+        return $users;
     }
 }

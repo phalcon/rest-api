@@ -2,6 +2,9 @@
 
 namespace Niden\Http;
 
+use League\Fractal\Manager;
+use League\Fractal\Resource\Item;
+use Niden\Transformers\PayloadTransformer;
 use Phalcon\Http\Response as PhResponse;
 
 class Response extends PhResponse
@@ -12,11 +15,11 @@ class Response extends PhResponse
     /** @var int */
     const STATUS_ERROR   = 3000;
 
-    /** @var int */
-    protected $payloadCode = self::STATUS_SUCCESS;
-
-    /** @var string  */
-    protected $payloadErrorDetail = '';
+    /** @var array */
+    protected $data = [
+        'code'   => self::STATUS_SUCCESS,
+        'detail' => '',
+    ];
 
     /**
      * Sets the payload code as Error
@@ -27,8 +30,10 @@ class Response extends PhResponse
      */
     public function setPayloadError(string $detail = ''): Response
     {
-        $this->payloadCode        = self::STATUS_ERROR;
-        $this->payloadErrorDetail = $detail;
+        $this->data = [
+            'code'   => self::STATUS_ERROR,
+            'detail' => $detail,
+        ];
         $this->setPayloadContent();
 
         return $this;
@@ -43,7 +48,7 @@ class Response extends PhResponse
      */
     public function setPayloadSuccess($content = []): Response
     {
-        $this->payloadCode = self::STATUS_SUCCESS;
+        $this->data['code'] = self::STATUS_SUCCESS;
         $this->setPayloadContent($content);
 
         return $this;
@@ -60,10 +65,11 @@ class Response extends PhResponse
      */
     public function setPayloadContent($content = []): Response
     {
-        $data = (null !== $content)        ? $content : [];
-        $data = (true === is_array($data)) ? $data    : [$data];
+        $data = (true === is_array($content)) ? $content : [$content];
 
-        parent::setJsonContent($this->processPayload($data));
+        $this->data['data'] = $data;
+
+        parent::setJsonContent($this->processPayload());
 
         $this->setStatusCode(200);
         $this->setContentType('application/vnd.api+json', 'UTF-8');
@@ -75,28 +81,14 @@ class Response extends PhResponse
     /**
      * Returns the response array based in the JSONAPI spec
      *
-     * @param array $data
-     *
      * @return array
      */
-    private function processPayload(array $data): array
+    private function processPayload(): array
     {
-        $timestamp = date('c');
-        $payload   = $data['data'] ?? $data;
+        $manager  = new Manager();
+        $resource = new Item($this->data, new PayloadTransformer());
+        $data     = $manager->createData($resource)->toArray();
 
-        return [
-            'jsonapi' => [
-                'version' => '1.0',
-            ],
-            'data'   => $payload,
-            'errors' => [
-                'code'   => $this->payloadCode,
-                'detail' => $this->payloadErrorDetail,
-            ],
-            'meta'   => [
-                'timestamp' => $timestamp,
-                'hash'      => sha1($timestamp . json_encode($payload)),
-            ],
-        ];
+        return $data['data'];
     }
 }

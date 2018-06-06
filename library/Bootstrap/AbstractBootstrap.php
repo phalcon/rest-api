@@ -6,7 +6,7 @@ use function microtime;
 use Niden\Http\Response;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Di\FactoryDefault\Cli;
+use Phalcon\Di\FactoryDefault\Cli as PhCli;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Micro;
 
@@ -15,7 +15,7 @@ abstract class AbstractBootstrap
     /** @var Micro|Console */
     protected $application;
 
-    /** @var FactoryDefault|Cli */
+    /** @var FactoryDefault|PhCli */
     protected $container;
 
     /** @var array */
@@ -33,7 +33,7 @@ abstract class AbstractBootstrap
     }
 
     /**
-     * @return FactoryDefault|Cli
+     * @return FactoryDefault|PhCli
      */
     public function getContainer()
     {

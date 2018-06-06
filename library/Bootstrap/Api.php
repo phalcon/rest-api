@@ -4,7 +4,15 @@ namespace Niden\Bootstrap;
 
 use function Niden\Core\appPath;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Mvc\Micro;
 
+/**
+ * Class Api
+ *
+ * @package Niden\Bootstrap
+ *
+ * @property Micro $application
+ */
 class Api extends AbstractBootstrap
 {
     /**

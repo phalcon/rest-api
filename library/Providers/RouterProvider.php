@@ -11,6 +11,8 @@ use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\AuthenticationMiddleware;
 use Niden\Middleware\ResponseMiddleware;
+use Niden\Middleware\TokenValidationMiddleware;
+use Niden\Middleware\TokenVerificationMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
@@ -84,11 +86,12 @@ class RouterProvider implements ServiceProviderInterface
     private function getMiddleware(): array
     {
         return [
-            NotFoundMiddleware::class       => 'before',
-            PayloadMiddleware::class        => 'before',
-            AuthenticationMiddleware::class => 'before',
-            AuthorizationMiddleware::class  => 'before',
-            ResponseMiddleware::class       => 'after',
+            NotFoundMiddleware::class          => 'before',
+            PayloadMiddleware::class           => 'before',
+            AuthenticationMiddleware::class    => 'before',
+            TokenVerificationMiddleware::class => 'before',
+            TokenValidationMiddleware::class   => 'before',
+            ResponseMiddleware::class          => 'after',
         ];
     }
 

@@ -3,6 +3,8 @@
 namespace Niden\Tests\api\Users;
 
 use ApiTester;
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Models\Users;
@@ -40,6 +42,45 @@ class UserCest
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendPOST(Data::$userGetUrl, Data::userGetJson(1));
+        $I->seeResponseIsSuccessful();
+        $I->seeErrorJsonResponse('Invalid Token');
+    }
+
+    public function loginKnownUserExpiredToken(ApiTester $I)
+    {
+        $this->addRecord($I);
+        $I->deleteHeader('Authorization');
+        $I->sendPOST(Data::$loginUrl, Data::loginJson());
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
+
+        $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
+
+        $signer  = new Sha512();
+        $builder = new Builder();
+
+        $token   = $builder
+            ->setIssuer($record->get('usr_domain_name'))
+            ->setAudience('https://phalconphp.com')
+            ->setId($record->get('usr_token_id'), true)
+            ->setIssuedAt(time() - 3600)
+            ->setNotBefore(time() - 3590)
+            ->setExpiration(time() - 3000)
+            ->sign($signer, $record->get('usr_token_password'))
+            ->getToken();
+
+        $expiredToken = $token->__toString();
+
+        list($pre, $mid, $post) = explode('.', $expiredToken);
+        $result = $record
+            ->set('usr_token_pre', $pre)
+            ->set('usr_token_mid', $mid)
+            ->set('usr_token_post', $post)
+            ->save();
+        $I->assertNotEquals(false, $result);
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $expiredToken);
+        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }

@@ -2,6 +2,8 @@
 
 use Codeception\Util\HttpCode;
 use Niden\Http\Response;
+use Niden\Models\Users;
+use Page\Data as DataPage;
 
 /**
  * Inherited Methods
@@ -52,5 +54,59 @@ class ApiTester extends \Codeception\Actor
         $timestamp = $response['meta']['timestamp'];
         $hash      = $response['meta']['hash'];
         $this->assertEquals($hash, sha1($timestamp . $data));
+    }
+
+    public function seeErrorJsonResponse(string $message)
+    {
+        $this->seeResponseContainsJson(
+            [
+                'jsonapi' => [
+                    'version' => '1.0',
+                ],
+                'errors' => [
+                    'code'   => Response::STATUS_ERROR,
+                    'detail' => $message,
+                ],
+            ]
+        );
+    }
+
+    public function seeSuccessJsonResponse(array $data = [])
+    {
+        $contents = [
+            'jsonapi' => [
+                'version' => '1.0',
+            ],
+            'errors' => [
+                'code'   => Response::STATUS_SUCCESS,
+                'detail' => '',
+            ],
+        ];
+
+        if (true !== empty($da)) {
+            $contents['data'] = $data;
+        }
+
+        $this->seeResponseContainsJson($contents);
+    }
+
+    public function apiLogin()
+    {
+        $this->deleteHeader('Authorization');
+        $this->sendPOST(DataPage::$loginUrl, DataPage::loginJson());
+        $this->seeResponseIsSuccessful();
+
+        $record  = $this->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
+        $dbToken = $record->get('usr_token_pre') . '.'
+                 . $record->get('usr_token_mid') . '.'
+                 . $record->get('usr_token_post');
+
+        $response = $this->grabResponse();
+        $response  = json_decode($response, true);
+        $data      = $response['data'];
+        $token     = $data['token'];
+        $this->assertEquals($dbToken, $token);
+
+        return $token;
     }
 }

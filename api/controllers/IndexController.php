@@ -24,6 +24,6 @@ class IndexController extends Controller
         /**
          * Send some random text out - why not
          */
-        $this->response->setPayloadSuccess((string) round(pi(), 4));
+        return (string) round(pi(), 4);
     }
 }

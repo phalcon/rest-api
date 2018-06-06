@@ -6,19 +6,14 @@ use ApiTester;
 use function floatval;
 use Niden\Exception\Exception;
 use Niden\Http\Response;
+use Page\Data;
 
 class IncorrectPayloadCest
 {
     public function checkDefaultRoute(ApiTester $I)
     {
-        $I->expectException(
-            new Exception('Malformed JSON'),
-            function () use ($I) {
-                $I->sendPOST(
-                    '/',
-                    '{"key": "value}'
-                );
-            }
-        );
+        $I->sendPOST(Data::$rootUrl, '{"key": "value}');
+        $I->seeResponseIsSuccessful();
+        $I->seeErrorJsonResponse('Malformed JSON');
     }
 }

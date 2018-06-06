@@ -5,6 +5,7 @@ namespace Niden\Api\Controllers;
 use function explode;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
+use Niden\Exception\Exception;
 use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Models\Users;
@@ -30,23 +31,27 @@ class LoginController extends Controller
      */
     public function callAction()
     {
-        $username = $this->request->getPost('username', Filter::FILTER_STRING);
-        $password = $this->request->getPost('password', Filter::FILTER_STRING);
+        try {
+            $username = $this->request->getPost('username', Filter::FILTER_STRING);
+            $password = $this->request->getPost('password', Filter::FILTER_STRING);
 
-        $user = $this->getUserByUsernameAndPassword(
-            $username,
-            $password,
-            'Incorrect credentials'
-        );
+            $user = $this->getUserByUsernameAndPassword(
+                $username,
+                $password,
+                'Incorrect credentials'
+            );
 
-        $token = $this->getToken($user);
+            $token = $this->getToken($user);
 
-        $this->updateRecord($user, $token);
+            $this->updateRecord($user, $token);
 
-        /**
-         * User found - Return token
-         */
-        $this->response->setPayloadSuccess(['token' => $token]);
+            /**
+             * User found - Return token
+             */
+            return ['token' => $token];
+        } catch (Exception $ex) {
+            $this->response->setPayloadError($ex->getMessage());
+        }
     }
 
     /**

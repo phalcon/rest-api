@@ -6,6 +6,7 @@ use function explode;
 use Niden\Exception\ModelException;
 use Niden\Models\Users;
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * Trait UserTrait
@@ -32,7 +33,7 @@ trait UserTrait
             'usr_token_mid'  => $mid,
             'usr_token_post' => $post,
         ];
-        $results    = $this->getUsers($parameters, $message);
+        $results    = $this->getUsers($parameters, true, $message);
 
         return $results[0];
     }
@@ -57,20 +58,24 @@ trait UserTrait
             'usr_password'  => $password,
         ];
 
-        $results    = $this->getUsers($parameters, $message);
+        $results    = $this->getUsers($parameters, true, $message);
 
         return $results[0];
     }
 
     /**
      * @param array  $parameters
+     * @param bool   $throwException
      * @param string $message
      *
-     * @return \Phalcon\Mvc\Model\ResultsetInterface
+     * @return ResultsetInterface
      * @throws ModelException
      */
-    protected function getUsers(array $parameters = [], string $message = 'Record not found')
-    {
+    protected function getUsers(
+        array $parameters = [],
+        bool $throwException = false,
+        string $message = 'Record not found'
+    ) {
         $builder = new Builder();
         $builder->addFrom(Users::class);
 
@@ -83,7 +88,7 @@ trait UserTrait
 
         $results = $builder->getQuery()->execute();
 
-        if (0 === count($results)) {
+        if (0 === count($results) && true === $throwException) {
             throw new ModelException($message);
         }
 

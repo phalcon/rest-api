@@ -3,7 +3,6 @@
 namespace Niden\Bootstrap;
 
 use function microtime;
-use function Niden\Core\appPath;
 use Niden\Http\Response;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;

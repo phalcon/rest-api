@@ -6,45 +6,40 @@ use ApiTester;
 use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Models\Users;
+use Page\Data;
 
 class LoginCest
 {
     public function loginNoDataElement(ApiTester $I)
     {
-        $I->expectException(
-            new Exception('"data" element not present in the payload'),
-            function () use ($I) {
-                $I->sendPOST(
-                    '/login',
-                    json_encode(
-                        [
-                            'username' => 'user',
-                            'password' => 'pass',
-                        ]
-                    )
-                );
-            }
+        $I->sendPOST(
+            Data::$loginUrl,
+            json_encode(
+                [
+                    'username' => 'user',
+                    'password' => 'pass',
+                ]
+            )
         );
+        $I->seeResponseIsSuccessful();
+        $I->seeErrorJsonResponse('"data" element not present in the payload');
     }
 
     public function loginUnknownUser(ApiTester $I)
     {
-        $I->expectException(
-            new Exception('Incorrect credentials'),
-            function () use ($I) {
-                $I->sendPOST(
-                    '/login',
-                    json_encode(
-                        [
-                            'data' => [
-                                'username' => 'user',
-                                'password' => 'pass',
-                            ]
-                        ]
-                    )
-                );
-            }
+        $I->sendPOST(
+            Data::$loginUrl,
+            json_encode(
+                [
+                    'data' => [
+                        'username' => 'user',
+                        'password' => 'pass',
+                    ]
+                ]
+            )
         );
+        $I->seeResponseIsSuccessful();
+        $I->seeErrorJsonResponse('Incorrect credentials');
     }
 
     public function loginKnownUser(ApiTester $I)
@@ -63,28 +58,8 @@ class LoginCest
             ]
         );
 
-        $I->sendPOST(
-            '/login',
-            json_encode(
-                [
-                    'data' => [
-                        'username' => 'testuser',
-                        'password' => 'testpassword',
-                    ]
-                ]
-            )
-        );
+        $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
-        $I->seeResponseContainsJson(
-            [
-                'jsonapi' => [
-                    'version' => '1.0',
-                ],
-                'errors' => [
-                    'code'   => Response::STATUS_SUCCESS,
-                    'detail' => '',
-                ],
-            ]
-        );
+        $I->seeSuccessJsonResponse();
     }
 }

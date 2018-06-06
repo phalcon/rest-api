@@ -5,20 +5,24 @@ namespace Niden\Api\Controllers\Users;
 use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Traits\FractalTrait;
+use Niden\Traits\ResponseTrait;
 use Niden\Traits\UserTrait;
 use Niden\Transformers\UsersTransformer;
 use Phalcon\Mvc\Controller;
+use Phalcon\Mvc\Micro;
 
 /**
  * Class GetManyController
  *
  * @package Niden\Api\Controllers\Users
  *
+ * @property Micro    $application
  * @property Response $response
  */
 class GetManyController extends Controller
 {
     use FractalTrait;
+    use ResponseTrait;
     use UserTrait;
 
     /**
@@ -31,12 +35,6 @@ class GetManyController extends Controller
         /**
          * @todo decide what filters we will have
          */
-        $results = $this->getUsers();
-        $data    = $this->format($results, UsersTransformer::class);
-
-        /**
-         * User found - Return token
-         */
-        $this->response->setPayloadSuccess($data);
+        return $this->format($this->getUsers(), UsersTransformer::class);
     }
 }

@@ -2,34 +2,21 @@
 
 namespace Niden\Middleware;
 
-use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Traits\ResponseTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
-use Phalcon\Mvc\User\Plugin;
 
 /**
- * Class NotFoundMiddleware
+ * Class ResponseMiddleware
  *
  * @package Niden\Middleware
  *
- * @property Micro    $application
  * @property Response $response
  */
-class NotFoundMiddleware extends Plugin implements MiddlewareInterface
+class ResponseMiddleware implements MiddlewareInterface
 {
     use ResponseTrait;
-
-    /**
-     * Checks if the resource was found
-     */
-    public function beforeNotFound()
-    {
-        $this->halt($this->application, '404 Not Found');
-
-        return false;
-    }
 
     /**
      * Call me
@@ -40,6 +27,8 @@ class NotFoundMiddleware extends Plugin implements MiddlewareInterface
      */
     public function call(Micro $api)
     {
+        $this->process($api);
+
         return true;
     }
 }

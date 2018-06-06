@@ -10,6 +10,7 @@ use Niden\Middleware\AuthorizationMiddleware;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\AuthenticationMiddleware;
+use Niden\Middleware\ResponseMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
@@ -87,6 +88,7 @@ class RouterProvider implements ServiceProviderInterface
             PayloadMiddleware::class        => 'before',
             AuthenticationMiddleware::class => 'before',
             AuthorizationMiddleware::class  => 'before',
+            ResponseMiddleware::class       => 'after',
         ];
     }
 

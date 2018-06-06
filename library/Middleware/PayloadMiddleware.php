@@ -4,6 +4,7 @@ namespace Niden\Middleware;
 
 use Niden\Exception\Exception;
 use Niden\Http\Response;
+use Niden\Traits\ResponseTrait;
 use Phalcon\Events\Event;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Micro;
@@ -18,28 +19,38 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
  */
 class PayloadMiddleware implements MiddlewareInterface
 {
+    use ResponseTrait;
+
     /**
      * @param Event $event
      * @param Micro $api
      *
      * @return bool
-     * @throws Exception
      */
     public function beforeExecuteRoute(/** @scrutinizer ignore-unused */Event $event, Micro $api)
     {
-        /** @var Request $request */
-        $request = $api->getService('request');
-        if (true === $request->isPost()) {
-            $body = $request->getRawBody();
-            if (true !== empty($body)) {
-                $data = json_decode($body, true);
-                $this->checkJson();
-                $this->checkDataElement($data);
-                $this->parsePayload($data);
-            }
-        }
+        /** @var Response $response */
+        $response = $api->getService('response');
 
-        return true;
+        try {
+            /** @var Request $request */
+            $request = $api->getService('request');
+            if (true === $request->isPost()) {
+                $body = $request->getRawBody();
+                if (true !== empty($body)) {
+                    $data = json_decode($body, true);
+                    $this->checkJson();
+                    $this->checkDataElement($data);
+                    $this->parsePayload($data);
+                }
+            }
+
+            return true;
+        } catch (Exception $ex) {
+            $this->halt($api, $ex->getMessage());
+
+            return false;
+        }
     }
 
     /**

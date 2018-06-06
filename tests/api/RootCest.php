@@ -4,12 +4,13 @@ namespace Niden\Tests\api;
 
 use ApiTester;
 use function floatval;
+use Page\Data;
 
 class RootCest
 {
     public function checkDefaultRoute(ApiTester $I)
     {
-        $I->sendGET('/');
+        $I->sendGET(Data::$rootUrl);
         $I->seeResponseIsSuccessful();
         $response = $I->grabResponse();
         $response = json_decode($response, true);

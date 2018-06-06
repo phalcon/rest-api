@@ -2,6 +2,7 @@
 
 namespace Niden\Middleware;
 
+use function time;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\Token;
@@ -9,11 +10,12 @@ use Lcobucci\JWT\ValidationData;
 use Niden\Exception\Exception;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
+use Niden\Http\Response;
 use Niden\Models\Users;
+use Niden\Traits\ResponseTrait;
 use Niden\Traits\UserTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
-use function time;
 
 /**
  * Class AuthenticationMiddleware
@@ -22,37 +24,41 @@ use function time;
  */
 class AuthorizationMiddleware implements MiddlewareInterface
 {
+    use ResponseTrait;
     use UserTrait;
 
     /**
-     * Call me
-     *
      * @param Micro $api
      *
      * @return bool
-     * @throws Exception
      */
     public function call(Micro $api)
     {
-        /** @var Request $request */
-        $request = $api->getService('request');
+        try {
+            /** @var Request $request */
+            $request = $api->getService('request');
 
-        if (true === $request->isPost() &&
-            true !== $request->isLoginPage() &&
-            true !== $request->isEmptyBearerToken()) {
-            /**
-             * This is where we will validate the token that was sent to us
-             * using Bearer Authentication
-             */
-            $token       = $request->getBearerTokenFromHeader();
-            $user        = $this->getUserByToken($token, 'Invalid Token');
-            $parsedToken = (new Parser())->parse($token);
+            if (true === $request->isPost() &&
+                true !== $request->isLoginPage() &&
+                true !== $request->isEmptyBearerToken()) {
+                /**
+                 * This is where we will validate the token that was sent to us
+                 * using Bearer Authentication
+                 */
+                $token       = $request->getBearerTokenFromHeader();
+                $user        = $this->getUserByToken($token, 'Invalid Token');
+                $parsedToken = (new Parser())->parse($token);
 
-            $this->checkAlteredToken($parsedToken, $user);
-            $this->checkValidToken($parsedToken, $user);
+                $this->checkAlteredToken($parsedToken, $user);
+                $this->checkValidToken($parsedToken, $user);
+            }
+
+            return true;
+        } catch (Exception $ex) {
+            $this->halt($api, $ex->getMessage());
+
+            return false;
         }
-
-        return true;
     }
 
     /**

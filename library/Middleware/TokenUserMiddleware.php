@@ -35,7 +35,7 @@ class TokenUserMiddleware extends TokenBase
              */
             $token = $request->getBearerTokenFromHeader();
 
-            /** @var Users $user */
+            /** @var Users|false $user */
             $user = $this->getUserByToken($token);
             if (false === $user) {
                 $this->halt($api, 'Invalid Token');

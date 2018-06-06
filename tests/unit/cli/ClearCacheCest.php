@@ -36,13 +36,13 @@ class ClearCacheCest
         $iterator = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
         $I->assertEquals($count + 4, iterator_count($iterator));
 
-//        ob_start();
+        ob_start();
         $task->mainAction();
-//        $actual = ob_get_contents();
-//        ob_end_clean();
+        $actual = ob_get_contents();
+        ob_end_clean();
 
-//        $I->assertGreaterOrEquals(0, strpos($actual, 'Clearing Cache folders'));
-//        $I->assertGreaterOrEquals(0, strpos($actual, 'Cleared Cache folders'));
+        $I->assertGreaterOrEquals(0, strpos($actual, 'Clearing Cache folders'));
+        $I->assertGreaterOrEquals(0, strpos($actual, 'Cleared Cache folders'));
 
         $iterator = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
         $I->assertEquals(1, iterator_count($iterator));

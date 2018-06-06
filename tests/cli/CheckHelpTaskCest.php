@@ -20,7 +20,6 @@ class CheckHelpTaskCest
 
         $I->runShellCommand('./runCli');
         $I->seeResultCodeIs(0);
-        $I->seeInShellOutput('Phalcon Team | (C) ' . date('Y'));
         $I->seeInShellOutput('--help');
         $I->seeInShellOutput('--clear-cache');
     }

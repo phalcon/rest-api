@@ -58,11 +58,8 @@ class AuthorizationMiddleware implements MiddlewareInterface
             /**
              * Parse the token and verify signature
              */
-            $token  = (new Parser())->parse($dbToken);
-            $signer = new Sha512();
-            $valid  = $token->verify($signer, $user->get('usr_token_password'));
-
-            if (false === $valid) {
+            $token = (new Parser())->parse($dbToken);
+            if (false === $this->checkTokenSignature($token, $user)) {
                 $this->halt($api, 'Invalid Token');
                 return false;
             }
@@ -70,57 +67,41 @@ class AuthorizationMiddleware implements MiddlewareInterface
             /**
              * Validate the token
              */
-            $data  = $this->getValidation($user);
-            $valid = $token->validate($data);
-
-            if (false === $valid) {
+            if (false === $this->checkTokenValidity($token, $user)) {
                 $this->halt($api, 'Invalid Token');
                 return false;
             }
-//            $this->checkAlteredToken($parsedToken, $user);
-//            $this->checkValidToken($parsedToken, $user);
         }
 
         return true;
-//        } catch (Exception $ex) {
-//            $this->halt($api, $ex->getMessage());
-//
-//            return false;
-//        }
     }
 
     /**
      * @param Token $token
      * @param Users $user
      *
-     * @throws Exception
+     * @return bool
      * @throws ModelException
      */
-    private function checkAlteredToken(Token $token, Users $user)
+    private function checkTokenSignature(Token $token, Users $user): bool
     {
         $signer = new Sha512();
-        $valid  = $token->verify($signer, $user->get('usr_token_password'));
 
-        if (false === $valid) {
-            throw new Exception('Invalid Token');
-        }
+        return $token->verify($signer, $user->get('usr_token_password'));
     }
 
     /**
      * @param Token $token
      * @param Users $user
      *
-     * @throws Exception
+     * @return bool
      * @throws ModelException
      */
-    private function checkValidToken(Token $token, Users $user)
+    private function checkTokenValidity(Token $token, Users $user): bool
     {
-        $data  = $this->getValidation($user);
-        $valid = $token->validate($data);
+        $data = $this->getValidation($user);
 
-        if (false === $valid) {
-            throw new Exception('Invalid Token');
-        }
+        return $token->validate($data);
     }
 
     /**

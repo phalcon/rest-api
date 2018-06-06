@@ -56,7 +56,7 @@ trait UserTrait
     /**
      * @param array  $parameters
      *
-     * @return ResultsetInterface|false
+     * @return Users|false
      */
     protected function getUser(array $parameters = [])
     {

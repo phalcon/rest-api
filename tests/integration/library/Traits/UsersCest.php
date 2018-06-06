@@ -71,12 +71,7 @@ class UsersCest
             ]
         );
 
-        $I->expectException(
-            ModelException::class,
-            function () {
-                $this->getUserByUsernameAndPassword('testusername', 'nothing');
-            }
-        );
+        $I->assertFalse($this->getUserByUsernameAndPassword('testusername', 'nothing'));
     }
 
     /**
@@ -132,11 +127,6 @@ class UsersCest
             ]
         );
 
-        $I->expectException(
-            ModelException::class,
-            function () {
-                $this->getUserByToken('sometoken');
-            }
-        );
+        $I->assertFalse($this->getUserByToken('sometoken'));
     }
 }

@@ -27,20 +27,21 @@ class LoginController extends Controller
     /**
      * Default action logging in
      *
+     * @return array
      * @throws ModelException
      */
     public function callAction()
     {
-        try {
-            $username = $this->request->getPost('username', Filter::FILTER_STRING);
-            $password = $this->request->getPost('password', Filter::FILTER_STRING);
+        $username = $this->request->getPost('username', Filter::FILTER_STRING);
+        $password = $this->request->getPost('password', Filter::FILTER_STRING);
+        $parameters = [
+            'usr_username' => $username,
+            'usr_password' => $password,
+        ];
+        /** @var Users|false $user */
+        $user = $this->getUser($parameters);
 
-            $user = $this->getUserByUsernameAndPassword(
-                $username,
-                $password,
-                'Incorrect credentials'
-            );
-
+        if (false !== $user) {
             $token = $this->getToken($user);
 
             $this->updateRecord($user, $token);
@@ -49,8 +50,8 @@ class LoginController extends Controller
              * User found - Return token
              */
             return ['token' => $token];
-        } catch (Exception $ex) {
-            $this->response->setPayloadError($ex->getMessage());
+        } else {
+            $this->response->setPayloadError('Incorrect credentials');
         }
     }
 

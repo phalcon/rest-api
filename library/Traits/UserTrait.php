@@ -19,12 +19,10 @@ trait UserTrait
      * Gets a user from the database based on the JWT token
      *
      * @param string $token
-     * @param string $message
      *
-     * @return Users
-     * @throws ModelException
+     * @return Users|false
      */
-    protected function getUserByToken(string $token, string $message = 'Record not found'): Users
+    protected function getUserByToken(string $token)
     {
         list($pre, $mid, $post) = explode('.', $token);
 
@@ -33,9 +31,8 @@ trait UserTrait
             'usr_token_mid'  => $mid,
             'usr_token_post' => $post,
         ];
-        $results    = $this->getUsers($parameters, true, $message);
 
-        return $results[0];
+        return $this->getUser($parameters);
     }
 
     /**
@@ -43,39 +40,38 @@ trait UserTrait
      *
      * @param string $username
      * @param string $password
-     * @param string $message
      *
-     * @return Users
-     * @throws ModelException
+     * @return Users|false
      */
-    protected function getUserByUsernameAndPassword(
-        $username,
-        $password,
-        string $message = 'Record not found'
-    ): Users {
+    protected function getUserByUsernameAndPassword($username, $password)
+    {
         $parameters = [
-            'usr_username'  => $username,
-            'usr_password'  => $password,
+            'usr_username' => $username,
+            'usr_password' => $password,
         ];
 
-        $results    = $this->getUsers($parameters, true, $message);
-
-        return $results[0];
+        return $this->getUser($parameters);
     }
 
     /**
      * @param array  $parameters
-     * @param bool   $throwException
-     * @param string $message
+     *
+     * @return ResultsetInterface|false
+     */
+    protected function getUser(array $parameters = [])
+    {
+        $results = $this->getUsers($parameters);
+
+        return $results[0] ?? false;
+    }
+
+    /**
+     * @param array  $parameters
      *
      * @return ResultsetInterface
-     * @throws ModelException
      */
-    protected function getUsers(
-        array $parameters = [],
-        bool $throwException = false,
-        string $message = 'Record not found'
-    ) {
+    protected function getUsers(array $parameters = [])
+    {
         $builder = new Builder();
         $builder->addFrom(Users::class);
 
@@ -86,12 +82,6 @@ trait UserTrait
             );
         }
 
-        $results = $builder->getQuery()->execute();
-
-        if (0 === count($results) && true === $throwException) {
-            throw new ModelException($message);
-        }
-
-        return $results;
+        return $builder->getQuery()->execute();
     }
 }

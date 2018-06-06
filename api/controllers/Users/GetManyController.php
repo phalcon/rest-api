@@ -27,8 +27,6 @@ class GetManyController extends Controller
 
     /**
      * Gets many users
-     *
-     * @throws Exception
      */
     public function callAction()
     {

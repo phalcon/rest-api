@@ -10,7 +10,6 @@ use Lcobucci\JWT\ValidationData;
 use Niden\Exception\Exception;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
-use Niden\Http\Response;
 use Niden\Models\Users;
 use Niden\Traits\ResponseTrait;
 use Niden\Traits\UserTrait;
@@ -31,34 +30,63 @@ class AuthorizationMiddleware implements MiddlewareInterface
      * @param Micro $api
      *
      * @return bool
+     * @throws ModelException
      */
     public function call(Micro $api)
     {
-        try {
-            /** @var Request $request */
-            $request = $api->getService('request');
+        /** @var Request $request */
+        $request = $api->getService('request');
 
-            if (true === $request->isPost() &&
-                true !== $request->isLoginPage() &&
-                true !== $request->isEmptyBearerToken()) {
-                /**
-                 * This is where we will validate the token that was sent to us
-                 * using Bearer Authentication
-                 */
-                $token       = $request->getBearerTokenFromHeader();
-                $user        = $this->getUserByToken($token, 'Invalid Token');
-                $parsedToken = (new Parser())->parse($token);
-
-                $this->checkAlteredToken($parsedToken, $user);
-                $this->checkValidToken($parsedToken, $user);
+        if (true === $request->isPost() &&
+            true !== $request->isLoginPage() &&
+            true !== $request->isEmptyBearerToken()) {
+            /**
+             * This is where we will validate the token that was sent to us
+             * using Bearer Authentication
+             */
+            /**
+             * Find the user attached to this token
+             */
+            $dbToken = $request->getBearerTokenFromHeader();
+            /** @var Users|false $user */
+            $user  = $this->getUserByToken($dbToken);
+            if (false === $user) {
+                $this->halt($api, 'Invalid Token');
+                return false;
             }
 
-            return true;
-        } catch (Exception $ex) {
-            $this->halt($api, $ex->getMessage());
+            /**
+             * Parse the token and verify signature
+             */
+            $token  = (new Parser())->parse($dbToken);
+            $signer = new Sha512();
+            $valid  = $token->verify($signer, $user->get('usr_token_password'));
 
-            return false;
+            if (false === $valid) {
+                $this->halt($api, 'Invalid Token');
+                return false;
+            }
+
+            /**
+             * Validate the token
+             */
+            $data  = $this->getValidation($user);
+            $valid = $token->validate($data);
+
+            if (false === $valid) {
+                $this->halt($api, 'Invalid Token');
+                return false;
+            }
+//            $this->checkAlteredToken($parsedToken, $user);
+//            $this->checkValidToken($parsedToken, $user);
         }
+
+        return true;
+//        } catch (Exception $ex) {
+//            $this->halt($api, $ex->getMessage());
+//
+//            return false;
+//        }
     }
 
     /**

@@ -26,25 +26,20 @@ class AuthenticationMiddleware implements MiddlewareInterface
      * @param Micro $api
      *
      * @return bool
-     * @throws Exception
      */
     public function call(Micro $api)
     {
-        try {
-            /** @var Request $request */
-            $request = $api->getService('request');
+        /** @var Request $request */
+        $request = $api->getService('request');
 
-            if (true === $request->isPost() &&
-                true !== $request->isLoginPage() &&
-                true === $request->isEmptyBearerToken()) {
-                throw new Exception('Invalid Token');
-            }
-
-            return true;
-        } catch (Exception $ex) {
-            $this->halt($api, $ex->getMessage());
+        if (true === $request->isPost() &&
+            true !== $request->isLoginPage() &&
+            true === $request->isEmptyBearerToken()) {
+            $this->halt($api, 'Invalid Token');
 
             return false;
         }
+
+        return true;
     }
 }

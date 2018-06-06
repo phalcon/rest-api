@@ -30,78 +30,55 @@ class AuthorizationMiddleware implements MiddlewareInterface
      * @param Micro $api
      *
      * @return bool
-     * @throws ModelException
      */
     public function call(Micro $api)
     {
         /** @var Request $request */
         $request = $api->getService('request');
+        try {
+            if (true === $this->isValidCheck($request)) {
+                /**
+                 * This is where we will validate the token that was sent to us
+                 * using Bearer Authentication
+                 *
+                 * Find the user attached to this token
+                 */
+                $token = $request->getBearerTokenFromHeader();
+                /** @var Users $user */
+                $user = $this->getTokenUser($token);
 
-        if (true === $request->isPost() &&
-            true !== $request->isLoginPage() &&
-            true !== $request->isEmptyBearerToken()) {
-            /**
-             * This is where we will validate the token that was sent to us
-             * using Bearer Authentication
-             */
-            /**
-             * Find the user attached to this token
-             */
-            $dbToken = $request->getBearerTokenFromHeader();
-            /** @var Users|false $user */
-            $user  = $this->getUserByToken($dbToken);
-            if (false === $user) {
-                $this->halt($api, 'Invalid Token');
-                return false;
+                /**
+                 * Parse the token and verify signature
+                 */
+                $this->checkToken($token, $user);
             }
 
-            /**
-             * Parse the token and verify signature
-             */
-            $token = (new Parser())->parse($dbToken);
-            if (false === $this->checkTokenSignature($token, $user)) {
-                $this->halt($api, 'Invalid Token');
-                return false;
-            }
+            return true;
+        } catch (Exception $ex) {
+            $this->halt($api, $ex->getMessage());
 
-            /**
-             * Validate the token
-             */
-            if (false === $this->checkTokenValidity($token, $user)) {
-                $this->halt($api, 'Invalid Token');
-                return false;
-            }
+            return false;
         }
-
-        return true;
     }
 
     /**
-     * @param Token $token
-     * @param Users $user
+     * @param string $token
+     * @param Users  $user
      *
-     * @return bool
+     * @throws Exception
      * @throws ModelException
      */
-    private function checkTokenSignature(Token $token, Users $user): bool
+    private function checkToken(string $token, Users $user)
     {
-        $signer = new Sha512();
+        $token    = (new Parser())->parse($token);
+        $signer   = new Sha512();
+        $data     = $this->getValidation($user);
+        $verified = $token->verify($signer, $user->get('usr_token_password'));
+        $valid    = $token->validate($data);
 
-        return $token->verify($signer, $user->get('usr_token_password'));
-    }
-
-    /**
-     * @param Token $token
-     * @param Users $user
-     *
-     * @return bool
-     * @throws ModelException
-     */
-    private function checkTokenValidity(Token $token, Users $user): bool
-    {
-        $data = $this->getValidation($user);
-
-        return $token->validate($data);
+        if (false === $valid || false === $verified) {
+            throw new Exception('Invalid Token');
+        }
     }
 
     /**
@@ -119,5 +96,37 @@ class AuthorizationMiddleware implements MiddlewareInterface
         $validationData->setCurrentTime(time() + 10);
 
         return $validationData;
+    }
+
+    /**
+     * @param string $token
+     *
+     * @return Users
+     * @throws Exception
+     */
+    private function getTokenUser(string $token): Users
+    {
+        /** @var Users|false $user */
+        $user = $this->getUserByToken($token);
+
+        if (false === $user) {
+            throw new Exception('Invalid Token');
+        }
+
+        return $user;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return bool
+     */
+    private function isValidCheck(Request $request): bool
+    {
+        return (
+            true === $request->isPost() &&
+            true !== $request->isLoginPage() &&
+            true !== $request->isEmptyBearerToken()
+        );
     }
 }

@@ -6,7 +6,6 @@ use Niden\Api\Controllers\IndexController;
 use Niden\Api\Controllers\Users\GetOneController;
 use Niden\Api\Controllers\Users\GetManyController;
 use Niden\Api\Controllers\LoginController;
-use Niden\Middleware\AuthorizationMiddleware;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\AuthenticationMiddleware;

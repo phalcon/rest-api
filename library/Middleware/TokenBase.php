@@ -26,24 +26,6 @@ abstract class TokenBase implements MiddlewareInterface
     use UserTrait;
 
     /**
-     * @param string $token
-     *
-     * @return Users
-     * @throws Exception
-     */
-    protected function getTokenUser(string $token): Users
-    {
-        /** @var Users|false $user */
-        $user = $this->getUserByToken($token);
-
-        if (false === $user) {
-            throw new Exception('Invalid Token');
-        }
-
-        return $user;
-    }
-
-    /**
      * @param Request $request
      *
      * @return bool

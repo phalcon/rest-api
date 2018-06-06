@@ -85,17 +85,6 @@ class UserCest
         $I->seeErrorJsonResponse('Invalid Token');
     }
 
-    public function loginKnownUserIncorrectToken(ApiTester $I)
-    {
-        $this->addRecord($I);
-        $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer abcde');
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson(1));
-        $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('Invalid Token');
-    }
-
     public function loginKnownUserCorrectToken(ApiTester $I)
     {
         $this->addRecord($I);

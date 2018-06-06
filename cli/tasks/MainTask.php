@@ -11,38 +11,19 @@ class MainTask extends PhTask
      */
     public function mainAction()
     {
-        $colors = [
-            'green' => "\033[0;32m(%s)\033[0m",
-            'red'   => "\033[0;31m(%s)\033[0m",
-        ];
+        // 'green' => "\033[0;32m(%s)\033[0m",
+        // 'red'   => "\033[0;31m(%s)\033[0m",
 
-        echo '******************************************************' . PHP_EOL;
-        echo ' Phalcon Team | (C) ' . date('Y') . PHP_EOL;
-        echo '******************************************************' . PHP_EOL;
-        echo PHP_EOL;
-        echo 'Usage: team <command>';
+        echo <<<EOF
+******************************************************
+ Phalcon Team | (C) {date('Y')}
+******************************************************
+PHP_EOL;
+Usage: team <command>
 
-        echo PHP_EOL . PHP_EOL;
+  --help         \e[0;32m(safe)\e[0m shows the help screen/available commands
+  --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders
 
-        $commands = [
-            sprintf(
-                '  --help         %s %s',
-                sprintf($colors['green'], 'safe'),
-                'shows the help screen/available commands'
-            ),
-            sprintf(
-                '  --clear-cache  %s %s',
-                sprintf($colors['green'], 'safe'),
-                'clears the cache folders'
-            ),
-        ];
-
-        echo 'Commands:' .  PHP_EOL;
-
-        foreach ($commands as $command) {
-            echo $command . PHP_EOL;
-        }
-
-        echo PHP_EOL;
+EOF;
     }
 }

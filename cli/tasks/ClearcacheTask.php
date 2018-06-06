@@ -19,14 +19,33 @@ class ClearcacheTask extends PhTask
     {
         echo 'Clearing Cache folders' . PHP_EOL;
 
+        $fileList = $this->getFileList();
+        $steps    = count($fileList);
+        $bar      = new CliProgressBar($steps);
+        $bar
+            ->setColorToGreen()
+            ->display();
+
+        foreach ($fileList as $file) {
+            $bar->progress();
+            unlink($file);
+        }
+
+        $bar->end();
+
+        echo 'Cleared Cache folders' . PHP_EOL;
+    }
+
+    /**
+     * Iterate through the folders and get the file list
+     *
+     * @return array
+     */
+    private function getFileList(): array
+    {
         $fileList    = [];
         $whitelist   = ['.', '..', '.gitignore'];
-        $path        = appPath('storage/cache');
-        $dirIterator = new RecursiveDirectoryIterator($path);
-        $iterator    = new RecursiveIteratorIterator(
-            $dirIterator,
-            RecursiveIteratorIterator::CHILD_FIRST
-        );
+        $iterator    = $this->getIterator();
 
         /**
          * Get how many files we have there and where they are
@@ -37,18 +56,20 @@ class ClearcacheTask extends PhTask
             }
         }
 
-        $steps = count($fileList);
-        $bar   = new CliProgressBar($steps);
-        $bar
-            ->setColorToGreen()
-            ->display();
-        foreach ($fileList as $file) {
-            $bar->progress();
-            unlink($file);
-        }
+        return $fileList;
+    }
 
-        $bar->end();
+    /**
+     * @return RecursiveIteratorIterator
+     */
+    private function getIterator(): RecursiveIteratorIterator
+    {
+        $path        = appPath('storage/cache');
+        $dirIterator = new RecursiveDirectoryIterator($path);
 
-        echo 'Cleared Cache folders' . PHP_EOL;
+        return new RecursiveIteratorIterator(
+            $dirIterator,
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
     }
 }

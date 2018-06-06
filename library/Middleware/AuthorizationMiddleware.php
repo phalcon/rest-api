@@ -49,8 +49,22 @@ class AuthorizationMiddleware implements MiddlewareInterface
                 $user        = $this->getUserByToken($token, 'Invalid Token');
                 $parsedToken = (new Parser())->parse($token);
 
-                $this->checkAlteredToken($parsedToken, $user);
-                $this->checkValidToken($parsedToken, $user);
+                $signer = new Sha512();
+                $valid  = $token->$parsedToken($signer, $user->get('usr_token_password'));
+
+                /**
+                 * Check signed token
+                 */
+                if (false === $valid) {
+                    throw new Exception('Invalid Token');
+                }
+
+                $data  = $this->getValidation($user);
+                $valid = $parsedToken->validate($data);
+
+                if (false === $valid) {
+                    throw new Exception('Invalid Token');
+                }
             }
 
             return true;
@@ -58,40 +72,6 @@ class AuthorizationMiddleware implements MiddlewareInterface
             $this->halt($api, $ex->getMessage());
 
             return false;
-        }
-    }
-
-    /**
-     * @param Token $token
-     * @param Users $user
-     *
-     * @throws Exception
-     * @throws ModelException
-     */
-    private function checkAlteredToken(Token $token, Users $user)
-    {
-        $signer = new Sha512();
-        $valid  = $token->verify($signer, $user->get('usr_token_password'));
-
-        if (false === $valid) {
-            throw new Exception('Invalid Token');
-        }
-    }
-
-    /**
-     * @param Token $token
-     * @param Users $user
-     *
-     * @throws Exception
-     * @throws ModelException
-     */
-    private function checkValidToken(Token $token, Users $user)
-    {
-        $data  = $this->getValidation($user);
-        $valid = $token->validate($data);
-
-        if (false === $valid) {
-            throw new Exception('Invalid Token');
         }
     }
 

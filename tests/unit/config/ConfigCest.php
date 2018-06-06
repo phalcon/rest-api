@@ -2,10 +2,8 @@
 
 namespace Niden\Tests\unit\config;
 
-use function apache_setenv;
 use function is_array;
 use function Niden\Core\appPath;
-use function Niden\Core\envValue;
 use \UnitTester;
 
 class ConfigCest

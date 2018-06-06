@@ -85,6 +85,37 @@ class UserCest
         $I->seeErrorJsonResponse('Invalid Token');
     }
 
+    public function loginKnownUserInvalidToken(ApiTester $I)
+    {
+        $this->addRecord($I);
+        $I->deleteHeader('Authorization');
+        $I->sendPOST(Data::$loginUrl, Data::loginJson());
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
+
+        $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
+
+        $signer  = new Sha512();
+        $builder = new Builder();
+
+        $token   = $builder
+            ->setIssuer($record->get('usr_domain_name'))
+            ->setAudience('https://phalconphp.com')
+            ->setId($record->get('usr_token_id'), true)
+            ->setIssuedAt(time() - 3600)
+            ->setNotBefore(time() - 3590)
+            ->setExpiration(time() - 3000)
+            ->sign($signer, $record->get('usr_token_password'))
+            ->getToken();
+
+        $invalidToken = $token->__toString();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
+        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
+        $I->seeResponseIsSuccessful();
+        $I->seeErrorJsonResponse('Invalid Token');
+    }
+
     public function loginKnownUserCorrectToken(ApiTester $I)
     {
         $this->addRecord($I);

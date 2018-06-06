@@ -13,17 +13,16 @@ use Niden\Models\Users;
 use Phalcon\Mvc\Micro;
 
 /**
- * Class AuthenticationMiddleware
+ * Class TokenUserMiddleware
  *
  * @package Niden\Middleware
  */
-class TokenVerificationMiddleware extends TokenBase
+class TokenUserMiddleware extends TokenBase
 {
     /**
      * @param Micro $api
      *
      * @return bool
-     * @throws ModelException
      */
     public function call(Micro $api)
     {
@@ -31,19 +30,17 @@ class TokenVerificationMiddleware extends TokenBase
         $request = $api->getService('request');
         if (true === $this->isValidCheck($request)) {
             /**
-             * This is where we will validate the token that was sent to us
-             * using Bearer Authentication
-             *
-             * Find the user attached to this token
+             * This is where we will find if the user exists based on
+             * the token passed using Bearer Authentication
              */
-            $dbToken = $request->getBearerTokenFromHeader();
-            $token   = (new Parser())->parse($dbToken);
-            $signer  = new Sha512();
+            $token = $request->getBearerTokenFromHeader();
 
             /** @var Users $user */
             $user = $this->getUserByToken($token);
-            if (false === $token->verify($signer, $user->get('usr_token_password'))) {
+            if (false === $user) {
                 $this->halt($api, 'Invalid Token');
+
+                return false;
             }
 
             return true;

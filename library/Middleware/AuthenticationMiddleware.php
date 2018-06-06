@@ -32,8 +32,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
         /** @var Request $request */
         $request = $api->getService('request');
 
-        if (true === $request->isPost() &&
-            true !== $request->isLoginPage() &&
+        if (true !== $request->isLoginPage() &&
             true === $request->isEmptyBearerToken()) {
             $this->halt($api, 'Invalid Token');
 

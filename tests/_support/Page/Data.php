@@ -5,7 +5,6 @@ namespace Page;
 class Data
 {
     public static $loginUrl    = '/login';
-    public static $rootUrl     = '/';
     public static $userGetUrl  = '/user/get';
     public static $usersGetUrl = '/users/get';
     public static $wrongUrl    = '/sommething';

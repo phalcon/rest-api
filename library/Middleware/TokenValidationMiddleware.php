@@ -41,8 +41,7 @@ class TokenValidationMiddleware extends TokenBase
 
             /** @var Users $user */
             $user = $this->getUserByToken($token);
-            if (!(false !== $user &&
-                  false !== $token->validate($this->getValidation($user)))) {
+            if (false === $token->validate($this->getValidation($user))) {
                 $this->halt($api, 'Invalid Token');
 
                 return false;

@@ -32,8 +32,6 @@ class ConfigCest
         $I->assertTrue(isset($configArray['app']['baseUri']));
         $I->assertTrue(isset($configArray['app']['supportEmail']));
         $I->assertTrue(isset($configArray['app']['time']));
-        $I->assertTrue(isset($configArray['db']));
         $I->assertTrue(isset($configArray['cache']));
-        $I->assertTrue(isset($configArray['logger']));
     }
 }

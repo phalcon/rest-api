@@ -2,7 +2,7 @@
 
 namespace Niden\Providers;
 
-use Phalcon\Config;
+use function Niden\Core\envValue;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
@@ -14,18 +14,14 @@ class DatabaseProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
-        /** @var Config $config */
-        $config = $container->getShared('config');
-
         $container->setShared(
             'db',
-            function () use ($config) {
-
+            function () {
                 $options = [
-                    'host'       => $config->path('db.host', 'localhost'),
-                    'username'   => $config->path('db.username', ''),
-                    'password'   => $config->path('db.password', ''),
-                    'dbname'     => $config->path('db.dbname', ''),
+                    'host'       => envValue('DATA_API_MYSQL_HOST', 'localhost'),
+                    'username'   => envValue('DATA_API_MYSQL_USER', 'nanobox'),
+                    'password'   => envValue('DATA_API_MYSQL_PASS', ''),
+                    'dbname'     => envValue('DATA_API_MYSQL_NAME', 'gonano'),
                 ];
 
                 $connection = new Mysql($options);

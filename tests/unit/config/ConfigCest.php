@@ -14,8 +14,6 @@ class ConfigCest
 
         $I->assertTrue(is_array($config));
         $I->assertTrue(isset($config['app']));
-        $I->assertTrue(isset($config['db']));
         $I->assertTrue(isset($config['cache']));
-        $I->assertTrue(isset($config['logger']));
     }
 }

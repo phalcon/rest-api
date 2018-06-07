@@ -16,13 +16,6 @@ return [
         'supportEmail' => envValue('APP_SUPPORT_EMAIL'),
         'time'         => microtime(true),
     ],
-    'db'         => [
-        'host'     => envValue('DATA_API_MYSQL_HOST'),
-        'dbname'   => envValue('DATA_API_MYSQL_NAME'),
-        'username' => envValue('DATA_API_MYSQL_USER'),
-        'password' => envValue('DATA_API_MYSQL_PASS'),
-        'encoding' => 'utf8',
-    ],
     'cache'      => [
         'data'     => [
             'front' => [

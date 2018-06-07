@@ -34,9 +34,6 @@ class Users extends AbstractModel
             'usr_password'       => Filter::FILTER_STRING,
             'usr_domain_name'    => Filter::FILTER_STRING,
             'usr_token_password' => Filter::FILTER_STRING,
-            'usr_token_pre'      => Filter::FILTER_STRING,
-            'usr_token_mid'      => Filter::FILTER_STRING,
-            'usr_token_post'     => Filter::FILTER_STRING,
             'usr_token_id'       => Filter::FILTER_STRING,
         ];
     }

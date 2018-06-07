@@ -4,6 +4,7 @@ namespace Niden\Middleware;
 
 use Niden\Http\Request;
 use Niden\Traits\ResponseTrait;
+use Niden\Traits\TokenTrait;
 use Niden\Traits\UserTrait;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
@@ -15,6 +16,7 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
 abstract class TokenBase implements MiddlewareInterface
 {
     use ResponseTrait;
+    use TokenTrait;
     use UserTrait;
 
     /**

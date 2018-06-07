@@ -2,6 +2,8 @@
 
 namespace Niden\Traits;
 
+use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Token;
 use function Niden\Core\envValue;
 use function time;
 
@@ -12,6 +14,18 @@ use function time;
  */
 trait TokenTrait
 {
+    /**
+     * Returns the JWT token object
+     *
+     * @param string $token
+     *
+     * @return Token
+     */
+    protected function getToken(string $token): Token
+    {
+        return (new Parser())->parse($token);
+    }
+
     /**
      * Returns the default audience for the tokens
      *

@@ -2,7 +2,8 @@
 
 namespace Niden\Traits;
 
-use function explode;
+use Lcobucci\JWT\Token;
+use Niden\JWTClaims;
 use Niden\Models\Users;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -17,18 +18,15 @@ trait UserTrait
     /**
      * Gets a user from the database based on the JWT token
      *
-     * @param string $token
+     * @param Token $token
      *
      * @return Users|false
      */
-    protected function getUserByToken(string $token)
+    protected function getUserByToken(Token $token)
     {
-        list($pre, $mid, $post) = explode('.', $token);
-
-        $parameters = [
-            'usr_token_pre'  => $pre,
-            'usr_token_mid'  => $mid,
-            'usr_token_post' => $post,
+        $parameters  = [
+            'usr_domain_name' => $token->getClaim(JWTClaims::CLAIM_ISSUER),
+            'usr_token_id'    => $token->getClaim(JWTClaims::CLAIM_ID),
         ];
 
         return $this->getUser($parameters);

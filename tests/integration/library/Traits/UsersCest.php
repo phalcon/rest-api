@@ -2,20 +2,20 @@
 
 namespace Niden\Tests\integration\library\Traits;
 
-use function Niden\Core\appPath;
-use Codeception\Stub;
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
 use \IntegrationTester;
-use Niden\Logger;
 use Niden\Models\Users;
 use Niden\Exception\ModelException;
+use Niden\Traits\TokenTrait;
 use Niden\Traits\UserTrait;
-use Phalcon\Mvc\Model\Message;
 
 /**
  * Class ModelCest
  */
 class UsersCest
 {
+    use TokenTrait;
     use UserTrait;
 
     /**
@@ -34,9 +34,6 @@ class UsersCest
                 'usr_password'    => 'testpass',
                 'usr_status_flag' => 1,
                 'usr_domain_name' => 'phalconphp.com',
-                'usr_token_pre'   => '123',
-                'usr_token_mid'   => '456',
-                'usr_token_post'  => '789',
                 'usr_token_id'    => '00110011',
 
             ]
@@ -52,7 +49,7 @@ class UsersCest
      *
      * @throws ModelException
      */
-    public function checkGetUserByUsernameAndPasswordThrowsException(IntegrationTester $I)
+    public function checkGetUserByWrongUsernameAndPasswordReturnsFalse(IntegrationTester $I)
     {
         /** @var Users $result */
         $I->haveRecordWithFields(
@@ -63,9 +60,6 @@ class UsersCest
                 'usr_password'    => 'testpass',
                 'usr_status_flag' => 1,
                 'usr_domain_name' => 'phalconphp.com',
-                'usr_token_pre'   => '123',
-                'usr_token_mid'   => '456',
-                'usr_token_post'  => '789',
                 'usr_token_id'    => '00110011',
 
             ]
@@ -79,36 +73,7 @@ class UsersCest
      *
      * @throws ModelException
      */
-    public function checkGetUserByToken(IntegrationTester $I)
-    {
-        /** @var Users $result */
-        $I->haveRecordWithFields(
-            Users::class,
-            [
-                'usr_id'          => 1002,
-                'usr_username'    => 'testusername',
-                'usr_password'    => 'testpass',
-                'usr_status_flag' => 1,
-                'usr_domain_name' => 'phalconphp.com',
-                'usr_token_pre'   => '123',
-                'usr_token_mid'   => '456',
-                'usr_token_post'  => '789',
-                'usr_token_id'    => '00110011',
-
-            ]
-        );
-
-        $dbUser = $this->getUserByToken('123.456.789');
-
-        $I->assertEquals(1002, $dbUser->get('usr_id'));
-    }
-
-    /**
-     * @param IntegrationTester $I
-     *
-     * @throws ModelException
-     */
-    public function checkGetUserByTokenThrowsException(IntegrationTester $I)
+    public function checkGetUserByWrongTokenReturnsFalse(IntegrationTester $I)
     {
         /** @var Users $result */
         $I->haveRecordWithFields(
@@ -127,6 +92,15 @@ class UsersCest
             ]
         );
 
-        $I->assertFalse($this->getUserByToken('sometoken'));
+        $signer  = new Sha512();
+        $builder = new Builder();
+        $token   = $builder
+            ->setIssuer('https://somedomain.com')
+            ->setAudience($this->getTokenAudience())
+            ->setId('123456', true)
+            ->sign($signer, '110011')
+            ->getToken();
+
+        $I->assertFalse($this->getUserByToken($token));
     }
 }

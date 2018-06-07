@@ -27,7 +27,7 @@ class TokenUserMiddleware extends TokenBase
              * This is where we will find if the user exists based on
              * the token passed using Bearer Authentication
              */
-            $token = $request->getBearerTokenFromHeader();
+            $token = $this->getToken($request->getBearerTokenFromHeader());
 
             /** @var Users|false $user */
             $user = $this->getUserByToken($token);

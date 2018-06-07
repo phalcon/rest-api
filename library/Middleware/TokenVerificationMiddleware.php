@@ -33,9 +33,8 @@ class TokenVerificationMiddleware extends TokenBase
              *
              * Find the user attached to this token
              */
-            $dbToken = $request->getBearerTokenFromHeader();
-            $token   = (new Parser())->parse($dbToken);
-            $signer  = new Sha512();
+            $token  = $this->getToken($request->getBearerTokenFromHeader());
+            $signer = new Sha512();
 
             /** @var Users $user */
             $user = $this->getUserByToken($token);

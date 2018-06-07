@@ -43,35 +43,12 @@ class LoginController extends Controller
         $user = $this->getUser($parameters);
 
         if (false !== $user) {
-            $token = $user->getToken();
-            $this->updateRecord($user, $token);
-
             /**
              * User found - Return token
              */
-            return ['token' => $token];
+            return ['token' => $user->getToken()];
         } else {
             $this->response->setPayloadError('Incorrect credentials');
-        }
-    }
-
-    /**
-     * @param Users  $user
-     * @param string $token
-     *
-     * @throws ModelException
-     */
-    private function updateRecord(Users $user, string $token)
-    {
-        list($pre, $mid, $post) = explode('.', $token);
-        $result = $user
-            ->set('usr_token_pre', $pre)
-            ->set('usr_token_mid', $mid)
-            ->set('usr_token_post', $post)
-            ->save();
-
-        if (false === $result) {
-            throw new ModelException('Cannot update user record');
         }
     }
 }

@@ -65,8 +65,4 @@ return [
             ],
         ],
     ],
-    'logger'     => [
-        'name'     => envValue('LOGGER_DEFAULT_FILENAME', 'api.log'),
-        'path'     => envValue('LOGGER_DEFAULT_PATH', 'storage/logs'),
-    ],
 ];

@@ -1,7 +1,6 @@
 <?php
 
 use Dotenv\Dotenv;
-use Dotenv\Exception\InvalidPathException;
 use Phalcon\Loader;
 use function Niden\Core\appPath;
 

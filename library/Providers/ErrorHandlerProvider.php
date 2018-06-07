@@ -9,7 +9,6 @@ use Niden\Logger;
 use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
-use function set_exception_handler;
 
 class ErrorHandlerProvider implements ServiceProviderInterface
 {

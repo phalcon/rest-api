@@ -3,7 +3,6 @@
 namespace Niden\Traits;
 
 use function explode;
-use Niden\Exception\ModelException;
 use Niden\Models\Users;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\ResultsetInterface;

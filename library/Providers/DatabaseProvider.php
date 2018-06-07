@@ -6,8 +6,6 @@ use Phalcon\Config;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
-use Phalcon\Events\Manager;
-use Phalcon\Registry;
 
 class DatabaseProvider implements ServiceProviderInterface
 {

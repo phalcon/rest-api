@@ -5,7 +5,6 @@ namespace Niden\Api\Controllers;
 use function explode;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Niden\Exception\Exception;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Http\Response;

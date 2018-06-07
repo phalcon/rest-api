@@ -2,7 +2,6 @@
 
 namespace Niden\Mvc\Model;
 
-use function call_user_func_array;
 use Niden\Exception\ModelException;
 use Niden\Logger;
 use Phalcon\Filter;

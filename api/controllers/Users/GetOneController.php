@@ -2,7 +2,6 @@
 
 namespace Niden\Api\Controllers\Users;
 
-use Niden\Exception\Exception;
 use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Traits\FractalTrait;

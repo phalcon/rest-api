@@ -84,9 +84,6 @@ class UsersCest
                 'usr_password'    => 'testpass',
                 'usr_status_flag' => 1,
                 'usr_domain_name' => 'phalconphp.com',
-                'usr_token_pre'   => '123',
-                'usr_token_mid'   => '456',
-                'usr_token_post'  => '789',
                 'usr_token_id'    => '00110011',
 
             ]

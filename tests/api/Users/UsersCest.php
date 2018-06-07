@@ -18,9 +18,6 @@ class UsersCest
                 'usr_password'       => 'testpassword',
                 'usr_domain_name'    => 'https://niden.net',
                 'usr_token_password' => '12345',
-                'usr_token_pre'      => '',
-                'usr_token_mid'      => '',
-                'usr_token_post'     => '',
                 'usr_token_id'       => '110011',
             ]
         );
@@ -33,9 +30,6 @@ class UsersCest
                 'usr_password'       => 'testpassword1',
                 'usr_domain_name'    => 'https://niden.net',
                 'usr_token_password' => '789789',
-                'usr_token_pre'      => '',
-                'usr_token_mid'      => '',
-                'usr_token_post'     => '',
                 'usr_token_id'       => '001100',
             ]
         );
@@ -78,9 +72,6 @@ class UsersCest
                 'usr_password'       => 'testpassword',
                 'usr_domain_name'    => 'https://niden.net',
                 'usr_token_password' => '12345',
-                'usr_token_pre'      => '',
-                'usr_token_mid'      => '',
-                'usr_token_post'     => '',
                 'usr_token_id'       => '110011',
             ]
         );

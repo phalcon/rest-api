@@ -22,9 +22,6 @@ class UsersCest
                 'usr_password',
                 'usr_domain_name',
                 'usr_token_password',
-                'usr_token_pre',
-                'usr_token_mid',
-                'usr_token_post',
                 'usr_token_id',
             ]
         );
@@ -41,9 +38,6 @@ class UsersCest
                 'usr_password'       => 'testpassword',
                 'usr_domain_name'    => 'https://niden.net',
                 'usr_token_password' => '12345',
-                'usr_token_pre'      => '',
-                'usr_token_mid'      => '',
-                'usr_token_post'     => '',
                 'usr_token_id'       => '110011',
             ]
         );

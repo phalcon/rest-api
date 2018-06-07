@@ -51,9 +51,6 @@ class LoginCest
                 'usr_username'    => 'testuser',
                 'usr_password'    => 'testpassword',
                 'usr_domain_name' => 'https://phalconphp.com',
-                'usr_token_pre'   => '',
-                'usr_token_mid'   => '',
-                'usr_token_post'  => '',
                 'usr_token_id'    => '110011',
             ]
         );

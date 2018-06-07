@@ -29,13 +29,10 @@ class ErrorHandlerCest
         $logger  = $diContainer->getShared('logger');
         $handler = new ErrorHandler($logger, $config);
 
-        $handler->handle(1, 'test error', 'file.php', 4, 'context');
+        $handler->handle(1, 'test error', 'file.php', 4);
         $fileName = appPath('storage/logs/api.log');
         $I->openFile($fileName);
-        $expected = sprintf(
-            '[ERROR] [#:1]-[L: 4] : test error (file.php) %s "context"',
-            PHP_EOL
-        );
+        $expected = '[ERROR] [#:1]-[L: 4] : test error (file.php)';
         $I->seeInThisFile($expected);
     }
 

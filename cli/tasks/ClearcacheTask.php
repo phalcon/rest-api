@@ -5,7 +5,7 @@ namespace Niden\Cli\Tasks;
 use function in_array;
 
 use function Niden\Core\appPath;
-use Phalcon\CLI\Task as PhTask;
+use Phalcon\Cli\Task as PhTask;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 

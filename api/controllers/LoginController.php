@@ -7,6 +7,7 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Niden\Exception\Exception;
 use Niden\Exception\ModelException;
+use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Models\Users;
 use Niden\Traits\UserTrait;
@@ -18,6 +19,7 @@ use Phalcon\Mvc\Controller;
  *
  * @package Niden\Api\Controllers
  *
+ * @property Request  $request
  * @property Response $response
  */
 class LoginController extends Controller

@@ -2,11 +2,8 @@
 
 namespace Niden\Middleware;
 
-use function time;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Lcobucci\JWT\ValidationData;
-use Niden\Exception\Exception;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Models\Users;
@@ -45,8 +42,8 @@ class TokenVerificationMiddleware extends TokenBase
             if (false === $token->verify($signer, $user->get('usr_token_password'))) {
                 $this->halt($api, 'Invalid Token');
             }
-
-            return true;
         }
+
+        return true;
     }
 }

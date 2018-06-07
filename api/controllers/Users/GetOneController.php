@@ -3,6 +3,7 @@
 namespace Niden\Api\Controllers\Users;
 
 use Niden\Exception\Exception;
+use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Traits\FractalTrait;
 use Niden\Traits\ResponseTrait;
@@ -18,6 +19,7 @@ use Phalcon\Mvc\Micro;
  * @package Niden\Api\Controllers\Users
  *
  * @property Micro    $application
+ * @property Request  $request
  * @property Response $response
  */
 class GetOneController extends Controller

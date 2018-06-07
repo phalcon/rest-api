@@ -2,17 +2,9 @@
 
 namespace Niden\Middleware;
 
-use function time;
-use Lcobucci\JWT\Parser;
-use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Lcobucci\JWT\ValidationData;
-use Niden\Exception\Exception;
-use Niden\Exception\ModelException;
 use Niden\Http\Request;
-use Niden\Models\Users;
 use Niden\Traits\ResponseTrait;
 use Niden\Traits\UserTrait;
-use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 /**

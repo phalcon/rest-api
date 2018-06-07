@@ -2,7 +2,7 @@
 
 namespace Niden\Cli\Tasks;
 
-use Phalcon\CLI\Task as PhTask;
+use Phalcon\Cli\Task as PhTask;
 
 class MainTask extends PhTask
 {

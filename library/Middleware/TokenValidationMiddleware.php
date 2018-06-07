@@ -4,9 +4,7 @@ namespace Niden\Middleware;
 
 use function time;
 use Lcobucci\JWT\Parser;
-use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Lcobucci\JWT\ValidationData;
-use Niden\Exception\Exception;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Models\Users;
@@ -46,9 +44,9 @@ class TokenValidationMiddleware extends TokenBase
 
                 return false;
             }
-
-            return true;
         }
+
+        return true;
     }
 
     /**

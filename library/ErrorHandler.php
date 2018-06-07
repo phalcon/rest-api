@@ -35,25 +35,22 @@ class ErrorHandler
     /**
      * Handles errors by logging them
      *
-     * @param int    $errorNumber
-     * @param string $errorString
-     * @param string $errorFile
-     * @param int    $errorLine
-     * @param        $errorContext
+     * @param int    $number
+     * @param string $message
+     * @param string $file
+     * @param int    $line
      */
-    public function handle(int $errorNumber, string $errorString, string $errorFile, int $errorLine, $errorContext)
+    public function handle(int $number, string $message, string $file = '', int $line = 0)
     {
         $this
             ->logger
             ->error(
                 sprintf(
-                    '[#:%s]-[L: %s] : %s (%s) %s %s',
-                    $errorNumber,
-                    $errorLine,
-                    $errorString,
-                    $errorFile,
-                    PHP_EOL,
-                    json_encode($errorContext)
+                    '[#:%s]-[L: %s] : %s (%s)',
+                    $number,
+                    $line,
+                    $message,
+                    $file
                 )
             );
     }

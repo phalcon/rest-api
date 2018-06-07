@@ -3,6 +3,8 @@
 namespace Niden\Tests\integration\library\Models;
 
 use IntegrationTester;
+use Lcobucci\JWT\ValidationData;
+use function Niden\Core\envValue;
 use Niden\Models\Users;
 
 
@@ -27,7 +29,7 @@ class UsersCest
         );
     }
 
-    public function checkApiResponse(IntegrationTester $I)
+    public function checkValidationData(IntegrationTester $I)
     {
         /** @var Users $user */
         $user = $I->haveRecordWithFields(
@@ -45,15 +47,12 @@ class UsersCest
             ]
         );
 
-        $expected = [
-            'id'            => $user->get('usr_id'),
-            'status'        => $user->get('usr_status_flag'),
-            'username'      => $user->get('usr_username'),
-            'domainName'    => $user->get('usr_domain_name'),
-            'tokenPassword' => $user->get('usr_token_password'),
-            'tokenId'       => $user->get('usr_token_id'),
-        ];
+        $validationData = new ValidationData();
+        $validationData->setIssuer('https://niden.net');
+        $validationData->setAudience(envValue('TOKEN_AUDIENCE', 'https://phalconphp.com'));
+        $validationData->setId('110011');
+        $validationData->setCurrentTime(time() + 10);
 
-        $I->assertEquals($expected, $user->getApiRecord());
+        $I->assertEquals($validationData, $user->getValidationData());
     }
 }

@@ -2,9 +2,7 @@
 
 namespace Niden\Middleware;
 
-use function time;
 use Lcobucci\JWT\Parser;
-use Lcobucci\JWT\ValidationData;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Models\Users;
@@ -39,7 +37,7 @@ class TokenValidationMiddleware extends TokenBase
 
             /** @var Users $user */
             $user = $this->getUserByToken($token);
-            if (false === $token->validate($this->getValidation($user))) {
+            if (false === $token->validate($user->getValidationData())) {
                 $this->halt($api, 'Invalid Token');
 
                 return false;
@@ -47,22 +45,5 @@ class TokenValidationMiddleware extends TokenBase
         }
 
         return true;
-    }
-
-    /**
-     * @param Users $user
-     *
-     * @return ValidationData
-     * @throws ModelException
-     */
-    private function getValidation(Users $user)
-    {
-        $validationData = new ValidationData();
-        $validationData->setIssuer($user->get('usr_domain_name'));
-        $validationData->setAudience('https://phalconphp.com');
-        $validationData->setId($user->get('usr_token_id'));
-        $validationData->setCurrentTime(time() + 10);
-
-        return $validationData;
     }
 }

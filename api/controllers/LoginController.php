@@ -5,6 +5,7 @@ namespace Niden\Api\Controllers;
 use function explode;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
+use function Niden\Core\envValue;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Http\Response;
@@ -12,6 +13,7 @@ use Niden\Models\Users;
 use Niden\Traits\UserTrait;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
+use function time;
 
 /**
  * Class LoginController
@@ -69,7 +71,7 @@ class LoginController extends Controller
 
         $token   = $builder
             ->setIssuer($user->get('usr_domain_name'))
-            ->setAudience('https://phalconphp.com')
+            ->setAudience(envValue('TOKEN_AUDIENCE', 'https://phalconphp.com'))
             ->setId($user->get('usr_token_id'), true)
             ->setIssuedAt(time())
             ->setNotBefore(time() + 10)

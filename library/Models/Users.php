@@ -2,9 +2,12 @@
 
 namespace Niden\Models;
 
+use Lcobucci\JWT\ValidationData;
+use function Niden\Core\envValue;
 use Niden\Exception\ModelException;
 use Niden\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
+use function time;
 
 /**
  * Class Users
@@ -13,24 +16,6 @@ use Phalcon\Filter;
  */
 class Users extends AbstractModel
 {
-    /**
-     * Returns the record in an array format; used by the API calls
-     *
-     * @return array
-     * @throws ModelException
-     */
-    public function getApiRecord(): array
-    {
-        return [
-            'id'            => $this->get('usr_id'),
-            'status'        => $this->get('usr_status_flag'),
-            'username'      => $this->get('usr_username'),
-            'domainName'    => $this->get('usr_domain_name'),
-            'tokenPassword' => $this->get('usr_token_password'),
-            'tokenId'       => $this->get('usr_token_id'),
-        ];
-    }
-
     /**
      * Model filters
      *
@@ -70,5 +55,22 @@ class Users extends AbstractModel
     public function getTablePrefix(): string
     {
         return 'usr';
+    }
+
+    /**
+     * Returns the ValidationData object for this record (JWT)
+     *
+     * @return ValidationData
+     * @throws ModelException
+     */
+    public function getValidationData(): ValidationData
+    {
+        $validationData = new ValidationData();
+        $validationData->setIssuer($this->get('usr_domain_name'));
+        $validationData->setAudience(envValue('TOKEN_AUDIENCE', 'https://phalconphp.com'));
+        $validationData->setId($this->get('usr_token_id'));
+        $validationData->setCurrentTime(time() + 10);
+
+        return $validationData;
     }
 }

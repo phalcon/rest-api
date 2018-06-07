@@ -2,12 +2,14 @@
 
 namespace Niden\Models;
 
+use function time;
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Signer\Hmac\Sha512;
+use Niden\Traits\TokenTrait;
 use Lcobucci\JWT\ValidationData;
-use function Niden\Core\envValue;
 use Niden\Exception\ModelException;
 use Niden\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
-use function time;
 
 /**
  * Class Users
@@ -16,6 +18,8 @@ use function time;
  */
 class Users extends AbstractModel
 {
+    use TokenTrait;
+
     /**
      * Model filters
      *
@@ -58,6 +62,29 @@ class Users extends AbstractModel
     }
 
     /**
+     * Returns the string token
+     *
+     * @return string
+     * @throws ModelException
+     */
+    public function getToken(): string
+    {
+        $signer  = new Sha512();
+        $builder = new Builder();
+        $token   = $builder
+            ->setIssuer($this->get('usr_domain_name'))
+            ->setAudience($this->getTokenAudience())
+            ->setId($this->get('usr_token_id'), true)
+            ->setIssuedAt($this->getTokenTimeIssuedAt())
+            ->setNotBefore($this->getTokenTimeNotBefore())
+            ->setExpiration($this->getTokenTimeExpiration())
+            ->sign($signer, $this->get('usr_token_password'))
+            ->getToken();
+
+        return $token->__toString();
+    }
+
+    /**
      * Returns the ValidationData object for this record (JWT)
      *
      * @return ValidationData
@@ -67,7 +94,7 @@ class Users extends AbstractModel
     {
         $validationData = new ValidationData();
         $validationData->setIssuer($this->get('usr_domain_name'));
-        $validationData->setAudience(envValue('TOKEN_AUDIENCE', 'https://phalconphp.com'));
+        $validationData->setAudience($this->getTokenAudience());
         $validationData->setId($this->get('usr_token_id'));
         $validationData->setCurrentTime(time() + 10);
 

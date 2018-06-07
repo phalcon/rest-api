@@ -3,17 +3,14 @@
 namespace Niden\Api\Controllers;
 
 use function explode;
-use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Hmac\Sha512;
-use function Niden\Core\envValue;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Models\Users;
+use Niden\Traits\TokenTrait;
 use Niden\Traits\UserTrait;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
-use function time;
 
 /**
  * Class LoginController
@@ -25,6 +22,7 @@ use function time;
  */
 class LoginController extends Controller
 {
+    use TokenTrait;
     use UserTrait;
 
     /**
@@ -45,8 +43,7 @@ class LoginController extends Controller
         $user = $this->getUser($parameters);
 
         if (false !== $user) {
-            $token = $this->getToken($user);
-
+            $token = $user->getToken();
             $this->updateRecord($user, $token);
 
             /**
@@ -56,30 +53,6 @@ class LoginController extends Controller
         } else {
             $this->response->setPayloadError('Incorrect credentials');
         }
-    }
-
-    /**
-     * @param Users $user
-     *
-     * @return string
-     * @throws ModelException
-     */
-    private function getToken(Users $user): string
-    {
-        $signer  = new Sha512();
-        $builder = new Builder();
-
-        $token   = $builder
-            ->setIssuer($user->get('usr_domain_name'))
-            ->setAudience(envValue('TOKEN_AUDIENCE', 'https://phalconphp.com'))
-            ->setId($user->get('usr_token_id'), true)
-            ->setIssuedAt(time())
-            ->setNotBefore(time() + 10)
-            ->setExpiration(time() + 3600)
-            ->sign($signer, $user->get('usr_token_password'))
-            ->getToken();
-
-        return $token->__toString();
     }
 
     /**

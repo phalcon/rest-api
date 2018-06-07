@@ -5,14 +5,14 @@ namespace Niden\Tests\api\Users;
 use ApiTester;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use function Niden\Core\envValue;
-use Niden\Exception\Exception;
-use Niden\Http\Response;
 use Niden\Models\Users;
+use Niden\Traits\TokenTrait;
 use Page\Data;
 
 class UserCest
 {
+    use TokenTrait;
+
     public function loginKnownUserNoToken(ApiTester $I)
     {
         $I->deleteHeader('Authorization');
@@ -62,7 +62,7 @@ class UserCest
 
         $token   = $builder
             ->setIssuer($record->get('usr_domain_name'))
-            ->setAudience(envValue('TOKEN_AUDIENCE', 'https://phalconphp.com'))
+            ->setAudience($this->getTokenAudience())
             ->setId($record->get('usr_token_id'), true)
             ->setIssuedAt(time() - 3600)
             ->setNotBefore(time() - 3590)
@@ -101,7 +101,7 @@ class UserCest
 
         $token   = $builder
             ->setIssuer($record->get('usr_domain_name'))
-            ->setAudience(envValue('TOKEN_AUDIENCE', 'https://phalconphp.com'))
+            ->setAudience($this->getTokenAudience())
             ->setId($record->get('usr_token_id'), true)
             ->setIssuedAt(time() - 3600)
             ->setNotBefore(time() - 3590)

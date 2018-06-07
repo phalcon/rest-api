@@ -4,12 +4,13 @@ namespace Niden\Tests\integration\library\Models;
 
 use IntegrationTester;
 use Lcobucci\JWT\ValidationData;
-use function Niden\Core\envValue;
 use Niden\Models\Users;
-
+use Niden\Traits\TokenTrait;
 
 class UsersCest
 {
+    use TokenTrait;
+
     public function validateModel(IntegrationTester $I)
     {
         $I->haveModelDefinition(
@@ -49,7 +50,7 @@ class UsersCest
 
         $validationData = new ValidationData();
         $validationData->setIssuer('https://niden.net');
-        $validationData->setAudience(envValue('TOKEN_AUDIENCE', 'https://phalconphp.com'));
+        $validationData->setAudience($this->getTokenAudience());
         $validationData->setId('110011');
         $validationData->setCurrentTime(time() + 10);
 

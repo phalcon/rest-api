@@ -5,7 +5,6 @@ namespace Niden\Providers;
 use function Niden\Core\appPath;
 use function Niden\Core\envValue;
 use Niden\Logger;
-use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Logger\Formatter\Line;
@@ -19,12 +18,9 @@ class LoggerProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
-        /** @var Config $config */
-        $config  = $container->getShared('config');
-
         $container->setShared(
             'logger',
-            function () use ($config) {
+            function () {
                 $logName   = envValue('LOGGER_DEFAULT_FILENAME', 'api.log');
                 $logPath   = envValue('LOGGER_DEFAULT_PATH', 'storage/logs');
                 $logFile   = appPath($logPath) . '/' . $logName . '.log';

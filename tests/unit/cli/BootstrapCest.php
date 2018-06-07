@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\cli;
+namespace Niden\Tests\unit\cli;
 
 use \CliTester;
 use function Niden\Core\appPath;

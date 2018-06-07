@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\integration\Models;
+namespace Niden\Tests\integration\library\Models;
 
 use IntegrationTester;
 use Niden\Models\Users;

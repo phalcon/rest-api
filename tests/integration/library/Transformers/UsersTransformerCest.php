@@ -1,11 +1,10 @@
 <?php
 
-namespace Niden\Tests\integration\Models;
+namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
 use Niden\Models\Users;
 use Niden\Transformers\UsersTransformer;
-
 
 class UsersTransformerCest
 {

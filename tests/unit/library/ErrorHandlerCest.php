@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit;
+namespace Niden\Tests\unit\library;
 
 use const E_USER_NOTICE;
 use Niden\ErrorHandler;

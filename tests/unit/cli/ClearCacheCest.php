@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit\config;
+namespace Niden\Tests\unit\cli;
 
 use function fclose;
 use function iterator_count;

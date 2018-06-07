@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit;
+namespace Niden\Tests\unit\library;
 
 use Niden\Bootstrap\Api;
 use Niden\Http\Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\integration;
+namespace Niden\Tests\integration\library\Traits;
 
 use function Niden\Core\appPath;
 use Codeception\Stub;

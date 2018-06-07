@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit;
+namespace Niden\Tests\unit\library;
 
 use function Niden\Core\appPath;
 use function strtolower;

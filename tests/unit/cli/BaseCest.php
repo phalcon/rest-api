@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit\config;
+namespace Niden\Tests\unit\cli;
 
 use function ob_end_clean;
 use function ob_get_contents;

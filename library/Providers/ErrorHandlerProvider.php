@@ -6,8 +6,8 @@ namespace Niden\Providers;
 
 use function register_shutdown_function;
 use function set_error_handler;
+use Monolog\Logger;
 use Niden\ErrorHandler;
-use Niden\Logger;
 use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;

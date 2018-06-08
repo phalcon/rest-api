@@ -7,6 +7,7 @@ namespace Niden;
 use function memory_get_usage;
 use function microtime;
 use function number_format;
+use Monolog\Logger;
 use Phalcon\Config;
 
 /**

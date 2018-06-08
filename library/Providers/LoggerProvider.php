@@ -6,10 +6,11 @@ namespace Niden\Providers;
 
 use function Niden\Core\appPath;
 use function Niden\Core\envValue;
-use Niden\Logger;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
-use Phalcon\Logger\Formatter\Line;
 
 class LoggerProvider implements ServiceProviderInterface
 {
@@ -26,14 +27,11 @@ class LoggerProvider implements ServiceProviderInterface
                 $logName   = envValue('LOGGER_DEFAULT_FILENAME', 'api.log');
                 $logPath   = envValue('LOGGER_DEFAULT_PATH', 'storage/logs');
                 $logFile   = appPath($logPath) . '/' . $logName . '.log';
-                $formatter = new Line(
-                    '[%date%][%type%] %message%',
-                    'Y-m-d H:i:s'
-                );
-
-                $logger = new Logger($logFile);
-                $logger->setFormatter($formatter);
-                $logger->setLogLevel(Logger::DEBUG);
+                $formatter = new LineFormatter("[%datetime%][%level_name%] %message%\n");
+                $logger    = new Logger('api-logger');
+                $handler   = new StreamHandler($logFile, Logger::DEBUG);
+                $handler->setFormatter($formatter);
+                $logger->pushHandler($handler);
 
                 return $logger;
             }

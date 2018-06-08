@@ -2,7 +2,7 @@
 
 namespace Niden\Tests\unit\library\Providers;
 
-use Niden\Logger;
+use Monolog\Logger;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\LoggerProvider;
 use Phalcon\Di\FactoryDefault;
@@ -22,8 +22,9 @@ class LoggerCest
         $provider->register($diContainer);
 
         $I->assertTrue($diContainer->has('logger'));
+        /** @var Logger $logger */
         $logger = $diContainer->getShared('logger');
         $I->assertTrue($logger instanceof Logger);
-        $I->assertEquals(Logger::DEBUG, $logger->getLogLevel());
+        $I->assertEquals('api-logger', $logger->getName());
     }
 }

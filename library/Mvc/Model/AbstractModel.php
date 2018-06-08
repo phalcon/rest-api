@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Niden\Mvc\Model;
 
+use Monolog\Logger;
 use Niden\Exception\ModelException;
-use Niden\Logger;
 use Phalcon\Filter;
 use Phalcon\Mvc\Model as PhModel;
 

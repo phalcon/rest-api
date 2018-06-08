@@ -21,7 +21,7 @@ class UserCest
         $I->seeErrorJsonResponse('Invalid Token');
     }
 
-    public function loginKnownUserIncorrectSignatureInToken(ApiTester $I)
+    public function loginKnownUserGetUnknownUser(ApiTester $I)
     {
         $this->addRecord($I);
         $I->deleteHeader('Authorization');
@@ -29,56 +29,68 @@ class UserCest
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse();
 
-        $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
-        $dbToken = $record->get('usr_token_pre') . '.'
-                 . $record->get('usr_token_mid') . '.'
-                 . $record->get('usr_token_post');
-        $record->set('usr_token_password', '456789')->save();
-
         $response = $I->grabResponse();
         $response  = json_decode($response, true);
         $data      = $response['data'];
         $token     = $data['token'];
-        $I->assertEquals($dbToken, $token);
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendPOST(Data::$userGetUrl, Data::userGetJson(1));
+        $I->seeResponseIsSuccessful();
+        $I->seeErrorJsonResponse('Record not found');
+    }
+
+    public function loginKnownUserIncorrectSignature(ApiTester $I)
+    {
+        $record = $this->addRecord($I);
+        $I->deleteHeader('Authorization');
+        $I->sendPOST(Data::$loginUrl, Data::loginJson());
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
+
+        $signer  = new Sha512();
+        $builder = new Builder();
+
+        $token   = $builder
+            ->setIssuer('https://niden.net')
+            ->setAudience($this->getTokenAudience())
+            ->setId('110011', true)
+            ->setIssuedAt(time() - 3600)
+            ->setNotBefore(time() - 3590)
+            ->setExpiration(time() - 3000)
+            ->sign($signer, '123456')
+            ->getToken();
+
+        $wrongToken = $token->__toString();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $wrongToken);
+        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
 
     public function loginKnownUserExpiredToken(ApiTester $I)
     {
-        $this->addRecord($I);
+        $record = $this->addRecord($I);
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse();
 
-        $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
-
         $signer  = new Sha512();
         $builder = new Builder();
 
         $token   = $builder
-            ->setIssuer($record->get('usr_domain_name'))
+            ->setIssuer('https://niden.net')
             ->setAudience($this->getTokenAudience())
-            ->setId($record->get('usr_token_id'), true)
+            ->setId('110011', true)
             ->setIssuedAt(time() - 3600)
             ->setNotBefore(time() - 3590)
             ->setExpiration(time() - 3000)
-            ->sign($signer, $record->get('usr_token_password'))
+            ->sign($signer, '12345')
             ->getToken();
 
         $expiredToken = $token->__toString();
-
-        list($pre, $mid, $post) = explode('.', $expiredToken);
-        $result = $record
-            ->set('usr_token_pre', $pre)
-            ->set('usr_token_mid', $mid)
-            ->set('usr_token_post', $post)
-            ->save();
-        $I->assertNotEquals(false, $result);
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $expiredToken);
         $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
@@ -88,25 +100,52 @@ class UserCest
 
     public function loginKnownUserInvalidToken(ApiTester $I)
     {
-        $this->addRecord($I);
+        $record = $this->addRecord($I);
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse();
 
-        $record  = $I->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
+        $signer  = new Sha512();
+        $builder = new Builder();
+
+        $token   = $builder
+            ->setIssuer('https://niden.net')
+            ->setAudience($this->getTokenAudience())
+            ->setId('110011', true)
+            ->setIssuedAt(time() - 3600)
+            ->setNotBefore(time() - 3590)
+            ->setExpiration(time() - 3000)
+            ->sign($signer, '12345')
+            ->getToken();
+
+        $invalidToken = $token->__toString();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
+        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
+        $I->seeResponseIsSuccessful();
+        $I->seeErrorJsonResponse('Invalid Token');
+    }
+
+    public function loginKnownUserInvalidUserInToken(ApiTester $I)
+    {
+        $record = $this->addRecord($I);
+        $I->deleteHeader('Authorization');
+        $I->sendPOST(Data::$loginUrl, Data::loginJson());
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
 
         $signer  = new Sha512();
         $builder = new Builder();
 
         $token   = $builder
-            ->setIssuer($record->get('usr_domain_name'))
+            ->setIssuer('https://niden.com')
             ->setAudience($this->getTokenAudience())
-            ->setId($record->get('usr_token_id'), true)
+            ->setId('110011', true)
             ->setIssuedAt(time() - 3600)
             ->setNotBefore(time() - 3590)
             ->setExpiration(time() - 3000)
-            ->sign($signer, $record->get('usr_token_password'))
+            ->sign($signer, '12345')
             ->getToken();
 
         $invalidToken = $token->__toString();
@@ -146,17 +185,6 @@ class UserCest
         );
     }
 
-    public function loginUnknownUserValidToken(ApiTester $I)
-    {
-        $this->addRecord($I);
-        $token = $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson(1));
-        $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('Record not found');
-    }
-
     private function addRecord(ApiTester $I)
     {
         return $I->haveRecordWithFields(
@@ -167,9 +195,6 @@ class UserCest
                 'usr_password'       => 'testpassword',
                 'usr_domain_name'    => 'https://niden.net',
                 'usr_token_password' => '12345',
-                'usr_token_pre'      => '',
-                'usr_token_mid'      => '',
-                'usr_token_post'     => '',
                 'usr_token_id'       => '110011',
             ]
         );

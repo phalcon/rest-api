@@ -96,16 +96,10 @@ class ApiTester extends \Codeception\Actor
         $this->sendPOST(DataPage::$loginUrl, DataPage::loginJson());
         $this->seeResponseIsSuccessful();
 
-        $record  = $this->getRecordWithFields(Users::class, ['usr_username' => 'testuser']);
-        $dbToken = $record->get('usr_token_pre') . '.'
-                 . $record->get('usr_token_mid') . '.'
-                 . $record->get('usr_token_post');
-
         $response = $this->grabResponse();
         $response  = json_decode($response, true);
         $data      = $response['data'];
         $token     = $data['token'];
-        $this->assertEquals($dbToken, $token);
 
         return $token;
     }

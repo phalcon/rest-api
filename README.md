@@ -8,6 +8,13 @@ Sample API using Phalcon
 
 Implementation of an API application using the Phalcon Framework (https://phalconphp.com)
 
+### Installation
+- Clone the project
+- In the project folder run `nanobox run php-server`
+- Hit the IP address with postman
+
+This requires [nanobox](https://nanobox.io) to be present in your system. Visit their site for installation instructions.
+
 ### Features
 ##### JWT Tokens
 As part of the security of the API, [JWT](https://jwt.io) are used. JSON Web Tokens offer an easy way for a consumer of the API to send requests without the need to authenticate all the time. The expiry of each token depends on the setup of the API. An admin can easily keep the expiry very short, thus consumers will always have to log in first and then access a resource, or they can increase the "life" of each token, thus having less calls to the API.

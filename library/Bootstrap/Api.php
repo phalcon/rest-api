@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden\Bootstrap;
 
 use function Niden\Core\appPath;

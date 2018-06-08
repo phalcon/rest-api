@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden\Mvc\Model;
 
 use Niden\Exception\ModelException;

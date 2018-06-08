@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden;
 
 use function memory_get_usage;

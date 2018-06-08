@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden\Traits;
 
 use League\Fractal\Manager;

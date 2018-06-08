@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden\Api\Controllers\Users;
 
 use Niden\Http\Response;

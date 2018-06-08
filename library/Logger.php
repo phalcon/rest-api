@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden;
 
 use Phalcon\Logger\Adapter\File as PhLogger;

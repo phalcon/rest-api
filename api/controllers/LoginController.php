@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden\Api\Controllers;
 
-use function explode;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Http\Response;
@@ -33,8 +34,8 @@ class LoginController extends Controller
      */
     public function callAction()
     {
-        $username = $this->request->getPost('username', Filter::FILTER_STRING);
-        $password = $this->request->getPost('password', Filter::FILTER_STRING);
+        $username   = $this->request->getPost('username', Filter::FILTER_STRING);
+        $password   = $this->request->getPost('password', Filter::FILTER_STRING);
         $parameters = [
             'usr_username' => $username,
             'usr_password' => $password,

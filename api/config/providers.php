@@ -3,6 +3,7 @@
 /**
  * Enabled providers. Order does matter
  */
+
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\DatabaseProvider;
 use Niden\Providers\ErrorHandlerProvider;

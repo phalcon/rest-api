@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden\Http;
 
-use Phalcon\Http\Request as PhRequest;
 use function str_replace;
+use Phalcon\Http\Request as PhRequest;
 
 class Request extends PhRequest
 {

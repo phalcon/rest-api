@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Niden\Middleware;
 
-use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;

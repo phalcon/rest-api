@@ -214,6 +214,7 @@ The endpoints are:
                                                      
 ### TODO
 - Remove `/login` endpoint. Leave the generation of the JWT to the consumer
-- Add max allowed token life for each consumer
+- Perhaps add a new claim to the token tied to the device? `setClaim('deviceId', 'Web-Server')`. This will allow the client application to invalidate access to a device that has already been logged in.
+- Write examples of code to send to the client
 
 

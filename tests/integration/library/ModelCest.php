@@ -30,7 +30,7 @@ class ModelCest
                 'usr_username'       => 'testusername',
                 'usr_password'       => 'testpass',
                 'usr_status_flag'    => 1,
-                'usr_domain_name'    => 'phalconphp.com',
+                'usr_issuer'         => 'phalconphp.com',
                 'usr_token_password' => '12345',
                 'usr_token_id'       => '00110011',
 
@@ -54,7 +54,7 @@ class ModelCest
                 'usr_username'       => 'testusername',
                 'usr_password'       => 'testpass',
                 'usr_status_flag'    => 1,
-                'usr_domain_name'    => 'phalconphp.com',
+                'usr_issuer'         => 'phalconphp.com',
                 'usr_token_password' => '12345',
                 'usr_token_id'       => '00110011',
             ]
@@ -97,7 +97,7 @@ class ModelCest
                 'usr_username'       => 'testusername',
                 'usr_password'       => 'testpass',
                 'usr_status_flag'    => 1,
-                'usr_domain_name'    => 'phalconphp.com',
+                'usr_issuer'         => 'phalconphp.com',
                 'usr_token_password' => '12345',
                 'usr_token_id'       => '00110011',
 
@@ -129,7 +129,7 @@ class ModelCest
                 'usr_username'       => 'testusername',
                 'usr_password'       => 'testpass',
                 'usr_status_flag'    => 1,
-                'usr_domain_name'    => 'phalconphp.com',
+                'usr_issuer'         => 'phalconphp.com',
                 'usr_token_password' => '12345',
                 'usr_token_id'       => '00110011',
 
@@ -142,7 +142,7 @@ class ModelCest
 
         $I->assertEquals($user->get('usr_username'), 'testusername');
         $I->assertEquals($user->get('usr_password'), 'testpass');
-        $I->assertEquals($user->get('usr_domain_name'), 'phalconphp.com');
+        $I->assertEquals($user->get('usr_issuer'), 'phalconphp.com');
         $I->assertEquals($user->get('usr_token_password'), '12345');
         $I->assertEquals($user->get('usr_token_id'), '00110011');
     }
@@ -162,7 +162,7 @@ class ModelCest
                 'usr_username'       => 'testusername',
                 'usr_password'       => 'testpass',
                 'usr_status_flag'    => 1,
-                'usr_domain_name'    => 'phalconphp.com',
+                'usr_issuer'         => 'phalconphp.com',
                 'usr_token_password' => '12345',
                 'usr_token_id'       => '00110011',
 

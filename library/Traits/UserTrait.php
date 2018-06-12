@@ -27,8 +27,8 @@ trait UserTrait
     protected function getUserByToken(Token $token)
     {
         $parameters  = [
-            'usr_domain_name' => $token->getClaim(JWTClaims::CLAIM_ISSUER),
-            'usr_token_id'    => $token->getClaim(JWTClaims::CLAIM_ID),
+            'usr_issuer'   => $token->getClaim(JWTClaims::CLAIM_ISSUER),
+            'usr_token_id' => $token->getClaim(JWTClaims::CLAIM_ID),
         ];
 
         return $this->getUser($parameters);

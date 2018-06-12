@@ -20,7 +20,7 @@ class UsersCest
                 'usr_status_flag',
                 'usr_username',
                 'usr_password',
-                'usr_domain_name',
+                'usr_issuer',
                 'usr_token_password',
                 'usr_token_id',
             ]
@@ -36,7 +36,7 @@ class UsersCest
                 'usr_status_flag'    => 1,
                 'usr_username'       => 'testuser',
                 'usr_password'       => 'testpassword',
-                'usr_domain_name'    => 'https://niden.net',
+                'usr_issuer'         => 'https://niden.net',
                 'usr_token_password' => '12345',
                 'usr_token_id'       => '110011',
             ]

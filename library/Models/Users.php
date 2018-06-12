@@ -34,7 +34,7 @@ class Users extends AbstractModel
             'usr_status_flag'    => Filter::FILTER_ABSINT,
             'usr_username'       => Filter::FILTER_STRING,
             'usr_password'       => Filter::FILTER_STRING,
-            'usr_domain_name'    => Filter::FILTER_STRING,
+            'usr_issuer'         => Filter::FILTER_STRING,
             'usr_token_password' => Filter::FILTER_STRING,
             'usr_token_id'       => Filter::FILTER_STRING,
         ];
@@ -71,7 +71,7 @@ class Users extends AbstractModel
         $signer  = new Sha512();
         $builder = new Builder();
         $token   = $builder
-            ->setIssuer($this->get('usr_domain_name'))
+            ->setIssuer($this->get('usr_issuer'))
             ->setAudience($this->getTokenAudience())
             ->setId($this->get('usr_token_id'), true)
             ->setIssuedAt($this->getTokenTimeIssuedAt())
@@ -92,7 +92,7 @@ class Users extends AbstractModel
     public function getValidationData(): ValidationData
     {
         $validationData = new ValidationData();
-        $validationData->setIssuer($this->get('usr_domain_name'));
+        $validationData->setIssuer($this->get('usr_issuer'));
         $validationData->setAudience($this->getTokenAudience());
         $validationData->setId($this->get('usr_token_id'));
         $validationData->setCurrentTime(time() + 10);

@@ -33,7 +33,7 @@ class UsersCest
                 'usr_username'    => 'testusername',
                 'usr_password'    => 'testpass',
                 'usr_status_flag' => 1,
-                'usr_domain_name' => 'phalconphp.com',
+                'usr_issuer'      => 'phalconphp.com',
                 'usr_token_id'    => '00110011',
 
             ]
@@ -59,7 +59,7 @@ class UsersCest
                 'usr_username'    => 'testusername',
                 'usr_password'    => 'testpass',
                 'usr_status_flag' => 1,
-                'usr_domain_name' => 'phalconphp.com',
+                'usr_issuer'      => 'phalconphp.com',
                 'usr_token_id'    => '00110011',
 
             ]
@@ -83,7 +83,7 @@ class UsersCest
                 'usr_username'    => 'testusername',
                 'usr_password'    => 'testpass',
                 'usr_status_flag' => 1,
-                'usr_domain_name' => 'phalconphp.com',
+                'usr_issuer'      => 'phalconphp.com',
                 'usr_token_id'    => '00110011',
 
             ]

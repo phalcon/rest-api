@@ -50,7 +50,7 @@ class LoginCest
                 'usr_status_flag' => 1,
                 'usr_username'    => 'testuser',
                 'usr_password'    => 'testpassword',
-                'usr_domain_name' => 'https://phalconphp.com',
+                'usr_issuer'      => 'https://phalconphp.com',
                 'usr_token_id'    => '110011',
             ]
         );

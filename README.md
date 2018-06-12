@@ -162,7 +162,7 @@ The endpoints are:
       "id": 1244,
       "status": 1,
       "username": "phalcon",
-      "domainName": "https:\/\/phalconphp.com",
+      "issuer": "https:\/\/phalconphp.com",
       "tokenPassword": "00001111",
       "tokenId": "99009900"
     }
@@ -188,7 +188,7 @@ The endpoints are:
       "id": 1051,
       "status": 1,
       "username": "niden",
-      "domainName": "https:\/\/niden.net",
+      "issuer": "https:\/\/niden.net",
       "tokenPassword": "11110000",
       "tokenId": "11001100"
     },
@@ -196,7 +196,7 @@ The endpoints are:
       "id": 1244,
       "status": 1,
       "username": "phalcon",
-      "domainName": "https:\/\/phalconphp.com",
+      "issuer": "https:\/\/phalconphp.com",
       "tokenPassword": "00001111",
       "tokenId": "99009900"
     }

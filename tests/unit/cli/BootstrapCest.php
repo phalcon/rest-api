@@ -21,7 +21,7 @@ class BootstrapCest
  Phalcon Team | (C) {$year}
 ******************************************************
 
-Usage: team <command>
+Usage: runCli <command>
 
   --help         \e[0;32m(safe)\e[0m shows the help screen/available commands
   --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders

@@ -34,14 +34,10 @@ class LoginController extends Controller
      */
     public function callAction()
     {
-        $username   = $this->request->getPost('username', Filter::FILTER_STRING);
-        $password   = $this->request->getPost('password', Filter::FILTER_STRING);
-        $parameters = [
-            'usr_username' => $username,
-            'usr_password' => $password,
-        ];
+        $username = $this->request->getPost('username', Filter::FILTER_STRING);
+        $password = $this->request->getPost('password', Filter::FILTER_STRING);
         /** @var Users|false $user */
-        $user = $this->getUser($parameters);
+        $user     = $this->getUserByUsernameAndPassword($username, $password);
 
         if (false !== $user) {
             /**

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Niden\Traits;
 
 use Lcobucci\JWT\Token;
-use Niden\JWTClaims;
+use Niden\Constants\Flags;
+use Niden\Constants\JWTClaims;
 use Niden\Models\Users;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\ResultsetInterface;
@@ -27,8 +28,9 @@ trait UserTrait
     protected function getUserByToken(Token $token)
     {
         $parameters  = [
-            'usr_issuer'   => $token->getClaim(JWTClaims::CLAIM_ISSUER),
-            'usr_token_id' => $token->getClaim(JWTClaims::CLAIM_ID),
+            'usr_issuer'      => $token->getClaim(JWTClaims::CLAIM_ISSUER),
+            'usr_token_id'    => $token->getClaim(JWTClaims::CLAIM_ID),
+            'usr_status_flag' => Flags::ACTIVE,
         ];
 
         return $this->getUser($parameters);
@@ -45,8 +47,9 @@ trait UserTrait
     protected function getUserByUsernameAndPassword($username, $password)
     {
         $parameters = [
-            'usr_username' => $username,
-            'usr_password' => $password,
+            'usr_username'    => $username,
+            'usr_password'    => $password,
+            'usr_status_flag' => Flags::ACTIVE,
         ];
 
         return $this->getUser($parameters);

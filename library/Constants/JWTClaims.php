@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden;
+namespace Niden\Constants;
 
 class JWTClaims
 {

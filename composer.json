@@ -32,5 +32,8 @@
     "preferred-install": "dist",
     "sort-packages": true,
     "optimize-autoloader": true
+  },
+  "scripts": {
+    "phpcs": "phpcs --standard=PSR2"
   }
 }

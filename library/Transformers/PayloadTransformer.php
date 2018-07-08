@@ -21,24 +21,19 @@ class PayloadTransformer extends TransformerAbstract
      */
     public function transform(array $content)
     {
-        $payload   = $content['data'];
-        $code      = $content['code'];
-        $detail    = $content['detail'];
+        $section   = (true === isset($content['errors'])) ? 'errors' : 'data';
         $timestamp = date('c');
-
-        return [
+        $result    = [
             'jsonapi' => [
                 'version' => '1.0',
             ],
-            'data'   => $payload,
-            'errors' => [
-                'code'   => $code,
-                'detail' => $detail,
-            ],
+            $section => $content[$section],
             'meta'   => [
                 'timestamp' => $timestamp,
-                'hash'      => sha1($timestamp . json_encode($payload)),
+                'hash'      => sha1($timestamp . json_encode($content[$section])),
             ],
         ];
+
+        return $result;
     }
 }

@@ -36,11 +36,8 @@ class ApiTester extends \Codeception\Actor
                 'jsonapi' => [
                     'version' => 'string'
                 ],
-                'data'    => 'array',
-                'errors'  => [
-                    'code'   => 'integer',
-                    'detail' => 'string',
-                ],
+//                'data'    => 'array',
+//                'errors'  => 'array',
                 'meta'    => [
                     'timestamp' => 'string:date',
                     'hash'      => 'string',
@@ -50,10 +47,11 @@ class ApiTester extends \Codeception\Actor
 
         $response  = $this->grabResponse();
         $response  = json_decode($response, true);
-        $data      = json_encode($response['data']);
+        $errors    = $response['errors'] ?? [];
+        $section   = (count($errors) > 0) ? 'errors' : 'data';
         $timestamp = $response['meta']['timestamp'];
         $hash      = $response['meta']['hash'];
-        $this->assertEquals($hash, sha1($timestamp . $data));
+        $this->assertEquals($hash, sha1($timestamp . json_encode($response[$section])));
     }
 
     public function seeErrorJsonResponse(string $message)
@@ -64,8 +62,7 @@ class ApiTester extends \Codeception\Actor
                     'version' => '1.0',
                 ],
                 'errors' => [
-                    'code'   => Response::STATUS_ERROR,
-                    'detail' => $message,
+                    $message,
                 ],
             ]
         );
@@ -77,15 +74,8 @@ class ApiTester extends \Codeception\Actor
             'jsonapi' => [
                 'version' => '1.0',
             ],
-            'errors' => [
-                'code'   => Response::STATUS_SUCCESS,
-                'detail' => '',
-            ],
+            'data'    => $data,
         ];
-
-        if (true !== empty($da)) {
-            $contents['data'] = $data;
-        }
 
         $this->seeResponseContainsJson($contents);
     }

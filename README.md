@@ -23,10 +23,10 @@ As part of the security of the API, [JWT](https://jwt.io) are used. JSON Web Tok
 - Lazy loading to save resources per request
 - Stop execution as early as possible when an error occurs
 - Execution
-    - NotFound - 404 when the resource requested is not found
-    - Payload  - Check the posted JSON string if it is correct
-    - Authentication - After a `/login` checks the `Authentication` header
-    - TokenUser      - When a token is supplied, check if it corresponds to a user in the database
+    - NotFound          - 404 when the resource requested is not found
+    - Payload           - Check the posted JSON string if it is correct
+    - Authentication    - After a `/login` checks the `Authentication` header
+    - TokenUser         - When a token is supplied, check if it corresponds to a user in the database
     - TokenVerification - When a token is supplied, check if it is correctly signed
     - TokenValidation   - When a token is supplied, check if it is valid (`issuedAt`, `notBefore`, `expires`) 
 
@@ -45,9 +45,9 @@ The endpoints are:
 
 `/user/get`
 
-| Method | Payload                                             |
-|--------|-----------------------------------------------------|
-| `POST` | `{"data": {"userId": 1}}` | `["token": "ab.cd.ef"]` |
+| Method | Payload                                                 |
+|--------|---------------------------------------------------------|
+| `POST` | `{"data": {"userId": 1}}` | with Bearer Authentication` |
                                                                                 
 `/usesr/get`
 
@@ -63,15 +63,15 @@ The endpoints are:
     "version": "1.0"  // Version of the API
   },
   "data": [
-                      // Payload returned
+                      // Payload returned if successful reply (not present if there is an error)
   ],
-  "errors": {
-    "code": 2000,     // 2000 success; 3000 error
-    "detail": "Error description"
+  "errors": [
+    "Error 1",        // Collection of errors
+    "Error 2"
   },
   "meta": {
     "timestamp": "2018-06-08T15:04:34+00:00",           // Timestamp of the response
-    "hash": "e6d4d57162ae0f220c8649ae50a2b79fd1cb2c60"  // Hash of the timestamp and payload
+    "hash": "e6d4d57162ae0f220c8649ae50a2b79fd1cb2c60"  // Hash of the timestamp and payload (`data` if success, `error` if failure)
   }
 }
 ```
@@ -81,10 +81,8 @@ The endpoints are:
   "jsonapi": {
     "version": "1.0"
   },
-  "data": [],
   "errors": {
-    "code": 3000,
-    "detail": "404 Not Found"
+    "404 Not Found"
   },
   "meta": {
     "timestamp": "2018-06-08T15:04:34+00:00",
@@ -99,10 +97,8 @@ The endpoints are:
   "jsonapi": {
     "version": "1.0"
   },
-  "data": [],
   "errors": {
-    "code": 3000,
-    "detail": "Description of the error"
+    "Description of the error"
   },
   "meta": {
     "timestamp": "2018-06-08T15:04:34+00:00",
@@ -120,10 +116,6 @@ The endpoints are:
   "data": [
     // Data returned
   ],
-  "errors": {
-    "code": 2000,
-    "detail": ""
-  },
   "meta": {
     "timestamp": "2018-06-08T15:04:34+00:00",
     "hash": "e6d4d57162ae0f220c8649ae50a2b79fd1cb2c60"
@@ -139,10 +131,6 @@ The endpoints are:
   },
   "data": {
     "token": "ab.cd.ef"
-  },
-  "errors": {
-    "code": 2000,
-    "detail": ""
   },
   "meta": {
     "timestamp": "2018-06-08T15:04:34+00:00",
@@ -167,10 +155,6 @@ The endpoints are:
       "tokenId": "99009900"
     }
   ],
-  "errors": {
-    "code": 2000,
-    "detail": ""
-  },
   "meta": {
     "timestamp": "2018-06-08T17:05:14+00:00",
     "hash": "344d9766003e14409ab08df863d37d1ef44e5b60"
@@ -201,10 +185,6 @@ The endpoints are:
       "tokenId": "99009900"
     }
   ],
-  "errors": {
-    "code": 2000,
-    "detail": ""
-  },
   "meta": {
     "timestamp": "2018-06-08T15:07:35+00:00",
     "hash": "6219ae83afaebc08da4250c4fd23ea1b4843d"
@@ -213,8 +193,6 @@ The endpoints are:
 ```
                                                      
 ### TODO
-- Remove `/login` endpoint. Leave the generation of the JWT to the consumer
+- Remove `/login` endpoint. Leave the generation of the JWT to the consumer (maybe)
 - Perhaps add a new claim to the token tied to the device? `setClaim('deviceId', 'Web-Server')`. This will allow the client application to invalidate access to a device that has already been logged in.
 - Write examples of code to send to the client
-
-

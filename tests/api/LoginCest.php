@@ -3,6 +3,7 @@
 namespace Niden\Tests\api;
 
 use ApiTester;
+use function json_decode;
 use Niden\Exception\Exception;
 use Niden\Http\Response;
 use Niden\Models\Users;
@@ -57,6 +58,10 @@ class LoginCest
 
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
+        $response = $I->grabResponse();
+        $data     = json_decode($response, true);
+        $I->assertTrue(isset($data['data']));
+        $I->assertTrue(isset($data['data']['token']));
+        $I->assertTrue(isset($data['meta']));
     }
 }

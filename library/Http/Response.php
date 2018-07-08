@@ -11,18 +11,10 @@ use Phalcon\Http\Response as PhResponse;
 
 class Response extends PhResponse
 {
-    /** @var int */
-    const STATUS_SUCCESS = 2000;
-
-    /** @var int */
-    const STATUS_ERROR   = 3000;
-
-    /** @var array */
-    protected $data = [
-        'code'   => self::STATUS_SUCCESS,
-        'detail' => '',
-    ];
-
+    /**
+     * @var array
+     */
+    private $content = [];
     /**
      * Sets the payload code as Error
      *
@@ -32,10 +24,7 @@ class Response extends PhResponse
      */
     public function setPayloadError(string $detail = ''): Response
     {
-        $this->data = [
-            'code'   => self::STATUS_ERROR,
-            'detail' => $detail,
-        ];
+        $this->content['errors'][] = $detail;
         $this->setPayloadContent();
 
         return $this;
@@ -50,8 +39,10 @@ class Response extends PhResponse
      */
     public function setPayloadSuccess($content = []): Response
     {
-        $this->data['code'] = self::STATUS_SUCCESS;
-        $this->setPayloadContent($content);
+        $data = (true === is_array($content)) ? $content : [$content];
+
+        $this->content['data'] = $data;
+        $this->setPayloadContent();
 
         return $this;
     }
@@ -61,16 +52,10 @@ class Response extends PhResponse
      * setJsonContent, so as to provide a uniformed payload no matter what
      * the response is
      *
-     * @param null|string|array $content The content
-     *
      * @return Response
      */
-    public function setPayloadContent($content = []): Response
+    public function setPayloadContent(): Response
     {
-        $data = (true === is_array($content)) ? $content : [$content];
-
-        $this->data['data'] = $data;
-
         parent::setJsonContent($this->processPayload());
 
         $this->setStatusCode(200);
@@ -88,7 +73,7 @@ class Response extends PhResponse
     private function processPayload(): array
     {
         $manager  = new Manager();
-        $resource = new Item($this->data, new PayloadTransformer());
+        $resource = new Item($this->content, new PayloadTransformer());
         $data     = $manager->createData($resource)->toArray();
 
         return $data['data'];

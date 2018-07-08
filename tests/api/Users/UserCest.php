@@ -27,7 +27,6 @@ class UserCest
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
 
         $response = $I->grabResponse();
         $response  = json_decode($response, true);
@@ -46,7 +45,6 @@ class UserCest
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
 
         $signer  = new Sha512();
         $builder = new Builder();
@@ -75,7 +73,6 @@ class UserCest
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
 
         $signer  = new Sha512();
         $builder = new Builder();
@@ -104,7 +101,6 @@ class UserCest
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
 
         $signer  = new Sha512();
         $builder = new Builder();
@@ -133,7 +129,6 @@ class UserCest
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
 
         $signer  = new Sha512();
         $builder = new Builder();

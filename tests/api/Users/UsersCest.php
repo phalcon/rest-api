@@ -82,6 +82,5 @@ class UsersCest
         $I->sendPOST(Data::$usersGetUrl);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
     }
 }

@@ -21,7 +21,7 @@ class ResponseCest
 
         $payload = $this->checkPayload($I, $response);
 
-        $I->assertEquals(Response::STATUS_SUCCESS, $payload['errors']['code']);
+        $I->assertFalse(isset($payload['errors']));
         $I->assertEquals(['test'], $payload['data']);
     }
 
@@ -34,7 +34,7 @@ class ResponseCest
 
         $payload = $this->checkPayload($I, $response);
 
-        $I->assertEquals(Response::STATUS_SUCCESS, $payload['errors']['code']);
+        $I->assertFalse(isset($payload['errors']));
         $I->assertEquals(['a' => 'b'], $payload['data']);
     }
 
@@ -43,40 +43,27 @@ class ResponseCest
         $response = new Response();
 
         $response
-            ->setPayloadError()
-            ->setPayloadContent('error content');
+            ->setPayloadError('error content');
 
-        $payload = $this->checkPayload($I, $response);
+        $payload = $this->checkPayload($I, $response, true);
 
-        $I->assertEquals(Response::STATUS_ERROR, $payload['errors']['code']);
-        $I->assertEquals(['error content'], $payload['data']);
+        $I->assertFalse(isset($payload['data']));
+        $I->assertEquals('error content', $payload['errors'][0]);
     }
 
-    public function checkResponseWithErrorSourceAndDetail(UnitTester $I)
-    {
-        $response = new Response();
-
-        $response
-            ->setPayloadError('error detail')
-            ->setPayloadContent('error content');
-
-        $payload = $this->checkPayload($I, $response);
-
-        $I->assertEquals(Response::STATUS_ERROR, $payload['errors']['code']);
-        $I->assertEquals(['error content'], $payload['data']);
-        $I->assertEquals('error detail', $payload['errors']['detail']);
-    }
-
-    private function checkPayload(UnitTester $I, Response $response): array
+    private function checkPayload(UnitTester $I, Response $response, bool $error = false): array
     {
         $contents = $response->getContent();
         $I->assertTrue(is_string($contents));
 
         $payload = json_decode($contents, true);
-        $I->assertEquals(4, count($payload));
+        $I->assertEquals(3, count($payload));
         $I->assertTrue(isset($payload['jsonapi']));
-        $I->assertTrue(isset($payload['data']));
-        $I->assertTrue(isset($payload['errors']));
+        if (true === $error) {
+            $I->assertTrue(isset($payload['errors']));
+        } else {
+            $I->assertTrue(isset($payload['data']));
+        }
         $I->assertTrue(isset($payload['meta']));
 
         return $payload;

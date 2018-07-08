@@ -38,7 +38,7 @@ trait ResponseTrait
         /** @var Response $response */
         $response = $api->getService('response');
         $data     = $api->getReturnedValue();
-        $response->setPayloadContent($data);
+        $response->setPayloadSuccess($data);
 
         if (true !== $response->isSent()) {
             $response->send();

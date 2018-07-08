@@ -17,7 +17,6 @@ class BootstrapCest
         $results = json_decode($actual, true);
         $I->assertEquals('1.0', $results['jsonapi']['version']);
         $I->assertEmpty($results['data']);
-        $I->assertEquals(3000, $results['errors']['code']);
-        $I->assertEquals('404 Not Found', $results['errors']['detail']);
+        $I->assertEquals('404 Not Found', $results['errors'][0]);
     }
 }

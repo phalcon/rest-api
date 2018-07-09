@@ -24,7 +24,9 @@ class LoggerProvider implements ServiceProviderInterface
         $container->setShared(
             'logger',
             function () {
+                /** @var string $logName */
                 $logName   = envValue('LOGGER_DEFAULT_FILENAME', 'api.log');
+                /** @var string $logPath */
                 $logPath   = envValue('LOGGER_DEFAULT_PATH', 'storage/logs');
                 $logFile   = appPath($logPath) . '/' . $logName . '.log';
                 $formatter = new LineFormatter("[%datetime%][%level_name%] %message%\n");

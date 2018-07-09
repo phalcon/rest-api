@@ -35,7 +35,10 @@ trait TokenTrait
      */
     protected function getTokenAudience(): string
     {
-        return envValue('TOKEN_AUDIENCE', 'https://phalconphp.com');
+        /** @var string $audience */
+        $audience = envValue('TOKEN_AUDIENCE', 'https://phalconphp.com');
+
+        return $audience;
     }
 
     /**

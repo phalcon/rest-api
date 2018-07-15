@@ -6,6 +6,7 @@ use IntegrationTester;
 use Lcobucci\JWT\ValidationData;
 use Niden\Models\Users;
 use Niden\Traits\TokenTrait;
+use Phalcon\Filter;
 
 class UsersCest
 {
@@ -25,6 +26,27 @@ class UsersCest
                 'usr_token_id',
             ]
         );
+    }
+
+    public function validateFilters(IntegrationTester $I)
+    {
+        $model    = new Users();
+        $expected = [
+            'usr_id'             => Filter::FILTER_ABSINT,
+            'usr_status_flag'    => Filter::FILTER_ABSINT,
+            'usr_username'       => Filter::FILTER_STRING,
+            'usr_password'       => Filter::FILTER_STRING,
+            'usr_issuer'         => Filter::FILTER_STRING,
+            'usr_token_password' => Filter::FILTER_STRING,
+            'usr_token_id'       => Filter::FILTER_STRING,
+        ];
+        $I->assertEquals($expected, $model->getModelFilters());
+    }
+
+    public function validatePrefix(IntegrationTester $I)
+    {
+        $model = new Users();
+        $I->assertEquals('usr', $model->getTablePrefix());
     }
 
     public function checkValidationData(IntegrationTester $I)

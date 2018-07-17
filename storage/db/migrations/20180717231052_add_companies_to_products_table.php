@@ -8,43 +8,49 @@ class AddCompaniesToProductsTable extends AbstractMigration
     public function up()
     {
         $table = $this->table(
-            'co_individual_types',
+            'co_companies_x_products',
             [
-                'id'     => 'idt_id',
-                'signed' => false,
+                'id'          => false,
+                'primary_key' => [
+                    'cxp_com_id',
+                    'cxp_prd_id',
+                ],
             ]
         );
 
         $table
             ->addColumn(
-                'idt_name',
-                'string',
+                'cxp_com_id',
+                'integer',
                 [
-                    'limit'   => 128,
+                    'signed'  => false,
+                    'limit'   => 11,
                     'null'    => false,
-                    'default' => '',
+                    'default' => 0,
                 ]
             )
             ->addColumn(
-                'idt_description',
-                'string',
+                'cxp_prd_id',
+                'integer',
                 [
-                    'limit'   => 256,
+                    'signed'  => false,
+                    'limit'   => 11,
                     'null'    => false,
-                    'default' => '',
+                    'default' => 0,
                 ]
             )
-            ->addIndex('idt_name')
+            ->addIndex('cxp_com_id')
+            ->addIndex('cxp_prd_id')
             ->save();
 
         $this->execute(
-            'ALTER TABLE co_individual_types ' .
+            'ALTER TABLE co_companies_x_products ' .
             'CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'
         );
     }
 
     public function down()
     {
-        $this->dropTable('co_individual_types');
+        $this->dropTable('co_companies_x_products');
     }
 }

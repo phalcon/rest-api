@@ -8,49 +8,43 @@ class AddIndividualTypesTable extends AbstractMigration
     public function up()
     {
         $table = $this->table(
-            'co_companies_x_products',
+            'co_individual_types',
             [
-                'id'          => false,
-                'primary_key' => [
-                    'cxp_com_id',
-                    'cxp_prd_id',
-                ],
+                'id'     => 'idt_id',
+                'signed' => false,
             ]
         );
 
         $table
             ->addColumn(
-                'cxp_com_id',
-                'integer',
+                'idt_name',
+                'string',
                 [
-                    'signed'  => false,
-                    'limit'   => 11,
+                    'limit'   => 128,
                     'null'    => false,
-                    'default' => 0,
+                    'default' => '',
                 ]
             )
             ->addColumn(
-                'cxp_prd_id',
-                'integer',
+                'idt_description',
+                'string',
                 [
-                    'signed'  => false,
-                    'limit'   => 11,
+                    'limit'   => 256,
                     'null'    => false,
-                    'default' => 0,
+                    'default' => '',
                 ]
             )
-            ->addIndex('cxp_com_id')
-            ->addIndex('cxp_prd_id')
+            ->addIndex('idt_name')
             ->save();
 
         $this->execute(
-            'ALTER TABLE co_companies_x_products ' .
+            'ALTER TABLE co_individual_types ' .
             'CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'
         );
     }
 
     public function down()
     {
-        $this->dropTable('co_companies_x_products');
+        $this->dropTable('co_individual_types');
     }
 }

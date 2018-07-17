@@ -14,6 +14,7 @@ class ProductsCest
             Products::class,
             [
                 'prd_id',
+                'prd_prt_id',
                 'prd_name',
                 'prd_description',
                 'prd_quantity',
@@ -27,6 +28,7 @@ class ProductsCest
         $model    = new Products();
         $expected = [
             'prd_id'          => Filter::FILTER_ABSINT,
+            'prd_prt_id'      => Filter::FILTER_ABSINT,
             'prd_name'        => Filter::FILTER_STRING,
             'prd_description' => Filter::FILTER_STRING,
             'prd_quantity'    => Filter::FILTER_ABSINT,

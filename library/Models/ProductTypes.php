@@ -9,23 +9,23 @@ use Niden\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
 
 /**
- * Class Products
+ * Class ProductTypes
  *
  * @package Niden\Models
  */
-class Products extends AbstractModel
+class ProductTypes extends AbstractModel
 {
     /**
      * Initialize relationships and model properties
      */
     public function initialize()
     {
-        $this->hasOne(
-            'prd_prt_id',
-            ProductTypes::class,
+        $this->belongsTo(
             'prt_id',
+            Products::class,
+            'prd_prt_id',
             [
-                'alias'    => Relationships::PRODUCT_TYPE,
+                'alias'    => Relationships::PRODUCT,
                 'reusable' => true,
             ]
         );
@@ -41,12 +41,9 @@ class Products extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'prd_id'          => Filter::FILTER_ABSINT,
-            'prd_prt_id'      => Filter::FILTER_ABSINT,
-            'prd_name'        => Filter::FILTER_STRING,
-            'prd_description' => Filter::FILTER_STRING,
-            'prd_quantity'    => Filter::FILTER_ABSINT,
-            'prd_price'       => Filter::FILTER_FLOAT,
+            'prt_id'          => Filter::FILTER_ABSINT,
+            'prt_name'        => Filter::FILTER_STRING,
+            'prt_description' => Filter::FILTER_STRING,
         ];
     }
 
@@ -57,7 +54,7 @@ class Products extends AbstractModel
      */
     public function getSource(): string
     {
-        return 'co_products';
+        return 'co_product_types';
     }
 
     /**
@@ -67,6 +64,6 @@ class Products extends AbstractModel
      */
     public function getTablePrefix(): string
     {
-        return 'prd';
+        return 'prt';
     }
 }

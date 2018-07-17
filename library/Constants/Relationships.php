@@ -12,4 +12,5 @@ class Relationships
     const INDIVIDUALS     = 'individuals';
     const PRODUCT         = 'product';
     const PRODUCT_TYPE    = 'productType';
+    const PRODUCTS        = 'products';
 }

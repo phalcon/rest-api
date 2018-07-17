@@ -3,7 +3,6 @@
 namespace Niden\Tests\integration\library\Models;
 
 use IntegrationTester;
-use Niden\Models\Products;
 use Niden\Models\ProductTypes;
 use Phalcon\Filter;
 

@@ -9,33 +9,23 @@ use Niden\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
 
 /**
- * Class Companies
+ * Class IndividualTypes
  *
  * @package Niden\Models
  */
-class Companies extends AbstractModel
+class IndividualTypes extends AbstractModel
 {
     /**
      * Initialize relationships and model properties
      */
     public function initialize()
     {
-        $this->hasMany(
-            'com_id',
+        $this->belongsTo(
+            'idt_id',
             Individuals::class,
-            'ind_com_id',
+            'ind_idt_id',
             [
-                'alias'    => Relationships::INDIVIDUALS,
-                'reusable' => true,
-            ]
-        );
-
-        $this->hasMany(
-            'com_id',
-            Products::class,
-            'prd_com_id',
-            [
-                'alias'    => Relationships::PRODUCTS,
+                'alias'    => Relationships::INDIVIDUAL,
                 'reusable' => true,
             ]
         );
@@ -51,11 +41,9 @@ class Companies extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'com_id'        => Filter::FILTER_ABSINT,
-            'com_name'      => Filter::FILTER_STRING,
-            'com_address'   => Filter::FILTER_STRING,
-            'com_city'      => Filter::FILTER_STRING,
-            'com_telephone' => Filter::FILTER_STRING,
+            'idt_id'          => Filter::FILTER_ABSINT,
+            'idt_name'        => Filter::FILTER_STRING,
+            'idt_description' => Filter::FILTER_STRING,
         ];
     }
 
@@ -66,7 +54,7 @@ class Companies extends AbstractModel
      */
     public function getSource(): string
     {
-        return 'co_companies';
+        return 'co_individual_types';
     }
 
     /**
@@ -76,6 +64,6 @@ class Companies extends AbstractModel
      */
     public function getTablePrefix(): string
     {
-        return 'com';
+        return 'idt';
     }
 }

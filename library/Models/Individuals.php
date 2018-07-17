@@ -9,33 +9,33 @@ use Niden\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
 
 /**
- * Class Companies
+ * Class Individuals
  *
  * @package Niden\Models
  */
-class Companies extends AbstractModel
+class Individuals extends AbstractModel
 {
     /**
      * Initialize relationships and model properties
      */
     public function initialize()
     {
-        $this->hasMany(
-            'com_id',
-            Individuals::class,
+        $this->belongsTo(
             'ind_com_id',
+            Companies::class,
+            'com_id',
             [
-                'alias'    => Relationships::INDIVIDUALS,
+                'alias'    => Relationships::COMPANY,
                 'reusable' => true,
             ]
         );
 
-        $this->hasMany(
-            'com_id',
-            Products::class,
-            'prd_com_id',
+        $this->hasOne(
+            'ind_idt_id',
+            IndividualTypes::class,
+            'idt_id',
             [
-                'alias'    => Relationships::PRODUCTS,
+                'alias'    => Relationships::INDIVIDUAL_TYPE,
                 'reusable' => true,
             ]
         );
@@ -51,11 +51,14 @@ class Companies extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'com_id'        => Filter::FILTER_ABSINT,
-            'com_name'      => Filter::FILTER_STRING,
-            'com_address'   => Filter::FILTER_STRING,
-            'com_city'      => Filter::FILTER_STRING,
-            'com_telephone' => Filter::FILTER_STRING,
+            'ind_id'          => Filter::FILTER_ABSINT,
+            'ind_com_id'      => Filter::FILTER_ABSINT,
+            'ind_idt_id'      => Filter::FILTER_ABSINT,
+            'ind_name_prefix' => Filter::FILTER_STRING,
+            'ind_name_first'  => Filter::FILTER_STRING,
+            'ind_name_middle' => Filter::FILTER_STRING,
+            'ind_name_last'   => Filter::FILTER_STRING,
+            'ind_name_suffix' => Filter::FILTER_STRING,
         ];
     }
 
@@ -66,7 +69,7 @@ class Companies extends AbstractModel
      */
     public function getSource(): string
     {
-        return 'co_companies';
+        return 'co_individuals';
     }
 
     /**
@@ -76,6 +79,6 @@ class Companies extends AbstractModel
      */
     public function getTablePrefix(): string
     {
-        return 'com';
+        return 'ind';
     }
 }

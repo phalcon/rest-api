@@ -8,8 +8,8 @@ use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Models\Users;
+use Niden\Traits\QueryTrait;
 use Niden\Traits\TokenTrait;
-use Niden\Traits\UserTrait;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 
@@ -24,7 +24,7 @@ use Phalcon\Mvc\Controller;
 class LoginController extends Controller
 {
     use TokenTrait;
-    use UserTrait;
+    use QueryTrait;
 
     /**
      * Default action logging in

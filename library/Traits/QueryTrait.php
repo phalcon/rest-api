@@ -12,11 +12,11 @@ use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
- * Trait UserTrait
+ * Trait QueryTrait
  *
  * @package Niden\Traits
  */
-trait UserTrait
+trait QueryTrait
 {
     /**
      * Gets a user from the database based on the JWT token
@@ -33,7 +33,7 @@ trait UserTrait
             'usr_status_flag' => Flags::ACTIVE,
         ];
 
-        $result = $this->getUsers($parameters);
+        $result = $this->getRecords(Users::class, $parameters);
 
         return $result[0] ?? false;
     }
@@ -54,26 +54,34 @@ trait UserTrait
             'usr_status_flag' => Flags::ACTIVE,
         ];
 
-        $result = $this->getUsers($parameters);
+        $result = $this->getRecords(Users::class, $parameters);
 
         return $result[0] ?? false;
     }
 
     /**
-     * @param array  $parameters
+     * Runs a query using the builder
+     *
+     * @param string $class
+     * @param array  $where
+     * @param string $orderBy
      *
      * @return ResultsetInterface
      */
-    protected function getUsers(array $parameters = [])
+    protected function getRecords(string $class, array $where = [], string $orderBy = '')
     {
         $builder = new Builder();
-        $builder->addFrom(Users::class);
+        $builder->addFrom($class);
 
-        foreach ($parameters as $field => $value) {
+        foreach ($where as $field => $value) {
             $builder->andWhere(
                 sprintf('%s = :%s:', $field, $field),
                 [$field => $value]
             );
+        }
+
+        if (true !== empty($orderBy)) {
+            $builder->orderBy($orderBy);
         }
 
         return $builder->getQuery()->execute();

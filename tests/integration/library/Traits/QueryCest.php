@@ -7,16 +7,16 @@ use Lcobucci\JWT\Signer\Hmac\Sha512;
 use \IntegrationTester;
 use Niden\Models\Users;
 use Niden\Exception\ModelException;
+use Niden\Traits\QueryTrait;
 use Niden\Traits\TokenTrait;
-use Niden\Traits\UserTrait;
 
 /**
- * Class ModelCest
+ * Class QueryCest
  */
-class UsersCest
+class QueryCest
 {
     use TokenTrait;
-    use UserTrait;
+    use QueryTrait;
 
     /**
      * @param IntegrationTester $I

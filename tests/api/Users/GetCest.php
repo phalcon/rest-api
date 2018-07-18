@@ -9,7 +9,7 @@ use Niden\Models\Users;
 use Niden\Traits\TokenTrait;
 use Page\Data;
 
-class UsersCest
+class GetCest
 {
     use TokenTrait;
 

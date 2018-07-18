@@ -8,13 +8,12 @@ use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Models\Users;
 use Niden\Traits\FractalTrait;
+use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
-use Niden\Traits\UserTrait;
 use Niden\Transformers\UsersTransformer;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Micro;
-use Phalcon\Mvc\Model\Query\Builder;
 
 /**
  * Class GetController
@@ -29,7 +28,7 @@ class GetController extends Controller
 {
     use FractalTrait;
     use ResponseTrait;
-    use UserTrait;
+    use QueryTrait;
 
     /**
      * Get a user
@@ -46,7 +45,7 @@ class GetController extends Controller
         /**
          * Execute the query
          */
-        $results = $this->getUsers($parameters);
+        $results = $this->getRecords(Users::class, $parameters);
 
         if (count($results) > 0) {
             return $this->format($results, UsersTransformer::class);

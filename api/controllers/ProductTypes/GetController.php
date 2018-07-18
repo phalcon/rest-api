@@ -8,8 +8,8 @@ use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Models\ProductTypes;
 use Niden\Traits\FractalTrait;
+use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
-use Niden\Traits\UserTrait;
 use Niden\Transformers\ProductTypesTransformer;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Micro;
@@ -27,21 +27,15 @@ use Phalcon\Mvc\Model\Query\Builder;
 class GetController extends Controller
 {
     use FractalTrait;
+    use QueryTrait;
     use ResponseTrait;
-    use UserTrait;
 
     /**
      * Get a user
      */
     public function callAction()
     {
-        $builder = new Builder();
-        $results = $builder
-                    ->addFrom(ProductTypes::class)
-                    ->orderBy('prt_name')
-                    ->getQuery()
-                    ->execute()
-        ;
+        $results = $this->getRecords(ProductTypes::class, [], 'prt_name');
 
         if (count($results) > 0) {
             return $this->format($results, ProductTypesTransformer::class);

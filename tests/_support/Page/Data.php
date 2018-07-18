@@ -4,10 +4,11 @@ namespace Page;
 
 class Data
 {
-    public static $companiesAddUrl = '/companies/add';
-    public static $loginUrl        = '/login';
-    public static $usersGetUrl     = '/users/get';
-    public static $wrongUrl        = '/sommething';
+    public static $companiesAddUrl    = '/companies/add';
+    public static $loginUrl           = '/login';
+    public static $productTypesGetUrl = '/producttypes/get';
+    public static $usersGetUrl        = '/users/get';
+    public static $wrongUrl           = '/sommething';
 
     public static function loginJson()
     {

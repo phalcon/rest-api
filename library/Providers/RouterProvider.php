@@ -110,10 +110,14 @@ class RouterProvider implements ServiceProviderInterface
         return [
             // Class, Method, Route, Handler
             [LoginController::class,              '',                 'post', '/login'],
-            [CompaniesAddController::class,       '/companies',       'post', '/add'],
-            [IndividualTypesGetController::class, '/individualtypes', 'post', '/get'],
-            [ProductTypesGetController::class,    '/producttypes',    'post', '/get'],
-            [UsersGetController::class,           '/users',           'post', '/get'],
+            [CompaniesAddController::class,       '/companies',       'post', '/'],
+            [CompaniesAddController::class,       '/companies',       'post', '/{companyId:[0-9]+}'],
+            [IndividualTypesGetController::class, '/individualtypes', 'get',  '/'],
+            [IndividualTypesGetController::class, '/individualtypes', 'get',  '/{typeId:[0-9]+}'],
+            [ProductTypesGetController::class,    '/producttypes',    'get',  '/'],
+            [ProductTypesGetController::class,    '/producttypes',    'get',  '/{typeId:[0-9]+}'],
+            [UsersGetController::class,           '/users',           'get',  '/'],
+            [UsersGetController::class,           '/users',           'get',  '/{userId:[0-9]+}'],
         ];
     }
 }

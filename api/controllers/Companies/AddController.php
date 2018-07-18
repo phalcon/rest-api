@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Api\Controllers\Users;
+namespace Niden\Api\Controllers\Companies;
 
 use Niden\Exception\ModelException;
 use Niden\Http\Response;
@@ -42,9 +42,9 @@ class AddController extends Controller
          */
         if (0 === count($messages)) {
             $name    = $this->request->getPost('name', Filter::FILTER_STRING);
-            $address = $this->request->getPost('address', Filter::FILTER_STRING);
-            $city    = $this->request->getPost('city', Filter::FILTER_STRING);
-            $phone   = $this->request->getPost('phone', Filter::FILTER_STRING);
+            $address = $this->request->getPost('address', Filter::FILTER_STRING, '');
+            $city    = $this->request->getPost('city', Filter::FILTER_STRING, '');
+            $phone   = $this->request->getPost('phone', Filter::FILTER_STRING, '');
 
             $company = new Companies();
             $result  = $company
@@ -59,7 +59,7 @@ class AddController extends Controller
                 /**
                  * Everything is fine, return the record back
                  */
-                return $this->format([$result], CompaniesTransformer::class);
+                return $this->format([$company], CompaniesTransformer::class);
             }
 
             /**

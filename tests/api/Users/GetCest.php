@@ -36,7 +36,7 @@ class GetCest
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson(1));
         $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('Record(s) not found');
+        $I->seeSuccessJsonResponse();
     }
 
     public function loginKnownUserIncorrectSignature(ApiTester $I)

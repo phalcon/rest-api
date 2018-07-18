@@ -31,26 +31,36 @@ class GetController extends Controller
     use QueryTrait;
 
     /**
-     * Get a user
+     * Gets users
      */
     public function callAction()
     {
-        /** @var int $userId */
-        $userId     = $this->request->getPost('userId', Filter::FILTER_ABSINT, 0);
-        $parameters = [];
-        if ($userId > 0) {
-            $parameters['usr_id'] = $userId;
-        }
+        $parameters = $this->checkParameters();
 
         /**
          * Execute the query
          */
         $results = $this->getRecords(Users::class, $parameters);
 
-        if (count($results) > 0) {
-            return $this->format($results, UsersTransformer::class);
-        } else {
-            $this->halt($this->application, 'Record(s) not found');
+        return $this->format($results, UsersTransformer::class);
+    }
+
+    /**
+     * Checks the passed parameters and returns the relevant array back
+     *
+     * @return array
+     */
+    private function checkParameters(): array
+    {
+        $parameters = [];
+
+        /** @var int $userId */
+        $userId = $this->request->getPost('userId', Filter::FILTER_ABSINT, 0);
+
+        if ($userId > 0) {
+            $parameters['usr_id'] = $userId;
         }
+
+        return $parameters;
     }
 }

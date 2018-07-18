@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Niden\Api\Controllers\ProductTypes;
+namespace Niden\Api\Controllers\IndividualTypes;
 
 use Niden\Http\Request;
 use Niden\Http\Response;
-use Niden\Models\ProductTypes;
+use Niden\Models\IndividualTypes;
 use Niden\Traits\FractalTrait;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
@@ -34,7 +34,7 @@ class GetController extends Controller
      */
     public function callAction()
     {
-        $results = $this->getRecords(ProductTypes::class, [], 'prt_name');
+        $results = $this->getRecords(IndividualTypes::class, [], 'idt_name');
 
         return $this->format($results, TypesTransformer::class);
     }

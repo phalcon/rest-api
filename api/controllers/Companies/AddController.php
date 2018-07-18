@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Niden\Api\Controllers\Users;
 
-use Niden\Api\Validation\CompaniesValidator;
 use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Models\Companies;
 use Niden\Traits\FractalTrait;
 use Niden\Transformers\CompaniesTransformer;
+use Niden\Validation\CompaniesValidator;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Micro;

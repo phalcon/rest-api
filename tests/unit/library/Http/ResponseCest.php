@@ -5,6 +5,9 @@ namespace Niden\Tests\unit\library\Http;
 use function is_string;
 use function json_decode;
 use Niden\Http\Response;
+use Phalcon\Mvc\Model\Message as ModelMessage;
+use Phalcon\Validation\Message as ValidationMessage;
+use Phalcon\Validation\Message\Group as ValidationGroup;
 use \UnitTester;
 
 class ResponseCest
@@ -49,6 +52,44 @@ class ResponseCest
 
         $I->assertFalse(isset($payload['data']));
         $I->assertEquals('error content', $payload['errors'][0]);
+    }
+
+    public function checkResponseWithModelErrors(UnitTester $I)
+    {
+        $messages = [
+            new ModelMessage('hello'),
+            new ModelMessage('goodbye'),
+        ];
+        $response = new Response();
+        $response
+            ->setPayloadErrors($messages);
+
+        $payload = $this->checkPayload($I, $response, true);
+
+        $I->assertFalse(isset($payload['data']));
+        $I->assertEquals(2, count($payload['errors']));
+        $I->assertEquals('hello', $payload['errors'][0]);
+        $I->assertEquals('goodbye', $payload['errors'][1]);
+    }
+
+    public function checkResponseWithValidationErrors(UnitTester $I)
+    {
+        $group = new ValidationGroup();
+        $message = new ValidationMessage('hello');
+        $group->appendMessage($message);
+        $message = new ValidationMessage('goodbye');
+        $group->appendMessage($message);
+
+        $response = new Response();
+        $response
+            ->setPayloadErrors($group);
+
+        $payload = $this->checkPayload($I, $response, true);
+
+        $I->assertFalse(isset($payload['data']));
+        $I->assertEquals(2, count($payload['errors']));
+        $I->assertEquals('hello', $payload['errors'][0]);
+        $I->assertEquals('goodbye', $payload['errors'][1]);
     }
 
     private function checkPayload(UnitTester $I, Response $response, bool $error = false): array

@@ -45,6 +45,8 @@ class Response extends PhResponse
         foreach ($errors as $error) {
             $this->setPayloadError($error->getMessage());
         }
+
+        return $this;
     }
 
     /**

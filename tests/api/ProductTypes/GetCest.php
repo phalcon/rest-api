@@ -29,7 +29,7 @@ class GetCest
             ]
         );
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$productTypesGetUrl, json_encode(['data' => []]));
+        $I->sendGET(Data::$productTypesUrl);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
@@ -60,7 +60,7 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$productTypesGetUrl, json_encode(['data' => []]));
+        $I->sendGET(Data::$productTypesUrl);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse();

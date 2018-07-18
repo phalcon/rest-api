@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Niden\Providers;
 
-use Niden\Api\Controllers\Users\GetOneController;
-use Niden\Api\Controllers\Users\GetManyController;
+use Niden\Api\Controllers\Companies\AddController as CompaniesAddController;
+use Niden\Api\Controllers\Users\GetController as UsersGetController;
 use Niden\Api\Controllers\LoginController;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\PayloadMiddleware;
@@ -14,6 +14,7 @@ use Niden\Middleware\ResponseMiddleware;
 use Niden\Middleware\TokenUserMiddleware;
 use Niden\Middleware\TokenValidationMiddleware;
 use Niden\Middleware\TokenVerificationMiddleware;
+
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
@@ -106,9 +107,9 @@ class RouterProvider implements ServiceProviderInterface
     {
         return [
             // Class, Method, Route, Handler
-            [LoginController::class,   '',       'post', '/login'],
-            [GetOneController::class,  '/user',  'post', '/get'],
-            [GetManyController::class, '/users', 'post', '/get'],
+            [LoginController::class,        '',           'post', '/login'],
+            [CompaniesAddController::class, '/companies', 'post', '/add'],
+            [UsersGetController::class,     '/users',     'post', '/get'],
         ];
     }
 }

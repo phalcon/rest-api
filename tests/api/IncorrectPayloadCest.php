@@ -12,7 +12,7 @@ class IncorrectPayloadCest
 {
     public function checkDefaultRoute(ApiTester $I)
     {
-        $I->sendPOST(Data::$userGetUrl, '{"key": "value}');
+        $I->sendPOST(Data::$usersGetUrl, '{"key": "value}');
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Malformed JSON');
     }

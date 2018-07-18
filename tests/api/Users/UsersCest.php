@@ -9,14 +9,14 @@ use Niden\Models\Users;
 use Niden\Traits\TokenTrait;
 use Page\Data;
 
-class UserCest
+class UsersCest
 {
     use TokenTrait;
 
     public function loginKnownUserNoToken(ApiTester $I)
     {
         $I->deleteHeader('Authorization');
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson(1));
+        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson(1));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -34,9 +34,9 @@ class UserCest
         $token     = $data['token'];
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson(1));
+        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson(1));
         $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('Record not found');
+        $I->seeErrorJsonResponse('Record(s) not found');
     }
 
     public function loginKnownUserIncorrectSignature(ApiTester $I)
@@ -62,7 +62,7 @@ class UserCest
         $wrongToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $wrongToken);
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
+        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($record->get('usr_id')));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -90,7 +90,7 @@ class UserCest
         $expiredToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $expiredToken);
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
+        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($record->get('usr_id')));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -118,7 +118,7 @@ class UserCest
         $invalidToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
+        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($record->get('usr_id')));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -146,7 +146,7 @@ class UserCest
         $invalidToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($record->get('usr_id')));
+        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($record->get('usr_id')));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -163,7 +163,7 @@ class UserCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$userGetUrl, Data::userGetJson($user->get('usr_id')));
+        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($user->get('usr_id')));
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
@@ -178,6 +178,82 @@ class UserCest
                 ],
             ]
         );
+    }
+
+    public function getManyUsers(ApiTester $I)
+    {
+        $userOne = $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_status_flag'    => 1,
+                'usr_username'       => 'testuser',
+                'usr_password'       => 'testpassword',
+                'usr_issuer'         => 'https://niden.net',
+                'usr_token_password' => '12345',
+                'usr_token_id'       => '110011',
+            ]
+        );
+
+        $userTwo = $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_status_flag'    => 1,
+                'usr_username'       => 'testuser1',
+                'usr_password'       => 'testpassword1',
+                'usr_issuer'         => 'https://niden.net',
+                'usr_token_password' => '789789',
+                'usr_token_id'       => '001100',
+            ]
+        );
+
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendPOST(Data::$usersGetUrl);
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse(
+            [
+                [
+                    'id'            => $userOne->get('usr_id'),
+                    'status'        => $userOne->get('usr_status_flag'),
+                    'username'      => $userOne->get('usr_username'),
+                    'issuer'        => $userOne->get('usr_issuer'),
+                    'tokenPassword' => $userOne->get('usr_token_password'),
+                    'tokenId'       => $userOne->get('usr_token_id'),
+                ],
+                [
+                    'id'            => $userTwo->get('usr_id'),
+                    'status'        => $userTwo->get('usr_status_flag'),
+                    'username'      => $userTwo->get('usr_username'),
+                    'issuer'        => $userTwo->get('usr_issuer'),
+                    'tokenPassword' => $userTwo->get('usr_token_password'),
+                    'tokenId'       => $userTwo->get('usr_token_id'),
+                ],
+            ]
+        );
+    }
+
+    public function getManyUsersWithNoData(ApiTester $I)
+    {
+        $userOne = $I->haveRecordWithFields(
+            Users::class,
+            [
+                'usr_status_flag'    => 1,
+                'usr_username'       => 'testuser',
+                'usr_password'       => 'testpassword',
+                'usr_issuer'         => 'https://niden.net',
+                'usr_token_password' => '12345',
+                'usr_token_id'       => '110011',
+            ]
+        );
+
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendPOST(Data::$usersGetUrl);
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
     }
 
     private function addRecord(ApiTester $I)

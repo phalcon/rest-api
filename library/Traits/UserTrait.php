@@ -33,7 +33,9 @@ trait UserTrait
             'usr_status_flag' => Flags::ACTIVE,
         ];
 
-        return $this->getUser($parameters);
+        $result = $this->getUsers($parameters);
+
+        return $result[0] ?? false;
     }
 
     /**
@@ -52,19 +54,9 @@ trait UserTrait
             'usr_status_flag' => Flags::ACTIVE,
         ];
 
-        return $this->getUser($parameters);
-    }
+        $result = $this->getUsers($parameters);
 
-    /**
-     * @param array  $parameters
-     *
-     * @return Users|false
-     */
-    protected function getUser(array $parameters = [])
-    {
-        $results = $this->getUsers($parameters);
-
-        return $results[0] ?? false;
+        return $result[0] ?? false;
     }
 
     /**

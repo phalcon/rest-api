@@ -33,8 +33,8 @@ class RouterCest
         $I->assertEquals('POST', $routes[0]->getHttpMethods());
         $I->assertEquals('/login', $routes[0]->getPattern());
         $I->assertEquals('POST', $routes[1]->getHttpMethods());
-        $I->assertEquals('/user/get', $routes[1]->getPattern());
+        $I->assertEquals('/companies/add', $routes[1]->getPattern());
         $I->assertEquals('POST', $routes[2]->getHttpMethods());
         $I->assertEquals('/users/get', $routes[2]->getPattern());
-    }
+   }
 }

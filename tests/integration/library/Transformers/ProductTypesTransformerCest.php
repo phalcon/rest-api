@@ -4,7 +4,7 @@ namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
 use Niden\Models\ProductTypes;
-use Niden\Transformers\ProductTypesTransformer;
+use Niden\Transformers\TypesTransformer;
 use function uniqid;
 
 class ProductTypesTransformerCest
@@ -20,14 +20,16 @@ class ProductTypesTransformerCest
         $type = $I->haveRecordWithFields(
             ProductTypes::class,
             [
-                'prt_name' => uniqid('type'),
+                'prt_name'        => uniqid('type-n-'),
+                'prt_description' => uniqid('type-d-'),
             ]
         );
 
-        $transformer = new ProductTypesTransformer();
+        $transformer = new TypesTransformer();
         $expected    = [
-            'id'   => $type->get('prt_id'),
-            'name' => $type->get('prt_name'),
+            'id'          => $type->get('prt_id'),
+            'name'        => $type->get('prt_name'),
+            'description' => $type->get('prt_description'),
         ];
 
         $I->assertEquals($expected, $transformer->transform($type));

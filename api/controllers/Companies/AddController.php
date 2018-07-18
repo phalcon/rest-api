@@ -12,14 +12,12 @@ use Niden\Transformers\CompaniesTransformer;
 use Niden\Validation\CompaniesValidator;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
-use Phalcon\Mvc\Micro;
 
 /**
  * Class AddController
  *
  * @package Niden\Api\Controllers\Companies
  *
- * @property Micro    $application
  * @property Response $response
  */
 class AddController extends Controller

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Niden\Providers;
 
 use Niden\Api\Controllers\Companies\AddController as CompaniesAddController;
+use Niden\Api\Controllers\ProductTypes\GetController as ProductTypesGetController;
 use Niden\Api\Controllers\Users\GetController as UsersGetController;
 use Niden\Api\Controllers\LoginController;
 use Niden\Middleware\NotFoundMiddleware;
@@ -107,9 +108,10 @@ class RouterProvider implements ServiceProviderInterface
     {
         return [
             // Class, Method, Route, Handler
-            [LoginController::class,        '',           'post', '/login'],
-            [CompaniesAddController::class, '/companies', 'post', '/add'],
-            [UsersGetController::class,     '/users',     'post', '/get'],
+            [LoginController::class,           '',              'post', '/login'],
+            [CompaniesAddController::class,    '/companies',    'post', '/add'],
+            [ProductTypesGetController::class, '/producttypes', 'post', '/get'],
+            [UsersGetController::class,        '/users',        'post', '/get'],
         ];
     }
 }

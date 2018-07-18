@@ -25,10 +25,14 @@ class GetController extends Controller
 
     /**
      * Gets users
+     *
+     * @param int $userId
+     *
+     * @return array
      */
-    public function callAction()
+    public function callAction($userId = 0)
     {
-        $parameters = $this->checkParameters();
+        $parameters = $this->checkParameters($userId);
 
         /**
          * Execute the query
@@ -41,17 +45,19 @@ class GetController extends Controller
     /**
      * Checks the passed parameters and returns the relevant array back
      *
+     * @param int $userId
+     *
      * @return array
      */
-    private function checkParameters(): array
+    private function checkParameters($userId = 0): array
     {
         $parameters = [];
 
-        /** @var int $userId */
-        $userId = $this->request->getPost('userId', Filter::FILTER_ABSINT, 0);
+        /** @var int $localUserId */
+        $localUserId = $this->filter->sanitize($userId, Filter::FILTER_ABSINT);
 
-        if ($userId > 0) {
-            $parameters['usr_id'] = $userId;
+        if ($localUserId > 0) {
+            $parameters['usr_id'] = $localUserId;
         }
 
         return $parameters;

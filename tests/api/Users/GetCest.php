@@ -17,7 +17,7 @@ class GetCest
     public function loginKnownUserNoToken(ApiTester $I)
     {
         $I->deleteHeader('Authorization');
-        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson(1));
+        $I->sendGET(Data::$usersUrl . '/1');
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -35,7 +35,7 @@ class GetCest
         $token     = $data['token'];
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson(1));
+        $I->sendGET(Data::$usersUrl . '/1');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse();
     }
@@ -63,7 +63,7 @@ class GetCest
         $wrongToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $wrongToken);
-        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($record->get('usr_id')));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -91,7 +91,7 @@ class GetCest
         $expiredToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $expiredToken);
-        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($record->get('usr_id')));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -119,7 +119,7 @@ class GetCest
         $invalidToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
-        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($record->get('usr_id')));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -147,7 +147,7 @@ class GetCest
         $invalidToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
-        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($record->get('usr_id')));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
@@ -160,24 +160,24 @@ class GetCest
 
     public function loginKnownUserValidToken(ApiTester $I)
     {
-        $user  = $this->addRecord($I);
-        $token = $I->apiLogin();
+        $record = $this->addRecord($I);
+        $token  = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$usersGetUrl, Data::usersGetJson($user->get('usr_id')));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'         => $user->get('usr_id'),
+                    'id'         => $record->get('usr_id'),
                     'type'       => Resources::USERS,
                     'attributes' => [
-                        'status'        => $user->get('usr_status_flag'),
-                        'username'      => $user->get('usr_username'),
-                        'issuer'        => $user->get('usr_issuer'),
-                        'tokenPassword' => $user->get('usr_token_password'),
-                        'tokenId'       => $user->get('usr_token_id'),
+                        'status'        => $record->get('usr_status_flag'),
+                        'username'      => $record->get('usr_username'),
+                        'issuer'        => $record->get('usr_issuer'),
+                        'tokenPassword' => $record->get('usr_token_password'),
+                        'tokenId'       => $record->get('usr_token_id'),
                     ],
                 ],
             ]
@@ -213,7 +213,7 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$usersGetUrl);
+        $I->sendGET(Data::$usersUrl);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
@@ -261,7 +261,7 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendPOST(Data::$usersGetUrl);
+        $I->sendGET(Data::$usersUrl);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
     }

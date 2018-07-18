@@ -13,40 +13,19 @@ class Data
 
     public static function loginJson()
     {
-        return json_encode(
-            [
-                'data' => [
-                    'username' => 'testuser',
-                    'password' => 'testpassword',
-                ]
-            ]
-        );
-    }
-
-    public static function usersGetJson($userId = 0)
-    {
-        $payload = [
-            'data' => [],
+        return [
+            'username' => 'testuser',
+            'password' => 'testpassword',
         ];
-
-        if ($userId > 0) {
-            $payload['data']['userId'] = $userId;
-        }
-
-        return json_encode($payload);
     }
 
     public static function companyAddJson($name, $address = '', $city = '', $phone = '')
     {
-        return json_encode(
-            [
-                'data' => [
-                    'name'    => $name,
-                    'address' => $address,
-                    'city'    => $city,
-                    'phone'   => $phone,
-                ]
-            ]
-        );
+        return [
+            'name'    => $name,
+            'address' => $address,
+            'city'    => $city,
+            'phone'   => $phone,
+        ];
     }
 }

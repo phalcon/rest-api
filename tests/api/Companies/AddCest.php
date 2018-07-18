@@ -19,7 +19,7 @@ class AddCest
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendPOST(
-            Data::$companiesAddUrl,
+            Data::$companiesUrl,
             Data::companyAddJson(
                 $name,
                 '123 Phalcon way',
@@ -70,7 +70,7 @@ class AddCest
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendPOST(
-            Data::$companiesAddUrl,
+            Data::$companiesUrl,
             Data::companyAddJson(
                 $name,
                 '123 Phalcon way',

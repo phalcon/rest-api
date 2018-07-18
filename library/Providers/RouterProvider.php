@@ -91,7 +91,6 @@ class RouterProvider implements ServiceProviderInterface
     {
         return [
             NotFoundMiddleware::class          => 'before',
-            PayloadMiddleware::class           => 'before',
             AuthenticationMiddleware::class    => 'before',
             TokenUserMiddleware::class         => 'before',
             TokenVerificationMiddleware::class => 'before',
@@ -109,9 +108,10 @@ class RouterProvider implements ServiceProviderInterface
     {
         return [
             // Class, Method, Route, Handler
-            [LoginController::class,              '',                 'post', '/login'],
+            [LoginController::class,              '/login',           'post', '/'],
             [CompaniesAddController::class,       '/companies',       'post', '/'],
-            [CompaniesAddController::class,       '/companies',       'post', '/{companyId:[0-9]+}'],
+//            [CompaniesAddController::class,       '/companies',       'get',  '/'],
+//            [CompaniesAddController::class,       '/companies',       'get',  '/{companyId:[0-9]+}'],
             [IndividualTypesGetController::class, '/individualtypes', 'get',  '/'],
             [IndividualTypesGetController::class, '/individualtypes', 'get',  '/{typeId:[0-9]+}'],
             [ProductTypesGetController::class,    '/producttypes',    'get',  '/'],

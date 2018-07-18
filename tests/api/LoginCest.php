@@ -11,33 +11,14 @@ use Page\Data;
 
 class LoginCest
 {
-    public function loginNoDataElement(ApiTester $I)
-    {
-        $I->sendPOST(
-            Data::$loginUrl,
-            json_encode(
-                [
-                    'username' => 'user',
-                    'password' => 'pass',
-                ]
-            )
-        );
-        $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('"data" element not present in the payload');
-    }
-
     public function loginUnknownUser(ApiTester $I)
     {
         $I->sendPOST(
             Data::$loginUrl,
-            json_encode(
-                [
-                    'data' => [
-                        'username' => 'user',
-                        'password' => 'pass',
-                    ]
-                ]
-            )
+            [
+                'username' => 'user',
+                'password' => 'pass',
+            ]
         );
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Incorrect credentials');

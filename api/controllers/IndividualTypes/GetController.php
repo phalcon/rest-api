@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Niden\Api\Controllers\IndividualTypes;
 
+use Niden\Api\Controllers\BaseController;
 use Niden\Models\IndividualTypes;
 use Niden\Traits\FractalTrait;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
 use Niden\Transformers\TypesTransformer;
-use Phalcon\Mvc\Controller;
 
 /**
  * Class GetController
  *
- * @package Niden\Api\Controllers\ProductTypes
+ * @package Niden\Api\Controllers\IndividualTypes
  */
-class GetController extends Controller
+class GetController extends BaseController
 {
     use FractalTrait;
     use QueryTrait;
@@ -24,10 +24,15 @@ class GetController extends Controller
 
     /**
      * Get the individual types
+     *
+     * @param int $typeId
+     *
+     * @return array
      */
-    public function callAction()
+    public function callAction($typeId = 0)
     {
-        $results = $this->getRecords(IndividualTypes::class, [], 'idt_name');
+        $parameters = $this->checkIdParameter('idt_id', $typeId);
+        $results    = $this->getRecords(IndividualTypes::class, $parameters, 'idt_name');
 
         return $this->format($results, TypesTransformer::class);
     }

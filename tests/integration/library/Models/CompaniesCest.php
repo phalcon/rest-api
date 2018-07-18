@@ -53,4 +53,35 @@ class CompaniesCest
         ];
         $I->assertEquals($expected, $actual);
     }
+
+    public function validateUniqueName(IntegrationTester $I)
+    {
+        $companyOne = new Companies();
+        /** @var Companies $companyOne */
+        $result  = $companyOne
+                    ->set('com_name', 'acme')
+                    ->set('com_address', '123 Phalcon way')
+                    ->set('com_city', 'World')
+                    ->set('com_telephone', '555-999-4444')
+                    ->save()
+        ;
+        $I->assertNotEquals(false, $result);
+
+        $companyTwo = new Companies();
+        /** @var Companies $companyTwo */
+        $result  = $companyTwo
+            ->set('com_name', 'acme')
+            ->set('com_address', '123 Phalcon way')
+            ->set('com_city', 'World')
+            ->set('com_telephone', '555-999-4444')
+            ->save()
+        ;
+        $I->assertEquals(false, $result);
+        $I->assertEquals(1, count($companyTwo->getMessages()));
+
+        $messages = $companyTwo->getMessages();
+        $I->assertEquals('The company name already exists in the database', $messages[0]->getMessage());
+        $result = $companyOne->delete();
+        $I->assertNotEquals(false, $result);
+    }
 }

@@ -8,6 +8,8 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
 use Niden\Transformers\PayloadTransformer;
 use Phalcon\Http\Response as PhResponse;
+use Phalcon\Mvc\Model\MessageInterface as ModelMessage;
+use Phalcon\Validation\Message\Group as ValidationMessage;
 
 class Response extends PhResponse
 {
@@ -15,6 +17,7 @@ class Response extends PhResponse
      * @var array
      */
     private $content = [];
+
     /**
      * Sets the payload code as Error
      *
@@ -28,6 +31,20 @@ class Response extends PhResponse
         $this->setPayloadContent();
 
         return $this;
+    }
+
+    /**
+     * Traverses the errors collection and sets the errors in the payload
+     *
+     * @param ModelMessage[]|ValidationMessage $errors
+     *
+     * @return Response
+     */
+    public function setPayloadErrors($errors): Response
+    {
+        foreach ($errors as $error) {
+            $this->setPayloadError($error->getMessage());
+        }
     }
 
     /**

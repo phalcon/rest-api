@@ -7,6 +7,8 @@ namespace Niden\Models;
 use Niden\Constants\Relationships;
 use Niden\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Uniqueness;
 
 /**
  * Class Companies
@@ -77,5 +79,25 @@ class Companies extends AbstractModel
     public function getTablePrefix(): string
     {
         return 'com';
+    }
+
+    /**
+     * Validates the company name
+     *
+     * @return bool
+     */
+    public function validation()
+    {
+        $validator = new Validation();
+        $validator->add(
+            'com_name',
+            new Uniqueness(
+                [
+                    'message' => 'The company name already exists in the database',
+                ]
+            )
+        );
+
+        return $this->validate($validator);
     }
 }

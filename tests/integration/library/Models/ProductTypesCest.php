@@ -3,6 +3,8 @@
 namespace Niden\Tests\integration\library\Models;
 
 use IntegrationTester;
+use Niden\Constants\Relationships;
+use Niden\Models\Products;
 use Niden\Models\ProductTypes;
 use Phalcon\Filter;
 
@@ -35,5 +37,14 @@ class ProductTypesCest
     {
         $model = new ProductTypes();
         $I->assertEquals('prt', $model->getTablePrefix());
+    }
+
+    public function validateRelationships(IntegrationTester $I)
+    {
+        $actual   = $I->getModelRelationships(ProductTypes::class);
+        $expected = [
+            [0, 'prt_id', Products::class, 'prd_prt_id', ['alias' => Relationships::PRODUCT, 'reusable' => true]],
+        ];
+        $I->assertEquals($expected, $actual);
     }
 }

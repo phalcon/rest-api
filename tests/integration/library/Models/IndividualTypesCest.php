@@ -3,6 +3,8 @@
 namespace Niden\Tests\integration\library\Models;
 
 use IntegrationTester;
+use Niden\Constants\Relationships;
+use Niden\Models\Individuals;
 use Niden\Models\IndividualTypes;
 use Phalcon\Filter;
 
@@ -35,5 +37,14 @@ class IndividualTypesCest
     {
         $model = new IndividualTypes();
         $I->assertEquals('idt', $model->getTablePrefix());
+    }
+
+    public function validateRelationships(IntegrationTester $I)
+    {
+        $actual   = $I->getModelRelationships(IndividualTypes::class);
+        $expected = [
+            [0, 'idt_id', Individuals::class, 'ind_idt_id', ['alias' => Relationships::INDIVIDUAL, 'reusable' => true]],
+        ];
+        $I->assertEquals($expected, $actual);
     }
 }

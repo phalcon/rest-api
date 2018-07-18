@@ -20,6 +20,16 @@ class Products extends AbstractModel
      */
     public function initialize()
     {
+        $this->belongsTo(
+            'prd_com_id',
+            Companies::class,
+            'com_id',
+            [
+                'alias'    => Relationships::COMPANY,
+                'reusable' => true,
+            ]
+        );
+
         $this->hasOne(
             'prd_prt_id',
             ProductTypes::class,

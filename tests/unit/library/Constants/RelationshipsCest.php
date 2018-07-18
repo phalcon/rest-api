@@ -15,5 +15,6 @@ class RelationshipsCest
         $I->assertEquals('individuals', Relationships::INDIVIDUALS);
         $I->assertEquals('product', Relationships::PRODUCT);
         $I->assertEquals('productType', Relationships::PRODUCT_TYPE);
+        $I->assertEquals('products', Relationships::PRODUCTS);
     }
 }

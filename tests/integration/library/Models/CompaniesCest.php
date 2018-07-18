@@ -3,7 +3,10 @@
 namespace Niden\Tests\integration\library\Models;
 
 use IntegrationTester;
+use Niden\Constants\Relationships;
 use Niden\Models\Companies;
+use Niden\Models\Individuals;
+use Niden\Models\Products;
 use Phalcon\Filter;
 
 class CompaniesCest
@@ -39,5 +42,15 @@ class CompaniesCest
     {
         $model = new Companies();
         $I->assertEquals('com', $model->getTablePrefix());
+    }
+
+    public function validateRelationships(IntegrationTester $I)
+    {
+        $actual   = $I->getModelRelationships(Companies::class);
+        $expected = [
+            [2, 'com_id', Individuals::class, 'ind_com_id', ['alias' => Relationships::INDIVIDUALS, 'reusable' => true]],
+            [2, 'com_id', Products::class, 'prd_com_id', ['alias' => Relationships::PRODUCTS, 'reusable' => true]],
+        ];
+        $I->assertEquals($expected, $actual);
     }
 }

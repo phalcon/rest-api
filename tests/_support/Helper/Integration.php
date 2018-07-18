@@ -65,6 +65,34 @@ class Integration extends Module
     }
 
     /**
+     * Returns the relationships that a model has
+     *
+     * @param string $class
+     *
+     * @return array
+     */
+    public function getModelRelationships(string $class): array
+    {
+        /** @var AbstractModel $class */
+        $model         = new $class();
+        $manager       = $model->getModelsManager();
+        $relationships = $manager->getRelations($class);
+
+        $data = [];
+        foreach ($relationships as $relationship) {
+            $data[] = [
+                $relationship->getType(),
+                $relationship->getFields(),
+                $relationship->getReferencedModel(),
+                $relationship->getReferencedFields(),
+                $relationship->getOptions(),
+            ];
+        }
+
+        return $data;
+    }
+
+    /**
      * Get a record from $modelName with fields provided
      *
      * @param string $modelName

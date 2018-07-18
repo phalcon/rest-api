@@ -72,4 +72,10 @@ class UsersCest
 
         $I->assertEquals($validationData, $user->getValidationData());
     }
+
+    public function validateRelationships(IntegrationTester $I)
+    {
+        $actual = $I->getModelRelationships(Users::class);
+        $I->assertEquals(0, count($actual));
+    }
 }

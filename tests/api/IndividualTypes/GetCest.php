@@ -3,6 +3,7 @@
 namespace Niden\Tests\api\IndividualTypes;
 
 use ApiTester;
+use Niden\Constants\Resources;
 use Niden\Models\IndividualTypes;
 use Niden\Models\Users;
 use Page\Data;
@@ -34,14 +35,20 @@ class GetCest
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'          => $typeOne->get('idt_id'),
-                    'name'        => $typeOne->get('idt_name'),
-                    'description' => $typeOne->get('idt_description'),
+                    'id'         => $typeOne->get('idt_id'),
+                    'type'       => Resources::INDIVIDUAL_TYPES,
+                    'attributes' => [
+                        'name'        => $typeOne->get('idt_name'),
+                        'description' => $typeOne->get('idt_description'),
+                    ],
                 ],
                 [
-                    'id'          => $typeTwo->get('idt_id'),
-                    'name'        => $typeTwo->get('idt_name'),
-                    'description' => $typeTwo->get('idt_description'),
+                    'id'         => $typeTwo->get('idt_id'),
+                    'type'       => Resources::INDIVIDUAL_TYPES,
+                    'attributes' => [
+                        'name'        => $typeTwo->get('idt_name'),
+                        'description' => $typeTwo->get('idt_description'),
+                    ],
                 ],
             ]
         );
@@ -56,6 +63,7 @@ class GetCest
         $I->sendPOST(Data::$individualTypesGetUrl, json_encode(['data' => []]));
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
     }
 
     private function addRecord(ApiTester $I)

@@ -3,6 +3,7 @@
 namespace Niden\Tests\api\Companies;
 
 use ApiTester;
+use Niden\Constants\Resources;
 use Niden\Models\Companies;
 use Niden\Models\Users;
 use Page\Data;
@@ -40,11 +41,14 @@ class AddCest
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'      => $company->get('com_id'),
-                    'name'    => $company->get('com_name'),
-                    'address' => $company->get('com_address'),
-                    'city'    => $company->get('com_city'),
-                    'phone'   => $company->get('com_telephone'),
+                    'id'         => $company->get('com_id'),
+                    'type'       => Resources::COMPANIES,
+                    'attributes' => [
+                        'name'    => $company->get('com_name'),
+                        'address' => $company->get('com_address'),
+                        'city'    => $company->get('com_city'),
+                        'phone'   => $company->get('com_telephone'),
+                    ],
                 ],
             ]
         );

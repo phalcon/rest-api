@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Niden\Transformers;
 
 use League\Fractal\TransformerAbstract;
+use Niden\Constants\Resources;
 use Niden\Models\Companies;
 
 /**
@@ -21,11 +22,14 @@ class CompaniesTransformer extends TransformerAbstract
     public function transform(Companies $company)
     {
         return [
-            'id'      => $company->get('com_id'),
-            'name'    => $company->get('com_name'),
-            'address' => $company->get('com_address'),
-            'city'    => $company->get('com_city'),
-            'phone'   => $company->get('com_telephone'),
+            'id'         => $company->get('com_id'),
+            'type'       => Resources::COMPANIES,
+            'attributes' => [
+                'name'    => $company->get('com_name'),
+                'address' => $company->get('com_address'),
+                'city'    => $company->get('com_city'),
+                'phone'   => $company->get('com_telephone'),
+            ],
         ];
     }
 }

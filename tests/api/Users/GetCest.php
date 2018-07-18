@@ -5,6 +5,7 @@ namespace Niden\Tests\api\Users;
 use ApiTester;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
+use Niden\Constants\Resources;
 use Niden\Models\Users;
 use Niden\Traits\TokenTrait;
 use Page\Data;
@@ -169,12 +170,15 @@ class GetCest
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'            => $user->get('usr_id'),
-                    'status'        => $user->get('usr_status_flag'),
-                    'username'      => $user->get('usr_username'),
-                    'issuer'        => $user->get('usr_issuer'),
-                    'tokenPassword' => $user->get('usr_token_password'),
-                    'tokenId'       => $user->get('usr_token_id'),
+                    'id'         => $user->get('usr_id'),
+                    'type'       => Resources::USERS,
+                    'attributes' => [
+                        'status'        => $user->get('usr_status_flag'),
+                        'username'      => $user->get('usr_username'),
+                        'issuer'        => $user->get('usr_issuer'),
+                        'tokenPassword' => $user->get('usr_token_password'),
+                        'tokenId'       => $user->get('usr_token_id'),
+                    ],
                 ],
             ]
         );
@@ -215,20 +219,26 @@ class GetCest
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'            => $userOne->get('usr_id'),
-                    'status'        => $userOne->get('usr_status_flag'),
-                    'username'      => $userOne->get('usr_username'),
-                    'issuer'        => $userOne->get('usr_issuer'),
-                    'tokenPassword' => $userOne->get('usr_token_password'),
-                    'tokenId'       => $userOne->get('usr_token_id'),
+                    'id'         => $userOne->get('usr_id'),
+                    'type'       => Resources::USERS,
+                    'attributes' => [
+                        'status'        => $userOne->get('usr_status_flag'),
+                        'username'      => $userOne->get('usr_username'),
+                        'issuer'        => $userOne->get('usr_issuer'),
+                        'tokenPassword' => $userOne->get('usr_token_password'),
+                        'tokenId'       => $userOne->get('usr_token_id'),
+                    ],
                 ],
                 [
-                    'id'            => $userTwo->get('usr_id'),
-                    'status'        => $userTwo->get('usr_status_flag'),
-                    'username'      => $userTwo->get('usr_username'),
-                    'issuer'        => $userTwo->get('usr_issuer'),
-                    'tokenPassword' => $userTwo->get('usr_token_password'),
-                    'tokenId'       => $userTwo->get('usr_token_id'),
+                    'id'         => $userTwo->get('usr_id'),
+                    'type'       => Resources::USERS,
+                    'attributes' => [
+                        'status'        => $userTwo->get('usr_status_flag'),
+                        'username'      => $userTwo->get('usr_username'),
+                        'issuer'        => $userTwo->get('usr_issuer'),
+                        'tokenPassword' => $userTwo->get('usr_token_password'),
+                        'tokenId'       => $userTwo->get('usr_token_id'),
+                    ],
                 ],
             ]
         );
@@ -236,7 +246,7 @@ class GetCest
 
     public function getManyUsersWithNoData(ApiTester $I)
     {
-        $userOne = $I->haveRecordWithFields(
+        $I->haveRecordWithFields(
             Users::class,
             [
                 'usr_status_flag'    => 1,

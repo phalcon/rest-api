@@ -3,6 +3,7 @@
 namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
+use Niden\Constants\Resources;
 use Niden\Models\Companies;
 use Niden\Transformers\CompaniesTransformer;
 
@@ -28,11 +29,14 @@ class CompaniesTransformerCest
 
         $transformer = new CompaniesTransformer();
         $expected = [
-            'id'      => $company->get('com_id'),
-            'name'    => $company->get('com_name'),
-            'address' => $company->get('com_address'),
-            'city'    => $company->get('com_city'),
-            'phone'   => $company->get('com_telephone'),
+            'id'         => $company->get('com_id'),
+            'type'       => Resources::COMPANIES,
+            'attributes' => [
+                'name'    => $company->get('com_name'),
+                'address' => $company->get('com_address'),
+                'city'    => $company->get('com_city'),
+                'phone'   => $company->get('com_telephone'),
+            ],
         ];
 
         $I->assertEquals($expected, $transformer->transform($company));

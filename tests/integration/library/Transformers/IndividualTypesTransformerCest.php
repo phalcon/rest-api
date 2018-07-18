@@ -4,11 +4,11 @@ namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
 use Niden\Constants\Resources;
-use Niden\Models\ProductTypes;
+use Niden\Models\IndividualTypes;
 use Niden\Transformers\TypesTransformer;
 use function uniqid;
 
-class ProductTypesTransformerCest
+class IndividualTypesTransformerCest
 {
     /**
      * @param IntegrationTester $I
@@ -17,22 +17,22 @@ class ProductTypesTransformerCest
      */
     public function checkTransformer(IntegrationTester $I)
     {
-        /** @var ProductTypes $type */
+        /** @var IndividualTypes $type */
         $type = $I->haveRecordWithFields(
-            ProductTypes::class,
+            IndividualTypes::class,
             [
-                'prt_name'        => uniqid('type-n-'),
-                'prt_description' => uniqid('type-d-'),
+                'idt_name'        => uniqid('type-n-'),
+                'idt_description' => uniqid('type-d-'),
             ]
         );
 
         $transformer = new TypesTransformer();
         $expected    = [
-            'id'         => $type->get('prt_id'),
-            'type'       => Resources::PRODUCT_TYPES,
+            'id'         => $type->get('idt_id'),
+            'type'       => Resources::INDIVIDUAL_TYPES,
             'attributes' => [
-                'name'        => $type->get('prt_name'),
-                'description' => $type->get('prt_description'),
+                'name'        => $type->get('idt_name'),
+                'description' => $type->get('idt_description'),
             ],
         ];
 

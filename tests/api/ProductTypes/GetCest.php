@@ -3,6 +3,7 @@
 namespace Niden\Tests\api\ProductTypes;
 
 use ApiTester;
+use Niden\Constants\Resources;
 use Niden\Models\ProductTypes;
 use Niden\Models\Users;
 use Page\Data;
@@ -34,12 +35,20 @@ class GetCest
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'   => $typeOne->get('prt_id'),
-                    'name' => $typeOne->get('prt_name'),
+                    'id'         => $typeOne->get('prt_id'),
+                    'type'       => Resources::PRODUCT_TYPES,
+                    'attributes' => [
+                        'name'        => $typeOne->get('prt_name'),
+                        'description' => $typeOne->get('prt_description'),
+                    ],
                 ],
                 [
-                    'id'   => $typeTwo->get('prt_id'),
-                    'name' => $typeTwo->get('prt_name'),
+                    'id'         => $typeTwo->get('prt_id'),
+                    'type'       => Resources::PRODUCT_TYPES,
+                    'attributes' => [
+                        'name'        => $typeTwo->get('prt_name'),
+                        'description' => $typeTwo->get('prt_description'),
+                    ],
                 ],
             ]
         );
@@ -54,6 +63,7 @@ class GetCest
         $I->sendPOST(Data::$productTypesGetUrl, json_encode(['data' => []]));
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
     }
 
     private function addRecord(ApiTester $I)

@@ -32,6 +32,8 @@ class RouterCest
         $expected = [
             ['POST', '/login'],
             ['POST', '/companies'],
+            ['GET',  '/cpompanies'],
+            ['GET',  '/cpompanies/{typeId:[0-9]+}'],
             ['GET',  '/individualtypes'],
             ['GET',  '/individualtypes/{typeId:[0-9]+}'],
             ['GET',  '/producttypes'],
@@ -40,7 +42,7 @@ class RouterCest
             ['GET',  '/users/{userId:[0-9]+}'],
         ];
 
-        $I->assertEquals(8, count($routes));
+        $I->assertEquals(10, count($routes));
         foreach ($routes as $index => $route) {
             $I->assertEquals($expected[$index][0], $route->getHttpMethods());
             $I->assertEquals($expected[$index][1], $route->getPattern());

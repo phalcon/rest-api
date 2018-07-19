@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Niden\Providers;
 
 use Niden\Api\Controllers\Companies\AddController as CompaniesAddController;
+use Niden\Api\Controllers\Companies\GetController as CompaniesGetController;
 use Niden\Api\Controllers\IndividualTypes\GetController as IndividualTypesGetController;
 use Niden\Api\Controllers\ProductTypes\GetController as ProductTypesGetController;
 use Niden\Api\Controllers\Users\GetController as UsersGetController;
 use Niden\Api\Controllers\LoginController;
 use Niden\Middleware\NotFoundMiddleware;
-use Niden\Middleware\PayloadMiddleware;
 use Niden\Middleware\AuthenticationMiddleware;
 use Niden\Middleware\ResponseMiddleware;
 use Niden\Middleware\TokenUserMiddleware;
@@ -110,8 +110,8 @@ class RouterProvider implements ServiceProviderInterface
             // Class, Method, Route, Handler
             [LoginController::class,              '/login',           'post', '/'],
             [CompaniesAddController::class,       '/companies',       'post', '/'],
-//            [CompaniesAddController::class,       '/companies',       'get',  '/'],
-//            [CompaniesAddController::class,       '/companies',       'get',  '/{companyId:[0-9]+}'],
+            [CompaniesGetController::class,       '/companies',       'get',  '/'],
+            [CompaniesGetController::class,       '/companies',       'get',  '/{companyId:[0-9]+}'],
             [IndividualTypesGetController::class, '/individualtypes', 'get',  '/'],
             [IndividualTypesGetController::class, '/individualtypes', 'get',  '/{typeId:[0-9]+}'],
             [ProductTypesGetController::class,    '/producttypes',    'get',  '/'],

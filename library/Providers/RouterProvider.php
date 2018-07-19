@@ -16,7 +16,6 @@ use Niden\Middleware\ResponseMiddleware;
 use Niden\Middleware\TokenUserMiddleware;
 use Niden\Middleware\TokenValidationMiddleware;
 use Niden\Middleware\TokenVerificationMiddleware;
-
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;

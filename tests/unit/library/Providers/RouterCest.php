@@ -32,8 +32,8 @@ class RouterCest
         $expected = [
             ['POST', '/login'],
             ['POST', '/companies'],
-            ['GET',  '/cpompanies'],
-            ['GET',  '/cpompanies/{typeId:[0-9]+}'],
+            ['GET',  '/companies'],
+            ['GET',  '/companies/{companyId:[0-9]+}'],
             ['GET',  '/individualtypes'],
             ['GET',  '/individualtypes/{typeId:[0-9]+}'],
             ['GET',  '/producttypes'],

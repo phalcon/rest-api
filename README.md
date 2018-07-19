@@ -133,7 +133,7 @@ The record always has `id` and `type` present at the top level. `id` is the uniq
   },
   "data": {
     "token": "aa.bb.cc"
-  ],
+  },
   "meta": {
     "timestamp": "2018-06-08T15:07:35+00:00",
     "hash": "6219ae83afaebc08da4250c4fd23ea1b4843d"

@@ -6,9 +6,6 @@ namespace Niden\Api\Controllers\ProductTypes;
 
 use Niden\Api\Controllers\BaseController;
 use Niden\Models\ProductTypes;
-use Niden\Traits\FractalTrait;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\ResponseTrait;
 use Niden\Transformers\TypesTransformer;
 
 /**
@@ -18,10 +15,6 @@ use Niden\Transformers\TypesTransformer;
  */
 class GetController extends BaseController
 {
-    use FractalTrait;
-    use QueryTrait;
-    use ResponseTrait;
-
     /**
      * Get product types
      *
@@ -31,9 +24,12 @@ class GetController extends BaseController
      */
     public function callAction($typeId = 0)
     {
-        $parameters = $this->checkIdParameter('prt_id', $typeId);
-        $results    = $this->getRecords(ProductTypes::class, $parameters, 'prt_name');
-
-        return $this->format($results, TypesTransformer::class);
+        return $this->processCall(
+            ProductTypes::class,
+            'prt_id',
+            TypesTransformer::class,
+            $typeId,
+            'prt_name'
+        );
     }
 }

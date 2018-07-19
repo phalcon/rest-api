@@ -6,9 +6,6 @@ namespace Niden\Api\Controllers\IndividualTypes;
 
 use Niden\Api\Controllers\BaseController;
 use Niden\Models\IndividualTypes;
-use Niden\Traits\FractalTrait;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\ResponseTrait;
 use Niden\Transformers\TypesTransformer;
 
 /**
@@ -18,10 +15,6 @@ use Niden\Transformers\TypesTransformer;
  */
 class GetController extends BaseController
 {
-    use FractalTrait;
-    use QueryTrait;
-    use ResponseTrait;
-
     /**
      * Get the individual types
      *
@@ -31,9 +24,12 @@ class GetController extends BaseController
      */
     public function callAction($typeId = 0)
     {
-        $parameters = $this->checkIdParameter('idt_id', $typeId);
-        $results    = $this->getRecords(IndividualTypes::class, $parameters, 'idt_name');
-
-        return $this->format($results, TypesTransformer::class);
+        return $this->processCall(
+            IndividualTypes::class,
+            'idt_id',
+            TypesTransformer::class,
+            $typeId,
+            'idt_name'
+        );
     }
 }

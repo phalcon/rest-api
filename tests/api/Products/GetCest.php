@@ -98,7 +98,7 @@ class GetCest
         );
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$companiesUrl);
+        $I->sendGET(Data::$productsUrl);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(

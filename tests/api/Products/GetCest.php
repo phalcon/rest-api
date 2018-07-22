@@ -4,6 +4,7 @@ namespace Niden\Tests\api\Products;
 
 use ApiTester;
 use Niden\Constants\Resources;
+use function Niden\Core\envValue;
 use Niden\Models\Companies;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
@@ -50,10 +51,23 @@ class GetCest
                     'type'       => Resources::PRODUCTS,
                     'attributes' => [
                         'name'        => $product->get('prd_name'),
+                        'typeId'      => $productType->get('prt_id'),
                         'description' => $product->get('prd_description'),
                         'quantity'    => $product->get('prd_quantity'),
                         'price'       => $product->get('prd_price'),
                     ],
+                    'links'      => [
+                        'self' => sprintf(
+                            '%s/products/%s',
+                            envValue('APP_URL', 'localhost'),
+                            $product->get('prd_id')
+                        ),
+                        'related' => sprintf(
+                            '%s/product-types/%s',
+                            envValue('APP_URL', 'localhost'),
+                            $productType->get('prt_id')
+                        ),
+                    ]
                 ],
             ]
         );
@@ -108,20 +122,46 @@ class GetCest
                     'type'       => Resources::PRODUCTS,
                     'attributes' => [
                         'name'        => $productOne->get('prd_name'),
+                        'typeId'      => $productType->get('prt_id'),
                         'description' => $productOne->get('prd_description'),
                         'quantity'    => $productOne->get('prd_quantity'),
                         'price'       => $productOne->get('prd_price'),
                     ],
+                    'links'      => [
+                        'self' => sprintf(
+                            '%s/products/%s',
+                            envValue('APP_URL', 'localhost'),
+                            $productOne->get('prd_id')
+                        ),
+                        'related' => sprintf(
+                            '%s/product-types/%s',
+                            envValue('APP_URL', 'localhost'),
+                            $productType->get('prt_id')
+                        ),
+                    ]
                 ],
                 [
                     'id'         => $productTwo->get('prd_id'),
                     'type'       => Resources::PRODUCTS,
                     'attributes' => [
                         'name'        => $productTwo->get('prd_name'),
+                        'typeId'      => $productType->get('prt_id'),
                         'description' => $productTwo->get('prd_description'),
                         'quantity'    => $productTwo->get('prd_quantity'),
                         'price'       => $productTwo->get('prd_price'),
                     ],
+                    'links'      => [
+                        'self' => sprintf(
+                            '%s/products/%s',
+                            envValue('APP_URL', 'localhost'),
+                            $productTwo->get('prd_id')
+                        ),
+                        'related' => sprintf(
+                            '%s/product-types/%s',
+                            envValue('APP_URL', 'localhost'),
+                            $productType->get('prt_id')
+                        ),
+                    ]
                 ],
             ]
         );

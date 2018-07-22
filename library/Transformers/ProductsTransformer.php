@@ -28,15 +28,21 @@ class ProductsTransformer extends TransformerAbstract
             'type'       => Resources::PRODUCTS,
             'attributes' => [
                 'name'        => $product->get('prd_name'),
+                'typeId'      => $product->get('prd_prt_id'),
                 'description' => $product->get('prd_description'),
                 'quantity'    => $product->get('prd_quantity'),
                 'price'       => $product->get('prd_price'),
             ],
-            'links'      => [
+            'links'       => [
                 'self' => sprintf(
                     '%s/products/%s',
                     envValue('APP_URL', 'localhost'),
                     $product->get('prd_id')
+                ),
+                'related' => sprintf(
+                    '%s/product-types/%s',
+                    envValue('APP_URL', 'localhost'),
+                    $product->get('prd_prt_id')
                 ),
             ]
         ];

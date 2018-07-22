@@ -6,6 +6,7 @@ use IntegrationTester;
 use Niden\Constants\Resources;
 use function Niden\Core\envValue;
 use Niden\Models\Products;
+use Niden\Models\ProductTypes;
 use Niden\Transformers\ProductsTransformer;
 
 class ProductsTransformerCest
@@ -17,11 +18,21 @@ class ProductsTransformerCest
      */
     public function checkTransformer(IntegrationTester $I)
     {
+        /** @var ProductTypes $productType */
+        $productType = $I->haveRecordWithFields(
+            ProductTypes::class,
+            [
+                'prt_name'        => uniqid('prt-a-'),
+                'prt_description' => uniqid(),
+            ]
+        );
+
         /** @var Products $product */
         $product = $I->haveRecordWithFields(
             Products::class,
             [
                 'prd_name'        => 'test product',
+                'prd_prt_id'      => $productType->get('prt_id'),
                 'prd_description' => 'test product description',
                 'prd_quantity'    => 25,
                 'prd_price'       => 19.99,
@@ -34,6 +45,7 @@ class ProductsTransformerCest
             'type'       => Resources::PRODUCTS,
             'attributes' => [
                 'name'        => $product->get('prd_name'),
+                'typeId'      => $productType->get('prt_id'),
                 'description' => $product->get('prd_description'),
                 'quantity'    => $product->get('prd_quantity'),
                 'price'       => $product->get('prd_price'),
@@ -43,6 +55,11 @@ class ProductsTransformerCest
                     '%s/products/%s',
                     envValue('APP_URL', 'localhost'),
                     $product->get('prd_id')
+                ),
+                'related' => sprintf(
+                    '%s/product-types/%s',
+                    envValue('APP_URL', 'localhost'),
+                    $productType->get('prt_id')
                 ),
             ]
         ];

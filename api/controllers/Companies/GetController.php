@@ -16,7 +16,7 @@ use Niden\Transformers\CompaniesTransformer;
 class GetController extends BaseController
 {
     /**
-     * Get the individual types
+     * Get the company/companies
      *
      * @param int $companyId
      *

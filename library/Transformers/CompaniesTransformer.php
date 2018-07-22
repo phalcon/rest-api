@@ -6,6 +6,7 @@ namespace Niden\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use Niden\Constants\Resources;
+use function Niden\Core\envValue;
 use Niden\Models\Companies;
 
 /**
@@ -30,6 +31,13 @@ class CompaniesTransformer extends TransformerAbstract
                 'city'    => $company->get('com_city'),
                 'phone'   => $company->get('com_telephone'),
             ],
+            'links'      => [
+                'self' => sprintf(
+                    '%s/companies/%s',
+                    envValue('APP_URL', 'localhost'),
+                    $company->get('com_id')
+                ),
+            ]
         ];
     }
 }

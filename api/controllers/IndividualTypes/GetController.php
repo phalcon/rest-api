@@ -6,7 +6,7 @@ namespace Niden\Api\Controllers\IndividualTypes;
 
 use Niden\Api\Controllers\BaseController;
 use Niden\Models\IndividualTypes;
-use Niden\Transformers\TypesTransformer;
+use Niden\Transformers\IndividualTypesTransformer;
 
 /**
  * Class GetController
@@ -27,7 +27,7 @@ class GetController extends BaseController
         return $this->processCall(
             IndividualTypes::class,
             'idt_id',
-            TypesTransformer::class,
+            IndividualTypesTransformer::class,
             $typeId,
             'idt_name'
         );

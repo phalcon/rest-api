@@ -4,8 +4,9 @@ namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
 use Niden\Constants\Resources;
+use function Niden\Core\envValue;
 use Niden\Models\ProductTypes;
-use Niden\Transformers\TypesTransformer;
+use Niden\Transformers\ProductTypesTransformer;
 use function uniqid;
 
 class ProductTypesTransformerCest
@@ -26,7 +27,7 @@ class ProductTypesTransformerCest
             ]
         );
 
-        $transformer = new TypesTransformer();
+        $transformer = new ProductTypesTransformer();
         $expected    = [
             'id'         => $type->get('prt_id'),
             'type'       => Resources::PRODUCT_TYPES,
@@ -34,6 +35,13 @@ class ProductTypesTransformerCest
                 'name'        => $type->get('prt_name'),
                 'description' => $type->get('prt_description'),
             ],
+            'links'      => [
+                'self' => sprintf(
+                    '%s/producttypes/%s',
+                    envValue('APP_URL', 'localhost'),
+                    $type->get('prt_id')
+                ),
+            ]
         ];
 
         $I->assertEquals($expected, $transformer->transform($type));

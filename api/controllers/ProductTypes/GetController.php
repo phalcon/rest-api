@@ -6,7 +6,7 @@ namespace Niden\Api\Controllers\ProductTypes;
 
 use Niden\Api\Controllers\BaseController;
 use Niden\Models\ProductTypes;
-use Niden\Transformers\TypesTransformer;
+use Niden\Transformers\ProductTypesTransformer;
 
 /**
  * Class GetController
@@ -27,7 +27,7 @@ class GetController extends BaseController
         return $this->processCall(
             ProductTypes::class,
             'prt_id',
-            TypesTransformer::class,
+            ProductTypesTransformer::class,
             $typeId,
             'prt_name'
         );

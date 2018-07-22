@@ -4,6 +4,7 @@ namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
 use Niden\Constants\Resources;
+use function Niden\Core\envValue;
 use Niden\Models\Companies;
 use Niden\Transformers\CompaniesTransformer;
 
@@ -37,6 +38,13 @@ class CompaniesTransformerCest
                 'city'    => $company->get('com_city'),
                 'phone'   => $company->get('com_telephone'),
             ],
+            'links'      => [
+                'self' => sprintf(
+                    '%s/companies/%s',
+                    envValue('APP_URL', 'localhost'),
+                    $company->get('com_id')
+                ),
+            ]
         ];
 
         $I->assertEquals($expected, $transformer->transform($company));

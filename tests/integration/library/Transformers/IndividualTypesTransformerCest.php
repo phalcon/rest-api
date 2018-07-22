@@ -4,8 +4,9 @@ namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
 use Niden\Constants\Resources;
+use function Niden\Core\envValue;
 use Niden\Models\IndividualTypes;
-use Niden\Transformers\TypesTransformer;
+use Niden\Transformers\IndividualTypesTransformer;
 use function uniqid;
 
 class IndividualTypesTransformerCest
@@ -26,7 +27,7 @@ class IndividualTypesTransformerCest
             ]
         );
 
-        $transformer = new TypesTransformer();
+        $transformer = new IndividualTypesTransformer();
         $expected    = [
             'id'         => $type->get('idt_id'),
             'type'       => Resources::INDIVIDUAL_TYPES,
@@ -34,6 +35,13 @@ class IndividualTypesTransformerCest
                 'name'        => $type->get('idt_name'),
                 'description' => $type->get('idt_description'),
             ],
+            'links'      => [
+                'self' => sprintf(
+                    '%s/individualtypes/%s',
+                    envValue('APP_URL', 'localhost'),
+                    $type->get('idt_id')
+                ),
+            ]
         ];
 
         $I->assertEquals($expected, $transformer->transform($type));

@@ -34,15 +34,17 @@ class RouterCest
             ['POST', '/companies'],
             ['GET',  '/companies'],
             ['GET',  '/companies/{companyId:[0-9]+}'],
-            ['GET',  '/individualtypes'],
-            ['GET',  '/individualtypes/{typeId:[0-9]+}'],
-            ['GET',  '/producttypes'],
-            ['GET',  '/producttypes/{typeId:[0-9]+}'],
+            ['GET',  '/individual-types'],
+            ['GET',  '/individual-types/{typeId:[0-9]+}'],
+            ['GET',  '/products'],
+            ['GET',  '/products/{productId:[0-9]+}'],
+            ['GET',  '/product-types'],
+            ['GET',  '/product-types/{typeId:[0-9]+}'],
             ['GET',  '/users'],
             ['GET',  '/users/{userId:[0-9]+}'],
         ];
 
-        $I->assertEquals(10, count($routes));
+        $I->assertEquals(12, count($routes));
         foreach ($routes as $index => $route) {
             $I->assertEquals($expected[$index][0], $route->getHttpMethods());
             $I->assertEquals($expected[$index][1], $route->getPattern());

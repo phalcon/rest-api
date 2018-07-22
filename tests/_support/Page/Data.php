@@ -6,8 +6,8 @@ class Data
 {
     public static $companiesUrl       = '/companies';
     public static $loginUrl           = '/login';
-    public static $individualTypesUrl = '/individualtypes';
-    public static $productTypesUrl    = '/producttypes';
+    public static $individualTypesUrl = '/individual-types';
+    public static $productTypesUrl    = '/product-types';
     public static $usersUrl           = '/users';
     public static $wrongUrl           = '/sommething';
 

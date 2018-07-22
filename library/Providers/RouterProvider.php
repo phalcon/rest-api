@@ -7,6 +7,7 @@ namespace Niden\Providers;
 use Niden\Api\Controllers\Companies\AddController as CompaniesAddController;
 use Niden\Api\Controllers\Companies\GetController as CompaniesGetController;
 use Niden\Api\Controllers\IndividualTypes\GetController as IndividualTypesGetController;
+use Niden\Api\Controllers\Products\GetController as ProductsGetController;
 use Niden\Api\Controllers\ProductTypes\GetController as ProductTypesGetController;
 use Niden\Api\Controllers\Users\GetController as UsersGetController;
 use Niden\Api\Controllers\LoginController;
@@ -107,16 +108,18 @@ class RouterProvider implements ServiceProviderInterface
     {
         return [
             // Class, Method, Route, Handler
-            [LoginController::class,              '/login',           'post', '/'],
-            [CompaniesAddController::class,       '/companies',       'post', '/'],
-            [CompaniesGetController::class,       '/companies',       'get',  '/'],
-            [CompaniesGetController::class,       '/companies',       'get',  '/{companyId:[0-9]+}'],
-            [IndividualTypesGetController::class, '/individualtypes', 'get',  '/'],
-            [IndividualTypesGetController::class, '/individualtypes', 'get',  '/{typeId:[0-9]+}'],
-            [ProductTypesGetController::class,    '/producttypes',    'get',  '/'],
-            [ProductTypesGetController::class,    '/producttypes',    'get',  '/{typeId:[0-9]+}'],
-            [UsersGetController::class,           '/users',           'get',  '/'],
-            [UsersGetController::class,           '/users',           'get',  '/{userId:[0-9]+}'],
+            [LoginController::class,              '/login',            'post', '/'],
+            [CompaniesAddController::class,       '/companies',        'post', '/'],
+            [CompaniesGetController::class,       '/companies',        'get',  '/'],
+            [CompaniesGetController::class,       '/companies',        'get',  '/{companyId:[0-9]+}'],
+            [IndividualTypesGetController::class, '/individual-types', 'get',  '/'],
+            [IndividualTypesGetController::class, '/individual-types', 'get',  '/{typeId:[0-9]+}'],
+            [ProductsGetController::class,        '/products',         'get',  '/'],
+            [ProductsGetController::class,        '/products',         'get',  '/{productId:[0-9]+}'],
+            [ProductTypesGetController::class,    '/product-types',    'get',  '/'],
+            [ProductTypesGetController::class,    '/product-types',    'get',  '/{typeId:[0-9]+}'],
+            [UsersGetController::class,           '/users',            'get',  '/'],
+            [UsersGetController::class,           '/users',            'get',  '/{userId:[0-9]+}'],
         ];
     }
 }

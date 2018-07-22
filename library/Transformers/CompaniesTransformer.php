@@ -7,6 +7,7 @@ namespace Niden\Transformers;
 use League\Fractal\TransformerAbstract;
 use Niden\Constants\Resources;
 use function Niden\Core\envValue;
+use Niden\Exception\ModelException;
 use Niden\Models\Companies;
 
 /**
@@ -18,7 +19,7 @@ class CompaniesTransformer extends TransformerAbstract
      * @param Companies $company
      *
      * @return array
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function transform(Companies $company)
     {

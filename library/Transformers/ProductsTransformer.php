@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Niden\Transformers;
 
+use League\Fractal\TransformerAbstract;
 use Niden\Constants\Resources;
 use function Niden\Core\envValue;
 use Niden\Exception\ModelException;
@@ -12,7 +13,7 @@ use Niden\Models\Products;
 /**
  * Class ProductsTransformer
  */
-class ProductsTransformer extends TypesTransformer
+class ProductsTransformer extends TransformerAbstract
 {
     /**
      * @param Products $product
@@ -30,10 +31,6 @@ class ProductsTransformer extends TypesTransformer
                 'description' => $product->get('prd_description'),
                 'quantity'    => $product->get('prd_quantity'),
                 'price'       => $product->get('prd_price'),
-
-
-
-
             ],
             'links'      => [
                 'self' => sprintf(

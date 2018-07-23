@@ -3,8 +3,6 @@
 namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
-use Niden\Constants\Resources;
-use function Niden\Core\envValue;
 use Niden\Models\Companies;
 use Niden\Transformers\BaseTransformer;
 

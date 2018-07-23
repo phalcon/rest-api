@@ -20,30 +20,6 @@ class ModelCest
      *
      * @throws ModelException
      */
-    public function modelGetTablePrefix(IntegrationTester $I)
-    {
-        /** @var Users $result */
-        $user = $I->haveRecordWithFields(
-            Users::class,
-            [
-                'username'      => 'testusername',
-                'password'      => 'testpass',
-                'status'        => 1,
-                'issuer'        => 'phalconphp.com',
-                'tokenPassword' => '12345',
-                'tokenId'       => '00110011',
-
-            ]
-        );
-
-        $I->assertEquals('usr', $user->getTablePrefix());
-    }
-
-    /**
-     * @param IntegrationTester $I
-     *
-     * @throws ModelException
-     */
     public function modelGetSetFields(IntegrationTester $I)
     {
         $I->haveRecordWithFields(

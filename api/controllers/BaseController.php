@@ -11,6 +11,7 @@ use Niden\Models\Users;
 use Niden\Traits\FractalTrait;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\TokenTrait;
+use Niden\Transformers\BaseTransformer;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 
@@ -27,12 +28,11 @@ class BaseController extends Controller
     /**
      * Checks the passed id parameter and returns the relevant array back
      *
-     * @param string $field
      * @param int    $recordId
      *
      * @return array
      */
-    protected function checkIdParameter(string $field, $recordId = 0): array
+    protected function checkIdParameter($recordId = 0): array
     {
         $parameters = [];
 
@@ -40,7 +40,7 @@ class BaseController extends Controller
         $localId = $this->filter->sanitize($recordId, Filter::FILTER_ABSINT);
 
         if ($localId > 0) {
-            $parameters[$field] = $localId;
+            $parameters['id'] = $localId;
         }
 
         return $parameters;
@@ -50,8 +50,7 @@ class BaseController extends Controller
      * Processes getting records as a while or one using an id
      *
      * @param string $model
-     * @param string $field
-     * @param string $transformer
+     * @param string $resource
      * @param int    $recordId
      * @param string $orderBy
      *
@@ -59,14 +58,13 @@ class BaseController extends Controller
      */
     protected function processCall(
         string $model,
-        string $field,
-        string $transformer,
+        string $resource,
         $recordId = 0,
         string $orderBy = ''
     ) {
-        $parameters = $this->checkIdParameter($field, $recordId);
+        $parameters = $this->checkIdParameter($recordId);
         $results    = $this->getRecords($model, $parameters, $orderBy);
 
-        return $this->format($results, $transformer);
+        return $this->format($results, BaseTransformer::class, $resource);
     }
 }

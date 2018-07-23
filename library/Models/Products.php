@@ -44,6 +44,23 @@ class Products extends AbstractModel
     }
 
     /**
+     * Column Map
+     *
+     * @return array<string,string>
+     */
+    public function columnMap(): array
+    {
+        return [
+            'prd_id'          => 'id',
+            'prd_prt_id'      => 'typeId',
+            'prd_name'        => 'name',
+            'prd_description' => 'description',
+            'prd_quantity'    => 'quantity',
+            'prd_price'       => 'price',
+        ];
+    }
+
+    /**
      * Model filters
      *
      * @return array<string,string>
@@ -51,12 +68,12 @@ class Products extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'prd_id'          => Filter::FILTER_ABSINT,
-            'prd_prt_id'      => Filter::FILTER_ABSINT,
-            'prd_name'        => Filter::FILTER_STRING,
-            'prd_description' => Filter::FILTER_STRING,
-            'prd_quantity'    => Filter::FILTER_ABSINT,
-            'prd_price'       => Filter::FILTER_FLOAT,
+            'id'          => Filter::FILTER_ABSINT,
+            'typeId'      => Filter::FILTER_ABSINT,
+            'name'        => Filter::FILTER_STRING,
+            'description' => Filter::FILTER_STRING,
+            'quantity'    => Filter::FILTER_ABSINT,
+            'price'       => Filter::FILTER_FLOAT,
         ];
     }
 

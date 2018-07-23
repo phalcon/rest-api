@@ -24,7 +24,7 @@ class GetCest
 
     public function loginKnownUserGetUnknownUser(ApiTester $I)
     {
-        $this->addRecord($I);
+        $I->addApiUserRecord();
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
@@ -42,7 +42,7 @@ class GetCest
 
     public function loginKnownUserIncorrectSignature(ApiTester $I)
     {
-        $record = $this->addRecord($I);
+        $record = $I->addApiUserRecord();
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
@@ -63,14 +63,14 @@ class GetCest
         $wrongToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $wrongToken);
-        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
 
     public function loginKnownUserExpiredToken(ApiTester $I)
     {
-        $record = $this->addRecord($I);
+        $record = $I->addApiUserRecord();
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
@@ -91,14 +91,14 @@ class GetCest
         $expiredToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $expiredToken);
-        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
 
     public function loginKnownUserInvalidToken(ApiTester $I)
     {
-        $record = $this->addRecord($I);
+        $record = $I->addApiUserRecord();
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
@@ -119,14 +119,14 @@ class GetCest
         $invalidToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
-        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
 
     public function loginKnownUserInvalidUserInToken(ApiTester $I)
     {
-        $record = $this->addRecord($I);
+        $record = $I->addApiUserRecord();
         $I->deleteHeader('Authorization');
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
@@ -147,37 +147,37 @@ class GetCest
         $invalidToken = $token->__toString();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
-        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Invalid Token');
     }
 
     public function loginKnownUserCorrectToken(ApiTester $I)
     {
-        $this->addRecord($I);
+        $I->addApiUserRecord();
         $I->apiLogin();
     }
 
     public function loginKnownUserValidToken(ApiTester $I)
     {
-        $record = $this->addRecord($I);
+        $record = $I->addApiUserRecord();
         $token  = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$usersUrl . '/' . $record->get('usr_id'));
+        $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'         => $record->get('usr_id'),
+                    'id'         => $record->get('id'),
                     'type'       => Resources::USERS,
                     'attributes' => [
-                        'status'        => $record->get('usr_status_flag'),
-                        'username'      => $record->get('usr_username'),
-                        'issuer'        => $record->get('usr_issuer'),
-                        'tokenPassword' => $record->get('usr_token_password'),
-                        'tokenId'       => $record->get('usr_token_id'),
+                        'status'        => $record->get('status'),
+                        'username'      => $record->get('username'),
+                        'issuer'        => $record->get('issuer'),
+                        'tokenPassword' => $record->get('tokenPassword'),
+                        'tokenId'       => $record->get('tokenId'),
                     ],
                 ],
             ]
@@ -189,24 +189,24 @@ class GetCest
         $userOne = $I->haveRecordWithFields(
             Users::class,
             [
-                'usr_status_flag'    => 1,
-                'usr_username'       => 'testuser',
-                'usr_password'       => 'testpassword',
-                'usr_issuer'         => 'https://niden.net',
-                'usr_token_password' => '12345',
-                'usr_token_id'       => '110011',
+                'status'        => 1,
+                'username'      => 'testuser',
+                'password'      => 'testpassword',
+                'issuer'        => 'https://niden.net',
+                'tokenPassword' => '12345',
+                'tokenId'       => '110011',
             ]
         );
 
         $userTwo = $I->haveRecordWithFields(
             Users::class,
             [
-                'usr_status_flag'    => 1,
-                'usr_username'       => 'testuser1',
-                'usr_password'       => 'testpassword1',
-                'usr_issuer'         => 'https://niden.net',
-                'usr_token_password' => '789789',
-                'usr_token_id'       => '001100',
+                'status'        => 1,
+                'username'      => 'testuser1',
+                'password'      => 'testpassword1',
+                'issuer'        => 'https://niden.net',
+                'tokenPassword' => '789789',
+                'tokenId'       => '001100',
             ]
         );
 
@@ -219,25 +219,25 @@ class GetCest
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'         => $userOne->get('usr_id'),
+                    'id'         => $userOne->get('id'),
                     'type'       => Resources::USERS,
                     'attributes' => [
-                        'status'        => $userOne->get('usr_status_flag'),
-                        'username'      => $userOne->get('usr_username'),
-                        'issuer'        => $userOne->get('usr_issuer'),
-                        'tokenPassword' => $userOne->get('usr_token_password'),
-                        'tokenId'       => $userOne->get('usr_token_id'),
+                        'status'        => $userOne->get('status'),
+                        'username'      => $userOne->get('username'),
+                        'issuer'        => $userOne->get('issuer'),
+                        'tokenPassword' => $userOne->get('tokenPassword'),
+                        'tokenId'       => $userOne->get('tokenId'),
                     ],
                 ],
                 [
-                    'id'         => $userTwo->get('usr_id'),
+                    'id'         => $userTwo->get('id'),
                     'type'       => Resources::USERS,
                     'attributes' => [
-                        'status'        => $userTwo->get('usr_status_flag'),
-                        'username'      => $userTwo->get('usr_username'),
-                        'issuer'        => $userTwo->get('usr_issuer'),
-                        'tokenPassword' => $userTwo->get('usr_token_password'),
-                        'tokenId'       => $userTwo->get('usr_token_id'),
+                        'status'        => $userTwo->get('status'),
+                        'username'      => $userTwo->get('username'),
+                        'issuer'        => $userTwo->get('issuer'),
+                        'tokenPassword' => $userTwo->get('tokenPassword'),
+                        'tokenId'       => $userTwo->get('tokenId'),
                     ],
                 ],
             ]
@@ -246,38 +246,12 @@ class GetCest
 
     public function getManyUsersWithNoData(ApiTester $I)
     {
-        $I->haveRecordWithFields(
-            Users::class,
-            [
-                'usr_status_flag'    => 1,
-                'usr_username'       => 'testuser',
-                'usr_password'       => 'testpassword',
-                'usr_issuer'         => 'https://niden.net',
-                'usr_token_password' => '12345',
-                'usr_token_id'       => '110011',
-            ]
-        );
-
+        $I->addApiUserRecord();
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$usersUrl);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
-    }
-
-    private function addRecord(ApiTester $I)
-    {
-        return $I->haveRecordWithFields(
-            Users::class,
-            [
-                'usr_status_flag'    => 1,
-                'usr_username'       => 'testuser',
-                'usr_password'       => 'testpassword',
-                'usr_issuer'         => 'https://niden.net',
-                'usr_token_password' => '12345',
-                'usr_token_id'       => '110011',
-            ]
-        );
     }
 }

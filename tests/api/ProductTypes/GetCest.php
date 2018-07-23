@@ -13,19 +13,19 @@ class GetCest
 {
     public function getProductTypes(ApiTester $I)
     {
-        $this->addRecord($I);
+        $I->addApiUserRecord();
         $token = $I->apiLogin();
 
         $typeOne = $I->haveRecordWithFields(
             ProductTypes::class,
             [
-                'prt_name' => uniqid('type-a-'),
+                'name' => uniqid('type-a-'),
             ]
         );
         $typeTwo = $I->haveRecordWithFields(
             ProductTypes::class,
             [
-                'prt_name' => uniqid('type-b-'),
+                'name' => uniqid('type-b-'),
             ]
         );
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
@@ -35,19 +35,19 @@ class GetCest
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'         => $typeOne->get('prt_id'),
+                    'id'         => $typeOne->get('id'),
                     'type'       => Resources::PRODUCT_TYPES,
                     'attributes' => [
-                        'name'        => $typeOne->get('prt_name'),
-                        'description' => $typeOne->get('prt_description'),
+                        'name'        => $typeOne->get('name'),
+                        'description' => $typeOne->get('description'),
                     ],
                 ],
                 [
-                    'id'         => $typeTwo->get('prt_id'),
+                    'id'         => $typeTwo->get('id'),
                     'type'       => Resources::PRODUCT_TYPES,
                     'attributes' => [
-                        'name'        => $typeTwo->get('prt_name'),
-                        'description' => $typeTwo->get('prt_description'),
+                        'name'        => $typeTwo->get('name'),
+                        'description' => $typeTwo->get('description'),
                     ],
                 ],
             ]
@@ -56,7 +56,7 @@ class GetCest
 
     public function getProductTypesNoData(ApiTester $I)
     {
-        $this->addRecord($I);
+        $I->addApiUserRecord();
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
@@ -64,20 +64,5 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse();
-    }
-
-    private function addRecord(ApiTester $I)
-    {
-        return $I->haveRecordWithFields(
-            Users::class,
-            [
-                'usr_status_flag'    => 1,
-                'usr_username'       => 'testuser',
-                'usr_password'       => 'testpassword',
-                'usr_issuer'         => 'https://niden.net',
-                'usr_token_password' => '12345',
-                'usr_token_id'       => '110011',
-            ]
-        );
     }
 }

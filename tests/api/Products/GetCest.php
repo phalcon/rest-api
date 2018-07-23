@@ -16,15 +16,15 @@ class GetCest
 {
     public function getProduct(ApiTester $I)
     {
-        $this->addRecord($I);
+        $I->addApiUserRecord();
         $token = $I->apiLogin();
 
         /** @var ProductTypes $productType */
         $productType = $I->haveRecordWithFields(
             ProductTypes::class,
             [
-                'prt_name'        => uniqid('prt-a-'),
-                'prt_description' => uniqid(),
+                'name'        => uniqid('prt-a-'),
+                'description' => uniqid(),
             ]
         );
 
@@ -32,40 +32,35 @@ class GetCest
         $product = $I->haveRecordWithFields(
             Products::class,
             [
-                'prd_name'        => uniqid('prd-a-'),
-                'prd_prt_id'      => $productType->get('prt_id'),
-                'prd_description' => uniqid(),
-                'prd_quantity'    => 25,
-                'prd_price'       => 19.99,
+                'name'        => uniqid('prd-a-'),
+                'typeId'      => $productType->get('id'),
+                'description' => uniqid(),
+                'quantity'    => 25,
+                'price'       => 19.99,
             ]
         );
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productsUrl . '/' . $product->get('prd_id'));
+        $I->sendGET(Data::$productsUrl . '/' . $product->get('id'));
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'         => $product->get('prd_id'),
+                    'id'         => $product->get('id'),
                     'type'       => Resources::PRODUCTS,
                     'attributes' => [
-                        'name'        => $product->get('prd_name'),
-                        'typeId'      => $productType->get('prt_id'),
-                        'description' => $product->get('prd_description'),
-                        'quantity'    => $product->get('prd_quantity'),
-                        'price'       => $product->get('prd_price'),
+                        'name'        => $product->get('name'),
+                        'typeId'      => $productType->get('id'),
+                        'description' => $product->get('description'),
+                        'quantity'    => $product->get('quantity'),
+                        'price'       => $product->get('price'),
                     ],
                     'links'      => [
                         'self' => sprintf(
                             '%s/products/%s',
                             envValue('APP_URL', 'localhost'),
-                            $product->get('prd_id')
-                        ),
-                        'related' => sprintf(
-                            '%s/product-types/%s',
-                            envValue('APP_URL', 'localhost'),
-                            $productType->get('prt_id')
+                            $product->get('id')
                         ),
                     ]
                 ],
@@ -75,15 +70,15 @@ class GetCest
 
     public function getProducts(ApiTester $I)
     {
-        $this->addRecord($I);
+        $I->addApiUserRecord();
         $token = $I->apiLogin();
 
         /** @var ProductTypes $productType */
         $productType = $I->haveRecordWithFields(
             ProductTypes::class,
             [
-                'prt_name'        => uniqid('prt-a-'),
-                'prt_description' => uniqid(),
+                'name'        => uniqid('prt-a-'),
+                'description' => uniqid(),
             ]
         );
 
@@ -91,11 +86,11 @@ class GetCest
         $productOne = $I->haveRecordWithFields(
             Products::class,
             [
-                'prd_name'        => uniqid('prd-a-'),
-                'prd_prt_id'      => $productType->get('prt_id'),
-                'prd_description' => uniqid(),
-                'prd_quantity'    => 25,
-                'prd_price'       => 19.99,
+                'name'        => uniqid('prd-a-'),
+                'typeId'      => $productType->get('id'),
+                'description' => uniqid(),
+                'quantity'    => 25,
+                'price'       => 19.99,
             ]
         );
 
@@ -103,11 +98,11 @@ class GetCest
         $productTwo = $I->haveRecordWithFields(
             Products::class,
             [
-                'prd_name'        => uniqid('prd-b-'),
-                'prd_prt_id'      => $productType->get('prt_id'),
-                'prd_description' => uniqid(),
-                'prd_quantity'    => 25,
-                'prd_price'       => 19.99,
+                'name'        => uniqid('prd-b-'),
+                'typeId'      => $productType->get('id'),
+                'description' => uniqid(),
+                'quantity'    => 25,
+                'price'       => 19.99,
             ]
         );
 
@@ -118,48 +113,38 @@ class GetCest
         $I->seeSuccessJsonResponse(
             [
                 [
-                    'id'         => $productOne->get('prd_id'),
+                    'id'         => $productOne->get('id'),
                     'type'       => Resources::PRODUCTS,
                     'attributes' => [
-                        'name'        => $productOne->get('prd_name'),
-                        'typeId'      => $productType->get('prt_id'),
-                        'description' => $productOne->get('prd_description'),
-                        'quantity'    => $productOne->get('prd_quantity'),
-                        'price'       => $productOne->get('prd_price'),
+                        'name'        => $productOne->get('name'),
+                        'typeId'      => $productType->get('id'),
+                        'description' => $productOne->get('description'),
+                        'quantity'    => $productOne->get('quantity'),
+                        'price'       => $productOne->get('price'),
                     ],
                     'links'      => [
                         'self' => sprintf(
                             '%s/products/%s',
                             envValue('APP_URL', 'localhost'),
-                            $productOne->get('prd_id')
-                        ),
-                        'related' => sprintf(
-                            '%s/product-types/%s',
-                            envValue('APP_URL', 'localhost'),
-                            $productType->get('prt_id')
+                            $productOne->get('id')
                         ),
                     ]
                 ],
                 [
-                    'id'         => $productTwo->get('prd_id'),
+                    'id'         => $productTwo->get('id'),
                     'type'       => Resources::PRODUCTS,
                     'attributes' => [
-                        'name'        => $productTwo->get('prd_name'),
-                        'typeId'      => $productType->get('prt_id'),
-                        'description' => $productTwo->get('prd_description'),
-                        'quantity'    => $productTwo->get('prd_quantity'),
-                        'price'       => $productTwo->get('prd_price'),
+                        'name'        => $productTwo->get('name'),
+                        'typeId'      => $productType->get('id'),
+                        'description' => $productTwo->get('description'),
+                        'quantity'    => $productTwo->get('quantity'),
+                        'price'       => $productTwo->get('price'),
                     ],
                     'links'      => [
                         'self' => sprintf(
                             '%s/products/%s',
                             envValue('APP_URL', 'localhost'),
-                            $productTwo->get('prd_id')
-                        ),
-                        'related' => sprintf(
-                            '%s/product-types/%s',
-                            envValue('APP_URL', 'localhost'),
-                            $productType->get('prt_id')
+                            $productTwo->get('id')
                         ),
                     ]
                 ],
@@ -169,7 +154,7 @@ class GetCest
 
     public function getProductsNoData(ApiTester $I)
     {
-        $this->addRecord($I);
+        $I->addApiUserRecord();
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
@@ -177,20 +162,5 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse();
-    }
-
-    private function addRecord(ApiTester $I)
-    {
-        return $I->haveRecordWithFields(
-            Users::class,
-            [
-                'usr_status_flag'    => 1,
-                'usr_username'       => 'testuser',
-                'usr_password'       => 'testpassword',
-                'usr_issuer'         => 'https://niden.net',
-                'usr_token_password' => '12345',
-                'usr_token_id'       => '110011',
-            ]
-        );
     }
 }

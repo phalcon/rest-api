@@ -6,6 +6,8 @@ namespace Niden\Traits;
 
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Serializer\JsonApiSerializer;
+use function Niden\Core\envValue;
 
 /**
  * Trait FractalTrait
@@ -19,13 +21,16 @@ trait FractalTrait
      *
      * @param mixed  $results
      * @param string $transformer
+     * @param string $resource
      *
      * @return array
      */
-    protected function format($results, string $transformer): array
+    protected function format($results, string $transformer, string $resource): array
     {
+        $url      = envValue('APP_URL', 'http://localhost');
         $manager  = new Manager();
-        $resource = new Collection($results, new $transformer());
+        $manager->setSerializer(new JsonApiSerializer($url));
+        $resource = new Collection($results, new $transformer(), $resource);
         $results  = $manager->createData($resource)->toArray();
 
         return $results['data'];

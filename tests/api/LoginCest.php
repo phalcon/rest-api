@@ -29,11 +29,11 @@ class LoginCest
         $I->haveRecordWithFields(
             Users::class,
             [
-                'usr_status_flag' => 1,
-                'usr_username'    => 'testuser',
-                'usr_password'    => 'testpassword',
-                'usr_issuer'      => 'https://phalconphp.com',
-                'usr_token_id'    => '110011',
+                'status'   => 1,
+                'username' => 'testuser',
+                'password' => 'testpassword',
+                'issuer'   => 'https://phalconphp.com',
+                'tokenId'  => '110011',
             ]
         );
 

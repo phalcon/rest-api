@@ -6,7 +6,6 @@ namespace Niden\Api\Controllers\ProductTypes;
 
 use Niden\Api\Controllers\BaseController;
 use Niden\Models\ProductTypes;
-use Niden\Transformers\ProductTypesTransformer;
 
 /**
  * Class GetController
@@ -24,12 +23,6 @@ class GetController extends BaseController
      */
     public function callAction($typeId = 0)
     {
-        return $this->processCall(
-            ProductTypes::class,
-            'prt_id',
-            ProductTypesTransformer::class,
-            $typeId,
-            'prt_name'
-        );
+        return $this->processCall(ProductTypes::class, 'product-types', $typeId, 'name');
     }
 }

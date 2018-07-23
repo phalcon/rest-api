@@ -6,7 +6,6 @@ namespace Niden\Api\Controllers\IndividualTypes;
 
 use Niden\Api\Controllers\BaseController;
 use Niden\Models\IndividualTypes;
-use Niden\Transformers\IndividualTypesTransformer;
 
 /**
  * Class GetController
@@ -24,12 +23,6 @@ class GetController extends BaseController
      */
     public function callAction($typeId = 0)
     {
-        return $this->processCall(
-            IndividualTypes::class,
-            'idt_id',
-            IndividualTypesTransformer::class,
-            $typeId,
-            'idt_name'
-        );
+        return $this->processCall(IndividualTypes::class, 'individual-types', $typeId, 'name');
     }
 }

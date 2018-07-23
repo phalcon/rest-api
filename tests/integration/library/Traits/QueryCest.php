@@ -29,19 +29,17 @@ class QueryCest
         $I->haveRecordWithFields(
             Users::class,
             [
-                'usr_id'          => 1000,
-                'usr_username'    => 'testusername',
-                'usr_password'    => 'testpass',
-                'usr_status_flag' => 1,
-                'usr_issuer'      => 'phalconphp.com',
-                'usr_token_id'    => '00110011',
-
+                'username' => 'testusername',
+                'password' => 'testpass',
+                'status'   => 1,
+                'issuer'   => 'phalconphp.com',
+                'tokenId'  => '00110011',
             ]
         );
 
         $dbUser = $this->getUserByUsernameAndPassword('testusername', 'testpass');
 
-        $I->assertEquals(1000, $dbUser->get('usr_id'));
+        $I->assertNotEquals(false, $dbUser);
     }
 
     /**
@@ -55,13 +53,11 @@ class QueryCest
         $I->haveRecordWithFields(
             Users::class,
             [
-                'usr_id'          => 1001,
-                'usr_username'    => 'testusername',
-                'usr_password'    => 'testpass',
-                'usr_status_flag' => 1,
-                'usr_issuer'      => 'phalconphp.com',
-                'usr_token_id'    => '00110011',
-
+                'username' => 'testusername',
+                'password' => 'testpass',
+                'status'   => 1,
+                'issuer'   => 'phalconphp.com',
+                'tokenId'  => '00110011',
             ]
         );
 
@@ -79,13 +75,11 @@ class QueryCest
         $I->haveRecordWithFields(
             Users::class,
             [
-                'usr_id'          => 1003,
-                'usr_username'    => 'testusername',
-                'usr_password'    => 'testpass',
-                'usr_status_flag' => 1,
-                'usr_issuer'      => 'phalconphp.com',
-                'usr_token_id'    => '00110011',
-
+                'username' => 'testusername',
+                'password' => 'testpass',
+                'status'   => 1,
+                'issuer'   => 'phalconphp.com',
+                'tokenId'  => '00110011',
             ]
         );
 

@@ -46,6 +46,22 @@ class Companies extends AbstractModel
     }
 
     /**
+     * Column map to help with the API
+     *
+     * @return array<string,string>
+     */
+    public function columnMap(): array
+    {
+        return [
+            'com_id'        => 'id',
+            'com_name'      => 'name',
+            'com_address'   => 'address',
+            'com_city'      => 'city',
+            'com_telephone' => 'phone',
+        ];
+    }
+
+    /**
      * Model filters
      *
      * @return array<string,string>
@@ -53,11 +69,11 @@ class Companies extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'com_id'        => Filter::FILTER_ABSINT,
-            'com_name'      => Filter::FILTER_STRING,
-            'com_address'   => Filter::FILTER_STRING,
-            'com_city'      => Filter::FILTER_STRING,
-            'com_telephone' => Filter::FILTER_STRING,
+            'id'      => Filter::FILTER_ABSINT,
+            'name'    => Filter::FILTER_STRING,
+            'address' => Filter::FILTER_STRING,
+            'city'    => Filter::FILTER_STRING,
+            'phone'   => Filter::FILTER_STRING,
         ];
     }
 
@@ -90,7 +106,7 @@ class Companies extends AbstractModel
     {
         $validator = new Validation();
         $validator->add(
-            'com_name',
+            'name',
             new Uniqueness(
                 [
                     'message' => 'The company name already exists in the database',

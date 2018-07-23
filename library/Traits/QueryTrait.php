@@ -28,9 +28,9 @@ trait QueryTrait
     protected function getUserByToken(Token $token)
     {
         $parameters  = [
-            'usr_issuer'      => $token->getClaim(JWTClaims::CLAIM_ISSUER),
-            'usr_token_id'    => $token->getClaim(JWTClaims::CLAIM_ID),
-            'usr_status_flag' => Flags::ACTIVE,
+            'issuer'  => $token->getClaim(JWTClaims::CLAIM_ISSUER),
+            'tokenId' => $token->getClaim(JWTClaims::CLAIM_ID),
+            'status'  => Flags::ACTIVE,
         ];
 
         $result = $this->getRecords(Users::class, $parameters);
@@ -49,9 +49,9 @@ trait QueryTrait
     protected function getUserByUsernameAndPassword($username, $password)
     {
         $parameters = [
-            'usr_username'    => $username,
-            'usr_password'    => $password,
-            'usr_status_flag' => Flags::ACTIVE,
+            'username' => $username,
+            'password' => $password,
+            'status'   => Flags::ACTIVE,
         ];
 
         $result = $this->getRecords(Users::class, $parameters);

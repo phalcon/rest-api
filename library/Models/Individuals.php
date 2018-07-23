@@ -44,6 +44,25 @@ class Individuals extends AbstractModel
     }
 
     /**
+     * Column Map
+     *
+     * @return array<string,string>
+     */
+    public function columnMap(): array
+    {
+        return [
+            'ind_id'          => 'id',
+            'ind_com_id'      => 'companyId',
+            'ind_idt_id'      => 'typeId',
+            'ind_name_prefix' => 'prefix',
+            'ind_name_first'  => 'first',
+            'ind_name_middle' => 'middle',
+            'ind_name_last'   => 'last',
+            'ind_name_suffix' => 'suffix',
+        ];
+    }
+
+    /**
      * Model filters
      *
      * @return array<string,string>
@@ -51,14 +70,14 @@ class Individuals extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'ind_id'          => Filter::FILTER_ABSINT,
-            'ind_com_id'      => Filter::FILTER_ABSINT,
-            'ind_idt_id'      => Filter::FILTER_ABSINT,
-            'ind_name_prefix' => Filter::FILTER_STRING,
-            'ind_name_first'  => Filter::FILTER_STRING,
-            'ind_name_middle' => Filter::FILTER_STRING,
-            'ind_name_last'   => Filter::FILTER_STRING,
-            'ind_name_suffix' => Filter::FILTER_STRING,
+            'id'        => Filter::FILTER_ABSINT,
+            'companyId' => Filter::FILTER_ABSINT,
+            'typeId'    => Filter::FILTER_ABSINT,
+            'prefix'    => Filter::FILTER_STRING,
+            'first'     => Filter::FILTER_STRING,
+            'middle'    => Filter::FILTER_STRING,
+            'last'      => Filter::FILTER_STRING,
+            'suffix'    => Filter::FILTER_STRING,
         ];
     }
 

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Niden\Transformers;
 
+use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
+use Niden\Constants\Relationships;
 use Niden\Constants\Resources;
 use function Niden\Core\envValue;
 use Niden\Exception\ModelException;
@@ -15,6 +17,11 @@ use Niden\Models\Products;
  */
 class ProductsTransformer extends TransformerAbstract
 {
+    /** @var array */
+    protected $availableIncludes = [
+        'product-types',
+    ];
+
     /**
      * @param Products $product
      *
@@ -28,7 +35,6 @@ class ProductsTransformer extends TransformerAbstract
             'type'       => Resources::PRODUCTS,
             'attributes' => [
                 'name'        => $product->get('prd_name'),
-                'typeId'      => $product->get('prd_prt_id'),
                 'description' => $product->get('prd_description'),
                 'quantity'    => $product->get('prd_quantity'),
                 'price'       => $product->get('prd_price'),
@@ -39,12 +45,19 @@ class ProductsTransformer extends TransformerAbstract
                     envValue('APP_URL', 'localhost'),
                     $product->get('prd_id')
                 ),
-                'related' => sprintf(
-                    '%s/product-types/%s',
-                    envValue('APP_URL', 'localhost'),
-                    $product->get('prd_prt_id')
-                ),
-            ]
+            ],
         ];
+    }
+
+    /**
+     * @param Products $product
+     *
+     * @return Item
+     */
+    public function includeProductTypes(Products $product): Item
+    {
+        $productType = $product->getRelated(Relationships::PRODUCT_TYPE);
+
+        return $this->item($productType, new ProductTypesTransformer());
     }
 }

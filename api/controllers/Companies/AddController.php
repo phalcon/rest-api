@@ -8,7 +8,7 @@ use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Models\Companies;
 use Niden\Traits\FractalTrait;
-use Niden\Transformers\CompaniesTransformer;
+use Niden\Transformers\BaseTransformer;
 use Niden\Validation\CompaniesValidator;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
@@ -46,10 +46,10 @@ class AddController extends Controller
 
             $company = new Companies();
             $result  = $company
-                ->set('com_name', $name)
-                ->set('com_address', $address)
-                ->set('com_city', $city)
-                ->set('com_telephone', $phone)
+                ->set('name', $name)
+                ->set('address', $address)
+                ->set('city', $city)
+                ->set('phone', $phone)
                 ->save()
             ;
 
@@ -57,7 +57,7 @@ class AddController extends Controller
                 /**
                  * Everything is fine, return the record back
                  */
-                return $this->format([$company], CompaniesTransformer::class);
+                return $this->format([$company], BaseTransformer::class, 'companies');
             }
 
             /**

@@ -26,9 +26,9 @@ class IndividualTypesCest
     {
         $model    = new IndividualTypes();
         $expected = [
-            'idt_id'          => Filter::FILTER_ABSINT,
-            'idt_name'        => Filter::FILTER_STRING,
-            'idt_description' => Filter::FILTER_STRING,
+            'id'          => Filter::FILTER_ABSINT,
+            'name'        => Filter::FILTER_STRING,
+            'description' => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
     }

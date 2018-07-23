@@ -93,4 +93,19 @@ class ApiTester extends \Codeception\Actor
 
         return $token;
     }
+
+    public function addApiUserRecord()
+    {
+        return $this->haveRecordWithFields(
+            Users::class,
+            [
+                'status'        => 1,
+                'username'      => 'testuser',
+                'password'      => 'testpassword',
+                'issuer'        => 'https://niden.net',
+                'tokenPassword' => '12345',
+                'tokenId'       => '110011',
+            ]
+        );
+    }
 }

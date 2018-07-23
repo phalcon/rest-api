@@ -32,14 +32,14 @@ class IndividualsCest
     {
         $model    = new Individuals();
         $expected = [
-            'ind_id'          => Filter::FILTER_ABSINT,
-            'ind_com_id'      => Filter::FILTER_ABSINT,
-            'ind_idt_id'      => Filter::FILTER_ABSINT,
-            'ind_name_prefix' => Filter::FILTER_STRING,
-            'ind_name_first'  => Filter::FILTER_STRING,
-            'ind_name_middle' => Filter::FILTER_STRING,
-            'ind_name_last'   => Filter::FILTER_STRING,
-            'ind_name_suffix' => Filter::FILTER_STRING,
+            'id'        => Filter::FILTER_ABSINT,
+            'companyId' => Filter::FILTER_ABSINT,
+            'typeId'    => Filter::FILTER_ABSINT,
+            'prefix'    => Filter::FILTER_STRING,
+            'first'     => Filter::FILTER_STRING,
+            'middle'    => Filter::FILTER_STRING,
+            'last'      => Filter::FILTER_STRING,
+            'suffix'    => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
     }

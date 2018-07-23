@@ -34,6 +34,20 @@ class IndividualTypes extends AbstractModel
     }
 
     /**
+     * Column map
+     *
+     * @return array<string,string>
+     */
+    public function columnMap(): array
+    {
+        return [
+            'idt_id'          => 'id',
+            'idt_name'        => 'name',
+            'idt_description' => 'description',
+        ];
+    }
+
+    /**
      * Model filters
      *
      * @return array<string,string>
@@ -41,9 +55,9 @@ class IndividualTypes extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'idt_id'          => Filter::FILTER_ABSINT,
-            'idt_name'        => Filter::FILTER_STRING,
-            'idt_description' => Filter::FILTER_STRING,
+            'id'          => Filter::FILTER_ABSINT,
+            'name'        => Filter::FILTER_STRING,
+            'description' => Filter::FILTER_STRING,
         ];
     }
 

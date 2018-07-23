@@ -34,6 +34,20 @@ class ProductTypes extends AbstractModel
     }
 
     /**
+     * Column Map
+     *
+     * @return array<string,string>
+     */
+    public function columnMap(): array
+    {
+        return [
+            'prt_id'          => 'id',
+            'prt_name'        => 'name',
+            'prt_description' => 'description',
+        ];
+    }
+
+    /**
      * Model filters
      *
      * @return array<string,string>
@@ -41,9 +55,9 @@ class ProductTypes extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'prt_id'          => Filter::FILTER_ABSINT,
-            'prt_name'        => Filter::FILTER_STRING,
-            'prt_description' => Filter::FILTER_STRING,
+            'id'          => Filter::FILTER_ABSINT,
+            'name'        => Filter::FILTER_STRING,
+            'description' => Filter::FILTER_STRING,
         ];
     }
 

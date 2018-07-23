@@ -29,11 +29,11 @@ class CompaniesCest
     {
         $model    = new Companies();
         $expected = [
-            'com_id'        => Filter::FILTER_ABSINT,
-            'com_name'      => Filter::FILTER_STRING,
-            'com_address'   => Filter::FILTER_STRING,
-            'com_city'      => Filter::FILTER_STRING,
-            'com_telephone' => Filter::FILTER_STRING,
+            'id'      => Filter::FILTER_ABSINT,
+            'name'    => Filter::FILTER_STRING,
+            'address' => Filter::FILTER_STRING,
+            'city'    => Filter::FILTER_STRING,
+            'phone'   => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
     }
@@ -59,10 +59,10 @@ class CompaniesCest
         $companyOne = new Companies();
         /** @var Companies $companyOne */
         $result  = $companyOne
-                    ->set('com_name', 'acme')
-                    ->set('com_address', '123 Phalcon way')
-                    ->set('com_city', 'World')
-                    ->set('com_telephone', '555-999-4444')
+                    ->set('name', 'acme')
+                    ->set('address', '123 Phalcon way')
+                    ->set('city', 'World')
+                    ->set('phone', '555-999-4444')
                     ->save()
         ;
         $I->assertNotEquals(false, $result);
@@ -70,10 +70,10 @@ class CompaniesCest
         $companyTwo = new Companies();
         /** @var Companies $companyTwo */
         $result  = $companyTwo
-            ->set('com_name', 'acme')
-            ->set('com_address', '123 Phalcon way')
-            ->set('com_city', 'World')
-            ->set('com_telephone', '555-999-4444')
+            ->set('name', 'acme')
+            ->set('address', '123 Phalcon way')
+            ->set('city', 'World')
+            ->set('phone', '555-999-4444')
             ->save()
         ;
         $I->assertEquals(false, $result);

@@ -26,9 +26,9 @@ class ProductTypesCest
     {
         $model    = new ProductTypes();
         $expected = [
-            'prt_id'          => Filter::FILTER_ABSINT,
-            'prt_name'        => Filter::FILTER_STRING,
-            'prt_description' => Filter::FILTER_STRING,
+            'id'          => Filter::FILTER_ABSINT,
+            'name'        => Filter::FILTER_STRING,
+            'description' => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
     }

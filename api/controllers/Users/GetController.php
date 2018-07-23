@@ -6,7 +6,6 @@ namespace Niden\Api\Controllers\Users;
 
 use Niden\Api\Controllers\BaseController;
 use Niden\Models\Users;
-use Niden\Transformers\UsersTransformer;
 
 /**
  * Class GetController
@@ -24,12 +23,6 @@ class GetController extends BaseController
      */
     public function callAction($userId = 0)
     {
-        return $this->processCall(
-            Users::class,
-            'usr_id',
-            UsersTransformer::class,
-            $userId,
-            'usr_username'
-        );
+        return $this->processCall(Users::class, 'users', $userId, 'username');
     }
 }

@@ -10,6 +10,7 @@ class RelationshipsCest
     public function checkConstants(CliTester $I)
     {
         $I->assertEquals('company', Relationships::COMPANY);
+        $I->assertEquals('companies', Relationships::COMPANIES);
         $I->assertEquals('individual', Relationships::INDIVIDUAL);
         $I->assertEquals('individualType', Relationships::INDIVIDUAL_TYPE);
         $I->assertEquals('individuals', Relationships::INDIVIDUALS);

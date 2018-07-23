@@ -21,9 +21,9 @@ class ProductTypes extends AbstractModel
     public function initialize()
     {
         $this->belongsTo(
-            'prt_id',
+            'id',
             Products::class,
-            'prd_prt_id',
+            'typeId',
             [
                 'alias'    => Relationships::PRODUCT,
                 'reusable' => true,

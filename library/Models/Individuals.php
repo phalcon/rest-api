@@ -21,9 +21,9 @@ class Individuals extends AbstractModel
     public function initialize()
     {
         $this->belongsTo(
-            'ind_com_id',
+            'companyId',
             Companies::class,
-            'com_id',
+            'id',
             [
                 'alias'    => Relationships::COMPANY,
                 'reusable' => true,
@@ -31,9 +31,9 @@ class Individuals extends AbstractModel
         );
 
         $this->hasOne(
-            'ind_idt_id',
+            'typeId',
             IndividualTypes::class,
-            'idt_id',
+            'id',
             [
                 'alias'    => Relationships::INDIVIDUAL_TYPE,
                 'reusable' => true,

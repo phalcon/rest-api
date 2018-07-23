@@ -23,19 +23,22 @@ class Companies extends AbstractModel
     public function initialize()
     {
         $this->hasMany(
-            'com_id',
+            'id',
             Individuals::class,
-            'ind_com_id',
+            'companyId',
             [
                 'alias'    => Relationships::INDIVIDUALS,
                 'reusable' => true,
             ]
         );
 
-        $this->hasMany(
-            'com_id',
+        $this->hasManyToMany(
+            'id',
+            CompaniesXProducts::class,
+            'cxp_com_id',
+            'cxp_prd_id',
             Products::class,
-            'prd_com_id',
+            'id',
             [
                 'alias'    => Relationships::PRODUCTS,
                 'reusable' => true,

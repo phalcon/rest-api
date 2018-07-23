@@ -10,7 +10,7 @@ use Niden\Exception\ModelException;
 use Niden\Mvc\Model\AbstractModel;
 
 /**
- * Class CompaniesTransformer
+ * Class BaseTransformer
  */
 class BaseTransformer extends TransformerAbstract
 {

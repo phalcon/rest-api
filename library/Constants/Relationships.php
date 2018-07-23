@@ -7,6 +7,7 @@ namespace Niden\Constants;
 class Relationships
 {
     const COMPANY         = 'company';
+    const COMPANIES       = 'companies';
     const INDIVIDUAL      = 'individual';
     const INDIVIDUAL_TYPE = 'individualType';
     const INDIVIDUALS     = 'individuals';

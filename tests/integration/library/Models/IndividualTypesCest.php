@@ -43,7 +43,7 @@ class IndividualTypesCest
     {
         $actual   = $I->getModelRelationships(IndividualTypes::class);
         $expected = [
-            [0, 'idt_id', Individuals::class, 'ind_idt_id', ['alias' => Relationships::INDIVIDUAL, 'reusable' => true]],
+            [0, 'id', Individuals::class, 'typeId', ['alias' => Relationships::INDIVIDUAL, 'reusable' => true]],
         ];
         $I->assertEquals($expected, $actual);
     }

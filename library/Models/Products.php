@@ -20,20 +20,23 @@ class Products extends AbstractModel
      */
     public function initialize()
     {
-        $this->belongsTo(
-            'prd_com_id',
-            Companies::class,
-            'com_id',
+        $this->hasManyToMany(
+            'id',
+            Products::class,
+            'cxp_prd_id',
+            'cxp_com_id',
+            CompaniesXProducts::class,
+            'id',
             [
-                'alias'    => Relationships::COMPANY,
+                'alias'    => Relationships::COMPANIES,
                 'reusable' => true,
             ]
         );
 
         $this->hasOne(
-            'prd_prt_id',
+            'typeId',
             ProductTypes::class,
-            'prt_id',
+            'id',
             [
                 'alias'    => Relationships::PRODUCT_TYPE,
                 'reusable' => true,

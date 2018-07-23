@@ -9,11 +9,11 @@ use Niden\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
 
 /**
- * Class IndividualTypes
+ * Class CompaniesXProducts
  *
  * @package Niden\Models
  */
-class IndividualTypes extends AbstractModel
+class CompaniesXProducts extends AbstractModel
 {
     /**
      * Initialize relationships and model properties
@@ -21,30 +21,26 @@ class IndividualTypes extends AbstractModel
     public function initialize()
     {
         $this->belongsTo(
+            'cxp_com_id',
+            Companies::class,
             'id',
-            Individuals::class,
-            'typeId',
             [
-                'alias'    => Relationships::INDIVIDUAL,
+                'alias'    => Relationships::COMPANY,
+                'reusable' => true,
+            ]
+        );
+
+        $this->belongsTo(
+            'cxp_prd_id',
+            Products::class,
+            'id',
+            [
+                'alias'    => Relationships::PRODUCT,
                 'reusable' => true,
             ]
         );
 
         parent::initialize();
-    }
-
-    /**
-     * Column map
-     *
-     * @return array<string,string>
-     */
-    public function columnMap(): array
-    {
-        return [
-            'idt_id'          => 'id',
-            'idt_name'        => 'name',
-            'idt_description' => 'description',
-        ];
     }
 
     /**
@@ -55,9 +51,8 @@ class IndividualTypes extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'id'          => Filter::FILTER_ABSINT,
-            'name'        => Filter::FILTER_STRING,
-            'description' => Filter::FILTER_STRING,
+            'cxp_com_id' => Filter::FILTER_ABSINT,
+            'cxp_prd_id' => Filter::FILTER_ABSINT,
         ];
     }
 
@@ -68,7 +63,7 @@ class IndividualTypes extends AbstractModel
      */
     public function getSource(): string
     {
-        return 'co_individual_types';
+        return 'co_companies_x_products';
     }
 
     /**
@@ -78,6 +73,6 @@ class IndividualTypes extends AbstractModel
      */
     public function getTablePrefix(): string
     {
-        return 'idt';
+        return 'cxp';
     }
 }

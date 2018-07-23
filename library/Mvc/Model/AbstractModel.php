@@ -70,11 +70,6 @@ abstract class AbstractModel extends PhModel
     }
 
     /**
-     * @return string
-     */
-    abstract public function getTablePrefix(): string;
-
-    /**
      * Sets a field in the model sanitized
      *
      * @param string $field    The name of the field

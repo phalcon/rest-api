@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Niden\Api\Controllers\IndividualTypes;
 
 use Niden\Api\Controllers\BaseController;
+use Niden\Constants\Resources;
 use Niden\Models\IndividualTypes;
+use Niden\Transformers\BaseTransformer;
 
 /**
  * Class GetController
@@ -14,15 +16,11 @@ use Niden\Models\IndividualTypes;
  */
 class GetController extends BaseController
 {
-    /**
-     * Get the individual types
-     *
-     * @param int $typeId
-     *
-     * @return array
-     */
-    public function callAction($typeId = 0)
-    {
-        return $this->processCall(IndividualTypes::class, 'individual-types', $typeId, 'name');
-    }
+    /** @var string */
+    protected $model       = IndividualTypes::class;
+    /** @var string */
+    protected $resource    = Resources::INDIVIDUAL_TYPES;
+    /** @var string */
+    protected $transformer = BaseTransformer::class;
 }
+

@@ -17,13 +17,13 @@ class UsersCest
         $I->haveModelDefinition(
             Users::class,
             [
-                'usr_id',
-                'usr_status_flag',
-                'usr_username',
-                'usr_password',
-                'usr_issuer',
-                'usr_token_password',
-                'usr_token_id',
+                'id',
+                'status',
+                'username',
+                'password',
+                'issuer',
+                'tokenPassword',
+                'tokenId',
             ]
         );
     }
@@ -41,12 +41,6 @@ class UsersCest
             'tokenId'       => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
-    }
-
-    public function validatePrefix(IntegrationTester $I)
-    {
-        $model = new Users();
-        $I->assertEquals('usr', $model->getTablePrefix());
     }
 
     public function checkValidationData(IntegrationTester $I)

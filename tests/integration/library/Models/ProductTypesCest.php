@@ -15,9 +15,9 @@ class ProductTypesCest
         $I->haveModelDefinition(
             ProductTypes::class,
             [
-                'prt_id',
-                'prt_name',
-                'prt_description',
+                'id',
+                'name',
+                'description',
             ]
         );
     }
@@ -31,12 +31,6 @@ class ProductTypesCest
             'description' => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
-    }
-
-    public function validatePrefix(IntegrationTester $I)
-    {
-        $model = new ProductTypes();
-        $I->assertEquals('prt', $model->getTablePrefix());
     }
 
     public function validateRelationships(IntegrationTester $I)

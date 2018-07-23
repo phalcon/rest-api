@@ -16,11 +16,11 @@ class CompaniesCest
         $I->haveModelDefinition(
             Companies::class,
             [
-                'com_id',
-                'com_name',
-                'com_address',
-                'com_city',
-                'com_telephone',
+                'id',
+                'name',
+                'address',
+                'city',
+                'phone',
             ]
         );
     }
@@ -36,12 +36,6 @@ class CompaniesCest
             'phone'   => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
-    }
-
-    public function validatePrefix(IntegrationTester $I)
-    {
-        $model = new Companies();
-        $I->assertEquals('com', $model->getTablePrefix());
     }
 
     public function validateRelationships(IntegrationTester $I)

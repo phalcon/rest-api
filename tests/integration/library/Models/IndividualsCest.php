@@ -16,14 +16,14 @@ class IndividualsCest
         $I->haveModelDefinition(
             Individuals::class,
             [
-                'ind_id',
-                'ind_com_id',
-                'ind_idt_id',
-                'ind_name_prefix',
-                'ind_name_first',
-                'ind_name_middle',
-                'ind_name_last',
-                'ind_name_suffix',
+                'id',
+                'companyId',
+                'typeId',
+                'prefix',
+                'first',
+                'middle',
+                'last',
+                'suffix',
             ]
         );
     }
@@ -42,12 +42,6 @@ class IndividualsCest
             'suffix'    => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
-    }
-
-    public function validatePrefix(IntegrationTester $I)
-    {
-        $model = new Individuals();
-        $I->assertEquals('ind', $model->getTablePrefix());
     }
 
     public function validateRelationships(IntegrationTester $I)

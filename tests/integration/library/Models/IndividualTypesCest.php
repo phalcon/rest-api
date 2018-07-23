@@ -15,9 +15,9 @@ class IndividualTypesCest
         $I->haveModelDefinition(
             IndividualTypes::class,
             [
-                'idt_id',
-                'idt_name',
-                'idt_description',
+                'id',
+                'name',
+                'description',
             ]
         );
     }
@@ -31,12 +31,6 @@ class IndividualTypesCest
             'description' => Filter::FILTER_STRING,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
-    }
-
-    public function validatePrefix(IntegrationTester $I)
-    {
-        $model = new IndividualTypes();
-        $I->assertEquals('idt', $model->getTablePrefix());
     }
 
     public function validateRelationships(IntegrationTester $I)

@@ -34,20 +34,6 @@ class ProductTypes extends AbstractModel
     }
 
     /**
-     * Column Map
-     *
-     * @return array<string,string>
-     */
-    public function columnMap(): array
-    {
-        return [
-            'prt_id'          => 'id',
-            'prt_name'        => 'name',
-            'prt_description' => 'description',
-        ];
-    }
-
-    /**
      * Model filters
      *
      * @return array<string,string>
@@ -69,15 +55,5 @@ class ProductTypes extends AbstractModel
     public function getSource(): string
     {
         return 'co_product_types';
-    }
-
-    /**
-     * Table prefix
-     *
-     * @return string
-     */
-    public function getTablePrefix(): string
-    {
-        return 'prt';
     }
 }

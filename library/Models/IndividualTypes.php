@@ -34,20 +34,6 @@ class IndividualTypes extends AbstractModel
     }
 
     /**
-     * Column map
-     *
-     * @return array<string,string>
-     */
-    public function columnMap(): array
-    {
-        return [
-            'idt_id'          => 'id',
-            'idt_name'        => 'name',
-            'idt_description' => 'description',
-        ];
-    }
-
-    /**
      * Model filters
      *
      * @return array<string,string>
@@ -69,15 +55,5 @@ class IndividualTypes extends AbstractModel
     public function getSource(): string
     {
         return 'co_individual_types';
-    }
-
-    /**
-     * Table prefix
-     *
-     * @return string
-     */
-    public function getTablePrefix(): string
-    {
-        return 'idt';
     }
 }

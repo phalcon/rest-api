@@ -23,6 +23,6 @@ class ProductsTransformer extends BaseTransformer
         /** @var ProductTypes $productType */
         $productType = $product->getRelated(Relationships::PRODUCT_TYPE);
 
-        return $this->item($productType, new ProductTypesTransformer(), Resources::PRODUCT_TYPES);
+        return $this->item($productType, new BaseTransformer(), Resources::PRODUCT_TYPES);
     }
 }

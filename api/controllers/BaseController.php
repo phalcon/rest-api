@@ -25,6 +25,30 @@ class BaseController extends Controller
     use FractalTrait;
     use QueryTrait;
 
+    /** @var string */
+    protected $model       = '';
+    /** @var string */
+    protected $resource    = '';
+    /** @var string */
+    protected $transformer = '';
+    /** @var string */
+    protected $orderBy     = 'name';
+
+    /**
+     * Get the company/companies
+     *
+     * @param int $id
+     *
+     * @return array
+     */
+    public function callAction($id = 0)
+    {
+        $parameters = $this->checkIdParameter($id);
+        $results    = $this->getRecords($this->model, $parameters, $this->orderBy);
+
+        return $this->format($results, $this->transformer, $this->resource);
+    }
+
     /**
      * Checks the passed id parameter and returns the relevant array back
      *
@@ -44,27 +68,5 @@ class BaseController extends Controller
         }
 
         return $parameters;
-    }
-
-    /**
-     * Processes getting records as a while or one using an id
-     *
-     * @param string $model
-     * @param string $resource
-     * @param int    $recordId
-     * @param string $orderBy
-     *
-     * @return array
-     */
-    protected function processCall(
-        string $model,
-        string $resource,
-        $recordId = 0,
-        string $orderBy = ''
-    ) {
-        $parameters = $this->checkIdParameter($recordId);
-        $results    = $this->getRecords($model, $parameters, $orderBy);
-
-        return $this->format($results, BaseTransformer::class, $resource);
     }
 }

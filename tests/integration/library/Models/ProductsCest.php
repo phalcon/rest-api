@@ -16,12 +16,12 @@ class ProductsCest
         $I->haveModelDefinition(
             Products::class,
             [
-                'prd_id',
-                'prd_prt_id',
-                'prd_name',
-                'prd_description',
-                'prd_quantity',
-                'prd_price',
+                'id',
+                'typeId',
+                'name',
+                'description',
+                'quantity',
+                'price',
             ]
         );
     }
@@ -38,12 +38,6 @@ class ProductsCest
             'price'       => Filter::FILTER_FLOAT,
         ];
         $I->assertEquals($expected, $model->getModelFilters());
-    }
-
-    public function validatePrefix(IntegrationTester $I)
-    {
-        $model = new Products();
-        $I->assertEquals('prd', $model->getTablePrefix());
     }
 
     public function validateRelationships(IntegrationTester $I)

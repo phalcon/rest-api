@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Niden\Api\Controllers\Companies;
 
 use Niden\Api\Controllers\BaseController;
+use Niden\Constants\Resources;
 use Niden\Models\Companies;
+use Niden\Transformers\BaseTransformer;
 
 /**
  * Class GetController
@@ -14,15 +16,10 @@ use Niden\Models\Companies;
  */
 class GetController extends BaseController
 {
-    /**
-     * Get the company/companies
-     *
-     * @param int $companyId
-     *
-     * @return array
-     */
-    public function callAction($companyId = 0)
-    {
-        return $this->processCall(Companies::class, 'companies', $companyId, 'name');
-    }
+    /** @var string */
+    protected $model       = Companies::class;
+    /** @var string */
+    protected $resource    = Resources::COMPANIES;
+    /** @var string */
+    protected $transformer = BaseTransformer::class;
 }

@@ -23,24 +23,6 @@ class Users extends AbstractModel
     use TokenTrait;
 
     /**
-     * Column Map
-     *
-     * @return array<string,string>
-     */
-    public function columnMap(): array
-    {
-        return [
-            'usr_id'             => 'id',
-            'usr_status_flag'    => 'status',
-            'usr_username'       => 'username',
-            'usr_password'       => 'password',
-            'usr_issuer'         => 'issuer',
-            'usr_token_password' => 'tokenPassword',
-            'usr_token_id'       => 'tokenId',
-        ];
-    }
-
-    /**
      * Model filters
      *
      * @return array<string,string>
@@ -66,16 +48,6 @@ class Users extends AbstractModel
     public function getSource(): string
     {
         return 'co_users';
-    }
-
-    /**
-     * Table prefix
-     *
-     * @return string
-     */
-    public function getTablePrefix(): string
-    {
-        return 'usr';
     }
 
     /**

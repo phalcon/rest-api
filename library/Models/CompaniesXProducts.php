@@ -21,7 +21,7 @@ class CompaniesXProducts extends AbstractModel
     public function initialize()
     {
         $this->belongsTo(
-            'cxp_com_id',
+            'companyId',
             Companies::class,
             'id',
             [
@@ -31,7 +31,7 @@ class CompaniesXProducts extends AbstractModel
         );
 
         $this->belongsTo(
-            'cxp_prd_id',
+            'productId',
             Products::class,
             'id',
             [
@@ -51,8 +51,8 @@ class CompaniesXProducts extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'cxp_com_id' => Filter::FILTER_ABSINT,
-            'cxp_prd_id' => Filter::FILTER_ABSINT,
+            'companyId' => Filter::FILTER_ABSINT,
+            'productId' => Filter::FILTER_ABSINT,
         ];
     }
 
@@ -64,15 +64,5 @@ class CompaniesXProducts extends AbstractModel
     public function getSource(): string
     {
         return 'co_companies_x_products';
-    }
-
-    /**
-     * Table prefix
-     *
-     * @return string
-     */
-    public function getTablePrefix(): string
-    {
-        return 'cxp';
     }
 }

@@ -3,9 +3,8 @@
 namespace Niden\Tests\api\IndividualTypes;
 
 use ApiTester;
-use Niden\Constants\Resources;
+use Niden\Constants\Relationships;
 use Niden\Models\IndividualTypes;
-use Niden\Models\Users;
 use Page\Data;
 use function uniqid;
 
@@ -36,7 +35,7 @@ class GetCest
             [
                 [
                     'id'         => $typeOne->get('id'),
-                    'type'       => Resources::INDIVIDUAL_TYPES,
+                    'type'       => Relationships::INDIVIDUAL_TYPES,
                     'attributes' => [
                         'name'        => $typeOne->get('name'),
                         'description' => $typeOne->get('description'),
@@ -44,7 +43,7 @@ class GetCest
                 ],
                 [
                     'id'         => $typeTwo->get('id'),
-                    'type'       => Resources::INDIVIDUAL_TYPES,
+                    'type'       => Relationships::INDIVIDUAL_TYPES,
                     'attributes' => [
                         'name'        => $typeTwo->get('name'),
                         'description' => $typeTwo->get('description'),
@@ -52,6 +51,17 @@ class GetCest
                 ],
             ]
         );
+    }
+
+    public function getUnknownIndividualTypes(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$individualTypesUrl . '/1');
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIs404();
     }
 
     public function getIndividualTypesNoData(ApiTester $I)

@@ -6,7 +6,7 @@ use Niden\Providers\ConfigProvider;
 use Niden\Providers\DatabaseProvider;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\FactoryDefault;
-use \UnitTester;
+use UnitTester;
 
 class DatabaseCest
 {
@@ -18,7 +18,7 @@ class DatabaseCest
         $diContainer = new FactoryDefault();
         $provider    = new ConfigProvider();
         $provider->register($diContainer);
-        $provider    = new DatabaseProvider();
+        $provider = new DatabaseProvider();
         $provider->register($diContainer);
 
         $I->assertTrue($diContainer->has('db'));

@@ -2,13 +2,13 @@
 
 namespace Niden\Tests\unit\library\Http;
 
-use function is_string;
-use function json_decode;
 use Niden\Http\Response;
 use Phalcon\Mvc\Model\Message as ModelMessage;
 use Phalcon\Validation\Message as ValidationMessage;
 use Phalcon\Validation\Message\Group as ValidationGroup;
-use \UnitTester;
+use UnitTester;
+use function is_string;
+use function json_decode;
 
 class ResponseCest
 {
@@ -26,6 +26,24 @@ class ResponseCest
 
         $I->assertFalse(isset($payload['errors']));
         $I->assertEquals(['test'], $payload['data']);
+    }
+
+    private function checkPayload(UnitTester $I, Response $response, bool $error = false)
+    : array {
+        $contents = $response->getContent();
+        $I->assertTrue(is_string($contents));
+
+        $payload = json_decode($contents, true);
+        $I->assertEquals(3, count($payload));
+        $I->assertTrue(isset($payload['jsonapi']));
+        if (true === $error) {
+            $I->assertTrue(isset($payload['errors']));
+        } else {
+            $I->assertTrue(isset($payload['data']));
+        }
+        $I->assertTrue(isset($payload['meta']));
+
+        return $payload;
     }
 
     public function checkResponseWithArrayPayload(UnitTester $I)
@@ -74,7 +92,7 @@ class ResponseCest
 
     public function checkResponseWithValidationErrors(UnitTester $I)
     {
-        $group = new ValidationGroup();
+        $group   = new ValidationGroup();
         $message = new ValidationMessage('hello');
         $group->appendMessage($message);
         $message = new ValidationMessage('goodbye');
@@ -90,23 +108,5 @@ class ResponseCest
         $I->assertEquals(2, count($payload['errors']));
         $I->assertEquals('hello', $payload['errors'][0]);
         $I->assertEquals('goodbye', $payload['errors'][1]);
-    }
-
-    private function checkPayload(UnitTester $I, Response $response, bool $error = false): array
-    {
-        $contents = $response->getContent();
-        $I->assertTrue(is_string($contents));
-
-        $payload = json_decode($contents, true);
-        $I->assertEquals(3, count($payload));
-        $I->assertTrue(isset($payload['jsonapi']));
-        if (true === $error) {
-            $I->assertTrue(isset($payload['errors']));
-        } else {
-            $I->assertTrue(isset($payload['data']));
-        }
-        $I->assertTrue(isset($payload['meta']));
-
-        return $payload;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Niden\Tests\cli;
 
-use \CliTester;
+use CliTester;
 
 class CheckHelpTaskCest
 {

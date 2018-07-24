@@ -3,11 +3,9 @@
 namespace Niden\Tests\api;
 
 use ApiTester;
-use function json_decode;
-use Niden\Exception\Exception;
-use Niden\Http\Response;
 use Niden\Models\Users;
 use Page\Data;
+use function json_decode;
 
 class LoginCest
 {

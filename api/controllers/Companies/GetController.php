@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Niden\Api\Controllers\Companies;
 
 use Niden\Api\Controllers\BaseController;
-use Niden\Constants\Resources;
+use Niden\Constants\Relationships;
 use Niden\Models\Companies;
-use Niden\Transformers\BaseTransformer;
+use Niden\Transformers\CompaniesTransformer;
 
 /**
  * Class GetController
@@ -21,13 +21,13 @@ class GetController extends BaseController
 
     /** @var array */
     protected $relationships = [
-        Resources::INDIVIDUALS,
-        Resources::PRODUCTS,
+        Relationships::INDIVIDUALS,
+        Relationships::PRODUCTS,
     ];
 
     /** @var string */
-    protected $resource      = Resources::COMPANIES;
+    protected $resource      = Relationships::COMPANIES;
 
     /** @var string */
-    protected $transformer   = BaseTransformer::class;
+    protected $transformer   = CompaniesTransformer::class;
 }

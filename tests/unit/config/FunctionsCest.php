@@ -2,9 +2,9 @@
 
 namespace Niden\Tests\unit\config;
 
+use UnitTester;
 use function Niden\Core\appPath;
 use function Niden\Core\envValue;
-use \UnitTester;
 
 class FunctionsCest
 {

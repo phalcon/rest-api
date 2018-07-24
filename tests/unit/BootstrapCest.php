@@ -2,7 +2,7 @@
 
 namespace Niden\Tests\unit;
 
-use \CliTester;
+use CliTester;
 use function Niden\Core\appPath;
 
 class BootstrapCest

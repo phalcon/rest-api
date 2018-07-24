@@ -6,7 +6,6 @@ use IntegrationTester;
 use Niden\Constants\Relationships;
 use Niden\Models\Companies;
 use Niden\Models\Individuals;
-use Niden\Models\Products;
 use Phalcon\Filter;
 
 class CompaniesCest
@@ -51,18 +50,18 @@ class CompaniesCest
     {
         $companyOne = new Companies();
         /** @var Companies $companyOne */
-        $result  = $companyOne
-                    ->set('name', 'acme')
-                    ->set('address', '123 Phalcon way')
-                    ->set('city', 'World')
-                    ->set('phone', '555-999-4444')
-                    ->save()
+        $result = $companyOne
+            ->set('name', 'acme')
+            ->set('address', '123 Phalcon way')
+            ->set('city', 'World')
+            ->set('phone', '555-999-4444')
+            ->save()
         ;
         $I->assertNotEquals(false, $result);
 
         $companyTwo = new Companies();
         /** @var Companies $companyTwo */
-        $result  = $companyTwo
+        $result = $companyTwo
             ->set('name', 'acme')
             ->set('address', '123 Phalcon way')
             ->set('city', 'World')

@@ -35,8 +35,8 @@ class Companies extends AbstractModel
         $this->hasManyToMany(
             'id',
             CompaniesXProducts::class,
-            'cxp_com_id',
-            'cxp_prd_id',
+            'companyId',
+            'productId',
             Products::class,
             'id',
             [

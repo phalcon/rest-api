@@ -4,23 +4,16 @@ declare(strict_types=1);
 
 namespace Niden\Api\Controllers;
 
-use function explode;
-use function in_array;
-use Niden\Exception\ModelException;
-use Niden\Http\Request;
 use Niden\Http\Response;
-use Niden\Models\Users;
 use Niden\Traits\FractalTrait;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
-use Niden\Traits\TokenTrait;
-use Niden\Transformers\BaseTransformer;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Micro;
-use Phalcon\Mvc\Model\ResultsetInterface;
+use function explode;
+use function in_array;
 use function strtolower;
-use function trim;
 
 /**
  * Class BaseController
@@ -37,15 +30,15 @@ class BaseController extends Controller
     use ResponseTrait;
 
     /** @var string */
-    protected $model         = '';
+    protected $model = '';
     /** @var array */
     protected $relationships = [];
     /** @var string */
-    protected $resource      = '';
+    protected $resource = '';
     /** @var string */
-    protected $transformer   = '';
+    protected $transformer = '';
     /** @var string */
-    protected $orderBy       = 'name';
+    protected $orderBy = 'name';
 
     /**
      * Get the company/companies
@@ -72,7 +65,7 @@ class BaseController extends Controller
                         return $this->send404();
                     }
 
-                    $results[] = strtolower($relationship);
+                    $related[] = strtolower($relationship);
                 }
             }
         }
@@ -83,7 +76,7 @@ class BaseController extends Controller
     /**
      * Checks the passed id parameter and returns the relevant array back
      *
-     * @param int    $recordId
+     * @param int $recordId
      *
      * @return array
      */

@@ -3,8 +3,6 @@
 namespace Niden\Tests\api;
 
 use ApiTester;
-use Niden\Exception\Exception;
-use Niden\Http\Response;
 use Page\Data;
 
 class NotFoundCest

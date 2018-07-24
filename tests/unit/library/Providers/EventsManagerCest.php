@@ -5,7 +5,7 @@ namespace Niden\Tests\unit\library\Providers;
 use Niden\Providers\EventsManagerProvider;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
-use \UnitTester;
+use UnitTester;
 
 class EventsManagerCest
 {

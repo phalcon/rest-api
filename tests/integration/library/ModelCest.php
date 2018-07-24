@@ -2,13 +2,13 @@
 
 namespace Niden\Tests\integration\library;
 
-use function Niden\Core\appPath;
 use Codeception\Stub;
-use \IntegrationTester;
+use IntegrationTester;
 use Monolog\Logger;
-use Niden\Models\Users;
 use Niden\Exception\ModelException;
+use Niden\Models\Users;
 use Phalcon\Mvc\Model\Message;
+use function Niden\Core\appPath;
 
 /**
  * Class ModelCest
@@ -167,7 +167,8 @@ class ModelCest
 
         $result = $user
             ->set('username', 'test')
-            ->save();
+            ->save()
+        ;
         $I->assertFalse($result);
 
         $I->assertEquals('error 1<br />error 2<br />', $user->getModelMessages());
@@ -195,7 +196,8 @@ class ModelCest
         $fileName = appPath('storage/logs/api.log');
         $result   = $user
             ->set('username', 'test')
-            ->save();
+            ->save()
+        ;
         $I->assertFalse($result);
         $I->assertEquals('error 1<br />error 2<br />', $user->getModelMessages());
 

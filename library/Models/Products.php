@@ -23,8 +23,8 @@ class Products extends AbstractModel
         $this->hasManyToMany(
             'id',
             Products::class,
-            'cxp_prd_id',
-            'cxp_com_id',
+            'productId',
+            'companyId',
             CompaniesXProducts::class,
             'id',
             [

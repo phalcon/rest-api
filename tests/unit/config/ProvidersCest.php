@@ -2,7 +2,6 @@
 
 namespace Niden\Tests\unit\config;
 
-use function Niden\Core\appPath;
 use Niden\Providers\CliDispatcherProvider;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\DatabaseProvider;
@@ -12,7 +11,8 @@ use Niden\Providers\LoggerProvider;
 use Niden\Providers\RequestProvider;
 use Niden\Providers\ResponseProvider;
 use Niden\Providers\RouterProvider;
-use \UnitTester;
+use UnitTester;
+use function Niden\Core\appPath;
 
 class ProvidersCest
 {

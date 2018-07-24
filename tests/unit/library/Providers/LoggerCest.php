@@ -6,7 +6,7 @@ use Monolog\Logger;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\LoggerProvider;
 use Phalcon\Di\FactoryDefault;
-use \UnitTester;
+use UnitTester;
 
 class LoggerCest
 {
@@ -18,7 +18,7 @@ class LoggerCest
         $diContainer = new FactoryDefault();
         $provider    = new ConfigProvider();
         $provider->register($diContainer);
-        $provider    = new LoggerProvider();
+        $provider = new LoggerProvider();
         $provider->register($diContainer);
 
         $I->assertTrue($diContainer->has('logger'));

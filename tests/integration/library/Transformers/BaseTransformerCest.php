@@ -27,7 +27,7 @@ class BaseTransformerCest
         );
 
         $transformer = new BaseTransformer();
-        $expected = [
+        $expected    = [
             'id'      => $company->get('id'),
             'name'    => $company->get('name'),
             'address' => $company->get('address'),

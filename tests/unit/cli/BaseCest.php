@@ -2,12 +2,12 @@
 
 namespace Niden\Tests\unit\cli;
 
+use Niden\Cli\Tasks\MainTask;
+use Phalcon\Di\FactoryDefault\Cli;
+use UnitTester;
 use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;
-use Niden\Cli\Tasks\MainTask;
-use Phalcon\Di\FactoryDefault\Cli;
-use \UnitTester;
 
 class BaseCest
 {

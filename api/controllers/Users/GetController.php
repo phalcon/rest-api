@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Niden\Api\Controllers\Users;
 
 use Niden\Api\Controllers\BaseController;
-use Niden\Constants\Resources;
+use Niden\Constants\Relationships;
 use Niden\Models\Users;
 use Niden\Transformers\BaseTransformer;
 
@@ -19,7 +19,7 @@ class GetController extends BaseController
     /** @var string */
     protected $model       = Users::class;
     /** @var string */
-    protected $resource    = Resources::USERS;
+    protected $resource    = Relationships::USERS;
     /** @var string */
     protected $transformer = BaseTransformer::class;
     /** @var string */

@@ -5,8 +5,7 @@ namespace Niden\Tests\unit\library\Providers;
 use Niden\Providers\ConfigProvider;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
-
-use \UnitTester;
+use UnitTester;
 
 class ConfigCest
 {

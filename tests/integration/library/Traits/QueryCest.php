@@ -2,11 +2,11 @@
 
 namespace Niden\Tests\integration\library\Traits;
 
+use IntegrationTester;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use \IntegrationTester;
-use Niden\Models\Users;
 use Niden\Exception\ModelException;
+use Niden\Models\Users;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\TokenTrait;
 
@@ -90,7 +90,8 @@ class QueryCest
             ->setAudience($this->getTokenAudience())
             ->setId('123456', true)
             ->sign($signer, '110011')
-            ->getToken();
+            ->getToken()
+        ;
 
         $I->assertFalse($this->getUserByToken($token));
     }

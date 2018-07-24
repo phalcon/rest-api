@@ -3,9 +3,8 @@
 namespace Niden\Tests\api\Companies;
 
 use ApiTester;
-use Niden\Constants\Resources;
+use Niden\Constants\Relationships;
 use Niden\Models\Companies;
-use Niden\Models\Users;
 use Page\Data;
 use function uniqid;
 
@@ -42,7 +41,7 @@ class AddCest
             [
                 [
                     'id'         => $company->get('id'),
-                    'type'       => Resources::COMPANIES,
+                    'type'       => Relationships::COMPANIES,
                     'attributes' => [
                         'name'    => $company->get('name'),
                         'address' => $company->get('address'),
@@ -64,7 +63,7 @@ class AddCest
         $I->haveRecordWithFields(
             Companies::class,
             [
-                'name' => $name
+                'name' => $name,
             ]
         );
 

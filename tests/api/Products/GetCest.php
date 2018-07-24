@@ -3,13 +3,11 @@
 namespace Niden\Tests\api\Products;
 
 use ApiTester;
-use Niden\Constants\Resources;
-use function Niden\Core\envValue;
-use Niden\Models\Companies;
+use Niden\Constants\Relationships;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
-use Niden\Models\Users;
 use Page\Data;
+use function Niden\Core\envValue;
 use function uniqid;
 
 class GetCest
@@ -48,7 +46,7 @@ class GetCest
             [
                 [
                     'id'         => $product->get('id'),
-                    'type'       => Resources::PRODUCTS,
+                    'type'       => Relationships::PRODUCTS,
                     'attributes' => [
                         'name'        => $product->get('name'),
                         'typeId'      => $productType->get('id'),
@@ -62,10 +60,21 @@ class GetCest
                             envValue('APP_URL', 'localhost'),
                             $product->get('id')
                         ),
-                    ]
+                    ],
                 ],
             ]
         );
+    }
+
+    public function getUnknownProduct(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$productsUrl . '/1');
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIs404();
     }
 
     public function getProducts(ApiTester $I)
@@ -114,7 +123,7 @@ class GetCest
             [
                 [
                     'id'         => $productOne->get('id'),
-                    'type'       => Resources::PRODUCTS,
+                    'type'       => Relationships::PRODUCTS,
                     'attributes' => [
                         'name'        => $productOne->get('name'),
                         'typeId'      => $productType->get('id'),
@@ -128,11 +137,11 @@ class GetCest
                             envValue('APP_URL', 'localhost'),
                             $productOne->get('id')
                         ),
-                    ]
+                    ],
                 ],
                 [
                     'id'         => $productTwo->get('id'),
-                    'type'       => Resources::PRODUCTS,
+                    'type'       => Relationships::PRODUCTS,
                     'attributes' => [
                         'name'        => $productTwo->get('name'),
                         'typeId'      => $productType->get('id'),
@@ -146,7 +155,7 @@ class GetCest
                             envValue('APP_URL', 'localhost'),
                             $productTwo->get('id')
                         ),
-                    ]
+                    ],
                 ],
             ]
         );

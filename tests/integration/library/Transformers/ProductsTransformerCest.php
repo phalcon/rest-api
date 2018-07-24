@@ -6,13 +6,11 @@ use IntegrationTester;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Niden\Constants\Resources;
-use function Niden\Core\envValue;
-use Niden\Models\Companies;
+use Niden\Constants\Relationships;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
-use Niden\Transformers\BaseTransformer;
 use Niden\Transformers\ProductsTransformer;
+use function Niden\Core\envValue;
 
 class ProductsTransformerCest
 {
@@ -44,52 +42,52 @@ class ProductsTransformerCest
             ]
         );
 
-        $url      = envValue('APP_URL', 'http://localhost');
-        $manager  = new Manager();
+        $url     = envValue('APP_URL', 'http://localhost');
+        $manager = new Manager();
         $manager->setSerializer(new JsonApiSerializer($url));
-        $manager->parseIncludes(Resources::PRODUCT_TYPES);
-        $resource = new Collection([$product], new ProductsTransformer(), Resources::PRODUCTS);
+        $manager->parseIncludes(Relationships::PRODUCT_TYPES);
+        $resource = new Collection([$product], new ProductsTransformer(), Relationships::PRODUCTS);
         $results  = $manager->createData($resource)->toArray();
         $expected = [
-            'data' => [
+            'data'     => [
                 [
-                    'type'        => Resources::PRODUCTS,
-                    'id'          => $product->get('id'),
-                    'attributes'  => [
+                    'type'          => Relationships::PRODUCTS,
+                    'id'            => $product->get('id'),
+                    'attributes'    => [
                         'typeId'      => $productType->get('id'),
                         'name'        => $product->get('name'),
                         'description' => $product->get('description'),
                         'quantity'    => $product->get('quantity'),
                         'price'       => $product->get('price'),
                     ],
-                    'links'       => [
+                    'links'         => [
                         'self' => sprintf(
                             '%s/%s/%s',
                             $url,
-                            Resources::PRODUCTS,
+                            Relationships::PRODUCTS,
                             $product->get('id')
                         ),
                     ],
                     'relationships' => [
-                        Resources::PRODUCT_TYPES => [
+                        Relationships::PRODUCT_TYPES => [
                             'links' => [
                                 'self'    => sprintf(
                                     '%s/%s/%s/relationships/%s',
                                     $url,
-                                    Resources::PRODUCTS,
+                                    Relationships::PRODUCTS,
                                     $product->get('id'),
-                                    Resources::PRODUCT_TYPES
+                                    Relationships::PRODUCT_TYPES
                                 ),
                                 'related' => sprintf(
                                     '%s/%s/%s/%s',
                                     $url,
-                                    Resources::PRODUCTS,
+                                    Relationships::PRODUCTS,
                                     $product->get('id'),
-                                    Resources::PRODUCT_TYPES
+                                    Relationships::PRODUCT_TYPES
                                 ),
                             ],
                             'data'  => [
-                                'type' => Resources::PRODUCT_TYPES,
+                                'type' => Relationships::PRODUCT_TYPES,
                                 'id'   => $productType->get('id'),
                             ],
                         ],
@@ -98,7 +96,7 @@ class ProductsTransformerCest
             ],
             'included' => [
                 [
-                    'type'       => Resources::PRODUCT_TYPES,
+                    'type'       => Relationships::PRODUCT_TYPES,
                     'id'         => $productType->get('id'),
                     'attributes' => [
                         'name'        => $productType->get('name'),
@@ -108,7 +106,7 @@ class ProductsTransformerCest
                         'self' => sprintf(
                             '%s/%s/%s',
                             $url,
-                            Resources::PRODUCT_TYPES,
+                            Relationships::PRODUCT_TYPES,
                             $productType->get('id')
                         ),
                     ],

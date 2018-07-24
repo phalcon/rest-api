@@ -95,7 +95,7 @@ class ApiTester extends \Codeception\Actor
         );
     }
 
-    public function seeSuccessJsonResponse(array $data = [])
+    public function seeSuccessJsonResponse(array $data = [], array $extra = [])
     {
         $contents = [
             'jsonapi' => [
@@ -103,6 +103,10 @@ class ApiTester extends \Codeception\Actor
             ],
             'data'    => $data,
         ];
+
+        if (true !== empty($extra)) {
+            $contents = $contents + $extra;
+        }
 
         $this->seeResponseContainsJson($contents);
     }

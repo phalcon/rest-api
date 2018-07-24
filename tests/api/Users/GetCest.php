@@ -5,7 +5,7 @@ namespace Niden\Tests\api\Users;
 use ApiTester;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Niden\Constants\Resources;
+use Niden\Constants\Relationships;
 use Niden\Models\Users;
 use Niden\Traits\TokenTrait;
 use Page\Data;
@@ -30,9 +30,9 @@ class GetCest
         $I->seeResponseIsSuccessful();
 
         $response = $I->grabResponse();
-        $response  = json_decode($response, true);
-        $data      = $response['data'];
-        $token     = $data['token'];
+        $response = json_decode($response, true);
+        $data     = $response['data'];
+        $token    = $data['token'];
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$usersUrl . '/1');
@@ -49,7 +49,7 @@ class GetCest
         $signer  = new Sha512();
         $builder = new Builder();
 
-        $token   = $builder
+        $token = $builder
             ->setIssuer('https://niden.net')
             ->setAudience($this->getTokenAudience())
             ->setId('110011', true)
@@ -57,7 +57,8 @@ class GetCest
             ->setNotBefore(time() - 3590)
             ->setExpiration(time() - 3000)
             ->sign($signer, '123456')
-            ->getToken();
+            ->getToken()
+        ;
 
         $wrongToken = $token->__toString();
 
@@ -77,7 +78,7 @@ class GetCest
         $signer  = new Sha512();
         $builder = new Builder();
 
-        $token   = $builder
+        $token = $builder
             ->setIssuer('https://niden.net')
             ->setAudience($this->getTokenAudience())
             ->setId('110011', true)
@@ -85,7 +86,8 @@ class GetCest
             ->setNotBefore(time() - 3590)
             ->setExpiration(time() - 3000)
             ->sign($signer, '12345')
-            ->getToken();
+            ->getToken()
+        ;
 
         $expiredToken = $token->__toString();
 
@@ -105,7 +107,7 @@ class GetCest
         $signer  = new Sha512();
         $builder = new Builder();
 
-        $token   = $builder
+        $token = $builder
             ->setIssuer('https://niden.net')
             ->setAudience($this->getTokenAudience())
             ->setId('110011', true)
@@ -113,7 +115,8 @@ class GetCest
             ->setNotBefore(time() - 3590)
             ->setExpiration(time() - 3000)
             ->sign($signer, '12345')
-            ->getToken();
+            ->getToken()
+        ;
 
         $invalidToken = $token->__toString();
 
@@ -133,7 +136,7 @@ class GetCest
         $signer  = new Sha512();
         $builder = new Builder();
 
-        $token   = $builder
+        $token = $builder
             ->setIssuer('https://niden.com')
             ->setAudience($this->getTokenAudience())
             ->setId('110011', true)
@@ -141,7 +144,8 @@ class GetCest
             ->setNotBefore(time() - 3590)
             ->setExpiration(time() - 3000)
             ->sign($signer, '12345')
-            ->getToken();
+            ->getToken()
+        ;
 
         $invalidToken = $token->__toString();
 
@@ -170,7 +174,7 @@ class GetCest
             [
                 [
                     'id'         => $record->get('id'),
-                    'type'       => Resources::USERS,
+                    'type'       => Relationships::USERS,
                     'attributes' => [
                         'status'        => $record->get('status'),
                         'username'      => $record->get('username'),
@@ -219,7 +223,7 @@ class GetCest
             [
                 [
                     'id'         => $userOne->get('id'),
-                    'type'       => Resources::USERS,
+                    'type'       => Relationships::USERS,
                     'attributes' => [
                         'status'        => $userOne->get('status'),
                         'username'      => $userOne->get('username'),
@@ -230,7 +234,7 @@ class GetCest
                 ],
                 [
                     'id'         => $userTwo->get('id'),
-                    'type'       => Resources::USERS,
+                    'type'       => Relationships::USERS,
                     'attributes' => [
                         'status'        => $userTwo->get('status'),
                         'username'      => $userTwo->get('username'),

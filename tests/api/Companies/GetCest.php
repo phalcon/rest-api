@@ -45,6 +45,17 @@ class GetCest
         );
     }
 
+    public function getUnknownCompany(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$companiesUrl . '/9999');
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIs404();
+    }
+
     public function getCompanies(ApiTester $I)
     {
         $I->addApiUserRecord();

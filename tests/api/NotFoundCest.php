@@ -12,7 +12,6 @@ class NotFoundCest
     public function checkNotFoundRoute(ApiTester $I)
     {
         $I->sendGET(Data::$wrongUrl);
-        $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('404 Not Found');
+        $I->seeResponseIs404();
     }
 }

@@ -15,6 +15,13 @@ class ResponseProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
-        $container->setShared('response', new Response());
+        $response = new Response();
+
+        /**
+         * Assume success. We will work with the edge cases in the code
+         */
+        $response->setStatusCode(200);
+
+        $container->setShared('response', $response);
     }
 }

@@ -112,6 +112,7 @@ class RouterProvider implements ServiceProviderInterface
             [CompaniesAddController::class,       '/companies',        'post', '/'],
             [CompaniesGetController::class,       '/companies',        'get',  '/'],
             [CompaniesGetController::class,       '/companies',        'get',  '/{companyId:[0-9]+}'],
+            [CompaniesGetController::class,       '/companies',        'get',  '/relationships/{relationships:[a-zA-Z,.}'],
             [IndividualTypesGetController::class, '/individual-types', 'get',  '/'],
             [IndividualTypesGetController::class, '/individual-types', 'get',  '/{typeId:[0-9]+}'],
             [ProductsGetController::class,        '/products',         'get',  '/'],

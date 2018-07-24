@@ -36,8 +36,7 @@ class GetCest
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$usersUrl . '/1');
-        $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
+        $I->seeResponseIs404();
     }
 
     public function loginKnownUserIncorrectSignature(ApiTester $I)

@@ -27,7 +27,7 @@ class NotFoundMiddleware extends Plugin implements MiddlewareInterface
      */
     public function beforeNotFound()
     {
-        $this->halt($this->application, '404 Not Found');
+        $this->halt($this->application, 404, 'Not Found');
 
         return false;
     }

@@ -18,16 +18,18 @@ trait ResponseTrait
      * Halt execution after setting the message in the response
      *
      * @param Micro  $api
+     * @param int    $status
      * @param string $message
      *
      * @return mixed
      */
-    protected function halt(Micro $api, string $message)
+    protected function halt(Micro $api, int $status, string $message)
     {
         /** @var Response $response */
         $response = $api->getService('response');
         $response
             ->setPayloadError($message)
+            ->setStatusCode($status)
             ->send();
 
         $api->stop();
@@ -38,7 +40,9 @@ trait ResponseTrait
         /** @var Response $response */
         $response = $api->getService('response');
         $data     = $api->getReturnedValue();
-        $response->setPayloadSuccess($data);
+        if (200 === $response->getStatusCode()) {
+            $response->setPayloadSuccess($data);
+        }
 
         if (true !== $response->isSent()) {
             $response->send();

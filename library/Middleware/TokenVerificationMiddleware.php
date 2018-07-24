@@ -40,7 +40,7 @@ class TokenVerificationMiddleware extends TokenBase
             /** @var Users $user */
             $user = $this->getUserByToken($token);
             if (false === $token->verify($signer, $user->get('tokenPassword'))) {
-                $this->halt($api, 'Invalid Token');
+                $this->halt($api, 200, 'Invalid Token');
             }
         }
 

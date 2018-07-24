@@ -34,7 +34,7 @@ class TokenUserMiddleware extends TokenBase
             /** @var Users|false $user */
             $user = $this->getUserByToken($token);
             if (false === $user) {
-                $this->halt($api, 'Invalid Token');
+                $this->halt($api, 200, 'Invalid Token');
 
                 return false;
             }

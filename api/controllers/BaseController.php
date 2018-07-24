@@ -31,12 +31,16 @@ class BaseController extends Controller
 
     /** @var string */
     protected $model = '';
+
     /** @var array */
     protected $relationships = [];
+
     /** @var string */
     protected $resource = '';
+
     /** @var string */
     protected $transformer = '';
+
     /** @var string */
     protected $orderBy = 'name';
 
@@ -95,10 +99,14 @@ class BaseController extends Controller
     }
 
     /**
-     * Sends a 404 back
+     * Sets the response with a 404 and returns an empty string back
+     *
+     * @return string
      */
-    private function send404()
+    private function send404(): string
     {
         $this->response->setPayloadError('Not Found')->setStatusCode(404);
+
+        return '';
     }
 }

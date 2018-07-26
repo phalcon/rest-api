@@ -20,7 +20,10 @@ class ResponseProvider implements ServiceProviderInterface
         /**
          * Assume success. We will work with the edge cases in the code
          */
-        $response->setStatusCode(200);
+        $response
+            ->setStatusCode(200)
+            ->setContentType('application/vnd.api+json', 'UTF-8')
+        ;
 
         $container->setShared('response', $response);
     }

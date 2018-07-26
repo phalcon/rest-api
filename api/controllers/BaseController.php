@@ -99,14 +99,14 @@ class BaseController extends Controller
     }
 
     /**
-     * Sets the response with a 404 and returns an empty string back
+     * Sets the response with a 404 and returns an empty array back
      *
-     * @return string
+     * @return array
      */
-    private function send404(): string
+    private function send404(): array 
     {
         $this->response->setPayloadError('Not Found')->setStatusCode(404);
 
-        return '';
+        return [];
     }
 }

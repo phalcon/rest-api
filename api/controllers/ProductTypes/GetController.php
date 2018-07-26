@@ -7,6 +7,7 @@ namespace Niden\Api\Controllers\ProductTypes;
 use Niden\Api\Controllers\BaseController;
 use Niden\Constants\Relationships;
 use Niden\Models\ProductTypes;
+use Niden\Transformers\ProductTypesTransformer;
 
 /**
  * Class GetController
@@ -27,6 +28,6 @@ class GetController extends BaseController
     protected $resource    = Relationships::PRODUCT_TYPES;
 
     /** @var string */
-    protected $transformer = ProductTypes::class;
+    protected $transformer = ProductTypesTransformer::class;
 }
 

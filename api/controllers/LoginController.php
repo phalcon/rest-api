@@ -45,7 +45,10 @@ class LoginController extends Controller
              */
             return ['token' => $user->getToken()];
         } else {
-            $this->response->setPayloadError('Incorrect credentials');
+            $this
+                ->response
+                ->setPayloadError('Incorrect credentials')
+            ;
         }
     }
 }

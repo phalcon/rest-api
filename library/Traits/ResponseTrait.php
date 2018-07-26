@@ -39,13 +39,30 @@ trait ResponseTrait
     {
         /** @var Response $response */
         $response = $api->getService('response');
-        $data     = $api->getReturnedValue();
-        if (200 === $response->getStatusCode()) {
-            $response->setPayloadSuccess($data);
+        if (200 === $response->getStatusCode() && true !== $this->checkCurrentContent($response)) {
+            $returned = $api->getReturnedValue();
+            $response->setPayloadSuccess($returned);
         }
 
         if (true !== $response->isSent()) {
             $response->send();
         }
+    }
+
+    /**
+     * @param Response $response
+     *
+     * @return bool
+     */
+    private function checkCurrentContent(Response $response): bool
+    {
+        $return  = false;
+        $content = $response->getContent();
+        if (true !== empty($content)) {
+            $content = json_decode($content, true);
+            $return  = isset($content['errors']);
+        }
+
+        return $return;
     }
 }

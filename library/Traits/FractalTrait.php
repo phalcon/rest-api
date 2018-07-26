@@ -42,6 +42,6 @@ trait FractalTrait
         $resource = new Collection($results, new $transformer(), $resource);
         $results  = $manager->createData($resource)->toArray();
 
-        return $results['data'];
+        return $results;
     }
 }

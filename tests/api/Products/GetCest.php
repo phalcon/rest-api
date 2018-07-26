@@ -161,6 +161,108 @@ class GetCest
         );
     }
 
+    public function getProductsWithProductTypes(ApiTester $I)
+    {
+        /** @var ProductTypes $productType */
+        $productType = $I->haveRecordWithFields(
+            ProductTypes::class,
+            [
+                'name'        => 'my type',
+                'description' => 'description of my type',
+            ]
+        );
+
+        /** @var Products $product */
+        $product = $I->haveRecordWithFields(
+            Products::class,
+            [
+                'name'        => 'my product',
+                'typeId'      => $productType->get('id'),
+                'description' => 'my product description',
+                'quantity'    => 99,
+                'price'       => 19.99,
+            ]
+        );
+
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$productsUrl . '/' . $product->get('id') . '/relationships/' . Relationships::PRODUCT_TYPES);
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $url      = envValue('APP_URL', 'http://localhost');
+        $response = json_decode($I->grabResponse(), true);
+        $expected = [
+            'data'     => [
+                [
+                    'type'          => Relationships::PRODUCTS,
+                    'id'            => $product->get('id'),
+                    'attributes'    => [
+                        'typeId'      => $productType->get('id'),
+                        'name'        => $product->get('name'),
+                        'description' => $product->get('description'),
+                        'quantity'    => $product->get('quantity'),
+                        'price'       => $product->get('price'),
+                    ],
+                    'links'         => [
+                        'self' => sprintf(
+                            '%s/%s/%s',
+                            $url,
+                            Relationships::PRODUCTS,
+                            $product->get('id')
+                        ),
+                    ],
+                    'relationships' => [
+                        Relationships::PRODUCT_TYPES => [
+                            'links' => [
+                                'self'    => sprintf(
+                                    '%s/%s/%s/relationships/%s',
+                                    $url,
+                                    Relationships::PRODUCTS,
+                                    $product->get('id'),
+                                    Relationships::PRODUCT_TYPES
+                                ),
+                                'related' => sprintf(
+                                    '%s/%s/%s/%s',
+                                    $url,
+                                    Relationships::PRODUCTS,
+                                    $product->get('id'),
+                                    Relationships::PRODUCT_TYPES
+                                ),
+                            ],
+                            'data'  => [
+                                'type' => Relationships::PRODUCT_TYPES,
+                                'id'   => $productType->get('id'),
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'included' => [
+                [
+                    'type'       => Relationships::PRODUCT_TYPES,
+                    'id'         => $productType->get('id'),
+                    'attributes' => [
+                        'name'        => $productType->get('name'),
+                        'description' => $productType->get('description'),
+                    ],
+                    'links'      => [
+                        'self' => sprintf(
+                            '%s/%s/%s',
+                            $url,
+                            Relationships::PRODUCT_TYPES,
+                            $productType->get('id')
+                        ),
+                    ],
+                ],
+            ],
+        ];
+
+        $I->assertEquals($expected['data'], $response['data']);
+        $I->assertEquals($expected['included'], $response['included']);
+    }
+
     public function getProductsNoData(ApiTester $I)
     {
         $I->addApiUserRecord();

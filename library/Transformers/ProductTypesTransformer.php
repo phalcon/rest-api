@@ -8,26 +8,26 @@ use League\Fractal\Resource\Collection;
 use Niden\Constants\Relationships;
 use Niden\Models\Companies;
 use Niden\Models\Products;
+use Niden\Models\ProductTypes;
 
 /**
- * Class CompaniesTransformer
+ * Class ProductTypesTransformer
  */
-class CompaniesTransformer extends BaseTransformer
+class ProductTypesTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
         Relationships::PRODUCTS,
-        Relationships::INDIVIDUALS,
     ];
 
     /**
-     * @param Companies $company
+     * @param ProductTypes $type
      *
      * @return Collection
      */
-    public function includeProducts(Companies $company)
+    public function includeProducts(ProductTypes $type)
     {
         /** @var Products $products */
-        $products = $company->getRelated(Relationships::PRODUCTS);
+        $products = $type->getRelated(Relationships::PRODUCTS);
 
         return $this->collection($products, new ProductsTransformer(), Relationships::PRODUCTS);
     }

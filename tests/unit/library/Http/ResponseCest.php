@@ -25,11 +25,11 @@ class ResponseCest
         $payload = $this->checkPayload($I, $response);
 
         $I->assertFalse(isset($payload['errors']));
-        $I->assertEquals(['test'], $payload['data']);
+        $I->assertEquals('test', $payload['data']);
     }
 
-    private function checkPayload(UnitTester $I, Response $response, bool $error = false)
-    : array {
+    private function checkPayload(UnitTester $I, Response $response, bool $error = false): array
+    {
         $contents = $response->getContent();
         $I->assertTrue(is_string($contents));
 

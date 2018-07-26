@@ -47,11 +47,10 @@ class ApiTester extends \Codeception\Actor
 
         $response  = $this->grabResponse();
         $response  = json_decode($response, true);
-        $errors    = $response['errors'] ?? [];
-        $section   = (count($errors) > 0) ? 'errors' : 'data';
         $timestamp = $response['meta']['timestamp'];
         $hash      = $response['meta']['hash'];
-        $this->assertEquals($hash, sha1($timestamp . json_encode($response[$section])));
+        unset($response['meta'], $response['jsonapi']);
+        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
     }
 
     /**
@@ -78,7 +77,8 @@ class ApiTester extends \Codeception\Actor
         $timestamp = $response['meta']['timestamp'];
         $hash      = $response['meta']['hash'];
         $this->assertEquals('Not Found', $response['errors'][0]);
-        $this->assertEquals($hash, sha1($timestamp . json_encode($response['errors'])));
+        unset($response['jsonapi'], $response['meta']);
+        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
     }
 
     public function seeErrorJsonResponse(string $message)

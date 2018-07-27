@@ -43,6 +43,7 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $product->get('id'),
@@ -120,6 +121,7 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $productOne->get('id'),
@@ -191,10 +193,9 @@ class GetCest
         $I->sendGET(Data::$productsUrl . '/' . $product->get('id') . '/relationships/' . Relationships::PRODUCT_TYPES);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
-        $url      = envValue('APP_URL', 'http://localhost');
-        $response = json_decode($I->grabResponse(), true);
-        $expected = [
-            'data'     => [
+        $I->seeSuccessJsonResponse(
+            'data',
+            [
                 [
                     'type'          => Relationships::PRODUCTS,
                     'id'            => $product->get('id'),
@@ -208,7 +209,7 @@ class GetCest
                     'links'         => [
                         'self' => sprintf(
                             '%s/%s/%s',
-                            $url,
+                            envValue('APP_URL', 'localhost'),
                             Relationships::PRODUCTS,
                             $product->get('id')
                         ),
@@ -218,14 +219,14 @@ class GetCest
                             'links' => [
                                 'self'    => sprintf(
                                     '%s/%s/%s/relationships/%s',
-                                    $url,
+                                    envValue('APP_URL', 'localhost'),
                                     Relationships::PRODUCTS,
                                     $product->get('id'),
                                     Relationships::PRODUCT_TYPES
                                 ),
                                 'related' => sprintf(
                                     '%s/%s/%s/%s',
-                                    $url,
+                                    envValue('APP_URL', 'localhost'),
                                     Relationships::PRODUCTS,
                                     $product->get('id'),
                                     Relationships::PRODUCT_TYPES
@@ -238,8 +239,12 @@ class GetCest
                         ],
                     ],
                 ],
-            ],
-            'included' => [
+            ]
+        );
+
+        $I->seeSuccessJsonResponse(
+            'included',
+            [
                 [
                     'type'       => Relationships::PRODUCT_TYPES,
                     'id'         => $productType->get('id'),
@@ -250,17 +255,14 @@ class GetCest
                     'links'      => [
                         'self' => sprintf(
                             '%s/%s/%s',
-                            $url,
+                            envValue('APP_URL', 'localhost'),
                             Relationships::PRODUCT_TYPES,
                             $productType->get('id')
                         ),
                     ],
                 ],
-            ],
-        ];
-
-        $I->assertEquals($expected['data'], $response['data']);
-        $I->assertEquals($expected['included'], $response['included']);
+            ]
+        );
     }
 
     public function getProductsNoData(ApiTester $I)

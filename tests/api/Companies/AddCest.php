@@ -38,6 +38,7 @@ class AddCest
         $I->assertNotEquals(false, $company);
 
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $company->get('id'),

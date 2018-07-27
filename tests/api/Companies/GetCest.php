@@ -33,6 +33,7 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $comOne->get('id'),
@@ -87,6 +88,7 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $comOne->get('id'),
@@ -182,6 +184,7 @@ class GetCest
 
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $comOne->get('id'),
@@ -232,6 +235,50 @@ class GetCest
                         ]
                     ]
                 ]
+            ]
+        );
+
+        $I->seeSuccessJsonResponse(
+            'included',
+            [
+                [
+                    'type'       => Relationships::PRODUCTS,
+                    'id'         => $productOne->get('id'),
+                    'attributes' => [
+                        'typeId'      => $productOne->get('typeId'),
+                        'name'        => $productOne->get('name'),
+                        'description' => $productOne->get('description'),
+                        'quantity'    => $productOne->get('quantity'),
+                        'price'       => $productOne->get('price'),
+                    ],
+                    'links'      => [
+                        'self' => sprintf(
+                            '%s/%s/%s',
+                            envValue('APP_URL'),
+                            Relationships::PRODUCTS,
+                            $productOne->get('id')
+                        ),
+                    ],
+                ],
+                [
+                    'type'       => Relationships::PRODUCTS,
+                    'id'         => $productTwo->get('id'),
+                    'attributes' => [
+                        'typeId'      => $productTwo->get('typeId'),
+                        'name'        => $productTwo->get('name'),
+                        'description' => $productTwo->get('description'),
+                        'quantity'    => $productTwo->get('quantity'),
+                        'price'       => $productTwo->get('price'),
+                    ],
+                    'links'      => [
+                        'self' => sprintf(
+                            '%s/%s/%s',
+                            envValue('APP_URL'),
+                            Relationships::PRODUCTS,
+                            $productTwo->get('id')
+                        ),
+                    ],
+                ],
             ]
         );
     }

@@ -95,20 +95,9 @@ class ApiTester extends \Codeception\Actor
         );
     }
 
-    public function seeSuccessJsonResponse(array $data = [], array $extra = [])
+    public function seeSuccessJsonResponse(string $key = 'data', array $data = [])
     {
-        $contents = [
-            'jsonapi' => [
-                'version' => '1.0',
-            ],
-            'data'    => $data,
-        ];
-
-        if (true !== empty($extra)) {
-            $contents = $contents + $extra;
-        }
-
-        $this->seeResponseContainsJson($contents);
+        $this->seeResponseContainsJson([$key => $data]);
     }
 
     public function apiLogin()

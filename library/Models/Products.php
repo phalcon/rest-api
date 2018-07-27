@@ -33,7 +33,7 @@ class Products extends AbstractModel
             ]
         );
 
-        $this->hasOne(
+        $this->belongsTo(
             'typeId',
             ProductTypes::class,
             'id',

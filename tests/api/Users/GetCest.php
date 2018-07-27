@@ -171,6 +171,7 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $record->get('id'),
@@ -220,6 +221,7 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $userOne->get('id'),

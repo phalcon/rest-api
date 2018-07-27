@@ -20,12 +20,12 @@ class ProductTypes extends AbstractModel
      */
     public function initialize()
     {
-        $this->belongsTo(
+        $this->hasMany(
             'id',
             Products::class,
             'typeId',
             [
-                'alias'    => Relationships::PRODUCT,
+                'alias'    => Relationships::PRODUCTS,
                 'reusable' => true,
             ]
         );

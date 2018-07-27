@@ -32,6 +32,7 @@ class GetCest
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
+            'data',
             [
                 [
                     'id'         => $typeOne->get('id'),

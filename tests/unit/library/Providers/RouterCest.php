@@ -31,23 +31,27 @@ class RouterCest
         $expected = [
             ['POST', '/login'],
             ['POST', '/companies'],
-            ['GET', '/companies'],
-            ['GET', '/companies/{companyId:[0-9]+}'],
-            ['GET', '/companies/{companyId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
-            ['GET', '/individual-types'],
-            ['GET', '/individual-types/{typeId:[0-9]+}'],
-            ['GET', '/individual-types/{typeId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
-            ['GET', '/products'],
-            ['GET', '/products/{productId:[0-9]+}'],
-            ['GET', '/products/{productId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
-            ['GET', '/product-types'],
-            ['GET', '/product-types/{typeId:[0-9]+}'],
-            ['GET', '/product-types/{typeId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
             ['GET', '/users'],
-            ['GET', '/users/{userId:[0-9]+}'],
+            ['GET', '/users/{recordId:[0-9]+}'],
+            ['GET', '/companies'],
+            ['GET', '/companies/{recordId:[0-9]+}'],
+            ['GET', '/companies/{recordId:[0-9]+}/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/companies/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/individual-types'],
+            ['GET', '/individual-types/{recordId:[0-9]+}'],
+            ['GET', '/individual-types/{recordId:[0-9]+}/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/individual-types/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/products'],
+            ['GET', '/products/{recordId:[0-9]+}'],
+            ['GET', '/products/{recordId:[0-9]+}/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/products/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/product-types'],
+            ['GET', '/product-types/{recordId:[0-9]+}'],
+            ['GET', '/product-types/{recordId:[0-9]+}/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/product-types/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
         ];
 
-        $I->assertEquals(16, count($routes));
+        $I->assertEquals(20, count($routes));
         foreach ($routes as $index => $route) {
             $I->assertEquals($expected[$index][0], $route->getHttpMethods());
             $I->assertEquals($expected[$index][1], $route->getPattern());

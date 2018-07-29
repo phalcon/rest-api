@@ -11,6 +11,7 @@ use Niden\Api\Controllers\Products\GetController as ProductsGetController;
 use Niden\Api\Controllers\ProductTypes\GetController as ProductTypesGetController;
 use Niden\Api\Controllers\Users\GetController as UsersGetController;
 use Niden\Api\Controllers\LoginController;
+use Niden\Constants\Relationships as Rel;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\AuthenticationMiddleware;
 use Niden\Middleware\ResponseMiddleware;
@@ -106,24 +107,39 @@ class RouterProvider implements ServiceProviderInterface
      */
     private function getRoutes(): array
     {
-        return [
+        $routes = [
             // Class, Method, Route, Handler
-            [LoginController::class,              '/login',            'post', '/'],
-            [CompaniesAddController::class,       '/companies',        'post', '/'],
-            [CompaniesGetController::class,       '/companies',        'get',  '/'],
-            [CompaniesGetController::class,       '/companies',        'get',  '/{companyId:[0-9]+}'],
-            [CompaniesGetController::class,       '/companies',        'get',  '/{companyId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
-            [IndividualTypesGetController::class, '/individual-types', 'get',  '/'],
-            [IndividualTypesGetController::class, '/individual-types', 'get',  '/{typeId:[0-9]+}'],
-            [IndividualTypesGetController::class, '/individual-types', 'get',  '/{typeId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
-            [ProductsGetController::class,        '/products',         'get',  '/'],
-            [ProductsGetController::class,        '/products',         'get',  '/{productId:[0-9]+}'],
-            [ProductsGetController::class,        '/products',         'get',  '/{productId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
-            [ProductTypesGetController::class,    '/product-types',    'get',  '/'],
-            [ProductTypesGetController::class,    '/product-types',    'get',  '/{typeId:[0-9]+}'],
-            [ProductTypesGetController::class,    '/product-types',    'get',  '/{typeId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
-            [UsersGetController::class,           '/users',            'get',  '/'],
-            [UsersGetController::class,           '/users',            'get',  '/{userId:[0-9]+}'],
+            [LoginController::class,        '/login',     'post', '/'],
+            [CompaniesAddController::class, '/companies', 'post', '/'],
+            [UsersGetController::class,     '/users',     'get',  '/'],
+            [UsersGetController::class,     '/users',     'get',  '/{recordId:[0-9]+}'],
         ];
+
+        $routes = $this->getMultiRoutes($routes, CompaniesGetController::class, Rel::COMPANIES);
+        $routes = $this->getMultiRoutes($routes, IndividualTypesGetController::class, Rel::INDIVIDUAL_TYPES);
+        $routes = $this->getMultiRoutes($routes, ProductsGetController::class, Rel::PRODUCTS);
+        $routes = $this->getMultiRoutes($routes, ProductTypesGetController::class, Rel::PRODUCT_TYPES);
+
+
+        return $routes;
+    }
+
+    /**
+     * Adds multiple routes for the same handler abiding by the JSONAPI standard
+     *
+     * @param array  $routes
+     * @param string $class
+     * @param string $relationship
+     *
+     * @return array
+     */
+    private function getMultiRoutes(array $routes, string $class, string $relationship): array
+    {
+        $routes[] = [$class, '/' . $relationship, 'get', '/'];
+        $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}'];
+        $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}/{relationships:[a-zA-Z-.]+}'];
+        $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'];
+
+        return $routes;
     }
 }

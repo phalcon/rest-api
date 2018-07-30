@@ -115,6 +115,7 @@ trait QueryTrait
         $params   = json_encode($where);
         $cacheKey = sha1(sprintf('%s-%s.cache', $phql, $params));
         if (true === $cache->exists($cacheKey)) {
+            /** @var ResultsetInterface $data */
             $data = $cache->get($cacheKey);
         } else {
             $data = $builder->getQuery()->execute();

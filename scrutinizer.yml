@@ -8,7 +8,6 @@ build:
         postgresql: false
         redis: false
         node: false
-        selenium: false
         php:
           version: 7.1.12
           ini:
@@ -26,6 +25,9 @@ build:
           DATA_API_MYSQL_PASS: "password"
           DATA_API_MYSQL_USER: "root"
           DATA_API_MYSQL_NAME: "gonano"
+          DATA_API_MEMCACHED_HOST: "127.0.0.1"
+          DATA_API_MEMCACHED_PORT: 11211
+          DATA_API_MEMCACHED_WEIGHT: 100
           APP_IP: "api.phalcon.ld"
 
     cache:

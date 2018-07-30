@@ -4,10 +4,10 @@ namespace Niden\Tests\api\ProductTypes;
 
 use ApiTester;
 use Niden\Constants\Relationships;
-use function Niden\Core\envValue;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
 use Page\Data;
+use function Niden\Core\envValue;
 use function uniqid;
 
 class GetCest
@@ -20,13 +20,15 @@ class GetCest
         $typeOne = $I->haveRecordWithFields(
             ProductTypes::class,
             [
-                'name' => uniqid('type-a-'),
+                'name'        => uniqid('type-a-'),
+                'description' => uniqid('desc-a-'),
             ]
         );
         $typeTwo = $I->haveRecordWithFields(
             ProductTypes::class,
             [
-                'name' => uniqid('type-b-'),
+                'name'        => uniqid('type-b-'),
+                'description' => uniqid('desc-b-'),
             ]
         );
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
@@ -62,12 +64,35 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productTypesUrl . '/1');
+        $I->sendGET(sprintf(Data::$productTypesRecordUrl, 1));
         $I->deleteHeader('Authorization');
         $I->seeResponseIs404();
     }
 
+    public function getProductTypesWithRelationshipProducts(ApiTester $I)
+    {
+        var_dump(Data::$productTypesRecordRelationshipUrl);
+        $this->runProductTypesWithProductsTests($I, Data::$productTypesRecordRelationshipUrl);
+    }
+
     public function getProductTypesWithProducts(ApiTester $I)
+    {
+        $this->runProductTypesWithProductsTests($I, Data::$productTypesRecordRelationshipRelationshipUrl);
+    }
+
+    public function getProductTypesNoData(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$productTypesUrl);
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
+    }
+
+    private function runProductTypesWithProductsTests(ApiTester $I, $url)
     {
         $I->addApiUserRecord();
         $token = $I->apiLogin();
@@ -102,9 +127,20 @@ class GetCest
                 'price'       => 19.99,
             ]
         );
-
+        var_dump($url);
+        var_dump(sprintf(
+            $url,
+            $productType->get('id'),
+            Relationships::PRODUCTS
+        ));
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productTypesUrl . '/' . $productType->get('id') . '/relationships/' . Relationships::PRODUCTS);
+        $I->sendGET(
+            sprintf(
+                $url,
+                $productType->get('id'),
+                Relationships::PRODUCTS
+            )
+        );
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
 
@@ -112,19 +148,19 @@ class GetCest
             'data',
             [
                 [
-                    'type'       => Relationships::PRODUCT_TYPES,
-                    'id'         => $productType->get('id'),
-                    'attributes' => [
+                    'type'          => Relationships::PRODUCT_TYPES,
+                    'id'            => $productType->get('id'),
+                    'attributes'    => [
                         'name'        => $productType->get('name'),
                         'description' => $productType->get('description'),
                     ],
-                    'links'      => [
+                    'links'         => [
                         'self' => sprintf(
                             '%s/%s/%s',
                             envValue('APP_URL'),
                             Relationships::PRODUCT_TYPES,
                             $productType->get('id')
-                        )
+                        ),
                     ],
                     'relationships' => [
                         Relationships::PRODUCTS => [
@@ -144,7 +180,7 @@ class GetCest
                                     Relationships::PRODUCTS
                                 ),
                             ],
-                            'data' => [
+                            'data'  => [
                                 [
                                     'type' => Relationships::PRODUCTS,
                                     'id'   => $productOne->get('id'),
@@ -153,9 +189,9 @@ class GetCest
                                     'type' => Relationships::PRODUCTS,
                                     'id'   => $productTwo->get('id'),
                                 ],
-                            ]
-                        ]
-                    ]
+                            ],
+                        ],
+                    ],
                 ],
             ]
         );
@@ -203,17 +239,5 @@ class GetCest
                 ],
             ]
         );
-    }
-
-    public function getProductTypesNoData(ApiTester $I)
-    {
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productTypesUrl);
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
     }
 }

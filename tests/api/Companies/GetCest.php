@@ -114,7 +114,17 @@ class GetCest
         );
     }
 
+    public function getCompaniesWithRelationshipProducts(ApiTester $I)
+    {
+        $this->runCompaniesWithProductsTests($I, Data::$companiesRecordRelationshipRelationshipUrl);
+    }
+
     public function getCompaniesWithProducts(ApiTester $I)
+    {
+        $this->runCompaniesWithProductsTests($I, Data::$companiesRecordRelationshipUrl);
+    }
+
+    public function getCompaniesWithUnknownRelationship(ApiTester $I)
     {
         $I->addApiUserRecord();
         $token = $I->apiLogin();
@@ -179,7 +189,95 @@ class GetCest
         );
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$companiesUrl . '/' . $comOne->get('id') . '/relationships/' . Relationships::PRODUCTS);
+        $I->sendGET(Data::$companiesUrl . '/' . $comOne->get('id') . '/relationships/unknown');
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIs404();
+    }
+
+    public function getCompaniesNoData(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$companiesUrl);
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
+    }
+
+    private function runCompaniesWithProductsTests(ApiTester $I, $url = '')
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        /** @var ProductTypes $productType */
+        $productType = $I->haveRecordWithFields(
+            ProductTypes::class,
+            [
+                'name'        => uniqid('prt-a-'),
+                'description' => uniqid(),
+            ]
+        );
+
+        /** @var Products $productOne */
+        $productOne = $I->haveRecordWithFields(
+            Products::class,
+            [
+                'name'        => uniqid('prd-a-'),
+                'typeId'      => $productType->get('id'),
+                'description' => uniqid(),
+                'quantity'    => 25,
+                'price'       => 19.99,
+            ]
+        );
+
+        /** @var Products $productTwo */
+        $productTwo = $I->haveRecordWithFields(
+            Products::class,
+            [
+                'name'        => uniqid('prd-b-'),
+                'typeId'      => $productType->get('id'),
+                'description' => uniqid(),
+                'quantity'    => 25,
+                'price'       => 19.99,
+            ]
+        );
+
+        $comOne = $I->haveRecordWithFields(
+            Companies::class,
+            [
+                'name'    => uniqid('com-a-'),
+                'address' => uniqid(),
+                'city'    => uniqid(),
+                'phone'   => uniqid(),
+            ]
+        );
+
+        $I->haveRecordWithFields(
+            CompaniesXProducts::class,
+            [
+                'companyId' => $comOne->get('id'),
+                'productId' => $productOne->get('id'),
+            ]
+        );
+
+        $I->haveRecordWithFields(
+            CompaniesXProducts::class,
+            [
+                'companyId' => $comOne->get('id'),
+                'productId' => $productTwo->get('id'),
+            ]
+        );
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(
+            sprintf(
+                $url,
+                $comOne->get('id'),
+            Relationships::PRODUCTS
+            )
+        );
         $I->deleteHeader('Authorization');
 
         $I->seeResponseIsSuccessful();
@@ -282,86 +380,5 @@ class GetCest
             ]
         );
     }
-
-    public function getCompaniesWithUnknownRelationship(ApiTester $I)
-    {
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        /** @var ProductTypes $productType */
-        $productType = $I->haveRecordWithFields(
-            ProductTypes::class,
-            [
-                'name'        => uniqid('prt-a-'),
-                'description' => uniqid(),
-            ]
-        );
-
-        /** @var Products $productOne */
-        $productOne = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-a-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
-
-        /** @var Products $productTwo */
-        $productTwo = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-b-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
-
-        $comOne = $I->haveRecordWithFields(
-            Companies::class,
-            [
-                'name'    => uniqid('com-a-'),
-                'address' => uniqid(),
-                'city'    => uniqid(),
-                'phone'   => uniqid(),
-            ]
-        );
-
-        $I->haveRecordWithFields(
-            CompaniesXProducts::class,
-            [
-                'companyId' => $comOne->get('id'),
-                'productId' => $productOne->get('id'),
-            ]
-        );
-
-        $I->haveRecordWithFields(
-            CompaniesXProducts::class,
-            [
-                'companyId' => $comOne->get('id'),
-                'productId' => $productTwo->get('id'),
-            ]
-        );
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$companiesUrl . '/' . $comOne->get('id') . '/relationships/unknown');
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIs404();
-    }
-
-    public function getCompaniesNoData(ApiTester $I)
-    {
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$companiesUrl);
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
-    }
 }
+

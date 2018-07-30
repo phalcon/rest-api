@@ -165,6 +165,28 @@ class GetCest
 
     public function getProductsWithProductTypes(ApiTester $I)
     {
+        $this->runProductsWithProductTypesTests($I, Data::$productsRecordRelationshipRelationshipUrl);
+    }
+
+    public function getProductsWithRelationshipProductTypes(ApiTester $I)
+    {
+        $this->runProductsWithProductTypesTests($I, Data::$productsRecordRelationshipUrl);
+    }
+
+    public function getProductsNoData(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$productsUrl);
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
+    }
+
+    private function runProductsWithProductTypesTests(ApiTester $I, $url)
+    {
         /** @var ProductTypes $productType */
         $productType = $I->haveRecordWithFields(
             ProductTypes::class,
@@ -190,7 +212,13 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productsUrl . '/' . $product->get('id') . '/relationships/' . Relationships::PRODUCT_TYPES);
+        $I->sendGET(
+            sprintf(
+                $url,
+                $product->get('id'),
+                Relationships::PRODUCT_TYPES
+            )
+        );
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
@@ -263,17 +291,5 @@ class GetCest
                 ],
             ]
         );
-    }
-
-    public function getProductsNoData(ApiTester $I)
-    {
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productsUrl);
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
     }
 }

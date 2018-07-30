@@ -18,13 +18,15 @@ class GetCest
         $typeOne = $I->haveRecordWithFields(
             IndividualTypes::class,
             [
-                'name' => uniqid('type-a-'),
+                'name'        => uniqid('type-a-'),
+                'description' => uniqid('desc-a-'),
             ]
         );
         $typeTwo = $I->haveRecordWithFields(
             IndividualTypes::class,
             [
-                'name' => uniqid('type-b-'),
+                'name'        => uniqid('type-b-'),
+                'description' => uniqid('desc-b-'),
             ]
         );
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
@@ -60,7 +62,7 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$individualTypesUrl . '/1');
+        $I->sendGET(sprintf(Data::$individualTypesRecordUrl, 1));
         $I->deleteHeader('Authorization');
         $I->seeResponseIs404();
     }

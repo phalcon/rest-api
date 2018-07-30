@@ -7,6 +7,7 @@ namespace Niden\Middleware;
 use Niden\Http\Request;
 use Niden\Models\Users;
 use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Config;
 use Phalcon\Mvc\Micro;
 
 /**
@@ -25,6 +26,8 @@ class TokenUserMiddleware extends TokenBase
     {
         /** @var Libmemcached $cache */
         $cache   = $api->getService('cache');
+        /** @var Config $config */
+        $config  = $api->getService('config');
         /** @var Request $request */
         $request = $api->getService('request');
         if (true === $this->isValidCheck($request)) {
@@ -35,7 +38,7 @@ class TokenUserMiddleware extends TokenBase
             $token = $this->getToken($request->getBearerTokenFromHeader());
 
             /** @var Users|false $user */
-            $user = $this->getUserByToken($cache, $token);
+            $user = $this->getUserByToken($config, $cache, $token);
             if (false === $user) {
                 $this->halt($api, 200, 'Invalid Token');
 

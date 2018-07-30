@@ -9,6 +9,7 @@ use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Models\Users;
 use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Config;
 use Phalcon\Mvc\Micro;
 
 /**
@@ -28,6 +29,8 @@ class TokenVerificationMiddleware extends TokenBase
     {
         /** @var Libmemcached $cache */
         $cache   = $api->getService('cache');
+        /** @var Config $config */
+        $config  = $api->getService('config');
         /** @var Request $request */
         $request = $api->getService('request');
         if (true === $this->isValidCheck($request)) {
@@ -41,7 +44,7 @@ class TokenVerificationMiddleware extends TokenBase
             $signer = new Sha512();
 
             /** @var Users $user */
-            $user = $this->getUserByToken($cache, $token);
+            $user = $this->getUserByToken($config, $cache, $token);
             if (false === $token->verify($signer, $user->get('tokenPassword'))) {
                 $this->halt($api, 200, 'Invalid Token');
             }

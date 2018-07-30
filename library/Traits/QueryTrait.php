@@ -10,6 +10,7 @@ use Niden\Constants\Flags;
 use Niden\Constants\JWTClaims;
 use Niden\Models\Users;
 use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Config;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use function sha1;
@@ -24,12 +25,13 @@ trait QueryTrait
     /**
      * Gets a user from the database based on the JWT token
      *
+     * @param Config       $config
      * @param Libmemcached $cache
      * @param Token        $token
      *
      * @return Users|false
      */
-    protected function getUserByToken(Libmemcached $cache, Token $token)
+    protected function getUserByToken(Config $config, Libmemcached $cache, Token $token)
     {
         $parameters  = [
             'issuer'  => $token->getClaim(JWTClaims::CLAIM_ISSUER),
@@ -37,7 +39,7 @@ trait QueryTrait
             'status'  => Flags::ACTIVE,
         ];
 
-        $result = $this->getRecords($cache, Users::class, $parameters);
+        $result = $this->getRecords($config, $cache, Users::class, $parameters);
 
         return $result[0] ?? false;
     }
@@ -45,13 +47,14 @@ trait QueryTrait
     /**
      * Gets a user from the database based on the username and password
      *
+     * @param Config       $config
      * @param Libmemcached $cache
      * @param string       $username
      * @param string       $password
      *
      * @return Users|false
      */
-    protected function getUserByUsernameAndPassword(Libmemcached $cache, $username, $password)
+    protected function getUserByUsernameAndPassword(Config $config, Libmemcached $cache, $username, $password)
     {
         $parameters = [
             'username' => $username,
@@ -59,7 +62,7 @@ trait QueryTrait
             'status'   => Flags::ACTIVE,
         ];
 
-        $result = $this->getRecords($cache, Users::class, $parameters);
+        $result = $this->getRecords($config, $cache, Users::class, $parameters);
 
         return $result[0] ?? false;
     }
@@ -67,6 +70,7 @@ trait QueryTrait
     /**
      * Runs a query using the builder
      *
+     * @param Config       $config
      * @param Libmemcached $cache
      * @param string       $class
      * @param array        $where
@@ -75,6 +79,7 @@ trait QueryTrait
      * @return ResultsetInterface
      */
     protected function getRecords(
+        Config $config,
         Libmemcached $cache,
         string $class,
         array $where = [],
@@ -94,27 +99,32 @@ trait QueryTrait
             $builder->orderBy($orderBy);
         }
 
-        return $this->getResults($cache, $builder, $where);
+        return $this->getResults($config, $cache, $builder, $where);
     }
 
     /**
      * Runs the builder query if there is no cached data
      *
+     * @param Config       $config
      * @param Libmemcached $cache
      * @param Builder      $builder
      * @param array        $where
      *
      * @return ResultsetInterface
      */
-    private function getResults(Libmemcached $cache, Builder $builder, array $where = []): ResultsetInterface
-    {
+    private function getResults(
+        Config $config,
+        Libmemcached $cache,
+        Builder $builder,
+        array $where = []
+    ): ResultsetInterface {
         /**
          * Calculate the cache key
          */
         $phql     = $builder->getPhql();
         $params   = json_encode($where);
         $cacheKey = sha1(sprintf('%s-%s.cache', $phql, $params));
-        if (true === $cache->exists($cacheKey)) {
+        if (true !== $config->path('app.devMode') && true === $cache->exists($cacheKey)) {
             /** @var ResultsetInterface $data */
             $data = $cache->get($cacheKey);
         } else {

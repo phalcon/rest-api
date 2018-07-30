@@ -8,6 +8,7 @@ use Niden\Http\Response;
 use Niden\Traits\FractalTrait;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
+use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Micro;
@@ -20,8 +21,9 @@ use function strtolower;
  *
  * @package Niden\Api\Controllers
  *
- * @property Micro    $application
- * @property Response $response
+ * @property Micro        $application
+ * @property Libmemcached $cache
+ * @property Response     $response
  */
 class BaseController extends Controller
 {
@@ -56,7 +58,7 @@ class BaseController extends Controller
     {
         $parameters = $this->checkIdParameter($id);
         $parameter  = $this->filter->sanitize($relationships, [Filter::FILTER_STRING, Filter::FILTER_TRIM]);
-        $results    = $this->getRecords($this->model, $parameters, $this->orderBy);
+        $results    = $this->getRecords($this->cache, $this->model, $parameters, $this->orderBy);
         $related    = [];
 
         if (count($parameters) > 0 && 0 === count($results)) {

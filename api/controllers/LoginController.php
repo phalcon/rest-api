@@ -10,6 +10,7 @@ use Niden\Http\Response;
 use Niden\Models\Users;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\TokenTrait;
+use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 
@@ -18,8 +19,9 @@ use Phalcon\Mvc\Controller;
  *
  * @package Niden\Api\Controllers
  *
- * @property Request  $request
- * @property Response $response
+ * @property Libmemcached $cache
+ * @property Request      $request
+ * @property Response     $response
  */
 class LoginController extends Controller
 {
@@ -37,7 +39,7 @@ class LoginController extends Controller
         $username = $this->request->getPost('username', Filter::FILTER_STRING);
         $password = $this->request->getPost('password', Filter::FILTER_STRING);
         /** @var Users|false $user */
-        $user     = $this->getUserByUsernameAndPassword($username, $password);
+        $user     = $this->getUserByUsernameAndPassword($this->cache, $username, $password);
 
         if (false !== $user) {
             /**

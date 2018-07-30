@@ -9,6 +9,7 @@ use Niden\Exception\ModelException;
 use Niden\Models\Users;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\TokenTrait;
+use Phalcon\Cache\Backend\Libmemcached;
 
 /**
  * Class QueryCest
@@ -37,7 +38,9 @@ class QueryCest
             ]
         );
 
-        $dbUser = $this->getUserByUsernameAndPassword('testusername', 'testpass');
+        /** @var Libmemcached $cache */
+        $cache  = $I->grabFromDi('cache');
+        $dbUser = $this->getUserByUsernameAndPassword($cache, 'testusername', 'testpass');
 
         $I->assertNotEquals(false, $dbUser);
     }
@@ -61,7 +64,9 @@ class QueryCest
             ]
         );
 
-        $I->assertFalse($this->getUserByUsernameAndPassword('testusername', 'nothing'));
+        /** @var Libmemcached $cache */
+        $cache  = $I->grabFromDi('cache');
+        $I->assertFalse($this->getUserByUsernameAndPassword($cache, 'testusername', 'nothing'));
     }
 
     /**
@@ -93,6 +98,8 @@ class QueryCest
             ->getToken()
         ;
 
-        $I->assertFalse($this->getUserByToken($token));
+        /** @var Libmemcached $cache */
+        $cache  = $I->grabFromDi('cache');
+        $I->assertFalse($this->getUserByToken($cache, $token));
     }
 }

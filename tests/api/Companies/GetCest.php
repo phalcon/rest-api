@@ -10,6 +10,7 @@ use Niden\Models\CompaniesXProducts;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
 use Page\Data;
+use function sprintf;
 use function uniqid;
 
 class GetCest
@@ -29,7 +30,7 @@ class GetCest
             ]
         );
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$companiesUrl . '/' . $comOne->get('id'));
+        $I->sendGET(sprintf(Data::$companiesRecordUrl, $comOne->get('id')));
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
@@ -55,7 +56,7 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$companiesUrl . '/9999');
+        $I->sendGET(sprintf(Data::$companiesRecordUrl, 9999));
         $I->deleteHeader('Authorization');
         $I->seeResponseIs404();
     }

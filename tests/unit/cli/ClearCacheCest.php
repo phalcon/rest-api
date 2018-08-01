@@ -4,6 +4,7 @@ namespace Niden\Tests\unit\cli;
 
 use FilesystemIterator;
 use Niden\Cli\Tasks\ClearcacheTask;
+use Niden\Providers\CacheDataProvider;
 use Phalcon\Di\FactoryDefault\Cli;
 use UnitTester;
 use function fclose;
@@ -22,6 +23,8 @@ class ClearCacheCest
 
         $path      = appPath('/storage/cache/data');
         $container = new Cli();
+        $cache     = new CacheDataProvider();
+        $cache->register($container);
         $task      = new ClearcacheTask();
         $task->setDI($container);
 

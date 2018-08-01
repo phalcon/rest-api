@@ -59,6 +59,16 @@ class Integration extends Module
      *
      * @return mixed
      */
+    public function grabDi()
+    {
+        return $this->diContainer;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
     public function grabFromDi(string $name)
     {
         return $this->diContainer->get($name);

@@ -23,28 +23,11 @@ class GetCest
         $token = $I->apiLogin();
 
         /** @var ProductTypes $productType */
-        $productType = $I->haveRecordWithFields(
-            ProductTypes::class,
-            [
-                'name'        => uniqid('prt-a-'),
-                'description' => uniqid(),
-            ]
-        );
-
+        $productType = $I->addProductTypeRecord('prt-a-');
         /** @var Products $product */
-        $product = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-a-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
-
+        $product     = $I->addProductRecord('prd-a-', $productType->get('id'));
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productsUrl . '/' . $product->get('id'));
+        $I->sendGET(sprintf(Data::$productsRecordUrl, $product->get('id')));
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
@@ -64,7 +47,7 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productsUrl . '/1');
+        $I->sendGET(sprintf(Data::$productsRecordUrl, 1));
         $I->deleteHeader('Authorization');
         $I->seeResponseIs404();
     }
@@ -80,37 +63,11 @@ class GetCest
         $token = $I->apiLogin();
 
         /** @var ProductTypes $productType */
-        $productType = $I->haveRecordWithFields(
-            ProductTypes::class,
-            [
-                'name'        => uniqid('prt-a-'),
-                'description' => uniqid(),
-            ]
-        );
-
+        $productType = $I->addProductTypeRecord('prt-a-');
         /** @var Products $productOne */
-        $productOne = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-a-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
-
+        $productOne  = $I->addProductRecord('prd-a-', $productType->get('id'));
         /** @var Products $productTwo */
-        $productTwo = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-b-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
+        $productTwo  = $I->addProductRecord('prd-b-', $productType->get('id'));
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$productsUrl);
@@ -169,25 +126,9 @@ class GetCest
     private function runProductsWithProductTypesTests(ApiTester $I, $url)
     {
         /** @var ProductTypes $productType */
-        $productType = $I->haveRecordWithFields(
-            ProductTypes::class,
-            [
-                'name'        => 'my type',
-                'description' => 'description of my type',
-            ]
-        );
-
+        $productType = $I->addProductTypeRecord('prt-a-');
         /** @var Products $product */
-        $product = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => 'my product',
-                'typeId'      => $productType->get('id'),
-                'description' => 'my product description',
-                'quantity'    => 99,
-                'price'       => 19.99,
-            ]
-        );
+        $product     = $I->addProductRecord('prd-a-', $productType->get('id'));
 
         $I->addApiUserRecord();
         $token = $I->apiLogin();

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Niden\Transformers;
 
-use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Niden\Constants\Relationships;
 use Niden\Models\Individuals;
@@ -24,7 +23,7 @@ class IndividualsTransformer extends BaseTransformer
      *
      * @param Individuals $individual
      *
-     * @return Collection
+     * @return Item
      */
     public function includeCompanies(Individuals $individual)
     {

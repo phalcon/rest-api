@@ -37,6 +37,10 @@ class RouterCest
             ['GET', '/companies/{recordId:[0-9]+}'],
             ['GET', '/companies/{recordId:[0-9]+}/{relationships:[a-zA-Z-.]+}'],
             ['GET', '/companies/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/individuals'],
+            ['GET', '/individuals/{recordId:[0-9]+}'],
+            ['GET', '/individuals/{recordId:[0-9]+}/{relationships:[a-zA-Z-.]+}'],
+            ['GET', '/individuals/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
             ['GET', '/individual-types'],
             ['GET', '/individual-types/{recordId:[0-9]+}'],
             ['GET', '/individual-types/{recordId:[0-9]+}/{relationships:[a-zA-Z-.]+}'],
@@ -51,7 +55,7 @@ class RouterCest
             ['GET', '/product-types/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-.]+}'],
         ];
 
-        $I->assertEquals(20, count($routes));
+        $I->assertEquals(24, count($routes));
         foreach ($routes as $index => $route) {
             $I->assertEquals($expected[$index][0], $route->getHttpMethods());
             $I->assertEquals($expected[$index][1], $route->getPattern());

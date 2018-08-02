@@ -116,6 +116,7 @@ class RouterProvider implements ServiceProviderInterface
         ];
 
         $routes = $this->getMultiRoutes($routes, CompaniesGetController::class, Rel::COMPANIES);
+        $routes = $this->getMultiRoutes($routes, IndividualsGetController::class, Rel::INDIVIDUALS);
         $routes = $this->getMultiRoutes($routes, IndividualTypesGetController::class, Rel::INDIVIDUAL_TYPES);
         $routes = $this->getMultiRoutes($routes, ProductsGetController::class, Rel::PRODUCTS);
         $routes = $this->getMultiRoutes($routes, ProductTypesGetController::class, Rel::PRODUCT_TYPES);

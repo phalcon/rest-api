@@ -6,6 +6,7 @@ namespace Niden\Providers;
 
 use Niden\Api\Controllers\Companies\AddController as CompaniesAddController;
 use Niden\Api\Controllers\Companies\GetController as CompaniesGetController;
+use Niden\Api\Controllers\Individuals\GetController as IndividualsGetController;
 use Niden\Api\Controllers\IndividualTypes\GetController as IndividualTypesGetController;
 use Niden\Api\Controllers\Products\GetController as ProductsGetController;
 use Niden\Api\Controllers\ProductTypes\GetController as ProductTypesGetController;

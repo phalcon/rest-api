@@ -10,7 +10,6 @@ use Niden\Constants\Relationships;
 use Niden\Models\Companies;
 use Niden\Models\Individuals;
 use Niden\Models\IndividualTypes;
-use Niden\Models\Products;
 use Niden\Transformers\IndividualsTransformer;
 use Page\Data;
 use function Niden\Core\envValue;

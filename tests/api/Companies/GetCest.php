@@ -68,26 +68,9 @@ class GetCest
     public function getCompanies(ApiTester $I)
     {
         $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        $comOne = $I->haveRecordWithFields(
-            Companies::class,
-            [
-                'name'    => uniqid('com-a-'),
-                'address' => uniqid(),
-                'city'    => uniqid(),
-                'phone'   => uniqid(),
-            ]
-        );
-        $comTwo = $I->haveRecordWithFields(
-            Companies::class,
-            [
-                'name'    => uniqid('com-b-'),
-                'address' => uniqid(),
-                'city'    => uniqid(),
-                'phone'   => uniqid(),
-            ]
-        );
+        $token  = $I->apiLogin();
+        $comOne = $I->addCompanyRecord('com-a-');
+        $comTwo = $I->addCompanyRecord('com-b-');
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$companiesUrl);
         $I->deleteHeader('Authorization');
@@ -207,69 +190,28 @@ class GetCest
         $I->seeSuccessJsonResponse();
     }
 
+    /**
+     * @param ApiTester $I
+     * @param string    $url
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     private function runCompaniesWithProductsTests(ApiTester $I, $url = '')
     {
         $I->addApiUserRecord();
         $token = $I->apiLogin();
 
         /** @var ProductTypes $productType */
-        $productType = $I->haveRecordWithFields(
-            ProductTypes::class,
-            [
-                'name'        => uniqid('prt-a-'),
-                'description' => uniqid(),
-            ]
-        );
-
+        $productType = $I->addProductTypeRecord('prt-a-');
         /** @var Products $productOne */
-        $productOne = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-a-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
-
+        $productOne = $I->addProductRecord('prd-a-', $productType->get('id'));
         /** @var Products $productTwo */
-        $productTwo = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-b-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
+        $productTwo = $I->addProductRecord('prd-b-', $productType->get('id'));
+        /** @var Companies $comOne */
+        $comOne     = $I->addCompanyRecord('com-a-');
 
-        $comOne = $I->haveRecordWithFields(
-            Companies::class,
-            [
-                'name'    => uniqid('com-a-'),
-                'address' => uniqid(),
-                'city'    => uniqid(),
-                'phone'   => uniqid(),
-            ]
-        );
-
-        $I->haveRecordWithFields(
-            CompaniesXProducts::class,
-            [
-                'companyId' => $comOne->get('id'),
-                'productId' => $productOne->get('id'),
-            ]
-        );
-
-        $I->haveRecordWithFields(
-            CompaniesXProducts::class,
-            [
-                'companyId' => $comOne->get('id'),
-                'productId' => $productTwo->get('id'),
-            ]
-        );
+        $I->addCompanyXProduct($comOne->get('id'), $productOne->get('id'));
+        $I->addCompanyXProduct($comOne->get('id'), $productTwo->get('id'));
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(

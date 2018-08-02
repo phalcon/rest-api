@@ -22,20 +22,8 @@ class GetCest
         $I->addApiUserRecord();
         $token = $I->apiLogin();
 
-        $typeOne = $I->haveRecordWithFields(
-            ProductTypes::class,
-            [
-                'name'        => uniqid('type-a-'),
-                'description' => uniqid('desc-a-'),
-            ]
-        );
-        $typeTwo = $I->haveRecordWithFields(
-            ProductTypes::class,
-            [
-                'name'        => uniqid('type-b-'),
-                'description' => uniqid('desc-b-'),
-            ]
-        );
+        $typeOne = $I->addProductTypeRecord('type-a-');
+        $typeTwo = $I->addProductTypeRecord('type-b-');
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$productTypesUrl);
         $I->deleteHeader('Authorization');
@@ -109,36 +97,12 @@ class GetCest
         $I->addApiUserRecord();
         $token = $I->apiLogin();
 
-        $productType = $I->haveRecordWithFields(
-            ProductTypes::class,
-            [
-                'name'        => uniqid('type-a-'),
-                'description' => uniqid(),
-            ]
-        );
+        /** @var ProductTypes $productType */
+        $productType = $I->addProductTypeRecord('type-a-');
         /** @var Products $productOne */
-        $productOne = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-a-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
-
+        $productOne = $I->addProductRecord('prd-a-', $productType->get('id'));
         /** @var Products $productTwo */
-        $productTwo = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => uniqid('prd-b-'),
-                'typeId'      => $productType->get('id'),
-                'description' => uniqid(),
-                'quantity'    => 25,
-                'price'       => 19.99,
-            ]
-        );
+        $productTwo = $I->addProductRecord('prd-b-', $productType->get('id'));
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(

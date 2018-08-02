@@ -7,6 +7,11 @@ use Codeception\Exception\TestRuntimeException;
 use Codeception\TestInterface;
 
 use Niden\Bootstrap\Api;
+use Niden\Models\Companies;
+use Niden\Models\CompaniesXProducts;
+use Niden\Models\IndividualTypes;
+use Niden\Models\Products;
+use Niden\Models\ProductTypes;
 use Niden\Mvc\Model\AbstractModel;
 use Phalcon\DI\FactoryDefault as PhDI;
 use Phalcon\Config as PhConfig;
@@ -55,8 +60,93 @@ class Integration extends Module
     }
 
     /**
-     * @param string $name
+     * @param string $namePrefix
      *
+     * @return mixed
+     */
+    public function addCompanyRecord(string $namePrefix = '')
+    {
+        return $this->haveRecordWithFields(
+            Companies::class,
+            [
+                'name'    => uniqid($namePrefix),
+                'address' => uniqid(),
+                'city'    => uniqid(),
+                'phone'   => uniqid(),
+            ]
+        );
+    }
+
+    /**
+     * @param int $companyId
+     * @param int $productId
+     *
+     * @return mixed
+     */
+    public function addCompanyXProduct(int $companyId, int $productId)
+    {
+        return $this->haveRecordWithFields(
+            CompaniesXProducts::class,
+            [
+                'companyId' => $companyId,
+                'productId' => $productId,
+            ]
+        );
+    }
+
+    /**
+     * @param string $namePrefix
+     *
+     * @return mixed
+     */
+    public function addIndividualTypeRecord(string $namePrefix = '')
+    {
+        return $this->haveRecordWithFields(
+            IndividualTypes::class,
+            [
+                'name'        => uniqid($namePrefix),
+                'description' => uniqid(),
+            ]
+        );
+    }
+
+    /**
+     * @param string $namePrefix
+     * @param int    $typeId
+     *
+     * @return mixed
+     */
+    public function addProductRecord(string $namePrefix = '', int $typeId = 0)
+    {
+        return $this->haveRecordWithFields(
+            Products::class,
+            [
+                'name'        => uniqid($namePrefix),
+                'typeId'      => $typeId,
+                'description' => uniqid(),
+                'quantity'    => 25,
+                'price'       => 19.99,
+            ]
+        );
+    }
+
+    /**
+     * @param string $namePrefix
+     *
+     * @return mixed
+     */
+    public function addProductTypeRecord(string $namePrefix = '')
+    {
+        return $this->haveRecordWithFields(
+            ProductTypes::class,
+            [
+                'name'        => uniqid($namePrefix),
+                'description' => uniqid(),
+            ]
+        );
+    }
+
+    /**
      * @return mixed
      */
     public function grabDi()

@@ -19,20 +19,8 @@ class GetCest
         $I->addApiUserRecord();
         $token = $I->apiLogin();
 
-        $typeOne = $I->haveRecordWithFields(
-            IndividualTypes::class,
-            [
-                'name'        => uniqid('type-a-'),
-                'description' => uniqid('desc-a-'),
-            ]
-        );
-        $typeTwo = $I->haveRecordWithFields(
-            IndividualTypes::class,
-            [
-                'name'        => uniqid('type-b-'),
-                'description' => uniqid('desc-b-'),
-            ]
-        );
+        $typeOne = $I->addIndividualTypeRecord('type-a-');
+        $typeTwo = $I->addIndividualTypeRecord('type-b-');
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$individualTypesUrl);
         $I->deleteHeader('Authorization');

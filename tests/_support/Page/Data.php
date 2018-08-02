@@ -13,6 +13,10 @@ class Data
     public static $companiesRecordRelationshipUrl                   = '/companies/%s/%s';
     public static $companiesRecordRelationshipRelationshipUrl       = '/companies/%s/relationships/%s';
     public static $loginUrl                                         = '/login';
+    public static $individualsUrl                                   = '/individuals';
+    public static $individualsRecordUrl                             = '/individuals/%s';
+    public static $individualsRecordRelationshipUrl                 = '/individuals/%s/%s';
+    public static $individualsRecordRelationshipRelationshipUrl     = '/individuals/%s/relationships/%s';
     public static $individualTypesUrl                               = '/individual-types';
     public static $individualTypesRecordUrl                         = '/individual-types/%s';
     public static $individualTypesRecordRelationshipUrl             = '/individual-types/%s/%s';
@@ -79,6 +83,37 @@ class Data
                     '%s/%s/%s',
                     envValue('APP_URL'),
                     Relationships::COMPANIES,
+                    $record->get('id')
+                ),
+            ],
+        ];
+    }
+
+    /**
+     * @param AbstractModel $record
+     *
+     * @return array
+     * @throws \Niden\Exception\ModelException
+     */
+    public static function individualResponse(AbstractModel $record)
+    {
+        return [
+            'id'         => $record->get('id'),
+            'type'       => Relationships::INDIVIDUALS,
+            'attributes' => [
+                'companyId' => $record->get('companyId'),
+                'typeId'    => $record->get('typeId'),
+                'prefix'    => $record->get('prefix'),
+                'first'     => $record->get('first'),
+                'middle'    => $record->get('middle'),
+                'last'      => $record->get('last'),
+                'suffix'    => $record->get('suffix'),
+            ],
+            'links'      => [
+                'self' => sprintf(
+                    '%s/%s/%s',
+                    envValue('APP_URL'),
+                    Relationships::INDIVIDUALS,
                     $record->get('id')
                 ),
             ],

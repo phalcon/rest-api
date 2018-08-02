@@ -20,7 +20,7 @@ class IndividualTypes extends AbstractModel
      */
     public function initialize()
     {
-        $this->belongsTo(
+        $this->hasMany(
             'id',
             Individuals::class,
             'typeId',

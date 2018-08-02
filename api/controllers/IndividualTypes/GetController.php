@@ -7,7 +7,7 @@ namespace Niden\Api\Controllers\IndividualTypes;
 use Niden\Api\Controllers\BaseController;
 use Niden\Constants\Relationships;
 use Niden\Models\IndividualTypes;
-use Niden\Transformers\BaseTransformer;
+use Niden\Transformers\IndividualTypesTransformer;
 
 /**
  * Class GetController
@@ -18,9 +18,16 @@ class GetController extends BaseController
 {
     /** @var string */
     protected $model       = IndividualTypes::class;
+
+    /** @var array */
+    protected $relationships = [
+        Relationships::INDIVIDUALS,
+    ];
+
     /** @var string */
     protected $resource    = Relationships::INDIVIDUAL_TYPES;
+
     /** @var string */
-    protected $transformer = BaseTransformer::class;
+    protected $transformer = IndividualTypesTransformer::class;
 }
 

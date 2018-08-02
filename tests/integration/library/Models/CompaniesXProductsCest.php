@@ -36,8 +36,8 @@ class CompaniesXProductsCest
     {
         $actual   = $I->getModelRelationships(CompaniesXProducts::class);
         $expected = [
-            [0, 'companyId', Companies::class, 'id', ['alias' => Relationships::COMPANY, 'reusable' => true]],
-            [0, 'productId', Products::class, 'id', ['alias' => Relationships::PRODUCT, 'reusable' => true]],
+            [0, 'companyId', Companies::class, 'id', ['alias' => Relationships::COMPANIES, 'reusable' => true]],
+            [0, 'productId', Products::class, 'id', ['alias' => Relationships::PRODUCTS, 'reusable' => true]],
         ];
         $I->assertEquals($expected, $actual);
     }

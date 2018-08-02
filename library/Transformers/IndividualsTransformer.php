@@ -7,30 +7,30 @@ namespace Niden\Transformers;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use Niden\Constants\Relationships;
-use Niden\Models\Products;
+use Niden\Models\Individuals;
 
 /**
- * Class ProductsTransformer
+ * Class IndividualsTransformer
  */
-class ProductsTransformer extends BaseTransformer
+class IndividualsTransformer extends BaseTransformer
 {
     protected $availableIncludes = [
         Relationships::COMPANIES,
-        Relationships::PRODUCT_TYPES,
+        Relationships::INDIVIDUAL_TYPES,
     ];
 
     /**
      * Includes the companies
      *
-     * @param Products $product
+     * @param Individuals $individual
      *
      * @return Collection
      */
-    public function includeCompanies(Products $product)
+    public function includeCompanies(Individuals $individual)
     {
         return $this->getRelatedData(
-            'collection',
-            $product,
+            'item',
+            $individual,
             CompaniesTransformer::class,
             Relationships::COMPANIES
         );
@@ -39,17 +39,17 @@ class ProductsTransformer extends BaseTransformer
     /**
      * Includes the product types
      *
-     * @param Products $product
+     * @param Individuals $individual
      *
      * @return Item
      */
-    public function includeProductTypes(Products $product)
+    public function includeIndividualTypes(Individuals $individual)
     {
         return $this->getRelatedData(
             'item',
-            $product,
+            $individual,
             BaseTransformer::class,
-            Relationships::PRODUCT_TYPES
+            Relationships::INDIVIDUAL_TYPES
         );
     }
 }

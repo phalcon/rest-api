@@ -8,14 +8,15 @@ use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Niden\Constants\Relationships;
 use Niden\Models\Companies;
-use Niden\Models\CompaniesXProducts;
+use Niden\Models\Individuals;
+use Niden\Models\IndividualTypes;
 use Niden\Models\Products;
-use Niden\Models\ProductTypes;
-use Niden\Transformers\ProductsTransformer;
-use function Niden\Core\envValue;
+use Niden\Transformers\IndividualsTransformer;
 use Page\Data;
+use function Niden\Core\envValue;
+use function uniqid;
 
-class ProductsTransformerCest
+class IndividualsTransformerCest
 {
     /**
      * @param IntegrationTester $I
@@ -35,107 +36,100 @@ class ProductsTransformerCest
             ]
         );
 
-        /** @var ProductTypes $productType */
-        $productType = $I->haveRecordWithFields(
-            ProductTypes::class,
+        /** @var IndividualTypes $individualType */
+        $individualType = $I->haveRecordWithFields(
+            IndividualTypes::class,
             [
                 'name'        => 'my type',
                 'description' => 'description of my type',
             ]
         );
 
-        /** @var Products $product */
-        $product = $I->haveRecordWithFields(
-            Products::class,
-            [
-                'name'        => 'my product',
-                'typeId'      => $productType->get('id'),
-                'description' => 'my product description',
-                'quantity'    => 99,
-                'price'       => 19.99,
-            ]
-        );
-
-        /** @var CompaniesXProducts $glue */
-        $glue = $I->haveRecordWithFields(
-            CompaniesXProducts::class,
+        /** @var Individuals $individual */
+        $individual = $I->haveRecordWithFields(
+            Individuals::class,
             [
                 'companyId' => $company->get('id'),
-                'productId' => $product->get('id'),
+                'typeId'    => $individualType->get('id'),
+                'prefix'    => uniqid(),
+                'first'     => uniqid('first-'),
+                'middle'    => uniqid(),
+                'last'      => uniqid('last-'),
+                'suffix'    => uniqid(),
             ]
         );
 
         $url     = envValue('APP_URL', 'http://localhost');
         $manager = new Manager();
         $manager->setSerializer(new JsonApiSerializer($url));
-        $manager->parseIncludes([Relationships::COMPANIES, Relationships::PRODUCT_TYPES]);
-        $resource = new Collection([$product], new ProductsTransformer(), Relationships::PRODUCTS);
+        $manager->parseIncludes([Relationships::COMPANIES, Relationships::INDIVIDUAL_TYPES]);
+        $resource = new Collection([$individual], new IndividualsTransformer(), Relationships::INDIVIDUALS);
         $results  = $manager->createData($resource)->toArray();
         $expected = [
             'data'     => [
                 [
-                    'type'          => Relationships::PRODUCTS,
-                    'id'            => $product->get('id'),
+                    'type'          => Relationships::INDIVIDUALS,
+                    'id'            => $individual->get('id'),
                     'attributes'    => [
-                        'typeId'      => $productType->get('id'),
-                        'name'        => $product->get('name'),
-                        'description' => $product->get('description'),
-                        'quantity'    => $product->get('quantity'),
-                        'price'       => $product->get('price'),
+                        'companyId' => $individual->get('companyId'),
+                        'typeId'    => $individual->get('typeId'),
+                        'prefix'    => $individual->get('prefix'),
+                        'first'     => $individual->get('first'),
+                        'middle'    => $individual->get('middle'),
+                        'last'      => $individual->get('last'),
+                        'suffix'    => $individual->get('suffix'),
                     ],
                     'links'         => [
                         'self' => sprintf(
                             '%s/%s/%s',
                             $url,
-                            Relationships::PRODUCTS,
-                            $product->get('id')
+                            Relationships::INDIVIDUALS,
+                            $individual->get('id')
                         ),
                     ],
                     'relationships' => [
-                        Relationships::COMPANIES => [
+                        Relationships::COMPANIES     => [
                             'links' => [
                                 'self'    => sprintf(
                                     '%s/%s/%s/relationships/%s',
                                     $url,
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
+                                    Relationships::INDIVIDUALS,
+                                    $individual->get('id'),
                                     Relationships::COMPANIES
                                 ),
                                 'related' => sprintf(
                                     '%s/%s/%s/%s',
                                     $url,
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
+                                    Relationships::INDIVIDUALS,
+                                    $individual->get('id'),
                                     Relationships::COMPANIES
                                 ),
                             ],
                             'data'  => [
-                                [
-                                    'type' => Relationships::COMPANIES,
-                                    'id'   => $company->get('id'),
-                                ],
+                                'type' => Relationships::COMPANIES,
+                                'id'   => $company->get('id'),
                             ],
                         ],
-                        Relationships::PRODUCT_TYPES => [
+                        Relationships::INDIVIDUAL_TYPES => [
                             'links' => [
                                 'self'    => sprintf(
                                     '%s/%s/%s/relationships/%s',
                                     $url,
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::PRODUCT_TYPES
+                                    Relationships::INDIVIDUALS,
+                                    $individual->get('id'),
+                                    Relationships::INDIVIDUAL_TYPES
                                 ),
                                 'related' => sprintf(
                                     '%s/%s/%s/%s',
                                     $url,
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::PRODUCT_TYPES
+                                    Relationships::INDIVIDUALS,
+                                    $individual->get('id'),
+                                    Relationships::INDIVIDUAL_TYPES
                                 ),
                             ],
                             'data'  => [
-                                'type' => Relationships::PRODUCT_TYPES,
-                                'id'   => $productType->get('id'),
+                                'type' => Relationships::INDIVIDUAL_TYPES,
+                                'id'   => $individualType->get('id'),
                             ],
                         ],
                     ],
@@ -143,7 +137,7 @@ class ProductsTransformerCest
             ],
             'included' => [
                 Data::companyResponse($company),
-                Data::productTypeResponse($productType),
+                Data::individualTypeResponse($individualType),
             ],
         ];
 

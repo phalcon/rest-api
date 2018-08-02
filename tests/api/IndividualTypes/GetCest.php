@@ -3,13 +3,17 @@
 namespace Niden\Tests\api\IndividualTypes;
 
 use ApiTester;
-use Niden\Constants\Relationships;
 use Niden\Models\IndividualTypes;
 use Page\Data;
 use function uniqid;
 
 class GetCest
 {
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     public function getIndividualTypes(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -33,29 +37,19 @@ class GetCest
         $I->sendGET(Data::$individualTypesUrl);
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
+
         $I->seeSuccessJsonResponse(
             'data',
             [
-                [
-                    'id'         => $typeOne->get('id'),
-                    'type'       => Relationships::INDIVIDUAL_TYPES,
-                    'attributes' => [
-                        'name'        => $typeOne->get('name'),
-                        'description' => $typeOne->get('description'),
-                    ],
-                ],
-                [
-                    'id'         => $typeTwo->get('id'),
-                    'type'       => Relationships::INDIVIDUAL_TYPES,
-                    'attributes' => [
-                        'name'        => $typeTwo->get('name'),
-                        'description' => $typeTwo->get('description'),
-                    ],
-                ],
+                Data::individualTypeResponse($typeOne),
+                Data::individualTypeResponse($typeTwo),
             ]
         );
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function getUnknownIndividualTypes(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -67,6 +61,9 @@ class GetCest
         $I->seeResponseIs404();
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function getIndividualTypesNoData(ApiTester $I)
     {
         $I->addApiUserRecord();

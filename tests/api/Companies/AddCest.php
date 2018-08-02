@@ -10,6 +10,11 @@ use function uniqid;
 
 class AddCest
 {
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     public function addNewCompany(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -40,22 +45,16 @@ class AddCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                [
-                    'id'         => $company->get('id'),
-                    'type'       => Relationships::COMPANIES,
-                    'attributes' => [
-                        'name'    => $company->get('name'),
-                        'address' => $company->get('address'),
-                        'city'    => $company->get('city'),
-                        'phone'   => $company->get('phone'),
-                    ],
-                ],
+                Data::companyResponse($company),
             ]
         );
 
         $I->assertNotEquals(false, $company->delete());
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function addNewCompanyWithExistingName(ApiTester $I)
     {
         $I->addApiUserRecord();

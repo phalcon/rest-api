@@ -173,17 +173,7 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                [
-                    'id'         => $record->get('id'),
-                    'type'       => Relationships::USERS,
-                    'attributes' => [
-                        'status'        => $record->get('status'),
-                        'username'      => $record->get('username'),
-                        'issuer'        => $record->get('issuer'),
-                        'tokenPassword' => $record->get('tokenPassword'),
-                        'tokenId'       => $record->get('tokenId'),
-                    ],
-                ],
+                Data::userResponse($record),
             ]
         );
     }
@@ -223,28 +213,8 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                [
-                    'id'         => $userOne->get('id'),
-                    'type'       => Relationships::USERS,
-                    'attributes' => [
-                        'status'        => $userOne->get('status'),
-                        'username'      => $userOne->get('username'),
-                        'issuer'        => $userOne->get('issuer'),
-                        'tokenPassword' => $userOne->get('tokenPassword'),
-                        'tokenId'       => $userOne->get('tokenId'),
-                    ],
-                ],
-                [
-                    'id'         => $userTwo->get('id'),
-                    'type'       => Relationships::USERS,
-                    'attributes' => [
-                        'status'        => $userTwo->get('status'),
-                        'username'      => $userTwo->get('username'),
-                        'issuer'        => $userTwo->get('issuer'),
-                        'tokenPassword' => $userTwo->get('tokenPassword'),
-                        'tokenId'       => $userTwo->get('tokenId'),
-                    ],
-                ],
+                Data::userResponse($userOne),
+                Data::userResponse($userTwo),
             ]
         );
     }

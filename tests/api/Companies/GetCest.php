@@ -15,6 +15,11 @@ use function uniqid;
 
 class GetCest
 {
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     public function getCompany(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -36,20 +41,14 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                [
-                    'id'         => $comOne->get('id'),
-                    'type'       => Relationships::COMPANIES,
-                    'attributes' => [
-                        'name'    => $comOne->get('name'),
-                        'address' => $comOne->get('address'),
-                        'city'    => $comOne->get('city'),
-                        'phone'   => $comOne->get('phone'),
-                    ],
-                ],
+                Data::companyResponse($comOne),
             ]
         );
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function getUnknownCompany(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -61,6 +60,11 @@ class GetCest
         $I->seeResponseIs404();
     }
 
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     public function getCompanies(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -91,40 +95,33 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                [
-                    'id'         => $comOne->get('id'),
-                    'type'       => Relationships::COMPANIES,
-                    'attributes' => [
-                        'name'    => $comOne->get('name'),
-                        'address' => $comOne->get('address'),
-                        'city'    => $comOne->get('city'),
-                        'phone'   => $comOne->get('phone'),
-                    ],
-                ],
-                [
-                    'id'         => $comTwo->get('id'),
-                    'type'       => Relationships::COMPANIES,
-                    'attributes' => [
-                        'name'    => $comTwo->get('name'),
-                        'address' => $comTwo->get('address'),
-                        'city'    => $comTwo->get('city'),
-                        'phone'   => $comTwo->get('phone'),
-                    ],
-                ],
+                Data::companyResponse($comOne),
+                Data::companyResponse($comTwo),
             ]
         );
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function getCompaniesWithRelationshipProducts(ApiTester $I)
     {
         $this->runCompaniesWithProductsTests($I, Data::$companiesRecordRelationshipRelationshipUrl);
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function getCompaniesWithProducts(ApiTester $I)
     {
         $this->runCompaniesWithProductsTests($I, Data::$companiesRecordRelationshipUrl);
     }
 
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     public function getCompaniesWithUnknownRelationship(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -195,6 +192,9 @@ class GetCest
         $I->seeResponseIs404();
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function getCompaniesNoData(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -340,44 +340,8 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'included',
             [
-                [
-                    'type'       => Relationships::PRODUCTS,
-                    'id'         => $productOne->get('id'),
-                    'attributes' => [
-                        'typeId'      => $productOne->get('typeId'),
-                        'name'        => $productOne->get('name'),
-                        'description' => $productOne->get('description'),
-                        'quantity'    => $productOne->get('quantity'),
-                        'price'       => $productOne->get('price'),
-                    ],
-                    'links'      => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            envValue('APP_URL'),
-                            Relationships::PRODUCTS,
-                            $productOne->get('id')
-                        ),
-                    ],
-                ],
-                [
-                    'type'       => Relationships::PRODUCTS,
-                    'id'         => $productTwo->get('id'),
-                    'attributes' => [
-                        'typeId'      => $productTwo->get('typeId'),
-                        'name'        => $productTwo->get('name'),
-                        'description' => $productTwo->get('description'),
-                        'quantity'    => $productTwo->get('quantity'),
-                        'price'       => $productTwo->get('price'),
-                    ],
-                    'links'      => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            envValue('APP_URL'),
-                            Relationships::PRODUCTS,
-                            $productTwo->get('id')
-                        ),
-                    ],
-                ],
+                Data::productResponse($productOne),
+                Data::productResponse($productTwo),
             ]
         );
     }

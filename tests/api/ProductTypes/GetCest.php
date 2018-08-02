@@ -12,6 +12,11 @@ use function uniqid;
 
 class GetCest
 {
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     public function getProductTypes(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -38,26 +43,15 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                [
-                    'id'         => $typeOne->get('id'),
-                    'type'       => Relationships::PRODUCT_TYPES,
-                    'attributes' => [
-                        'name'        => $typeOne->get('name'),
-                        'description' => $typeOne->get('description'),
-                    ],
-                ],
-                [
-                    'id'         => $typeTwo->get('id'),
-                    'type'       => Relationships::PRODUCT_TYPES,
-                    'attributes' => [
-                        'name'        => $typeTwo->get('name'),
-                        'description' => $typeTwo->get('description'),
-                    ],
-                ],
+                Data::productTypeResponse($typeOne),
+                Data::productTypeResponse($typeTwo),
             ]
         );
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function getUnknownProductTypes(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -69,17 +63,29 @@ class GetCest
         $I->seeResponseIs404();
     }
 
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     public function getProductTypesWithRelationshipProducts(ApiTester $I)
     {
-        var_dump(Data::$productTypesRecordRelationshipUrl);
         $this->runProductTypesWithProductsTests($I, Data::$productTypesRecordRelationshipUrl);
     }
 
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     public function getProductTypesWithProducts(ApiTester $I)
     {
         $this->runProductTypesWithProductsTests($I, Data::$productTypesRecordRelationshipRelationshipUrl);
     }
 
+    /**
+     * @param ApiTester $I
+     */
     public function getProductTypesNoData(ApiTester $I)
     {
         $I->addApiUserRecord();
@@ -92,6 +98,12 @@ class GetCest
         $I->seeSuccessJsonResponse();
     }
 
+    /**
+     * @param ApiTester $I
+     * @param           $url
+     *
+     * @throws \Niden\Exception\ModelException
+     */
     private function runProductTypesWithProductsTests(ApiTester $I, $url)
     {
         $I->addApiUserRecord();
@@ -127,12 +139,6 @@ class GetCest
                 'price'       => 19.99,
             ]
         );
-        var_dump($url);
-        var_dump(sprintf(
-            $url,
-            $productType->get('id'),
-            Relationships::PRODUCTS
-        ));
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(
@@ -199,44 +205,8 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'included',
             [
-                [
-                    'type'       => Relationships::PRODUCTS,
-                    'id'         => $productOne->get('id'),
-                    'attributes' => [
-                        'typeId'      => $productOne->get('typeId'),
-                        'name'        => $productOne->get('name'),
-                        'description' => $productOne->get('description'),
-                        'quantity'    => $productOne->get('quantity'),
-                        'price'       => $productOne->get('price'),
-                    ],
-                    'links'      => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            envValue('APP_URL'),
-                            Relationships::PRODUCTS,
-                            $productOne->get('id')
-                        ),
-                    ],
-                ],
-                [
-                    'type'       => Relationships::PRODUCTS,
-                    'id'         => $productTwo->get('id'),
-                    'attributes' => [
-                        'typeId'      => $productTwo->get('typeId'),
-                        'name'        => $productTwo->get('name'),
-                        'description' => $productTwo->get('description'),
-                        'quantity'    => $productTwo->get('quantity'),
-                        'price'       => $productTwo->get('price'),
-                    ],
-                    'links'      => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            envValue('APP_URL'),
-                            Relationships::PRODUCTS,
-                            $productTwo->get('id')
-                        ),
-                    ],
-                ],
+                Data::productResponse($productOne),
+                Data::productResponse($productTwo),
             ]
         );
     }

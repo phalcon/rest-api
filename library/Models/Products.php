@@ -38,7 +38,7 @@ class Products extends AbstractModel
             ProductTypes::class,
             'id',
             [
-                'alias'    => Relationships::PRODUCT_TYPE,
+                'alias'    => Relationships::PRODUCT_TYPES,
                 'reusable' => true,
             ]
         );

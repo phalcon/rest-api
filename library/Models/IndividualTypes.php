@@ -25,7 +25,7 @@ class IndividualTypes extends AbstractModel
             Individuals::class,
             'typeId',
             [
-                'alias'    => Relationships::INDIVIDUAL,
+                'alias'    => Relationships::INDIVIDUALS,
                 'reusable' => true,
             ]
         );

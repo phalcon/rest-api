@@ -46,7 +46,7 @@ class ProductsTransformer extends BaseTransformer
     public function includeProductTypes(Products $product)
     {
         /** @var ProductTypes $productType */
-        $productType = $product->getRelated(Relationships::PRODUCT_TYPE);
+        $productType = $product->getRelated(Relationships::PRODUCT_TYPES);
 
         return $this->item($productType, new BaseTransformer(), Relationships::PRODUCT_TYPES);
     }

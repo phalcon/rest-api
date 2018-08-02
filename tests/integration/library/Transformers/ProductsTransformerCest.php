@@ -11,6 +11,7 @@ use Niden\Models\Products;
 use Niden\Models\ProductTypes;
 use Niden\Transformers\ProductsTransformer;
 use function Niden\Core\envValue;
+use Page\Data;
 
 class ProductsTransformerCest
 {
@@ -95,22 +96,7 @@ class ProductsTransformerCest
                 ],
             ],
             'included' => [
-                [
-                    'type'       => Relationships::PRODUCT_TYPES,
-                    'id'         => $productType->get('id'),
-                    'attributes' => [
-                        'name'        => $productType->get('name'),
-                        'description' => $productType->get('description'),
-                    ],
-                    'links'      => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            $url,
-                            Relationships::PRODUCT_TYPES,
-                            $productType->get('id')
-                        ),
-                    ],
-                ],
+                Data::productTypeResponse($productType),
             ],
         ];
 

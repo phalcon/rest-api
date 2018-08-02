@@ -43,7 +43,7 @@ class ProductsCest
     {
         $actual   = $I->getModelRelationships(Products::class);
         $expected = [
-            [0, 'typeId', ProductTypes::class, 'id', ['alias' => Relationships::PRODUCT_TYPE, 'reusable' => true]],
+            [0, 'typeId', ProductTypes::class, 'id', ['alias' => Relationships::PRODUCT_TYPES, 'reusable' => true]],
         ];
         $I->assertEquals($expected, $actual);
     }

@@ -35,8 +35,8 @@ trait FractalTrait
         /**
          * Process relationships
          */
-        foreach ($relationships as $relationship) {
-            $manager->parseIncludes($relationship);
+        if (count($relationships) > 0) {
+            $manager->parseIncludes($relationships);
         }
 
         $resource = new Collection($results, new $transformer(), $resource);

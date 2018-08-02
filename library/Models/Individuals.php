@@ -25,7 +25,7 @@ class Individuals extends AbstractModel
             Companies::class,
             'id',
             [
-                'alias'    => Relationships::COMPANY,
+                'alias'    => Relationships::COMPANIES,
                 'reusable' => true,
             ]
         );

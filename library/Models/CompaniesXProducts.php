@@ -25,7 +25,7 @@ class CompaniesXProducts extends AbstractModel
             Companies::class,
             'id',
             [
-                'alias'    => Relationships::COMPANY,
+                'alias'    => Relationships::COMPANIES,
                 'reusable' => true,
             ]
         );
@@ -35,7 +35,7 @@ class CompaniesXProducts extends AbstractModel
             Products::class,
             'id',
             [
-                'alias'    => Relationships::PRODUCT,
+                'alias'    => Relationships::PRODUCTS,
                 'reusable' => true,
             ]
         );

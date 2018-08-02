@@ -22,10 +22,10 @@ class Products extends AbstractModel
     {
         $this->hasManyToMany(
             'id',
-            Products::class,
+            CompaniesXProducts::class,
             'productId',
             'companyId',
-            CompaniesXProducts::class,
+            Companies::class,
             'id',
             [
                 'alias'    => Relationships::COMPANIES,

@@ -5,12 +5,10 @@ namespace Niden\Tests\api\Products;
 use ApiTester;
 use Niden\Constants\Relationships;
 use Niden\Models\Companies;
-use Niden\Models\CompaniesXProducts;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
 use Page\Data;
 use function Niden\Core\envValue;
-use function uniqid;
 
 class GetCest
 {

@@ -4,13 +4,11 @@ namespace Niden\Tests\api\Individuals;
 
 use ApiTester;
 use Niden\Constants\Relationships;
-use function Niden\Core\envValue;
 use Niden\Models\Companies;
 use Niden\Models\Individuals;
 use Niden\Models\IndividualTypes;
 use Page\Data;
-use function sprintf;
-use function uniqid;
+use function Niden\Core\envValue;
 
 class GetCest
 {
@@ -25,38 +23,11 @@ class GetCest
         $token = $I->apiLogin();
 
         /** @var Companies $company */
-        $company = $I->haveRecordWithFields(
-            Companies::class,
-            [
-                'name'    => uniqid('com-a-'),
-                'address' => uniqid(),
-                'city'    => uniqid(),
-                'phone'   => uniqid(),
-            ]
-        );
-
+        $company        = $I->addCompanyRecord('com-a-');
         /** @var IndividualTypes $individualType */
-        $individualType = $I->haveRecordWithFields(
-            IndividualTypes::class,
-            [
-                'name'        => 'my type',
-                'description' => 'description of my type',
-            ]
-        );
-
+        $individualType = $I->addIndividualTypeRecord('prt-a-');
         /** @var Individuals $individual */
-        $individual = $I->haveRecordWithFields(
-            Individuals::class,
-            [
-                'companyId' => $company->get('id'),
-                'typeId'    => $individualType->get('id'),
-                'prefix'    => uniqid(),
-                'first'     => uniqid('first-'),
-                'middle'    => uniqid(),
-                'last'      => uniqid('last-'),
-                'suffix'    => uniqid(),
-            ]
-        );
+        $individual     = $I->addIndividualRecord('prd-a-', $company->get('id'), $individualType->get('id'));
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(sprintf(Data::$individualsRecordUrl, $individual->get('id')));
         $I->deleteHeader('Authorization');
@@ -78,7 +49,7 @@ class GetCest
         $token = $I->apiLogin();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(sprintf(Data::$individualsRecordUrl, 9999));
+        $I->sendGET(sprintf(Data::$individualsRecordUrl, 1));
         $I->deleteHeader('Authorization');
         $I->seeResponseIs404();
     }
@@ -93,30 +64,15 @@ class GetCest
         $I->addApiUserRecord();
         $token = $I->apiLogin();
 
-        $individualOne = $I->haveRecordWithFields(
-            Individuals::class,
-            [
-                'companyId' => 1,
-                'typeId'    => 1,
-                'prefix'    => uniqid(),
-                'first'     => uniqid('first-a-'),
-                'middle'    => uniqid(),
-                'last'      => uniqid('last-'),
-                'suffix'    => uniqid(),
-            ]
-        );
-        $individualTwo = $I->haveRecordWithFields(
-            Individuals::class,
-            [
-                'companyId' => 1,
-                'typeId'    => 1,
-                'prefix'    => uniqid(),
-                'first'     => uniqid('first-b-'),
-                'middle'    => uniqid(),
-                'last'      => uniqid('last-'),
-                'suffix'    => uniqid(),
-            ]
-        );
+        /** @var Companies $company */
+        $company        = $I->addCompanyRecord('com-a-');
+        /** @var IndividualTypes $individualType */
+        $individualType = $I->addIndividualTypeRecord('prt-a-');
+        /** @var Individuals $individualOne */
+        $individualOne  = $I->addIndividualRecord('ind-a-', $company->get('id'), $individualType->get('id'));
+        /** @var Individuals $individualTwo */
+        $individualTwo  = $I->addIndividualRecord('ind-b-', $company->get('id'), $individualType->get('id'));
+
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$individualsUrl);
         $I->deleteHeader('Authorization');
@@ -124,24 +80,48 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                Data::companyResponse($individualOne),
-                Data::companyResponse($individualTwo),
+                Data::individualResponse($individualOne),
+                Data::individualResponse($individualTwo),
             ]
         );
     }
 
     /**
      * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
      */
-    public function getIndividualsWithRelationshipCompanies(ApiTester $I)
+    public function getIndividualsWithAllRelationships(ApiTester $I)
+    {
+        $this->runIndividualsWithAllRelationshipsTests($I, Data::$individualsRecordRelationshipRelationshipUrl);
+    }
+
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
+    public function getIndividualsWithRelationshipAllRelationships(ApiTester $I)
+    {
+        $this->runIndividualsWithAllRelationshipsTests($I, Data::$individualsRecordRelationshipUrl);
+    }
+
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
+    public function getIndividualsWithCompanies(ApiTester $I)
     {
         $this->runIndividualsWithCompaniesTests($I, Data::$individualsRecordRelationshipRelationshipUrl);
     }
 
     /**
      * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
      */
-    public function getIndividualsWithCompanies(ApiTester $I)
+    public function getIndividualsWithRelationshipCompanies(ApiTester $I)
     {
         $this->runIndividualsWithCompaniesTests($I, Data::$individualsRecordRelationshipUrl);
     }
@@ -151,49 +131,19 @@ class GetCest
      *
      * @throws \Niden\Exception\ModelException
      */
-    public function getIndividualsWithUnknownRelationship(ApiTester $I)
+    public function getIndividualsWithIndividualTypes(ApiTester $I)
     {
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
+        $this->runIndividualsWithIndividualTypesTests($I, Data::$individualsRecordRelationshipRelationshipUrl);
+    }
 
-        /** @var Companies $company */
-        $company = $I->haveRecordWithFields(
-            Companies::class,
-            [
-                'name'    => uniqid('com-a-'),
-                'address' => uniqid(),
-                'city'    => uniqid(),
-                'phone'   => uniqid(),
-            ]
-        );
-
-        /** @var IndividualTypes $individualType */
-        $individualType = $I->haveRecordWithFields(
-            IndividualTypes::class,
-            [
-                'name'        => 'my type',
-                'description' => 'description of my type',
-            ]
-        );
-
-        /** @var Individuals $individual */
-        $individual = $I->haveRecordWithFields(
-            Individuals::class,
-            [
-                'companyId' => $company->get('id'),
-                'typeId'    => $individualType->get('id'),
-                'prefix'    => uniqid(),
-                'first'     => uniqid('first-'),
-                'middle'    => uniqid(),
-                'last'      => uniqid('last-'),
-                'suffix'    => uniqid(),
-            ]
-        );
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(sprintf(Data::$individualsRecordRelationshipUrl, $individual->get('id'), 'unknown'));
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIs404();
+    /**
+     * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
+    public function getIndividualsWithRelationshipIndividualTypes(ApiTester $I)
+    {
+        $this->runIndividualsWithIndividualTypesTests($I, Data::$individualsRecordRelationshipUrl);
     }
 
     /**
@@ -211,63 +161,50 @@ class GetCest
         $I->seeSuccessJsonResponse();
     }
 
-    private function runIndividualsWithCompaniesTests(ApiTester $I, $url = '')
+    private function addRecords(ApiTester $I): array
     {
+        /** @var Companies $company */
+        $company        = $I->addCompanyRecord('com-a');
+        /** @var IndividualTypes $individualType */
+        $individualType = $I->addIndividualTypeRecord('prt-a-');
+        /** @var Individuals $individual */
+        $individual     = $I->addIndividualRecord('ind-a-', $company->get('id'),  $individualType->get('id'));
+
+
+        return [$individual, $individualType, $company];
+    }
+
+    /**
+     * @param ApiTester $I
+     * @param           $url
+     *
+     * @throws \Niden\Exception\ModelException
+     */
+    private function runIndividualsWithAllRelationshipsTests(ApiTester $I, $url)
+    {
+        list($individual, $individualType, $company) = $this->addRecords($I);
+
         $I->addApiUserRecord();
         $token = $I->apiLogin();
-
-        /** @var Companies $company */
-        $company = $I->haveRecordWithFields(
-            Companies::class,
-            [
-                'name'    => uniqid('com-a-'),
-                'address' => uniqid(),
-                'city'    => uniqid(),
-                'phone'   => uniqid(),
-            ]
-        );
-
-        /** @var IndividualTypes $individualType */
-        $individualType = $I->haveRecordWithFields(
-            IndividualTypes::class,
-            [
-                'name'        => 'my type',
-                'description' => 'description of my type',
-            ]
-        );
-
-        /** @var Individuals $individual */
-        $individual = $I->haveRecordWithFields(
-            Individuals::class,
-            [
-                'companyId' => $company->get('id'),
-                'typeId'    => $individualType->get('id'),
-                'prefix'    => uniqid(),
-                'first'     => uniqid('first-a-'),
-                'middle'    => uniqid(),
-                'last'      => uniqid('last-'),
-                'suffix'    => uniqid(),
-            ]
-        );
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(
                 $url,
                 $individual->get('id'),
-            Relationships::COMPANIES
+                Relationships::COMPANIES . ',' . Relationships::INDIVIDUAL_TYPES
             )
         );
-        $I->deleteHeader('Authorization');
 
+        $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
         $I->seeSuccessJsonResponse(
             'data',
             [
                 [
-                    'id'         => $individual->get('id'),
-                    'type'       => Relationships::INDIVIDUALS,
-                    'attributes' => [
+                    'type'          => Relationships::INDIVIDUALS,
+                    'id'            => $individual->get('id'),
+                    'attributes'    => [
                         'companyId' => $individual->get('companyId'),
                         'typeId'    => $individual->get('typeId'),
                         'prefix'    => $individual->get('prefix'),
@@ -276,10 +213,10 @@ class GetCest
                         'last'      => $individual->get('last'),
                         'suffix'    => $individual->get('suffix'),
                     ],
-                    'links'      => [
+                    'links'         => [
                         'self' => sprintf(
                             '%s/%s/%s',
-                            envValue('APP_URL'),
+                            envValue('APP_URL', 'localhost'),
                             Relationships::INDIVIDUALS,
                             $individual->get('id')
                         ),
@@ -289,50 +226,48 @@ class GetCest
                             'links' => [
                                 'self'    => sprintf(
                                     '%s/%s/%s/relationships/%s',
-                                    envValue('APP_URL'),
+                                    envValue('APP_URL', 'localhost'),
                                     Relationships::INDIVIDUALS,
-                                    $company->get('id'),
+                                    $individual->get('id'),
                                     Relationships::COMPANIES
-
                                 ),
                                 'related' => sprintf(
                                     '%s/%s/%s/%s',
-                                    envValue('APP_URL'),
+                                    envValue('APP_URL', 'localhost'),
                                     Relationships::INDIVIDUALS,
-                                    $company->get('id'),
+                                    $individual->get('id'),
                                     Relationships::COMPANIES
                                 ),
                             ],
-                            'data' => [
+                            'data'  => [
                                 'type' => Relationships::COMPANIES,
                                 'id'   => $company->get('id'),
-                            ]
+                            ],
                         ],
                         Relationships::INDIVIDUAL_TYPES => [
                             'links' => [
                                 'self'    => sprintf(
                                     '%s/%s/%s/relationships/%s',
-                                    envValue('APP_URL'),
+                                    envValue('APP_URL', 'localhost'),
                                     Relationships::INDIVIDUALS,
-                                    $individualType->get('id'),
+                                    $individual->get('id'),
                                     Relationships::INDIVIDUAL_TYPES
-
                                 ),
                                 'related' => sprintf(
                                     '%s/%s/%s/%s',
-                                    envValue('APP_URL'),
+                                    envValue('APP_URL', 'localhost'),
                                     Relationships::INDIVIDUALS,
-                                    $individualType->get('id'),
+                                    $individual->get('id'),
                                     Relationships::INDIVIDUAL_TYPES
                                 ),
                             ],
-                            'data' => [
+                            'data'  => [
                                 'type' => Relationships::INDIVIDUAL_TYPES,
                                 'id'   => $individualType->get('id'),
-                            ]
-                        ]
-                    ]
-                ]
+                            ],
+                        ],
+                    ],
+                ],
             ]
         );
 
@@ -344,5 +279,168 @@ class GetCest
             ]
         );
     }
-}
 
+    /**
+     * @param ApiTester $I
+     * @param           $url
+     *
+     * @throws \Niden\Exception\ModelException
+     */
+    private function runIndividualsWithCompaniesTests(ApiTester $I, $url)
+    {
+        list($individual, $individualType, $company) = $this->addRecords($I);
+
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(
+            sprintf(
+                $url,
+                $individual->get('id'),
+                Relationships::COMPANIES
+            )
+        );
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse(
+            'data',
+            [
+                [
+                    'type'          => Relationships::INDIVIDUALS,
+                    'id'            => $individual->get('id'),
+                    'attributes'    => [
+                        'companyId' => $individual->get('companyId'),
+                        'typeId'    => $individual->get('typeId'),
+                        'prefix'    => $individual->get('prefix'),
+                        'first'     => $individual->get('first'),
+                        'middle'    => $individual->get('middle'),
+                        'last'      => $individual->get('last'),
+                        'suffix'    => $individual->get('suffix'),
+                    ],
+                    'links'         => [
+                        'self' => sprintf(
+                            '%s/%s/%s',
+                            envValue('APP_URL', 'localhost'),
+                            Relationships::INDIVIDUALS,
+                            $individual->get('id')
+                        ),
+                    ],
+                    'relationships' => [
+                        Relationships::COMPANIES => [
+                            'links' => [
+                                'self'    => sprintf(
+                                    '%s/%s/%s/relationships/%s',
+                                    envValue('APP_URL', 'localhost'),
+                                    Relationships::INDIVIDUALS,
+                                    $individual->get('id'),
+                                    Relationships::COMPANIES
+                                ),
+                                'related' => sprintf(
+                                    '%s/%s/%s/%s',
+                                    envValue('APP_URL', 'localhost'),
+                                    Relationships::INDIVIDUALS,
+                                    $individual->get('id'),
+                                    Relationships::COMPANIES
+                                ),
+                            ],
+                            'data'  => [
+                                'type' => Relationships::COMPANIES,
+                                'id'   => $company->get('id'),
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        $I->seeSuccessJsonResponse(
+            'included',
+            [
+                Data::companyResponse($company),
+            ]
+        );
+    }
+
+    /**
+     * @param ApiTester $I
+     * @param           $url
+     *
+     * @throws \Niden\Exception\ModelException
+     */
+    private function runIndividualsWithIndividualTypesTests(ApiTester $I, $url)
+    {
+        list($individual, $individualType) = $this->addRecords($I);
+
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(
+            sprintf(
+                $url,
+                $individual->get('id'),
+                Relationships::INDIVIDUAL_TYPES
+            )
+        );
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse(
+            'data',
+            [
+                [
+                    'type'          => Relationships::INDIVIDUALS,
+                    'id'            => $individual->get('id'),
+                    'attributes'    => [
+                        'companyId' => $individual->get('companyId'),
+                        'typeId'    => $individual->get('typeId'),
+                        'prefix'    => $individual->get('prefix'),
+                        'first'     => $individual->get('first'),
+                        'middle'    => $individual->get('middle'),
+                        'last'      => $individual->get('last'),
+                        'suffix'    => $individual->get('suffix'),
+                    ],
+                    'links'         => [
+                        'self' => sprintf(
+                            '%s/%s/%s',
+                            envValue('APP_URL', 'localhost'),
+                            Relationships::INDIVIDUALS,
+                            $individual->get('id')
+                        ),
+                    ],
+                    'relationships' => [
+                        Relationships::INDIVIDUAL_TYPES => [
+                            'links' => [
+                                'self'    => sprintf(
+                                    '%s/%s/%s/relationships/%s',
+                                    envValue('APP_URL', 'localhost'),
+                                    Relationships::INDIVIDUALS,
+                                    $individual->get('id'),
+                                    Relationships::INDIVIDUAL_TYPES
+                                ),
+                                'related' => sprintf(
+                                    '%s/%s/%s/%s',
+                                    envValue('APP_URL', 'localhost'),
+                                    Relationships::INDIVIDUALS,
+                                    $individual->get('id'),
+                                    Relationships::INDIVIDUAL_TYPES
+                                ),
+                            ],
+                            'data'  => [
+                                'type' => Relationships::INDIVIDUAL_TYPES,
+                                'id'   => $individualType->get('id'),
+                            ],
+                        ],
+                    ],
+                ],
+            ]
+        );
+
+        $I->seeSuccessJsonResponse(
+            'included',
+            [
+                Data::individualTypeResponse($individualType),
+            ]
+        );
+    }
+}

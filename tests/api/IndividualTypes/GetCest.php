@@ -3,9 +3,7 @@
 namespace Niden\Tests\api\IndividualTypes;
 
 use ApiTester;
-use Niden\Models\IndividualTypes;
 use Page\Data;
-use function uniqid;
 
 class GetCest
 {

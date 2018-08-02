@@ -9,6 +9,7 @@ use Codeception\TestInterface;
 use Niden\Bootstrap\Api;
 use Niden\Models\Companies;
 use Niden\Models\CompaniesXProducts;
+use Niden\Models\Individuals;
 use Niden\Models\IndividualTypes;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
@@ -62,7 +63,7 @@ class Integration extends Module
     /**
      * @param string $namePrefix
      *
-     * @return mixed
+     * @return Companies
      */
     public function addCompanyRecord(string $namePrefix = '')
     {
@@ -81,7 +82,7 @@ class Integration extends Module
      * @param int $companyId
      * @param int $productId
      *
-     * @return mixed
+     * @return CompaniesXProducts
      */
     public function addCompanyXProduct(int $companyId, int $productId)
     {
@@ -97,7 +98,7 @@ class Integration extends Module
     /**
      * @param string $namePrefix
      *
-     * @return mixed
+     * @return IndividualTypes
      */
     public function addIndividualTypeRecord(string $namePrefix = '')
     {
@@ -112,9 +113,32 @@ class Integration extends Module
 
     /**
      * @param string $namePrefix
+     * @param int    $comId
      * @param int    $typeId
      *
-     * @return mixed
+     * @return Individuals
+     */
+    public function addIndividualRecord(string $namePrefix = '', int $comId = 0, int $typeId = 0)
+    {
+        return $this->haveRecordWithFields(
+            Individuals::class,
+            [
+                'companyId' => $comId,
+                'typeId'    => $typeId,
+                'prefix'    => uniqid(),
+                'first'     => uniqid($namePrefix),
+                'middle'    => uniqid(),
+                'last'      => uniqid(),
+                'suffix'    => uniqid(),
+            ]
+        );
+    }
+
+    /**
+     * @param string $namePrefix
+     * @param int    $typeId
+     *
+     * @return Products
      */
     public function addProductRecord(string $namePrefix = '', int $typeId = 0)
     {
@@ -133,7 +157,7 @@ class Integration extends Module
     /**
      * @param string $namePrefix
      *
-     * @return mixed
+     * @return ProductTypes
      */
     public function addProductTypeRecord(string $namePrefix = '')
     {

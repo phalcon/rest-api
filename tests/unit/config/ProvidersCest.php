@@ -8,6 +8,7 @@ use Niden\Providers\DatabaseProvider;
 use Niden\Providers\ErrorHandlerProvider;
 use Niden\Providers\EventsManagerProvider;
 use Niden\Providers\LoggerProvider;
+use Niden\Providers\ModelsMetadataProvider;
 use Niden\Providers\RequestProvider;
 use Niden\Providers\ResponseProvider;
 use Niden\Providers\RouterProvider;
@@ -24,9 +25,10 @@ class ProvidersCest
         $I->assertEquals(LoggerProvider::class, $providers[1]);
         $I->assertEquals(ErrorHandlerProvider::class, $providers[2]);
         $I->assertEquals(DatabaseProvider::class, $providers[3]);
-        $I->assertEquals(RequestProvider::class, $providers[4]);
-        $I->assertEquals(ResponseProvider::class, $providers[5]);
-        $I->assertEquals(RouterProvider::class, $providers[6]);
+        $I->assertEquals(ModelsMetadataProvider::class, $providers[4]);
+        $I->assertEquals(RequestProvider::class, $providers[5]);
+        $I->assertEquals(ResponseProvider::class, $providers[6]);
+        $I->assertEquals(RouterProvider::class, $providers[7]);
     }
 
     public function checkCliProviders(UnitTester $I)
@@ -37,6 +39,7 @@ class ProvidersCest
         $I->assertEquals(LoggerProvider::class, $providers[1]);
         $I->assertEquals(ErrorHandlerProvider::class, $providers[2]);
         $I->assertEquals(DatabaseProvider::class, $providers[3]);
-        $I->assertEquals(CliDispatcherProvider::class, $providers[4]);
+        $I->assertEquals(ModelsMetadataProvider::class, $providers[4]);
+        $I->assertEquals(CliDispatcherProvider::class, $providers[5]);
     }
 }

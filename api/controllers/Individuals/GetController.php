@@ -17,20 +17,20 @@ use Niden\Transformers\IndividualsTransformer;
 class GetController extends BaseController
 {
     /** @var string */
-    protected $model         = Individuals::class;
+    protected $model       = Individuals::class;
 
     /** @var array */
-    protected $relationships = [
+    protected $includes    = [
         Relationships::COMPANIES,
         Relationships::INDIVIDUAL_TYPES,
     ];
 
     /** @var string */
-    protected $resource      = Relationships::INDIVIDUALS;
+    protected $resource    = Relationships::INDIVIDUALS;
 
     /** @var string */
-    protected $transformer   = IndividualsTransformer::class;
+    protected $transformer = IndividualsTransformer::class;
 
     /** @var string */
-    protected $orderBy       = 'last, first';
+    protected $orderBy     = 'last, first';
 }

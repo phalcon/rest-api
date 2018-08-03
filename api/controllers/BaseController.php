@@ -37,7 +37,7 @@ class BaseController extends Controller
     protected $model = '';
 
     /** @var array */
-    protected $relationships = [];
+    protected $includes = [];
 
     /** @var string */
     protected $resource = '';
@@ -58,6 +58,7 @@ class BaseController extends Controller
      */
     public function callAction($id = 0, $relationships = '')
     {
+        $includes   = $this->request->getQuery('includes', [Filter::FILTER_STRING, Filter::FILTER_TRIM], '');
         $parameters = $this->checkIdParameter($id);
         $parameter  = $this->filter->sanitize($relationships, [Filter::FILTER_STRING, Filter::FILTER_TRIM]);
         $results    = $this->getRecords($this->config, $this->cache, $this->model, $parameters, $this->orderBy);
@@ -66,14 +67,14 @@ class BaseController extends Controller
         if (count($parameters) > 0 && 0 === count($results)) {
             return $this->send404();
         } else {
-            if (true !== empty($parameter)) {
-                $allRelationships = explode(',', $relationships);
-                foreach ($allRelationships as $relationship) {
-                    if (true !== in_array($relationship, $this->relationships)) {
+            if (true !== empty($includes)) {
+                $requestedIncludes = explode(',', $includes);
+                foreach ($requestedIncludes as $include) {
+                    if (true !== in_array($include, $this->includes)) {
                         return $this->send404();
                     }
 
-                    $related[] = strtolower($relationship);
+                    $related[] = strtolower($include);
                 }
             }
         }

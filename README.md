@@ -56,35 +56,15 @@ The routes available are:
                                              
 #### Relationships
 
-`/companies/<number>/individuals`
-`/companies/<number>/products`
-`/companies/<number>/individuals,products`
+`/companies/<number>?included=<individuals>,<products>`
 
-`/companies/<number>/relationships/individuals`
-`/companies/<number>/relationships/products`
-`/companies/<number>/relationships/individuals,products`
+`individuals/<number>?included=<companies>,<individual-types>`
 
-`individuals/<number>/companies`
-`individuals/<number>/individual-types`
-`individuals/<number>/companies,individual-types`
+`individual-types/<number>?included=<individuals>`
 
-`individuals/<number>/relationships/companies`
-`individuals/<number>/relationships/individual-types`
-`individuals/<number>/relationships/companies,individual-types`
+`products/<number>?included=<companies>,<product-types>`
 
-`individual-types/<number>/individuals`
-`individual-types/<number>/relationships/individuals`
-
-`products/<number>/companies`
-`products/<number>/product-types`
-`products/<number>/companies,product-types`
-
-`products/<number>/relationships/companies`
-`products/<number>/relationships/product-types`
-`products/<number>/relationships/companies,product-types`
-
-`product-types/<number>/products`                                             
-`product-types/<number>/relationships/products`                                             
+`product-types/<number>?included=<products>`                                             
                                              
 
 
@@ -165,13 +145,111 @@ The record always has `id` and `type` present at the top level. `id` is the uniq
 }
 ```
 
+`/products/1134?includes=companies,product-types`
+
+```json
+{
+  "jsonapi": {
+    "version": "1.0"
+  },
+  "data": [
+    {
+      "type": "products",
+      "id": "1134",
+      "attributes": {
+        "typeId": 890,
+        "name": "prd-a-5b64af7e70741",
+        "description": "5b64af7e7074a",
+        "quantity": 25,
+        "price": "19.99"
+      },
+      "links": {
+        "self": "http:\/\/api.phalcon.ld\/products\/1134"
+      },
+      "relationships": {
+        "companies": {
+          "links": {
+            "self": "http:\/\/api.phalcon.ld\/products\/1134\/relationships\/companies",
+            "related": "http:\/\/api.phalcon.ld\/products\/1134\/companies"
+          },
+          "data": [
+            {
+              "type": "companies",
+              "id": "1430"
+            },
+            {
+              "type": "companies",
+              "id": "1431"
+            }
+          ]
+        },
+        "product-types": {
+          "links": {
+            "self": "http:\/\/api.phalcon.ld\/products\/1134\/relationships\/product-types",
+            "related": "http:\/\/api.phalcon.ld\/products\/1134\/product-types"
+          },
+          "data": {
+            "type": "product-types",
+            "id": "890"
+          }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "companies",
+      "id": "1430",
+      "attributes": {
+        "name": "com-a5b64af7e6c846",
+        "address": "5b64af7e6c84f",
+        "city": "5b64af7e6c855",
+        "phone": "5b64af7e6c85c"
+      },
+      "links": {
+        "self": "http:\/\/api.phalcon.ld\/companies\/1430"
+      }
+    },
+    {
+      "type": "companies",
+      "id": "1431",
+      "attributes": {
+        "name": "com-b5b64af7e6e3d3",
+        "address": "5b64af7e6e3dc",
+        "city": "5b64af7e6e3e2",
+        "phone": "5b64af7e6e3e9"
+      },
+      "links": {
+        "self": "http:\/\/api.phalcon.ld\/companies\/1431"
+      }
+    },
+    {
+      "type": "product-types",
+      "id": "890",
+      "attributes": {
+        "name": "prt-a-5b64af7e6f638",
+        "description": "5b64af7e6f641"
+      },
+      "links": {
+        "self": "http:\/\/api.phalcon.ld\/product-types\/890"
+      }
+    }
+  ],
+  "meta": {
+    "timestamp": "2018-08-03T19:39:42+00:00",
+    "hash": "384c6b3772727b1a9532865d2ae2d51c095c0fd9"
+  }
+}
+```
+
 For more information regarding responses, please check [JSON API](https://jsonapi.org)
                                                     
 ### TODO
 - ~~Work on companies GET~~
-- ~~Work on relationships and data returned~~
+- ~~Work on included data~~
 - Write examples of code to send to the client
 - Create docs endpoint
+- Work on relationships
 - Work on pagination
 - Work on filters
 - Work on sorting

@@ -36,7 +36,7 @@ class GetCest
     /**
      * @param ApiTester $I
      */
-    public function getCompanyUnknownRelationship(ApiTester $I)
+    public function getCompanyUnknownInclude(ApiTester $I)
     {
         $I->addApiUserRecord();
         $token = $I->apiLogin();
@@ -45,7 +45,13 @@ class GetCest
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(sprintf(Data::$companiesRecordRelationshipUrl, $company->get('id'), 'unknown'));
         $I->deleteHeader('Authorization');
-        $I->seeResponseIs404();
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse(
+            'data',
+            [
+                Data::companyResponse($company),
+            ]
+        );
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Niden\Transformers;
 
+use function array_merge;
 use function date;
 use function json_encode;
 use function sha1;
@@ -21,18 +22,24 @@ class PayloadTransformer extends TransformerAbstract
      */
     public function transform(array $content)
     {
-        $section   = (true === isset($content['errors'])) ? 'errors' : 'data';
         $timestamp = date('c');
-        $result    = [
+        $jsonApi   = [
             'jsonapi' => [
                 'version' => '1.0',
-            ],
-            $section => $content[$section],
-            'meta'   => [
+            ]
+        ];
+        $meta      = [
+            'meta' => [
                 'timestamp' => $timestamp,
-                'hash'      => sha1($timestamp . json_encode($content[$section])),
+                'hash'      => sha1($timestamp . json_encode($content)),
             ],
         ];
+
+        $result    = array_merge(
+            $jsonApi,
+            $content,
+            $meta
+        );
 
         return $result;
     }

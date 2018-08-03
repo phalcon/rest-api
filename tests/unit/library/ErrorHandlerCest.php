@@ -2,16 +2,14 @@
 
 namespace Niden\Tests\unit\library;
 
-use const E_USER_NOTICE;
 use Niden\ErrorHandler;
-use function Niden\Core\appPath;
 use Niden\Logger;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\LoggerProvider;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
-use function trigger_error;
-use \UnitTester;
+use UnitTester;
+use function Niden\Core\appPath;
 
 class ErrorHandlerCest
 {
@@ -20,11 +18,11 @@ class ErrorHandlerCest
         $diContainer = new FactoryDefault();
         $provider    = new ConfigProvider();
         $provider->register($diContainer);
-        $provider    = new LoggerProvider();
+        $provider = new LoggerProvider();
         $provider->register($diContainer);
 
         /** @var Config $config */
-        $config  = $diContainer->getShared('config');
+        $config = $diContainer->getShared('config');
         /** @var Logger $logger */
         $logger  = $diContainer->getShared('logger');
         $handler = new ErrorHandler($logger, $config);
@@ -41,11 +39,11 @@ class ErrorHandlerCest
         $diContainer = new FactoryDefault();
         $provider    = new ConfigProvider();
         $provider->register($diContainer);
-        $provider    = new LoggerProvider();
+        $provider = new LoggerProvider();
         $provider->register($diContainer);
 
         /** @var Config $config */
-        $config  = $diContainer->getShared('config');
+        $config = $diContainer->getShared('config');
         /** @var Logger $logger */
         $logger  = $diContainer->getShared('logger');
         $handler = new ErrorHandler($logger, $config);

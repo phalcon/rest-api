@@ -4,6 +4,7 @@
  * Enabled providers. Order does matter
  */
 
+use Niden\Providers\CacheDataProvider;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\DatabaseProvider;
 use Niden\Providers\ErrorHandlerProvider;
@@ -22,4 +23,5 @@ return [
     RequestProvider::class,
     ResponseProvider::class,
     RouterProvider::class,
+    CacheDataProvider::class,
 ];

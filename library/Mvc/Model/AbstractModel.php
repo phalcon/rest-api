@@ -70,23 +70,17 @@ abstract class AbstractModel extends PhModel
     }
 
     /**
-     * @return string
-     */
-    abstract public function getTablePrefix(): string;
-
-    /**
      * Sets a field in the model sanitized
      *
-     * @param string $field    The name of the field
-     * @param mixed  $value    The value of the field
-     * @param bool   $sanitize Whether to sanitize input or not
+     * @param string $field The name of the field
+     * @param mixed  $value The value of the field
      *
      * @return AbstractModel
      * @throws ModelException
      */
-    public function set($field, $value, $sanitize = true): AbstractModel
+    public function set($field, $value): AbstractModel
     {
-        $this->getSetFields('set', $field, $value, $sanitize);
+        $this->getSetFields('set', $field, $value);
 
         return $this;
     }
@@ -97,12 +91,11 @@ abstract class AbstractModel extends PhModel
      * @param string $type
      * @param string $field
      * @param mixed  $value
-     * @param bool   $sanitize
      *
      * @return mixed
      * @throws ModelException
      */
-    private function getSetFields(string $type, string $field, $value = '', bool $sanitize = true)
+    private function getSetFields(string $type, string $field, $value = '')
     {
         $return      = null;
         $modelFields = $this->getModelFilters();
@@ -118,9 +111,9 @@ abstract class AbstractModel extends PhModel
         }
 
         if ('get' === $type) {
-            $return = $this->sanitize($this->$field, $filter, $sanitize);
+            $return = $this->sanitize($this->$field, $filter);
         } else {
-            $this->$field = $this->sanitize($value, $filter, $sanitize);
+            $this->$field = $this->sanitize($value, $filter);
         }
 
         return $return;
@@ -131,19 +124,14 @@ abstract class AbstractModel extends PhModel
      *
      * @param mixed        $value  The value to sanitize
      * @param string|array $filter The filter to apply
-     * @param bool         $sanitize
      *
      * @return mixed
      */
-    private function sanitize($value, $filter, bool $sanitize = true)
+    private function sanitize($value, $filter)
     {
         /** @var Filter $filterService */
         $filterService = $this->getDI()->get('filter');
 
-        if (true === $sanitize) {
-            return $filterService->sanitize($value, $filter);
-        } else {
-            return $value;
-        }
+        return $filterService->sanitize($value, $filter);
     }
 }

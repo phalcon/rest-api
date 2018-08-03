@@ -30,13 +30,13 @@ class Users extends AbstractModel
     public function getModelFilters(): array
     {
         return [
-            'usr_id'             => Filter::FILTER_ABSINT,
-            'usr_status_flag'    => Filter::FILTER_ABSINT,
-            'usr_username'       => Filter::FILTER_STRING,
-            'usr_password'       => Filter::FILTER_STRING,
-            'usr_issuer'         => Filter::FILTER_STRING,
-            'usr_token_password' => Filter::FILTER_STRING,
-            'usr_token_id'       => Filter::FILTER_STRING,
+            'id'            => Filter::FILTER_ABSINT,
+            'status'        => Filter::FILTER_ABSINT,
+            'username'      => Filter::FILTER_STRING,
+            'password'      => Filter::FILTER_STRING,
+            'issuer'        => Filter::FILTER_STRING,
+            'tokenPassword' => Filter::FILTER_STRING,
+            'tokenId'       => Filter::FILTER_STRING,
         ];
     }
 
@@ -51,16 +51,6 @@ class Users extends AbstractModel
     }
 
     /**
-     * Table prefix
-     *
-     * @return string
-     */
-    public function getTablePrefix(): string
-    {
-        return 'usr';
-    }
-
-    /**
      * Returns the string token
      *
      * @return string
@@ -71,13 +61,13 @@ class Users extends AbstractModel
         $signer  = new Sha512();
         $builder = new Builder();
         $token   = $builder
-            ->setIssuer($this->get('usr_issuer'))
+            ->setIssuer($this->get('issuer'))
             ->setAudience($this->getTokenAudience())
-            ->setId($this->get('usr_token_id'), true)
+            ->setId($this->get('tokenId'), true)
             ->setIssuedAt($this->getTokenTimeIssuedAt())
             ->setNotBefore($this->getTokenTimeNotBefore())
             ->setExpiration($this->getTokenTimeExpiration())
-            ->sign($signer, $this->get('usr_token_password'))
+            ->sign($signer, $this->get('tokenPassword'))
             ->getToken();
 
         return $token->__toString();
@@ -92,9 +82,9 @@ class Users extends AbstractModel
     public function getValidationData(): ValidationData
     {
         $validationData = new ValidationData();
-        $validationData->setIssuer($this->get('usr_issuer'));
+        $validationData->setIssuer($this->get('issuer'));
         $validationData->setAudience($this->getTokenAudience());
-        $validationData->setId($this->get('usr_token_id'));
+        $validationData->setId($this->get('tokenId'));
         $validationData->setCurrentTime(time() + 10);
 
         return $validationData;

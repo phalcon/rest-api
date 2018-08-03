@@ -6,7 +6,7 @@ use Niden\Bootstrap\Api;
 use Niden\Http\Response;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
-use \UnitTester;
+use UnitTester;
 
 class BootstrapCest
 {

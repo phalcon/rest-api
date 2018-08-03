@@ -8,8 +8,10 @@ use Niden\Exception\ModelException;
 use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Models\Users;
+use Niden\Traits\QueryTrait;
 use Niden\Traits\TokenTrait;
-use Niden\Traits\UserTrait;
+use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Config;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 
@@ -18,13 +20,15 @@ use Phalcon\Mvc\Controller;
  *
  * @package Niden\Api\Controllers
  *
- * @property Request  $request
- * @property Response $response
+ * @property Libmemcached $cache
+ * @property Config       $config
+ * @property Request      $request
+ * @property Response     $response
  */
 class LoginController extends Controller
 {
     use TokenTrait;
-    use UserTrait;
+    use QueryTrait;
 
     /**
      * Default action logging in
@@ -37,7 +41,7 @@ class LoginController extends Controller
         $username = $this->request->getPost('username', Filter::FILTER_STRING);
         $password = $this->request->getPost('password', Filter::FILTER_STRING);
         /** @var Users|false $user */
-        $user     = $this->getUserByUsernameAndPassword($username, $password);
+        $user     = $this->getUserByUsernameAndPassword($this->config, $this->cache, $username, $password);
 
         if (false !== $user) {
             /**
@@ -45,7 +49,10 @@ class LoginController extends Controller
              */
             return ['token' => $user->getToken()];
         } else {
-            $this->response->setPayloadError('Incorrect credentials');
+            $this
+                ->response
+                ->setPayloadError('Incorrect credentials')
+            ;
         }
     }
 }

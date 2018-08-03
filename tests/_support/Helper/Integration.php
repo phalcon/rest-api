@@ -7,6 +7,12 @@ use Codeception\Exception\TestRuntimeException;
 use Codeception\TestInterface;
 
 use Niden\Bootstrap\Api;
+use Niden\Models\Companies;
+use Niden\Models\CompaniesXProducts;
+use Niden\Models\Individuals;
+use Niden\Models\IndividualTypes;
+use Niden\Models\Products;
+use Niden\Models\ProductTypes;
 use Niden\Mvc\Model\AbstractModel;
 use Phalcon\DI\FactoryDefault as PhDI;
 use Phalcon\Config as PhConfig;
@@ -55,6 +61,124 @@ class Integration extends Module
     }
 
     /**
+     * @param string $namePrefix
+     *
+     * @return Companies
+     */
+    public function addCompanyRecord(string $namePrefix = '')
+    {
+        return $this->haveRecordWithFields(
+            Companies::class,
+            [
+                'name'    => uniqid($namePrefix),
+                'address' => uniqid(),
+                'city'    => uniqid(),
+                'phone'   => uniqid(),
+            ]
+        );
+    }
+
+    /**
+     * @param int $companyId
+     * @param int $productId
+     *
+     * @return CompaniesXProducts
+     */
+    public function addCompanyXProduct(int $companyId, int $productId)
+    {
+        return $this->haveRecordWithFields(
+            CompaniesXProducts::class,
+            [
+                'companyId' => $companyId,
+                'productId' => $productId,
+            ]
+        );
+    }
+
+    /**
+     * @param string $namePrefix
+     *
+     * @return IndividualTypes
+     */
+    public function addIndividualTypeRecord(string $namePrefix = '')
+    {
+        return $this->haveRecordWithFields(
+            IndividualTypes::class,
+            [
+                'name'        => uniqid($namePrefix),
+                'description' => uniqid(),
+            ]
+        );
+    }
+
+    /**
+     * @param string $namePrefix
+     * @param int    $comId
+     * @param int    $typeId
+     *
+     * @return Individuals
+     */
+    public function addIndividualRecord(string $namePrefix = '', int $comId = 0, int $typeId = 0)
+    {
+        return $this->haveRecordWithFields(
+            Individuals::class,
+            [
+                'companyId' => $comId,
+                'typeId'    => $typeId,
+                'prefix'    => uniqid(),
+                'first'     => uniqid($namePrefix),
+                'middle'    => uniqid(),
+                'last'      => uniqid(),
+                'suffix'    => uniqid(),
+            ]
+        );
+    }
+
+    /**
+     * @param string $namePrefix
+     * @param int    $typeId
+     *
+     * @return Products
+     */
+    public function addProductRecord(string $namePrefix = '', int $typeId = 0)
+    {
+        return $this->haveRecordWithFields(
+            Products::class,
+            [
+                'name'        => uniqid($namePrefix),
+                'typeId'      => $typeId,
+                'description' => uniqid(),
+                'quantity'    => 25,
+                'price'       => 19.99,
+            ]
+        );
+    }
+
+    /**
+     * @param string $namePrefix
+     *
+     * @return ProductTypes
+     */
+    public function addProductTypeRecord(string $namePrefix = '')
+    {
+        return $this->haveRecordWithFields(
+            ProductTypes::class,
+            [
+                'name'        => uniqid($namePrefix),
+                'description' => uniqid(),
+            ]
+        );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function grabDi()
+    {
+        return $this->diContainer;
+    }
+
+    /**
      * @param string $name
      *
      * @return mixed
@@ -62,6 +186,34 @@ class Integration extends Module
     public function grabFromDi(string $name)
     {
         return $this->diContainer->get($name);
+    }
+
+    /**
+     * Returns the relationships that a model has
+     *
+     * @param string $class
+     *
+     * @return array
+     */
+    public function getModelRelationships(string $class): array
+    {
+        /** @var AbstractModel $class */
+        $model         = new $class();
+        $manager       = $model->getModelsManager();
+        $relationships = $manager->getRelations($class);
+
+        $data = [];
+        foreach ($relationships as $relationship) {
+            $data[] = [
+                $relationship->getType(),
+                $relationship->getFields(),
+                $relationship->getReferencedModel(),
+                $relationship->getReferencedFields(),
+                $relationship->getOptions(),
+            ];
+        }
+
+        return $data;
     }
 
     /**

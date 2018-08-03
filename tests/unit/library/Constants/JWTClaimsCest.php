@@ -2,7 +2,7 @@
 
 namespace Niden\Tests\unit\library\Constants;
 
-use \CliTester;
+use CliTester;
 use Niden\Constants\JWTClaims;
 
 class JWTClaimsCest

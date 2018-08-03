@@ -3,41 +3,20 @@
 namespace Niden\Tests\api;
 
 use ApiTester;
-use function json_decode;
-use Niden\Exception\Exception;
-use Niden\Http\Response;
 use Niden\Models\Users;
 use Page\Data;
+use function json_decode;
 
 class LoginCest
 {
-    public function loginNoDataElement(ApiTester $I)
-    {
-        $I->sendPOST(
-            Data::$loginUrl,
-            json_encode(
-                [
-                    'username' => 'user',
-                    'password' => 'pass',
-                ]
-            )
-        );
-        $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('"data" element not present in the payload');
-    }
-
     public function loginUnknownUser(ApiTester $I)
     {
         $I->sendPOST(
             Data::$loginUrl,
-            json_encode(
-                [
-                    'data' => [
-                        'username' => 'user',
-                        'password' => 'pass',
-                    ]
-                ]
-            )
+            [
+                'username' => 'user',
+                'password' => 'pass',
+            ]
         );
         $I->seeResponseIsSuccessful();
         $I->seeErrorJsonResponse('Incorrect credentials');
@@ -48,11 +27,11 @@ class LoginCest
         $I->haveRecordWithFields(
             Users::class,
             [
-                'usr_status_flag' => 1,
-                'usr_username'    => 'testuser',
-                'usr_password'    => 'testpassword',
-                'usr_issuer'      => 'https://phalconphp.com',
-                'usr_token_id'    => '110011',
+                'status'   => 1,
+                'username' => 'testuser',
+                'password' => 'testpassword',
+                'issuer'   => 'https://phalconphp.com',
+                'tokenId'  => '110011',
             ]
         );
 

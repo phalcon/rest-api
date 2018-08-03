@@ -25,4 +25,4 @@ $loader->register();
 require appPath('/vendor/autoload.php');
 
 // Load environment
-(new Dotenv(appPath()))->load();
+(new Dotenv(appPath()))->overload();

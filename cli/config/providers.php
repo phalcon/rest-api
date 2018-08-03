@@ -4,6 +4,7 @@
  * Enabled providers. Order does matter
  */
 
+use Niden\Providers\CacheDataProvider;
 use Niden\Providers\CliDispatcherProvider;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\DatabaseProvider;
@@ -18,4 +19,5 @@ return [
     ErrorHandlerProvider::class,
     DatabaseProvider::class,
     CliDispatcherProvider::class,
+    CacheDataProvider::class,
 ];

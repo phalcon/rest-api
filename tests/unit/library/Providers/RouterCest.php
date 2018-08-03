@@ -4,12 +4,11 @@ namespace Niden\Tests\unit\library\Providers;
 
 use Niden\Logger;
 use Niden\Providers\ConfigProvider;
-use Niden\Providers\LoggerProvider;
 use Niden\Providers\RouterProvider;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\RouterInterface;
-use \UnitTester;
+use UnitTester;
 
 class RouterCest
 {
@@ -21,20 +20,45 @@ class RouterCest
         $diContainer = new FactoryDefault();
         $application = new Micro($diContainer);
         $diContainer->setShared('application', $application);
-        $provider    = new ConfigProvider();
+        $provider = new ConfigProvider();
         $provider->register($diContainer);
-        $provider    = new RouterProvider();
+        $provider = new RouterProvider();
         $provider->register($diContainer);
 
         /** @var RouterInterface $router */
-        $router = $application->getRouter();
-        $routes = $router->getRoutes();
-        $I->assertEquals(3, count($routes));
-        $I->assertEquals('POST', $routes[0]->getHttpMethods());
-        $I->assertEquals('/login', $routes[0]->getPattern());
-        $I->assertEquals('POST', $routes[1]->getHttpMethods());
-        $I->assertEquals('/user/get', $routes[1]->getPattern());
-        $I->assertEquals('POST', $routes[2]->getHttpMethods());
-        $I->assertEquals('/users/get', $routes[2]->getPattern());
+        $router   = $application->getRouter();
+        $routes   = $router->getRoutes();
+        $expected = [
+            ['POST', '/login'],
+            ['POST', '/companies'],
+            ['GET', '/users'],
+            ['GET', '/users/{recordId:[0-9]+}'],
+            ['GET', '/companies'],
+            ['GET', '/companies/{recordId:[0-9]+}'],
+            ['GET', '/companies/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/companies/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/individuals'],
+            ['GET', '/individuals/{recordId:[0-9]+}'],
+            ['GET', '/individuals/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/individuals/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/individual-types'],
+            ['GET', '/individual-types/{recordId:[0-9]+}'],
+            ['GET', '/individual-types/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/individual-types/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/products'],
+            ['GET', '/products/{recordId:[0-9]+}'],
+            ['GET', '/products/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/products/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/product-types'],
+            ['GET', '/product-types/{recordId:[0-9]+}'],
+            ['GET', '/product-types/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'],
+            ['GET', '/product-types/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}'],
+        ];
+
+        $I->assertEquals(24, count($routes));
+        foreach ($routes as $index => $route) {
+            $I->assertEquals($expected[$index][0], $route->getHttpMethods());
+            $I->assertEquals($expected[$index][1], $route->getPattern());
+        }
     }
 }

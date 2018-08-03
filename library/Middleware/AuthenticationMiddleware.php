@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Niden\Middleware;
 
 use Niden\Http\Request;
+use Niden\Http\Response;
+use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
-use Niden\Traits\UserTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
@@ -18,7 +19,7 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
 class AuthenticationMiddleware implements MiddlewareInterface
 {
     use ResponseTrait;
-    use UserTrait;
+    use QueryTrait;
 
     /**
      * Call me
@@ -34,7 +35,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
 
         if (true !== $request->isLoginPage() &&
             true === $request->isEmptyBearerToken()) {
-            $this->halt($api, 'Invalid Token');
+            $this->halt($api, 200, 'Invalid Token');
 
             return false;
         }

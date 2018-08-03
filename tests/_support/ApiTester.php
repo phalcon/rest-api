@@ -47,11 +47,38 @@ class ApiTester extends \Codeception\Actor
 
         $response  = $this->grabResponse();
         $response  = json_decode($response, true);
-        $errors    = $response['errors'] ?? [];
-        $section   = (count($errors) > 0) ? 'errors' : 'data';
         $timestamp = $response['meta']['timestamp'];
         $hash      = $response['meta']['hash'];
-        $this->assertEquals($hash, sha1($timestamp . json_encode($response[$section])));
+        unset($response['meta'], $response['jsonapi']);
+        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
+    }
+
+    /**
+     * Checks if the response was successful
+     */
+    public function seeResponseIs404()
+    {
+        $this->seeResponseIsJson();
+        $this->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $this->seeResponseMatchesJsonType(
+            [
+                'jsonapi' => [
+                    'version' => 'string'
+                ],
+                'meta'    => [
+                    'timestamp' => 'string:date',
+                    'hash'      => 'string',
+                ]
+            ]
+        );
+
+        $response  = $this->grabResponse();
+        $response  = json_decode($response, true);
+        $timestamp = $response['meta']['timestamp'];
+        $hash      = $response['meta']['hash'];
+        $this->assertEquals('Not Found', $response['errors'][0]);
+        unset($response['jsonapi'], $response['meta']);
+        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
     }
 
     public function seeErrorJsonResponse(string $message)
@@ -68,16 +95,9 @@ class ApiTester extends \Codeception\Actor
         );
     }
 
-    public function seeSuccessJsonResponse(array $data = [])
+    public function seeSuccessJsonResponse(string $key = 'data', array $data = [])
     {
-        $contents = [
-            'jsonapi' => [
-                'version' => '1.0',
-            ],
-            'data'    => $data,
-        ];
-
-        $this->seeResponseContainsJson($contents);
+        $this->seeResponseContainsJson([$key => $data]);
     }
 
     public function apiLogin()
@@ -92,5 +112,20 @@ class ApiTester extends \Codeception\Actor
         $token     = $data['token'];
 
         return $token;
+    }
+
+    public function addApiUserRecord()
+    {
+        return $this->haveRecordWithFields(
+            Users::class,
+            [
+                'status'        => 1,
+                'username'      => 'testuser',
+                'password'      => 'testpassword',
+                'issuer'        => 'https://niden.net',
+                'tokenPassword' => '12345',
+                'tokenId'       => '110011',
+            ]
+        );
     }
 }

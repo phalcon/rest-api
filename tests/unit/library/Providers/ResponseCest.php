@@ -5,7 +5,7 @@ namespace Niden\Tests\unit\library\Providers;
 use Niden\Http\Response;
 use Niden\Providers\ResponseProvider;
 use Phalcon\Di\FactoryDefault;
-use \UnitTester;
+use UnitTester;
 
 class ResponseCest
 {

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Niden\Middleware;
 
 use Niden\Http\Request;
+use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
 use Niden\Traits\TokenTrait;
-use Niden\Traits\UserTrait;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 /**
@@ -19,7 +19,7 @@ abstract class TokenBase implements MiddlewareInterface
 {
     use ResponseTrait;
     use TokenTrait;
-    use UserTrait;
+    use QueryTrait;
 
     /**
      * @param Request $request

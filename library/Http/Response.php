@@ -8,6 +8,8 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Item;
 use Niden\Transformers\PayloadTransformer;
 use Phalcon\Http\Response as PhResponse;
+use Phalcon\Mvc\Model\MessageInterface as ModelMessage;
+use Phalcon\Validation\Message\Group as ValidationMessage;
 
 class Response extends PhResponse
 {
@@ -15,6 +17,7 @@ class Response extends PhResponse
      * @var array
      */
     private $content = [];
+
     /**
      * Sets the payload code as Error
      *
@@ -31,6 +34,22 @@ class Response extends PhResponse
     }
 
     /**
+     * Traverses the errors collection and sets the errors in the payload
+     *
+     * @param ModelMessage[]|ValidationMessage $errors
+     *
+     * @return Response
+     */
+    public function setPayloadErrors($errors): Response
+    {
+        foreach ($errors as $error) {
+            $this->setPayloadError($error->getMessage());
+        }
+
+        return $this;
+    }
+
+    /**
      * Sets the payload code as Error
      *
      * @param null|string|array $content The content
@@ -39,9 +58,10 @@ class Response extends PhResponse
      */
     public function setPayloadSuccess($content = []): Response
     {
-        $data = (true === is_array($content)) ? $content : [$content];
+        $data = (true === is_array($content)) ? $content : ['data' => $content];
+        $data = (true === isset($data['data'])) ? $data  : ['data' => $data];
 
-        $this->content['data'] = $data;
+        $this->content = $data;
         $this->setPayloadContent();
 
         return $this;
@@ -58,8 +78,6 @@ class Response extends PhResponse
     {
         parent::setJsonContent($this->processPayload());
 
-        $this->setStatusCode(200);
-        $this->setContentType('application/vnd.api+json', 'UTF-8');
         $this->setHeader('E-Tag', sha1($this->getContent()));
 
         return $this;

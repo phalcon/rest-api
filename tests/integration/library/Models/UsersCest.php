@@ -6,6 +6,7 @@ use IntegrationTester;
 use Lcobucci\JWT\ValidationData;
 use Niden\Models\Users;
 use Niden\Traits\TokenTrait;
+use Phalcon\Filter;
 
 class UsersCest
 {
@@ -16,15 +17,30 @@ class UsersCest
         $I->haveModelDefinition(
             Users::class,
             [
-                'usr_id',
-                'usr_status_flag',
-                'usr_username',
-                'usr_password',
-                'usr_issuer',
-                'usr_token_password',
-                'usr_token_id',
+                'id',
+                'status',
+                'username',
+                'password',
+                'issuer',
+                'tokenPassword',
+                'tokenId',
             ]
         );
+    }
+
+    public function validateFilters(IntegrationTester $I)
+    {
+        $model    = new Users();
+        $expected = [
+            'id'            => Filter::FILTER_ABSINT,
+            'status'        => Filter::FILTER_ABSINT,
+            'username'      => Filter::FILTER_STRING,
+            'password'      => Filter::FILTER_STRING,
+            'issuer'        => Filter::FILTER_STRING,
+            'tokenPassword' => Filter::FILTER_STRING,
+            'tokenId'       => Filter::FILTER_STRING,
+        ];
+        $I->assertEquals($expected, $model->getModelFilters());
     }
 
     public function checkValidationData(IntegrationTester $I)
@@ -33,12 +49,12 @@ class UsersCest
         $user = $I->haveRecordWithFields(
             Users::class,
             [
-                'usr_status_flag'    => 1,
-                'usr_username'       => 'testuser',
-                'usr_password'       => 'testpassword',
-                'usr_issuer'         => 'https://niden.net',
-                'usr_token_password' => '12345',
-                'usr_token_id'       => '110011',
+                'username'      => 'testuser',
+                'password'      => 'testpass',
+                'status'        => 1,
+                'issuer'        => 'https://niden.net',
+                'tokenPassword' => '12345',
+                'tokenId'       => '110011',
             ]
         );
 
@@ -49,5 +65,11 @@ class UsersCest
         $validationData->setCurrentTime(time() + 10);
 
         $I->assertEquals($validationData, $user->getValidationData());
+    }
+
+    public function validateRelationships(IntegrationTester $I)
+    {
+        $actual = $I->getModelRelationships(Users::class);
+        $I->assertEquals(0, count($actual));
     }
 }

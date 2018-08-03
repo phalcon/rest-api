@@ -62,18 +62,25 @@ class Integration extends Module
 
     /**
      * @param string $namePrefix
+     * @param string $addressPrefix
+     * @param string $cityPrefix
+     * @param string $phonePrefix
      *
      * @return Companies
      */
-    public function addCompanyRecord(string $namePrefix = '')
-    {
+    public function addCompanyRecord(
+        string $namePrefix = '',
+        string $addressPrefix = '',
+        string $cityPrefix = '',
+        string $phonePrefix = ''
+    ) {
         return $this->haveRecordWithFields(
             Companies::class,
             [
                 'name'    => uniqid($namePrefix),
-                'address' => uniqid(),
-                'city'    => uniqid(),
-                'phone'   => uniqid(),
+                'address' => uniqid($addressPrefix),
+                'city'    => uniqid($cityPrefix),
+                'phone'   => uniqid($phonePrefix),
             ]
         );
     }

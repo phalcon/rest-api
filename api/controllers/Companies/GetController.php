@@ -17,17 +17,17 @@ use Niden\Transformers\CompaniesTransformer;
 class GetController extends BaseController
 {
     /** @var string */
-    protected $model         = Companies::class;
+    protected $model       = Companies::class;
 
     /** @var array */
-    protected $relationships = [
+    protected $includes    = [
         Relationships::INDIVIDUALS,
         Relationships::PRODUCTS,
     ];
 
     /** @var string */
-    protected $resource      = Relationships::COMPANIES;
+    protected $resource    = Relationships::COMPANIES;
 
     /** @var string */
-    protected $transformer   = CompaniesTransformer::class;
+    protected $transformer = CompaniesTransformer::class;
 }

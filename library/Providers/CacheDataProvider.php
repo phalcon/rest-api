@@ -17,51 +17,30 @@ class CacheDataProvider implements ServiceProviderInterface
     {
         $container->setShared(
             'cache',
-            $this->createCache('data')
+            function () {
+                $prefix       = 'data';
+                $frontAdapter = Data::class;
+                $frontOptions = [
+                    'lifetime' => envValue('CACHE_LIFETIME', 86400),
+                ];
+                $backOptions = [
+                    'servers'  => [
+                        0 => [
+                            'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
+                            'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
+                            'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
+                        ],
+                    ],
+                    'client'   => [
+                        \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
+                        \Memcached::OPT_PREFIX_KEY => 'api-',
+                    ],
+                    'lifetime' => 3600,
+                    'prefix'   => $prefix . '-',
+                ];
+
+                return new Libmemcached(new $frontAdapter($frontOptions), $backOptions);
+            }
         );
-    }
-
-    /**
-     * Returns a cache object
-     *
-     * @param string $prefix
-     *
-     * @return Libmemcached
-     */
-    protected function createCache(string $prefix): Libmemcached
-    {
-        $frontAdapter = Data::class;
-        $frontOptions = [
-            'lifetime' => envValue('CACHE_LIFETIME', 86400),
-        ];
-        $backOptions  = $this->createOptions($prefix);
-
-        return new Libmemcached(new $frontAdapter($frontOptions), $backOptions);
-    }
-
-    /**
-     * Returns memcached options
-     *
-     * @param string $prefix
-     *
-     * @return array
-     */
-    protected function createOptions(string $prefix): array
-    {
-        return [
-            'servers'  => [
-                0 => [
-                    'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
-                    'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
-                    'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
-                ],
-            ],
-            'client'   => [
-                \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
-                \Memcached::OPT_PREFIX_KEY => 'api-',
-            ],
-            'lifetime' => 3600,
-            'prefix'   => $prefix . '-',
-        ];
     }
 }

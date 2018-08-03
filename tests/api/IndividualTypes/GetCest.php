@@ -55,43 +55,7 @@ class GetCest
      *
      * @throws \Niden\Exception\ModelException
      */
-    public function getIndividualTypesWithRelationshipIndividuals(ApiTester $I)
-    {
-        $this->runIndividualTypesWithIndividualsTests($I, Data::$individualTypesRecordRelationshipUrl);
-    }
-
-    /**
-     * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    public function getIndividualTypesWithIndividuals(ApiTester $I)
-    {
-        $this->runIndividualTypesWithIndividualsTests($I, Data::$individualTypesRecordRelationshipRelationshipUrl);
-    }
-
-    /**
-     * @param ApiTester $I
-     */
-    public function getIndividualTypesNoData(ApiTester $I)
-    {
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$individualTypesUrl);
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
-    }
-
-    /**
-     * @param ApiTester $I
-     * @param           $url
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    private function runIndividualTypesWithIndividualsTests(ApiTester $I, $url)
+    public function getIndividualTypesWithIncludesIndividuals(ApiTester $I)
     {
         $I->addApiUserRecord();
         $token = $I->apiLogin();
@@ -107,7 +71,7 @@ class GetCest
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(
-                $url,
+                Data::$individualTypesRecordRelationshipUrl,
                 $individualType->get('id'),
                 Relationships::INDIVIDUALS
             )
@@ -173,5 +137,20 @@ class GetCest
                 Data::individualResponse($individualTwo),
             ]
         );
+    }
+
+    /**
+     * @param ApiTester $I
+     */
+    public function getIndividualTypesNoData(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$individualTypesUrl);
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
     }
 }

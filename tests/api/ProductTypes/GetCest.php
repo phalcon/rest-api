@@ -56,43 +56,7 @@ class GetCest
      *
      * @throws \Niden\Exception\ModelException
      */
-    public function getProductTypesWithRelationshipProducts(ApiTester $I)
-    {
-        $this->runProductTypesWithProductsTests($I, Data::$productTypesRecordRelationshipUrl);
-    }
-
-    /**
-     * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    public function getProductTypesWithProducts(ApiTester $I)
-    {
-        $this->runProductTypesWithProductsTests($I, Data::$productTypesRecordRelationshipRelationshipUrl);
-    }
-
-    /**
-     * @param ApiTester $I
-     */
-    public function getProductTypesNoData(ApiTester $I)
-    {
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(Data::$productTypesUrl);
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse();
-    }
-
-    /**
-     * @param ApiTester $I
-     * @param           $url
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    private function runProductTypesWithProductsTests(ApiTester $I, $url)
+    public function getProductTypesWithIncludesProducts(ApiTester $I)
     {
         $I->addApiUserRecord();
         $token = $I->apiLogin();
@@ -106,7 +70,7 @@ class GetCest
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(
-                $url,
+                Data::$productTypesRecordRelationshipUrl,
                 $productType->get('id'),
                 Relationships::PRODUCTS
             )
@@ -173,5 +137,20 @@ class GetCest
                 Data::productResponse($productTwo),
             ]
         );
+    }
+
+    /**
+     * @param ApiTester $I
+     */
+    public function getProductTypesNoData(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(Data::$productTypesUrl);
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIsSuccessful();
+        $I->seeSuccessJsonResponse();
     }
 }

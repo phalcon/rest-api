@@ -84,62 +84,26 @@ class GetCest
 
     /**
      * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
      */
-    public function getProductsWithAllRelationships(ApiTester $I)
+    public function getProductsWithIncludesAllIncludes(ApiTester $I)
     {
-        $this->runProductsWithAllRelationshipsTests($I, Data::$productsRecordRelationshipRelationshipUrl);
+        $this->checkIncludes($I, [Relationships::COMPANIES, Relationships::PRODUCT_TYPES]);
     }
 
     /**
      * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
      */
-    public function getProductsWithRelationshipAllRelationships(ApiTester $I)
+    public function getProductsWithIncludesCompanies(ApiTester $I)
     {
-        $this->runProductsWithAllRelationshipsTests($I, Data::$productsRecordRelationshipUrl);
+        $this->checkIncludes($I, [Relationships::COMPANIES]);
     }
 
     /**
      * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
      */
-    public function getProductsWithCompanies(ApiTester $I)
+    public function getProductsWithIncludesProductTypes(ApiTester $I)
     {
-        $this->runProductsWithCompaniesTests($I, Data::$productsRecordRelationshipRelationshipUrl);
-    }
-
-    /**
-     * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    public function getProductsWithRelationshipCompanies(ApiTester $I)
-    {
-        $this->runProductsWithCompaniesTests($I, Data::$productsRecordRelationshipUrl);
-    }
-
-    /**
-     * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    public function getProductsWithProductTypes(ApiTester $I)
-    {
-        $this->runProductsWithProductTypesTests($I, Data::$productsRecordRelationshipRelationshipUrl);
-    }
-
-    /**
-     * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    public function getProductsWithRelationshipProductTypes(ApiTester $I)
-    {
-        $this->runProductsWithProductTypesTests($I, Data::$productsRecordRelationshipUrl);
+        $this->checkIncludes($I, [Relationships::PRODUCT_TYPES]);
     }
 
     /**
@@ -173,13 +137,7 @@ class GetCest
         return [$product, $productType, $comOne, $comTwo];
     }
 
-    /**
-     * @param ApiTester $I
-     * @param           $url
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    private function runProductsWithAllRelationshipsTests(ApiTester $I, $url)
+    private function checkIncludes(ApiTester $I, array $includes = [])
     {
         list($product, $productType, $comOne, $comTwo) = $this->addRecords($I);
 
@@ -189,265 +147,103 @@ class GetCest
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(
-                $url,
+                Data::$productsRecordRelationshipUrl,
                 $product->get('id'),
-                Relationships::COMPANIES . ',' . Relationships::PRODUCT_TYPES
-            )
-        );
-
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse(
-            'data',
-            [
-                [
-                    'type'          => Relationships::PRODUCTS,
-                    'id'            => $product->get('id'),
-                    'attributes'    => [
-                        'typeId'      => $productType->get('id'),
-                        'name'        => $product->get('name'),
-                        'description' => $product->get('description'),
-                        'quantity'    => $product->get('quantity'),
-                        'price'       => $product->get('price'),
-                    ],
-                    'links'         => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::PRODUCTS,
-                            $product->get('id')
-                        ),
-                    ],
-                    'relationships' => [
-                        Relationships::COMPANIES => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    envValue('APP_URL', 'localhost'),
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::COMPANIES
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    envValue('APP_URL', 'localhost'),
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::COMPANIES
-                                ),
-                            ],
-                            'data'  => [
-                                [
-                                    'type' => Relationships::COMPANIES,
-                                    'id'   => $comOne->get('id'),
-                                ],
-                                [
-                                    'type' => Relationships::COMPANIES,
-                                    'id'   => $comTwo->get('id'),
-                                ],
-                            ],
-                        ],
-                        Relationships::PRODUCT_TYPES => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    envValue('APP_URL', 'localhost'),
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::PRODUCT_TYPES
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    envValue('APP_URL', 'localhost'),
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::PRODUCT_TYPES
-                                ),
-                            ],
-                            'data'  => [
-                                'type' => Relationships::PRODUCT_TYPES,
-                                'id'   => $productType->get('id'),
-                            ],
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        $I->seeSuccessJsonResponse(
-            'included',
-            [
-                Data::companyResponse($comOne),
-                Data::companyResponse($comTwo),
-                Data::productTypeResponse($productType),
-            ]
-        );
-    }
-
-    /**
-     * @param ApiTester $I
-     * @param           $url
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    private function runProductsWithCompaniesTests(ApiTester $I, $url)
-    {
-        list($product, $productType, $comOne, $comTwo) = $this->addRecords($I);
-
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(
-            sprintf(
-                $url,
-                $product->get('id'),
-                Relationships::COMPANIES
+                implode(',', $includes)
             )
         );
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse(
-            'data',
-            [
-                [
-                    'type'          => Relationships::PRODUCTS,
-                    'id'            => $product->get('id'),
-                    'attributes'    => [
-                        'typeId'      => $productType->get('id'),
-                        'name'        => $product->get('name'),
-                        'description' => $product->get('description'),
-                        'quantity'    => $product->get('quantity'),
-                        'price'       => $product->get('price'),
-                    ],
-                    'links'         => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
+
+        $element = [
+            'type'          => Relationships::PRODUCTS,
+            'id'            => $product->get('id'),
+            'attributes'    => [
+                'typeId'      => $productType->get('id'),
+                'name'        => $product->get('name'),
+                'description' => $product->get('description'),
+                'quantity'    => $product->get('quantity'),
+                'price'       => $product->get('price'),
+            ],
+            'links'         => [
+                'self' => sprintf(
+                    '%s/%s/%s',
+                    envValue('APP_URL', 'localhost'),
+                    Relationships::PRODUCTS,
+                    $product->get('id')
+                ),
+            ],
+        ];
+
+        $included = [];
+        foreach ($includes as $include) {
+            if (Relationships::COMPANIES === $include) {
+                $element['relationships'][Relationships::COMPANIES] = [
+                    'links' => [
+                        'self'    => sprintf(
+                            '%s/%s/%s/relationships/%s',
                             envValue('APP_URL', 'localhost'),
                             Relationships::PRODUCTS,
-                            $product->get('id')
+                            $product->get('id'),
+                            Relationships::COMPANIES
                         ),
-                    ],
-                    'relationships' => [
-                        Relationships::COMPANIES => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    envValue('APP_URL', 'localhost'),
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::COMPANIES
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    envValue('APP_URL', 'localhost'),
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::COMPANIES
-                                ),
-                            ],
-                            'data'  => [
-                                [
-                                    'type' => Relationships::COMPANIES,
-                                    'id'   => $comOne->get('id'),
-                                ],
-                                [
-                                    'type' => Relationships::COMPANIES,
-                                    'id'   => $comTwo->get('id'),
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        $I->seeSuccessJsonResponse(
-            'included',
-            [
-                Data::companyResponse($comOne),
-                Data::companyResponse($comTwo),
-            ]
-        );
-    }
-
-    /**
-     * @param ApiTester $I
-     * @param           $url
-     *
-     * @throws \Niden\Exception\ModelException
-     */
-    private function runProductsWithProductTypesTests(ApiTester $I, $url)
-    {
-        list($product, $productType) = $this->addRecords($I);
-
-        $I->addApiUserRecord();
-        $token = $I->apiLogin();
-
-        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $I->sendGET(
-            sprintf(
-                $url,
-                $product->get('id'),
-                Relationships::PRODUCT_TYPES
-            )
-        );
-        $I->deleteHeader('Authorization');
-        $I->seeResponseIsSuccessful();
-        $I->seeSuccessJsonResponse(
-            'data',
-            [
-                [
-                    'type'          => Relationships::PRODUCTS,
-                    'id'            => $product->get('id'),
-                    'attributes'    => [
-                        'typeId'      => $productType->get('id'),
-                        'name'        => $product->get('name'),
-                        'description' => $product->get('description'),
-                        'quantity'    => $product->get('quantity'),
-                        'price'       => $product->get('price'),
-                    ],
-                    'links'         => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
+                        'related' => sprintf(
+                            '%s/%s/%s/%s',
                             envValue('APP_URL', 'localhost'),
                             Relationships::PRODUCTS,
-                            $product->get('id')
+                            $product->get('id'),
+                            Relationships::COMPANIES
                         ),
                     ],
-                    'relationships' => [
-                        Relationships::PRODUCT_TYPES => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    envValue('APP_URL', 'localhost'),
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::PRODUCT_TYPES
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    envValue('APP_URL', 'localhost'),
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::PRODUCT_TYPES
-                                ),
-                            ],
-                            'data'  => [
-                                'type' => Relationships::PRODUCT_TYPES,
-                                'id'   => $productType->get('id'),
-                            ],
+                    'data'  => [
+                        [
+                            'type' => Relationships::COMPANIES,
+                            'id'   => $comOne->get('id'),
+                        ],
+                        [
+                            'type' => Relationships::COMPANIES,
+                            'id'   => $comTwo->get('id'),
                         ],
                     ],
-                ],
-            ]
-        );
+                ];
 
-        $I->seeSuccessJsonResponse(
-            'included',
-            [
-                Data::productTypeResponse($productType),
-            ]
-        );
+                $included[] = Data::companyResponse($comOne);
+                $included[] = Data::companyResponse($comTwo);
+            }
+
+            if (Relationships::PRODUCT_TYPES === $include) {
+                $element['relationships'][Relationships::PRODUCT_TYPES] = [
+                    'links' => [
+                        'self'    => sprintf(
+                            '%s/%s/%s/relationships/%s',
+                            envValue('APP_URL', 'localhost'),
+                            Relationships::PRODUCTS,
+                            $product->get('id'),
+                            Relationships::PRODUCT_TYPES
+                        ),
+                        'related' => sprintf(
+                            '%s/%s/%s/%s',
+                            envValue('APP_URL', 'localhost'),
+                            Relationships::PRODUCTS,
+                            $product->get('id'),
+                            Relationships::PRODUCT_TYPES
+                        ),
+                    ],
+                    'data'  => [
+                        'type' => Relationships::PRODUCT_TYPES,
+                        'id'   => $productType->get('id'),
+                    ],
+                ];
+
+                $included[] = Data::productTypeResponse($productType);
+
+            }
+        }
+
+        $I->seeSuccessJsonResponse('data', [$element]);
+
+        if (count($included) > 0) {
+            $I->seeSuccessJsonResponse('included', $included);
+        }
     }
 }

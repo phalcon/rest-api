@@ -20,7 +20,7 @@ class GetController extends BaseController
     protected $model       = Products::class;
 
     /** @var array */
-    protected $relationships = [
+    protected $includes    = [
         Relationships::COMPANIES,
         Relationships::PRODUCT_TYPES,
     ];

@@ -22,11 +22,6 @@ abstract class AbstractModel extends PhModel
                 'notNullValidations' => false,
             ]
         );
-        $this->keepSnapshots(true);
-        $this->useDynamicUpdate(true);
-
-        $eventsManager = $this->getDI()->getShared('eventsManager');
-        $this->setEventsManager($eventsManager);
     }
 
     /**

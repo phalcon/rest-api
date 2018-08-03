@@ -16,7 +16,6 @@ use Niden\Providers\RouterProvider;
 
 return [
     ConfigProvider::class,
-    EventsManagerProvider::class,
     LoggerProvider::class,
     ErrorHandlerProvider::class,
     DatabaseProvider::class,

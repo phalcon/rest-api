@@ -14,7 +14,6 @@ use Niden\Providers\LoggerProvider;
 
 return [
     ConfigProvider::class,
-    EventsManagerProvider::class,
     LoggerProvider::class,
     ErrorHandlerProvider::class,
     DatabaseProvider::class,

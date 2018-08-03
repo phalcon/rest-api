@@ -35,8 +35,6 @@ class GetCest
 
     /**
      * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
      */
     public function getCompanyUnknownRelationship(ApiTester $I)
     {

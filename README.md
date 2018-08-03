@@ -1,19 +1,19 @@
 # phalcon-api
 Sample API using Phalcon
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/niden/phalcon-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/niden/phalcon-api/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/niden/phalcon-api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/niden/phalcon-api/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/niden/phalcon-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/niden/phalcon-api/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/build-status/master)
 
 
-Implementation of an API application using the Phalcon Framework (https://phalconphp.com)
+Implementation of an API application using the Phalcon Framework [https://phalconphp.com](https://phalconphp.com)
 
 ### Installation
 - Clone the project
 - In the project folder run `nanobox run php-server`
 - Hit the IP address with postman
 
-This requires [nanobox](https://nanobox.io) to be present in your system. Visit their site for installation instructions.
+**NOTE** This requires [nanobox](https://nanobox.io) to be present in your system. Visit their site for installation instructions.
 
 ### Features
 ##### JWT Tokens
@@ -29,18 +29,63 @@ As part of the security of the API, [JWT](https://jwt.io) are used. JSON Web Tok
     - TokenVerification - When a token is supplied, check if it is correctly signed
     - TokenValidation   - When a token is supplied, check if it is valid (`issuedAt`, `notBefore`, `expires`) 
 
+##### JSONAPI
+This implementation follows the [JSON API](https://jsonapi.org) standard. All responses are formatted according to the standard, which offers a uniformed way of presenting data, simple or compound documents, includes (related data), sparse fieldsets, sorting, patination and filtering.
+
 ### Usage
 
 #### Requests
 The routes available are:
 
-| Method | Route             | Payload                                                                                                     |
-|--------|-------------------|-------------------------------------------------------------------------------------------------------------|
-| `POST` | `login`           | `{"username": string, "password": string}`                                                                  |
-| `POST` | `companies`       | `{"name": string, "address": <string>, "city": <string>, "phone": <string>`                                 |
-| `GET`  | `individualtypes` | `/<typeId>` If no `id` passed, all records returned. If yes, then the record matching that `id` is returned |
-| `GET`  | `producttypes`    | `/<typeId>` If no `id` passed, all records returned. If yes, then the record matching that `id` is returned |
-| `GET`  | `users`           | `/<userId>` If no `id` passed, all records returned. If yes, then the record matching that `id` is returned |
+| Method | Route              | Parameters                         | Action                                                   | 
+|--------|--------------------|------------------------------------|----------------------------------------------------------|
+| `POST` | `login`            | `username`, `password`             | Login - get Token                                        |
+| `POST` | `companies`        | `name`, `address`, `city`, `phone` | Add a company record in the database                     |
+| `GET`  | `companies`        |                                    | Get companies. Empty resultset if no data present        |
+| `GET`  | `companies`        | Numeric Id                         | Get company by id. 404 if record does not exist          |
+| `GET`  | `individuals`      |                                    | Get individuals. Empty resultset if no data present      |
+| `GET`  | `individuals`      | Numeric Id                         | Get individual by id. 404 if record does not exist       |
+| `GET`  | `individual-types` |                                    | Get individual types. Empty resultset if no data present |
+| `GET`  | `individual-types` | Numeric Id                         | Get individual type by id. 404 if record does not exist  |
+| `GET`  | `products`         |                                    | Get products. Empty resultset if no data present         |
+| `GET`  | `products`         | Numeric Id                         | Get product by id. 404 if record does not exist          |
+| `GET`  | `product-types`    |                                    | Get product types. Empty resultset if no data present    |
+| `GET`  | `product-types`    | Numeric Id                         | Get product type by id. 404 if record does not exist     |
+| `GET`  | `users`            |                                    | Get users. Empty resultset if no data present            |
+| `GET`  | `users`            | Numeric Id                         | Get user by id. 404 if record does not exist             |
+                                             
+#### Relationships
+
+`/companies/<number>/individuals`
+`/companies/<number>/products`
+`/companies/<number>/individuals,products`
+
+`/companies/<number>/relationships/individuals`
+`/companies/<number>/relationships/products`
+`/companies/<number>/relationships/individuals,products`
+
+`individuals/<number>/companies`
+`individuals/<number>/individual-types`
+`individuals/<number>/companies,individual-types`
+
+`individuals/<number>/relationships/companies`
+`individuals/<number>/relationships/individual-types`
+`individuals/<number>/relationships/companies,individual-types`
+
+`individual-types/<number>/individuals`
+`individual-types/<number>/relationships/individuals`
+
+`products/<number>/companies`
+`products/<number>/product-types`
+`products/<number>/companies,product-types`
+
+`products/<number>/relationships/companies`
+`products/<number>/relationships/product-types`
+`products/<number>/relationships/companies,product-types`
+
+`product-types/<number>/products`                                             
+`product-types/<number>/relationships/products`                                             
+                                             
 
 
 #### Responses
@@ -120,93 +165,14 @@ The record always has `id` and `type` present at the top level. `id` is the uniq
 }
 ```
 
-`POST /login`
-```
-"username" => "niden"
-"password" => "110011"
-```
-
-```json
-{
-  "jsonapi": {
-    "version": "1.0"
-  },
-  "data": {
-    "token": "aa.bb.cc"
-  },
-  "meta": {
-    "timestamp": "2018-06-08T15:07:35+00:00",
-    "hash": "6219ae83afaebc08da4250c4fd23ea1b4843d"
-  }
-}
-```
-                                                     
-`GET /users/get/1051`
-```json
-{
-  "jsonapi": {
-    "version": "1.0"
-  },
-  "data": [
-    {
-      "id": 1051,
-      "type": "users",
-      "attributes": {
-        "status": 1,
-        "username": "niden",
-        "issuer": "https:\/\/niden.net",
-        "tokenPassword": "11110000",
-        "tokenId": "11001100"
-      }
-    }
-  ],
-  "meta": {
-    "timestamp": "2018-06-08T15:07:35+00:00",
-    "hash": "6219ae83afaebc08da4250c4fd23ea1b4843d"
-  }
-}
-```
-                                                     
-`GET /users/get`
-```json
-{
-  "jsonapi": {
-    "version": "1.0"
-  },
-  "data": [
-    {
-      "id": 1051,
-      "type": "users",
-      "attributes": {
-        "status": 1,
-        "username": "niden",
-        "issuer": "https:\/\/niden.net",
-        "tokenPassword": "11110000",
-        "tokenId": "11001100"
-      }
-    },
-    {
-      "id": 1244,
-      "type": "users",
-      "attributes": {
-        "status": 1,
-        "username": "phalcon",
-        "issuer": "https:\/\/phalconphp.com",
-        "tokenPassword": "00001111",
-        "tokenId": "99009900"
-      }
-    }
-  ],
-  "meta": {
-    "timestamp": "2018-06-08T15:07:35+00:00",
-    "hash": "6219ae83afaebc08da4250c4fd23ea1b4843d"
-  }
-}
-```
-                                                     
+For more information regarding responses, please check [JSON API](https://jsonapi.org)
+                                                    
 ### TODO
-- Work on companies `GET`
-- Work on relationships and data returned
+- ~~Work on companies GET~~
+- ~~Work on relationships and data returned~~
 - Write examples of code to send to the client
+- Create docs endpoint
 - Work on pagination
+- Work on filters
+- Work on sorting
 - Perhaps add a new claim to the token tied to the device? `setClaim('deviceId', 'Web-Server')`. This will allow the client application to invalidate access to a device that has already been logged in.

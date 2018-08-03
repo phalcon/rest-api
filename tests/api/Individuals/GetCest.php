@@ -148,7 +148,7 @@ class GetCest
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(
-                Data::$individualsRecordRelationshipUrl,
+                Data::$individualsRecordIncludesUrl,
                 $individual->get('id'),
                 implode(',', $includes)
             )

@@ -28,6 +28,15 @@ class GetController extends BaseController
     /** @var string */
     protected $resource    = Relationships::COMPANIES;
 
+    /** @var array */
+    protected $sortFields  = [
+        'id',
+        'name',
+        'address',
+        'city',
+        'phone',
+    ];
+
     /** @var string */
     protected $transformer = CompaniesTransformer::class;
 }

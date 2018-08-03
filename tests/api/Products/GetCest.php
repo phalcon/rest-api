@@ -154,7 +154,7 @@ class GetCest
         );
         $I->deleteHeader('Authorization');
         $I->seeResponseIsSuccessful();
-        die(print_r($I->grabResponse()));
+
         $element = [
             'type'          => Relationships::PRODUCTS,
             'id'            => $product->get('id'),

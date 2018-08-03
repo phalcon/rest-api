@@ -70,7 +70,7 @@ class GetCest
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(
-                Data::$productTypesRecordRelationshipUrl,
+                Data::$productTypesRecordIncludesUrl,
                 $productType->get('id'),
                 Relationships::PRODUCTS
             )

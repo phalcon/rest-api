@@ -31,6 +31,18 @@ class GetController extends BaseController
     /** @var string */
     protected $transformer = IndividualsTransformer::class;
 
+    /** @var array */
+    protected $sortFields  = [
+        'id',
+        'companyId',
+        'typeId',
+        'prefix',
+        'first',
+        'middle',
+        'last',
+        'suffix',
+    ];
+
     /** @var string */
     protected $orderBy     = 'last, first';
 }

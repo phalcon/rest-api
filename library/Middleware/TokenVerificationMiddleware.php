@@ -7,6 +7,7 @@ namespace Niden\Middleware;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Niden\Exception\ModelException;
 use Niden\Http\Request;
+use Niden\Http\Response;
 use Niden\Models\Users;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Config;
@@ -28,11 +29,13 @@ class TokenVerificationMiddleware extends TokenBase
     public function call(Micro $api)
     {
         /** @var Libmemcached $cache */
-        $cache   = $api->getService('cache');
+        $cache    = $api->getService('cache');
         /** @var Config $config */
-        $config  = $api->getService('config');
+        $config   = $api->getService('config');
         /** @var Request $request */
-        $request = $api->getService('request');
+        $request  = $api->getService('request');
+        /** @var Response $response */
+        $response = $api->getService('response');
         if (true === $this->isValidCheck($request)) {
             /**
              * This is where we will validate the token that was sent to us
@@ -46,7 +49,11 @@ class TokenVerificationMiddleware extends TokenBase
             /** @var Users $user */
             $user = $this->getUserByToken($config, $cache, $token);
             if (false === $token->verify($signer, $user->get('tokenPassword'))) {
-                $this->halt($api, 200, 'Invalid Token');
+                $this->halt(
+                    $api,
+                    $response::OK,
+                    'Invalid Token'
+                );
             }
         }
 

@@ -18,10 +18,21 @@ class GetController extends BaseController
 {
     /** @var string */
     protected $model       = Users::class;
+
     /** @var string */
     protected $resource    = Relationships::USERS;
+
     /** @var string */
     protected $transformer = BaseTransformer::class;
+
+    /** @var array */
+    protected $sortFields  = [
+        'id',
+        'status',
+        'username',
+        'issuer',
+    ];
+
     /** @var string */
     protected $orderBy     = 'username';
 }

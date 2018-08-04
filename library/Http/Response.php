@@ -13,10 +13,53 @@ use Phalcon\Validation\Message\Group as ValidationMessage;
 
 class Response extends PhResponse
 {
+    const OK                    = 200;
+    const MOVED_PERMANENTLY     = 301;
+    const FOUND                 = 302;
+    const TEMPORARY_REDIRECT    = 307;
+    const PERMANENTLY_REDIRECT  = 308;
+    const BAD_REQUEST           = 400;
+    const UNAUTHORIZED          = 401;
+    const FORBIDDEN             = 403;
+    const NOT_FOUND             = 404;
+    const INTERNAL_SERVER_ERROR = 500;
+    const NOT_IMPLEMENTED       = 501;
+    const BAD_GATEWAY           = 502;
+
+    private $codes = [
+        200 => 'OK',
+        301 => 'Moved Permanently',
+        302 => 'Found',
+        307 => 'Temporary Redirect',
+        308 => 'Permanent Redirect',
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        403 => 'Forbidden',
+        404 => 'Not Found',
+        500 => 'Internal Server Error',
+        501 => 'Not Implemented',
+        502 => 'Bad Gateway',
+    ];
+
     /**
      * @var array
      */
     private $content = [];
+
+    /**
+     * Returns the http code description or if not found the code itself
+     * @param int $code
+     *
+     * @return int|string
+     */
+    public function getHttpCodeDescription(int $code)
+    {
+        if (true === isset($this->codes[$code])) {
+            return sprintf('%d (%s)', $code, $this->codes[$code]);
+        }
+
+        return $code;
+    }
 
     /**
      * Sets the payload code as Error

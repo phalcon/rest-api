@@ -31,11 +31,17 @@ class AuthenticationMiddleware implements MiddlewareInterface
     public function call(Micro $api)
     {
         /** @var Request $request */
-        $request = $api->getService('request');
+        $request  = $api->getService('request');
+        /** @var Response $response */
+        $response = $api->getService('response');
 
         if (true !== $request->isLoginPage() &&
             true === $request->isEmptyBearerToken()) {
-            $this->halt($api, 200, 'Invalid Token');
+            $this->halt(
+                $api,
+                $response::OK,
+                'Invalid Token'
+            );
 
             return false;
         }

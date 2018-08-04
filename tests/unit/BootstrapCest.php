@@ -3,6 +3,7 @@
 namespace Niden\Tests\unit;
 
 use CliTester;
+use Codeception\Util\HttpCode;
 use function Niden\Core\appPath;
 
 class BootstrapCest
@@ -17,6 +18,6 @@ class BootstrapCest
         $results = json_decode($actual, true);
         $I->assertEquals('1.0', $results['jsonapi']['version']);
         $I->assertEmpty($results['data']);
-        $I->assertEquals('Not Found', $results['errors'][0]);
+        $I->assertEquals(HttpCode::getDescription(404), $results['errors'][0]);
     }
 }

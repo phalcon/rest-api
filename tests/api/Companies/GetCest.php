@@ -178,6 +178,27 @@ class GetCest
 
     /**
      * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
+     */
+    public function getCompaniesInvalidSort(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        /** @var Companies $comOne */
+        $I->addCompanyRecord('com-a-', '', 'city-b');
+        /** @var Companies $comTwo */
+        $I->addCompanyRecord('com-b-', '', 'city-b');
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(sprintf(Data::$companiesSortUrl, 'unknown'));
+        $I->deleteHeader('Authorization');
+        $I->seeResponseIs400();
+    }
+
+    /**
+     * @param ApiTester $I
      */
     public function getCompaniesWithIncludesAllIncludes(ApiTester $I)
     {

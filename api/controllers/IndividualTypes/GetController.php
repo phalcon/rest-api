@@ -27,6 +27,12 @@ class GetController extends BaseController
     /** @var string */
     protected $resource    = Relationships::INDIVIDUAL_TYPES;
 
+    /** @var array */
+    protected $sortFields  = [
+        'id',
+        'name',
+    ];
+
     /** @var string */
     protected $transformer = IndividualTypesTransformer::class;
 }

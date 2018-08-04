@@ -67,7 +67,11 @@ class BaseController extends Controller
     {
         $parameters = $this->checkIdParameter($id);
         $related    = $this->checkIncludes();
-        $this->checkSort();
+        $validSort  = $this->checkSort();
+
+        if (true !== $validSort) {
+            return $this->send400();
+        }
 
         $results = $this->getRecords($this->config, $this->cache, $this->model, $parameters, $this->orderBy);
 
@@ -120,7 +124,13 @@ class BaseController extends Controller
         return $related;
     }
 
-    private function checkSort()
+    /**
+     * Process the sort. If supplied change the `orderBy` of the builder. If a
+     * field that is not supported has been supplied return false
+     *
+     * @return bool
+     */
+    private function checkSort(): bool
     {
         $sortArray  = [];
         $sortFields = $this->request->getQuery('sort', [Filter::FILTER_STRING, Filter::FILTER_TRIM], '');
@@ -133,6 +143,8 @@ class BaseController extends Controller
                  */
                 if (true === in_array($trueField, $this->sortFields)) {
                     $sortArray[] = $trueField . $direction;
+                } else {
+                    return false;
                 }
             }
         }
@@ -143,6 +155,8 @@ class BaseController extends Controller
         if (count($sortArray) > 0) {
             $this->orderBy = implode(',', $sortArray);
         }
+
+        return true;
     }
 
 
@@ -170,13 +184,33 @@ class BaseController extends Controller
     }
 
     /**
+     * Sets the response with a 400 and returns an empty array back
+     *
+     * @return array
+     */
+    private function send400(): array
+    {
+        $this
+            ->response
+            ->setPayloadError($this->response->getHttpCodeDescription($this->response::BAD_REQUEST))
+            ->setStatusCode($this->response::BAD_REQUEST)
+        ;
+
+        return [];
+    }
+
+    /**
      * Sets the response with a 404 and returns an empty array back
      *
      * @return array
      */
-    private function send404(): array 
+    private function send404(): array
     {
-        $this->response->setPayloadError('Not Found')->setStatusCode(404);
+        $this
+            ->response
+            ->setPayloadError($this->response->getHttpCodeDescription($this->response::NOT_FOUND))
+            ->setStatusCode($this->response::NOT_FOUND)
+        ;
 
         return [];
     }

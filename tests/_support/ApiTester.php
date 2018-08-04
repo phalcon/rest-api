@@ -45,12 +45,15 @@ class ApiTester extends \Codeception\Actor
             ]
         );
 
-        $response  = $this->grabResponse();
-        $response  = json_decode($response, true);
-        $timestamp = $response['meta']['timestamp'];
-        $hash      = $response['meta']['hash'];
-        unset($response['meta'], $response['jsonapi']);
-        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
+        $this->checkHash();
+    }
+
+    /**
+     * Checks if the response was successful
+     */
+    public function seeResponseIs400()
+    {
+        $this->checkErrorResponse(HttpCode::BAD_REQUEST);
     }
 
     /**
@@ -58,27 +61,7 @@ class ApiTester extends \Codeception\Actor
      */
     public function seeResponseIs404()
     {
-        $this->seeResponseIsJson();
-        $this->seeResponseCodeIs(HttpCode::NOT_FOUND);
-        $this->seeResponseMatchesJsonType(
-            [
-                'jsonapi' => [
-                    'version' => 'string'
-                ],
-                'meta'    => [
-                    'timestamp' => 'string:date',
-                    'hash'      => 'string',
-                ]
-            ]
-        );
-
-        $response  = $this->grabResponse();
-        $response  = json_decode($response, true);
-        $timestamp = $response['meta']['timestamp'];
-        $hash      = $response['meta']['hash'];
-        $this->assertEquals('Not Found', $response['errors'][0]);
-        unset($response['jsonapi'], $response['meta']);
-        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
+        $this->checkErrorResponse(HttpCode::NOT_FOUND);
     }
 
     public function seeErrorJsonResponse(string $message)
@@ -127,5 +110,55 @@ class ApiTester extends \Codeception\Actor
                 'tokenId'       => '110011',
             ]
         );
+    }
+
+    private function checkHash()
+    {
+        $response  = $this->grabResponse();
+        $response  = json_decode($response, true);
+        $timestamp = $response['meta']['timestamp'];
+        $hash      = $response['meta']['hash'];
+        unset($response['meta'], $response['jsonapi']);
+        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
+    }
+
+    private function checkErrorResponse(int $code)
+    {
+        $this->seeResponseMatchesJsonType(
+            [
+                'jsonapi' => [
+                    'version' => 'string'
+                ],
+                'meta'    => [
+                    'timestamp' => 'string:date',
+                    'hash'      => 'string',
+                ]
+            ]
+        );
+
+        $response  = $this->grabResponse();
+        $response  = json_decode($response, true);
+        $timestamp = $response['meta']['timestamp'];
+        $hash      = $response['meta']['hash'];
+        $this->assertEquals(HttpCode::getDescription($code), $response['errors'][0]);
+        unset($response['jsonapi'], $response['meta']);
+        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
+
+
+        $this->seeResponseIsJson();
+        $this->seeResponseCodeIs($code);
+        $this->seeResponseMatchesJsonType(
+            [
+                'jsonapi' => [
+                    'version' => 'string'
+                ],
+                'meta'    => [
+                    'timestamp' => 'string:date',
+                    'hash'      => 'string',
+                ]
+            ]
+        );
+
+        $this->checkHash();
     }
 }

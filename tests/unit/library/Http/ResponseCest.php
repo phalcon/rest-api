@@ -125,5 +125,6 @@ class ResponseCest
         $I->assertEquals('500 (Internal Server Error)', $response->getHttpCodeDescription($response::INTERNAL_SERVER_ERROR));
         $I->assertEquals('501 (Not Implemented)', $response->getHttpCodeDescription($response::NOT_IMPLEMENTED));
         $I->assertEquals('502 (Bad Gateway)', $response->getHttpCodeDescription($response::BAD_GATEWAY));
+        $I->assertEquals(999, $response->getHttpCodeDescription(999));
     }
 }

@@ -190,7 +190,7 @@ class BaseController extends Controller
      */
     private function send400(): array
     {
-        $this->response->setPayloadError('Bad request')->setStatusCode(400);
+        $this->response->setPayloadError('400 (Bad Request)')->setStatusCode(400);
 
         return [];
     }
@@ -202,7 +202,7 @@ class BaseController extends Controller
      */
     private function send404(): array
     {
-        $this->response->setPayloadError('Not Found')->setStatusCode(404);
+        $this->response->setPayloadError('404 (Not Found)')->setStatusCode(404);
 
         return [];
     }

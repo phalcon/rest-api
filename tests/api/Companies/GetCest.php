@@ -194,7 +194,7 @@ class GetCest
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(sprintf(Data::$companiesSortUrl, 'unknown'));
         $I->deleteHeader('Authorization');
-        $I->seeResponseIs404();
+        $I->seeResponseIs400();
     }
 
     /**

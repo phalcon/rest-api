@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Niden\Api\Controllers\Companies;
 
+use http\Env\Url;
+use Niden\Constants\Relationships;
+use function Niden\Core\appUrl;
+use function Niden\Core\envValue;
 use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Models\Companies;
@@ -54,6 +58,12 @@ class AddController extends Controller
             ;
 
             if (false !== $result) {
+                $this
+                    ->response
+                    ->setHeader('Location', appUrl(Relationships::COMPANIES, $company->get('id')))
+                    ->setStatusCode($this->response::CREATED)
+                ;
+
                 /**
                  * Everything is fine, return the record back
                  */

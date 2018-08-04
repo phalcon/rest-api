@@ -14,6 +14,8 @@ use Phalcon\Validation\Message\Group as ValidationMessage;
 class Response extends PhResponse
 {
     const OK                    = 200;
+    const CREATED               = 201;
+    const ACCEPTED              = 202;
     const MOVED_PERMANENTLY     = 301;
     const FOUND                 = 302;
     const TEMPORARY_REDIRECT    = 307;

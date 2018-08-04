@@ -27,10 +27,10 @@ class ApiTester extends \Codeception\Actor
     /**
      * Checks if the response was successful
      */
-    public function seeResponseIsSuccessful()
+    public function seeResponseIsSuccessful($code = HttpCode::OK)
     {
         $this->seeResponseIsJson();
-        $this->seeResponseCodeIs(HttpCode::OK);
+        $this->seeResponseCodeIs($code);
         $this->seeResponseMatchesJsonType(
             [
                 'jsonapi' => [

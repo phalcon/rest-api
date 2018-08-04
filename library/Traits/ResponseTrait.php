@@ -39,7 +39,7 @@ trait ResponseTrait
     {
         /** @var Response $response */
         $response = $api->getService('response');
-        if (200 === $response->getStatusCode() && true !== $this->checkCurrentContent($response)) {
+        if (300 > $response->getStatusCode() && true !== $this->checkCurrentContent($response)) {
             $returned = $api->getReturnedValue();
             $response->setPayloadSuccess($returned);
         }

@@ -35,6 +35,8 @@ class GetCest
 
     /**
      * @param ApiTester $I
+     *
+     * @throws \Niden\Exception\ModelException
      */
     public function getCompanyUnknownInclude(ApiTester $I)
     {
@@ -178,8 +180,6 @@ class GetCest
 
     /**
      * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
      */
     public function getCompaniesInvalidSort(ApiTester $I)
     {
@@ -207,8 +207,6 @@ class GetCest
 
     /**
      * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
      */
     public function getCompaniesWithIncludesIndividuals(ApiTester $I)
     {
@@ -217,8 +215,6 @@ class GetCest
 
     /**
      * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
      */
     public function getCompaniesWithIncludesProducts(ApiTester $I)
     {

@@ -56,6 +56,34 @@ class ApiTester extends \Codeception\Actor
     /**
      * Checks if the response was successful
      */
+    public function seeResponseIs400()
+    {
+        $this->seeResponseIsJson();
+        $this->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $this->seeResponseMatchesJsonType(
+            [
+                'jsonapi' => [
+                    'version' => 'string'
+                ],
+                'meta'    => [
+                    'timestamp' => 'string:date',
+                    'hash'      => 'string',
+                ]
+            ]
+        );
+
+        $response  = $this->grabResponse();
+        $response  = json_decode($response, true);
+        $timestamp = $response['meta']['timestamp'];
+        $hash      = $response['meta']['hash'];
+        $this->assertEquals('Not Found', $response['errors'][0]);
+        unset($response['jsonapi'], $response['meta']);
+        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
+    }
+
+    /**
+     * Checks if the response was successful
+     */
     public function seeResponseIs404()
     {
         $this->seeResponseIsJson();

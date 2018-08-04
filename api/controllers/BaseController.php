@@ -70,7 +70,7 @@ class BaseController extends Controller
         $validSort  = $this->checkSort();
 
         if (true !== $validSort) {
-            return $this->send404();
+            return $this->send400();
         }
 
         $results = $this->getRecords($this->config, $this->cache, $this->model, $parameters, $this->orderBy);
@@ -184,11 +184,23 @@ class BaseController extends Controller
     }
 
     /**
+     * Sets the response with a 400 and returns an empty array back
+     *
+     * @return array
+     */
+    private function send400(): array
+    {
+        $this->response->setPayloadError('Bad request')->setStatusCode(400);
+
+        return [];
+    }
+
+    /**
      * Sets the response with a 404 and returns an empty array back
      *
      * @return array
      */
-    private function send404(): array 
+    private function send404(): array
     {
         $this->response->setPayloadError('Not Found')->setStatusCode(404);
 

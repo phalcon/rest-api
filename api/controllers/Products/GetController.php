@@ -33,7 +33,6 @@ class GetController extends BaseController
         'id',
         'typeId',
         'name',
-        'description',
         'quantity',
         'price',
     ];

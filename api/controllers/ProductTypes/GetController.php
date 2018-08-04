@@ -31,7 +31,6 @@ class GetController extends BaseController
     protected $sortFields  = [
         'id',
         'name',
-        'description',
     ];
 
     /** @var string */

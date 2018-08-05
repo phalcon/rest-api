@@ -28,13 +28,13 @@ class GetController extends BaseController
     /** @var string */
     protected $resource    = Relationships::COMPANIES;
 
-    /** @var array */
+    /** @var array<string|boolean> */
     protected $sortFields  = [
-        'id',
-        'name',
-        'address',
-        'city',
-        'phone',
+        'id'      => true,
+        'name'    => true,
+        'address' => true,
+        'city'    => true,
+        'phone'   => true,
     ];
 
     /** @var string */

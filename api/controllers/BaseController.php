@@ -65,6 +65,7 @@ class BaseController extends Controller
      */
     public function callAction($id = 0)
     {
+
         $parameters = $this->checkIdParameter($id);
         $related    = $this->checkIncludes();
         $validSort  = $this->checkSort();
@@ -139,9 +140,9 @@ class BaseController extends Controller
             foreach ($requestedSort as $field) {
                 list($trueField, $direction) = $this->getFieldAndDirection($field);
                 /**
-                 * Is this a valid field? If yes, process it
+                 * Is this a valid field and is it sortable? If yes, process it
                  */
-                if (true === in_array($trueField, $this->sortFields)) {
+                if (true === ($this->sortFields[$trueField] ?? false)) {
                     $sortArray[] = $trueField . $direction;
                 } else {
                     return false;
@@ -169,14 +170,14 @@ class BaseController extends Controller
      */
     private function getFieldAndDirection(string $field): array
     {
-        $trueField = $field;
+        $trueField = strtolower($field);
         $direction = ' asc';
 
         /**
          * Ascending or descending
          */
-        if ('-' === substr($field, 0, 1)) {
-            $trueField = substr($field, 1);
+        if ('-' === substr($trueField, 0, 1)) {
+            $trueField = substr($trueField, 1);
             $direction = ' desc';
         }
 

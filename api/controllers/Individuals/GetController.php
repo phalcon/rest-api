@@ -31,16 +31,16 @@ class GetController extends BaseController
     /** @var string */
     protected $transformer = IndividualsTransformer::class;
 
-    /** @var array */
+    /** @var array<string,bool> */
     protected $sortFields  = [
-        'id',
-        'companyId',
-        'typeId',
-        'prefix',
-        'first',
-        'middle',
-        'last',
-        'suffix',
+        'id'        => true,
+        'companyId' => true,
+        'typeId'    => true,
+        'prefix'    => true,
+        'first'     => true,
+        'middle'    => true,
+        'last'      => true,
+        'suffix'    => true,
     ];
 
     /** @var string */

@@ -25,12 +25,15 @@ class GetController extends BaseController
     /** @var string */
     protected $transformer = BaseTransformer::class;
 
-    /** @var array */
+    /** @var array<string,bool> */
     protected $sortFields  = [
-        'id',
-        'status',
-        'username',
-        'issuer',
+        'id'            => true,
+        'status'        => true,
+        'username'      => true,
+        'password'      => false,
+        'issuer'        => true,
+        'tokenPassword' => false,
+        'tokenId'       => false,
     ];
 
     /** @var string */

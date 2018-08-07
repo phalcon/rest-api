@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Niden\Http;
 
-use League\Fractal\Manager;
-use League\Fractal\Resource\Item;
-use Niden\Transformers\PayloadTransformer;
+use function date;
+use function json_decode;
 use Phalcon\Http\Response as PhResponse;
 use Phalcon\Mvc\Model\MessageInterface as ModelMessage;
 use Phalcon\Validation\Message\Group as ValidationMessage;
+use function sha1;
 
 class Response extends PhResponse
 {
@@ -44,11 +44,6 @@ class Response extends PhResponse
     ];
 
     /**
-     * @var array
-     */
-    private $content = [];
-
-    /**
      * Returns the http code description or if not found the code itself
      * @param int $code
      *
@@ -64,6 +59,44 @@ class Response extends PhResponse
     }
 
     /**
+     * Send the response back
+     *
+     * @return PhResponse
+     */
+    public function send(): PhResponse
+    {
+        $content   = $this->getContent();
+        $timestamp = date('c');
+        $hash      = sha1($timestamp . $content);
+        $eTag      = sha1($content);
+
+        /** @var array $content */
+        $content = json_decode($this->getContent(), true);
+        $jsonapi = [
+            'jsonapi' => [
+                'version' => '1.0',
+            ],
+        ];
+        $meta    = [
+            'meta' => [
+                'timestamp' => $timestamp,
+                'hash'      => $hash,
+            ]
+        ];
+
+        /**
+         * Join the array again
+         */
+        $data = $jsonapi + $content + $meta;
+        $this
+            ->setHeader('E-Tag', $eTag)
+            ->setJsonContent($data);
+
+
+        return parent::send();
+    }
+
+    /**
      * Sets the payload code as Error
      *
      * @param string $detail
@@ -72,8 +105,7 @@ class Response extends PhResponse
      */
     public function setPayloadError(string $detail = ''): Response
     {
-        $this->content['errors'][] = $detail;
-        $this->setPayloadContent();
+        $this->setJsonContent(['errors' => [$detail]]);
 
         return $this;
     }
@@ -87,15 +119,18 @@ class Response extends PhResponse
      */
     public function setPayloadErrors($errors): Response
     {
+        $data = [];
         foreach ($errors as $error) {
-            $this->setPayloadError($error->getMessage());
+            $data[] = $error->getMessage();
         }
+
+        $this->setJsonContent(['errors' => $data]);
 
         return $this;
     }
 
     /**
-     * Sets the payload code as Error
+     * Sets the payload code as Success
      *
      * @param null|string|array $content The content
      *
@@ -106,39 +141,8 @@ class Response extends PhResponse
         $data = (true === is_array($content)) ? $content : ['data' => $content];
         $data = (true === isset($data['data'])) ? $data  : ['data' => $data];
 
-        $this->content = $data;
-        $this->setPayloadContent();
+        $this->setJsonContent($data);
 
         return $this;
-    }
-
-    /**
-     * Sets the API payload to return back. Used instead of the setContent or
-     * setJsonContent, so as to provide a uniformed payload no matter what
-     * the response is
-     *
-     * @return Response
-     */
-    public function setPayloadContent(): Response
-    {
-        parent::setJsonContent($this->processPayload());
-
-        $this->setHeader('E-Tag', sha1($this->getContent()));
-
-        return $this;
-    }
-
-    /**
-     * Returns the response array based in the JSONAPI spec
-     *
-     * @return array
-     */
-    private function processPayload(): array
-    {
-        $manager  = new Manager();
-        $resource = new Item($this->content, new PayloadTransformer());
-        $data     = $manager->createData($resource)->toArray();
-
-        return $data['data'];
     }
 }

@@ -207,8 +207,8 @@ class GetCest
                     ],
                 ];
 
-                $included[] = Data::companyResponse($comOne);
-                $included[] = Data::companyResponse($comTwo);
+                $included[] = Data::companiesResponse($comOne);
+                $included[] = Data::companiesResponse($comTwo);
             }
 
             if (Relationships::PRODUCT_TYPES === $include) {

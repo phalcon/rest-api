@@ -34,35 +34,4 @@ trait ResponseTrait
 
         $api->stop();
     }
-
-    public function process(Micro $api)
-    {
-        /** @var Response $response */
-        $response = $api->getService('response');
-        if (300 > $response->getStatusCode() && true !== $this->checkCurrentContent($response)) {
-            $returned = $api->getReturnedValue();
-            $response->setPayloadSuccess($returned);
-        }
-
-        if (true !== $response->isSent()) {
-            $response->send();
-        }
-    }
-
-    /**
-     * @param Response $response
-     *
-     * @return bool
-     */
-    private function checkCurrentContent(Response $response): bool
-    {
-        $return  = false;
-        $content = $response->getContent();
-        if (true !== empty($content)) {
-            $content = json_decode($content, true);
-            $return  = isset($content['errors']);
-        }
-
-        return $return;
-    }
 }

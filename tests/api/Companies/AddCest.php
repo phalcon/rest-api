@@ -48,9 +48,7 @@ class AddCest
         $I->seeHttpHeader('Location', appUrl(Relationships::COMPANIES, $company->get('id')));
         $I->seeSuccessJsonResponse(
             'data',
-            [
-                Data::companyResponse($company),
-            ]
+            Data::companiesResponse($company)
         );
 
         $I->assertNotEquals(false, $company->delete());
@@ -83,5 +81,27 @@ class AddCest
         );
         $I->deleteHeader('Authorization');
         $I->seeErrorJsonResponse('The company name already exists in the database');
+    }
+
+    /**
+     * @param ApiTester $I
+     */
+    public function addNewCompanyWithoutPostingName(ApiTester $I)
+    {
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendPOST(
+            Data::$companiesUrl,
+            Data::companyAddJson(
+                '',
+                '123 Phalcon way',
+                'World',
+                '555-444-7777'
+            )
+        );
+        $I->deleteHeader('Authorization');
+        $I->deleteHeader('Authorization');
+        $I->seeErrorJsonResponse('The company name is required');
     }
 }

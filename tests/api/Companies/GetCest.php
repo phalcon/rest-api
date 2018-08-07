@@ -28,7 +28,7 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                Data::companyResponse($company),
+                Data::companiesResponse($company),
             ]
         );
     }
@@ -51,7 +51,7 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                Data::companyResponse($company),
+                Data::companiesResponse($company),
             ]
         );
     }
@@ -92,8 +92,8 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                Data::companyResponse($comOne),
-                Data::companyResponse($comTwo),
+                Data::companiesResponse($comOne),
+                Data::companiesResponse($comTwo),
             ]
         );
     }
@@ -120,8 +120,8 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                Data::companyResponse($comOne),
-                Data::companyResponse($comTwo),
+                Data::companiesResponse($comOne),
+                Data::companiesResponse($comTwo),
             ]
         );
 
@@ -132,8 +132,8 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                Data::companyResponse($comTwo),
-                Data::companyResponse($comOne),
+                Data::companiesResponse($comTwo),
+                Data::companiesResponse($comOne),
             ]
         );
     }
@@ -160,8 +160,8 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                Data::companyResponse($comOne),
-                Data::companyResponse($comTwo),
+                Data::companiesResponse($comOne),
+                Data::companiesResponse($comTwo),
             ]
         );
 
@@ -172,8 +172,8 @@ class GetCest
         $I->seeSuccessJsonResponse(
             'data',
             [
-                Data::companyResponse($comTwo),
-                Data::companyResponse($comOne),
+                Data::companiesResponse($comTwo),
+                Data::companiesResponse($comOne),
             ]
         );
     }

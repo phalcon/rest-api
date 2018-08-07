@@ -63,7 +63,7 @@ class Data
      * @return array
      * @throws \Niden\Exception\ModelException
      */
-    public static function companyResponse(AbstractModel $record)
+    public static function companiesResponse(AbstractModel $record)
     {
         return [
             'id'         => $record->get('id'),

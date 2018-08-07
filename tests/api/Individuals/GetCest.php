@@ -204,7 +204,7 @@ class GetCest
                     ],
                 ];
 
-                $included[] = Data::companyResponse($company);
+                $included[] = Data::companiesResponse($company);
 
             }
 

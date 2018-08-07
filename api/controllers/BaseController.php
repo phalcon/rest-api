@@ -45,6 +45,12 @@ class BaseController extends Controller
     protected $includes = [];
 
     /** @var string */
+    protected $method = 'collection';
+
+    /** @var string */
+    protected $orderBy = 'name';
+
+    /** @var string */
     protected $resource = '';
 
     /** @var array */
@@ -52,9 +58,6 @@ class BaseController extends Controller
 
     /** @var string */
     protected $transformer = '';
-
-    /** @var string */
-    protected $orderBy = 'name';
 
     /**
      * Get the company/companies
@@ -65,22 +68,23 @@ class BaseController extends Controller
      */
     public function callAction($id = 0)
     {
-
         $parameters = $this->checkIdParameter($id);
         $related    = $this->checkIncludes();
         $validSort  = $this->checkSort();
 
         if (true !== $validSort) {
-            return $this->send400();
+            $this->sendError($this->response::BAD_REQUEST);
+        } else {
+            $results = $this->getRecords($this->config, $this->cache, $this->model, $parameters, $this->orderBy);
+            if (count($parameters) > 0 && 0 === count($results)) {
+                $this->sendError($this->response::NOT_FOUND);
+            } else {
+                $data = $this->format($this->method, $results, $this->transformer, $this->resource, $related);
+                $this
+                    ->response
+                    ->setPayloadSuccess($data);
+            }
         }
-
-        $results = $this->getRecords($this->config, $this->cache, $this->model, $parameters, $this->orderBy);
-
-        if (count($parameters) > 0 && 0 === count($results)) {
-            return $this->send404();
-        }
-
-        return $this->format($results, $this->transformer, $this->resource, $related);
     }
 
     /**
@@ -185,34 +189,16 @@ class BaseController extends Controller
     }
 
     /**
-     * Sets the response with a 400 and returns an empty array back
+     * Sets the response with an error code
      *
-     * @return array
+     * @param int $code
      */
-    private function send400(): array
+    private function sendError(int $code)
     {
         $this
             ->response
-            ->setPayloadError($this->response->getHttpCodeDescription($this->response::BAD_REQUEST))
-            ->setStatusCode($this->response::BAD_REQUEST)
+            ->setPayloadError($this->response->getHttpCodeDescription($code))
+            ->setStatusCode($code)
         ;
-
-        return [];
-    }
-
-    /**
-     * Sets the response with a 404 and returns an empty array back
-     *
-     * @return array
-     */
-    private function send404(): array
-    {
-        $this
-            ->response
-            ->setPayloadError($this->response->getHttpCodeDescription($this->response::NOT_FOUND))
-            ->setStatusCode($this->response::NOT_FOUND)
-        ;
-
-        return [];
     }
 }

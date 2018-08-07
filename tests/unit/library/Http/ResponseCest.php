@@ -34,14 +34,11 @@ class ResponseCest
         $I->assertTrue(is_string($contents));
 
         $payload = json_decode($contents, true);
-        $I->assertEquals(3, count($payload));
-        $I->assertTrue(isset($payload['jsonapi']));
         if (true === $error) {
             $I->assertTrue(isset($payload['errors']));
         } else {
             $I->assertTrue(isset($payload['data']));
         }
-        $I->assertTrue(isset($payload['meta']));
 
         return $payload;
     }

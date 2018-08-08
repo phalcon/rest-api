@@ -55,15 +55,15 @@ class BaseTransformer extends TransformerAbstract
      * @param string        $method
      * @param AbstractModel $model
      * @param string        $transformer
-     * @param string        $relationship
+     * @param string        $resource
      *
      * @return Collection|Item
      */
-    protected function getRelatedData(string $method, AbstractModel $model, string $transformer, string $relationship)
+    protected function getRelatedData(string $method, AbstractModel $model, string $transformer, string $resource)
     {
         /** @var AbstractModel $data */
-        $data = $model->getRelated($relationship);
+        $data = $model->getRelated($resource);
 
-        return $this->$method($data, new $transformer($this->fields, $relationship), $relationship);
+        return $this->$method($data, new $transformer($this->fields, $resource), $resource);
     }
 }

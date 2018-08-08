@@ -46,3 +46,23 @@ if (true !== function_exists('Niden\Core\envValue')) {
         return $return;
     }
 }
+
+if (true !== function_exists('Niden\Core\appUrl')) {
+    /**
+     * Constructs a URL for links with resource and id
+     *
+     * @param string $resource
+     * @param int    $recordId
+     *
+     * @return array|false|mixed|string
+     */
+    function appUrl(string $resource, int $recordId)
+    {
+        return sprintf(
+            '%s/%s/%s',
+            envValue('APP_URL'),
+            $resource,
+            $recordId
+        );
+    }
+}

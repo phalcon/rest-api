@@ -135,7 +135,7 @@ class IndividualsTransformerCest
                 ],
             ],
             'included' => [
-                Data::companyResponse($company),
+                Data::companiesResponse($company),
                 Data::individualTypeResponse($individualType),
             ],
         ];

@@ -13,9 +13,13 @@ use Niden\Models\IndividualTypes;
  */
 class IndividualTypesTransformer extends BaseTransformer
 {
+    /** @var array */
     protected $availableIncludes = [
         Relationships::INDIVIDUALS,
     ];
+
+    /** @var string */
+    protected $resource = Relationships::INDIVIDUAL_TYPES;
 
     /**
      * @param IndividualTypes $type

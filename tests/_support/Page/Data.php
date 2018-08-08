@@ -63,7 +63,7 @@ class Data
      * @return array
      * @throws \Niden\Exception\ModelException
      */
-    public static function companyResponse(AbstractModel $record)
+    public static function companiesResponse(AbstractModel $record)
     {
         return [
             'id'         => $record->get('id'),
@@ -158,6 +158,32 @@ class Data
                 'name'        => $record->get('name'),
                 'description' => $record->get('description'),
                 'quantity'    => $record->get('quantity'),
+                'price'       => $record->get('price'),
+            ],
+            'links'      => [
+                'self' => sprintf(
+                    '%s/%s/%s',
+                    envValue('APP_URL'),
+                    Relationships::PRODUCTS,
+                    $record->get('id')
+                ),
+            ],
+        ];
+    }
+
+    /**
+     * @param AbstractModel $record
+     *
+     * @return array
+     * @throws \Niden\Exception\ModelException
+     */
+    public static function productFieldsResponse(AbstractModel $record)
+    {
+        return [
+            'type'       => Relationships::PRODUCTS,
+            'id'         => $record->get('id'),
+            'attributes' => [
+                'name'        => $record->get('name'),
                 'price'       => $record->get('price'),
             ],
             'links'      => [

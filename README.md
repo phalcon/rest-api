@@ -66,7 +66,21 @@ The routes available are:
 
 `product-types/<number>?included=<products>`                                             
                                              
+#### Fields
 
+`/companies?fields[<relationship>]=<field>,<field>&fields[<relationship>]=<field>,<field>`
+
+#### Sorting
+
+`/companies?sort=<[-]id>,<[-]status>,<[-]username>,<[-]issuer>`
+
+`individuals?sort=<[-]id',<[-]companyId>,<[-]typeId>,<[-]prefix>,<[-]first>,<[-]middle>,<[-]last>,<[-]suffix'>,`
+
+`individual-types?sort=<[-]id>,<[-]name>`
+
+`products?sort=<[-]id',<[-]typeId>,<[-]name>,<[-]quantity>,<[-]price>`
+
+`product-types?sort=<[-]id>,<[-]name>`                                             
 
 #### Responses
 ##### Structure
@@ -247,10 +261,11 @@ For more information regarding responses, please check [JSON API](https://jsonap
 ### TODO
 - ~~Work on companies GET~~
 - ~~Work on included data~~
+- ~~Work on sorting~~
 - Write examples of code to send to the client
 - Create docs endpoint
 - Work on relationships
 - Work on pagination
 - Work on filters
-- Work on sorting
+- Sorting on related resources
 - Perhaps add a new claim to the token tied to the device? `setClaim('deviceId', 'Web-Server')`. This will allow the client application to invalidate access to a device that has already been logged in.

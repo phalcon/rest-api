@@ -142,7 +142,7 @@ class ProductsTransformerCest
                 ],
             ],
             'included' => [
-                Data::companyResponse($company),
+                Data::companiesResponse($company),
                 Data::productTypeResponse($productType),
             ],
         ];

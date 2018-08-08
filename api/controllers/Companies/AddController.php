@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Niden\Api\Controllers\Companies;
 
+use Niden\Constants\Relationships;
+use function Niden\Core\appUrl;
 use Niden\Exception\ModelException;
 use Niden\Http\Response;
 use Niden\Models\Companies;
@@ -27,7 +29,6 @@ class AddController extends Controller
     /**
      * Adds a record in the database
      *
-     * @return array
      * @throws ModelException
      */
     public function callAction()
@@ -50,25 +51,31 @@ class AddController extends Controller
                 ->set('address', $address)
                 ->set('city', $city)
                 ->set('phone', $phone)
-                ->save()
-            ;
+                ->save();
 
             if (false !== $result) {
+                $data = $this->format('item', $company, BaseTransformer::class, 'companies');
+                $this
+                    ->response
+                    ->setHeader('Location', appUrl(Relationships::COMPANIES, $company->get('id')))
+                    ->setJsonContent($data)
+                    ->setStatusCode($this->response::CREATED)
+                ;
+            } else {
                 /**
-                 * Everything is fine, return the record back
+                 * Errors happened store them
                  */
-                return $this->format([$company], BaseTransformer::class, 'companies');
+                $this
+                    ->response
+                    ->setPayloadErrors($company->getMessages());
             }
-
+        } else {
             /**
-             * Errors happened store them
+             * Set the errors in the payload
              */
-            $messages = $company->getMessages();
+            $this
+                ->response
+                ->setPayloadErrors($messages);
         }
-
-        /**
-         * Set the errors in the payload
-         */
-        $this->response->setPayloadErrors($messages);
     }
 }

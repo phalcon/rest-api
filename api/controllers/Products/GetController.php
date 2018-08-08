@@ -28,13 +28,14 @@ class GetController extends BaseController
     /** @var string */
     protected $resource    = Relationships::PRODUCTS;
 
-    /** @var array */
+    /** @var array<string,bool> */
     protected $sortFields  = [
-        'id',
-        'typeId',
-        'name',
-        'quantity',
-        'price',
+        'id'          => true,
+        'typeId'      => true,
+        'name'        => true,
+        'description' => false,
+        'quantity'    => true,
+        'price'       => true,
     ];
 
     /** @var string */

@@ -44,10 +44,9 @@ class LoginController extends Controller
         $user     = $this->getUserByUsernameAndPassword($this->config, $this->cache, $username, $password);
 
         if (false !== $user) {
-            /**
-             * User found - Return token
-             */
-            return ['token' => $user->getToken()];
+            $this
+                ->response
+                ->setPayloadSuccess(['token' => $user->getToken()]);
         } else {
             $this
                 ->response

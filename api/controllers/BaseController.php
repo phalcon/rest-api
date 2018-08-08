@@ -45,6 +45,12 @@ class BaseController extends Controller
     protected $includes = [];
 
     /** @var string */
+    protected $method = 'collection';
+
+    /** @var string */
+    protected $orderBy = 'name';
+
+    /** @var string */
     protected $resource = '';
 
     /** @var array */
@@ -53,33 +59,49 @@ class BaseController extends Controller
     /** @var string */
     protected $transformer = '';
 
-    /** @var string */
-    protected $orderBy = 'name';
-
     /**
      * Get the company/companies
      *
-     * @param int    $id
-     *
-     * @return array
+     * @param int $id
      */
     public function callAction($id = 0)
     {
         $parameters = $this->checkIdParameter($id);
+        $fields     = $this->checkFields();
         $related    = $this->checkIncludes();
         $validSort  = $this->checkSort();
 
         if (true !== $validSort) {
-            return $this->send400();
+            $this->sendError($this->response::BAD_REQUEST);
+        } else {
+            $results = $this->getRecords($this->config, $this->cache, $this->model, $parameters, $this->orderBy);
+            if (count($parameters) > 0 && 0 === count($results)) {
+                $this->sendError($this->response::NOT_FOUND);
+            } else {
+                $data = $this->format(
+                    $this->method,
+                    $results,
+                    $this->transformer,
+                    $this->resource,
+                    $related,
+                    $fields
+                );
+                $this
+                    ->response
+                    ->setPayloadSuccess($data);
+            }
+        }
+    }
+
+    private function checkFields(): array
+    {
+        $data      = [];
+        $fieldSent = $this->request->getQuery('fields', [Filter::FILTER_STRING, Filter::FILTER_TRIM], []);
+        foreach ($fieldSent as $resource => $fields) {
+            $data[$resource] = explode(',', $fields);
         }
 
-        $results = $this->getRecords($this->config, $this->cache, $this->model, $parameters, $this->orderBy);
-
-        if (count($parameters) > 0 && 0 === count($results)) {
-            return $this->send404();
-        }
-
-        return $this->format($results, $this->transformer, $this->resource, $related);
+        return $data;
     }
 
     /**
@@ -139,9 +161,9 @@ class BaseController extends Controller
             foreach ($requestedSort as $field) {
                 list($trueField, $direction) = $this->getFieldAndDirection($field);
                 /**
-                 * Is this a valid field? If yes, process it
+                 * Is this a valid field and is it sortable? If yes, process it
                  */
-                if (true === in_array($trueField, $this->sortFields)) {
+                if (true === ($this->sortFields[$trueField] ?? false)) {
                     $sortArray[] = $trueField . $direction;
                 } else {
                     return false;
@@ -169,14 +191,14 @@ class BaseController extends Controller
      */
     private function getFieldAndDirection(string $field): array
     {
-        $trueField = $field;
+        $trueField = strtolower($field);
         $direction = ' asc';
 
         /**
          * Ascending or descending
          */
-        if ('-' === substr($field, 0, 1)) {
-            $trueField = substr($field, 1);
+        if ('-' === substr($trueField, 0, 1)) {
+            $trueField = substr($trueField, 1);
             $direction = ' desc';
         }
 
@@ -184,34 +206,16 @@ class BaseController extends Controller
     }
 
     /**
-     * Sets the response with a 400 and returns an empty array back
+     * Sets the response with an error code
      *
-     * @return array
+     * @param int $code
      */
-    private function send400(): array
+    private function sendError(int $code)
     {
         $this
             ->response
-            ->setPayloadError($this->response->getHttpCodeDescription($this->response::BAD_REQUEST))
-            ->setStatusCode($this->response::BAD_REQUEST)
+            ->setPayloadError($this->response->getHttpCodeDescription($code))
+            ->setStatusCode($code)
         ;
-
-        return [];
-    }
-
-    /**
-     * Sets the response with a 404 and returns an empty array back
-     *
-     * @return array
-     */
-    private function send404(): array
-    {
-        $this
-            ->response
-            ->setPayloadError($this->response->getHttpCodeDescription($this->response::NOT_FOUND))
-            ->setStatusCode($this->response::NOT_FOUND)
-        ;
-
-        return [];
     }
 }

@@ -66,6 +66,10 @@ The routes available are:
 
 `product-types/<number>?included=<products>`                                             
                                              
+#### Fields
+
+`/companies?fields[<relationship>]=<field>,<field>&fields[<relationship>]=<field>,<field>`
+
 #### Sorting
 
 `/companies?sort=<[-]id>,<[-]status>,<[-]username>,<[-]issuer>`

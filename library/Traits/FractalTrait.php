@@ -25,11 +25,18 @@ trait FractalTrait
      * @param string  $transformer
      * @param string  $resource
      * @param array   $relationships
+     * @param array   $fields
      *
      * @return array
      */
-    protected function format(string $method, $results, string $transformer, string $resource, array $relationships = []): array
-    {
+    protected function format(
+        string $method,
+        $results,
+        string $transformer,
+        string $resource,
+        array $relationships = [],
+        array $fields = []
+    ): array {
         $url      = envValue('APP_URL', 'http://localhost');
         $manager  = new Manager();
         $manager->setSerializer(new JsonApiSerializer($url));
@@ -42,7 +49,7 @@ trait FractalTrait
         }
 
         $class    = sprintf('League\Fractal\Resource\%s', ucfirst($method));
-        $resource = new $class($results, new $transformer(), $resource);
+        $resource = new $class($results, new $transformer($fields, $resource), $resource);
         $results  = $manager->createData($resource)->toArray();
 
         return $results;

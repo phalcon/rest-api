@@ -16,6 +16,24 @@ use Niden\Mvc\Model\AbstractModel;
  */
 class BaseTransformer extends TransformerAbstract
 {
+    /** @var array */
+    private $fields = [];
+
+    /** @var string */
+    private $resource = '';
+
+    /**
+     * BaseTransformer constructor.
+     *
+     * @param array  $fields
+     * @param string $resource
+     */
+    public function __construct(array $fields = [], string $resource = '')
+    {
+        $this->fields   = $fields;
+        $this->resource = $resource;
+    }
+
     /**
      * @param AbstractModel $model
      *
@@ -24,10 +42,10 @@ class BaseTransformer extends TransformerAbstract
      */
     public function transform(AbstractModel $model)
     {
+        $fields  = $this->fields[$this->resource] ?? array_keys($model->getModelFilters());
         $data    = [];
-        $filters = array_keys($model->getModelFilters());
-        foreach ($filters as $column) {
-            $data[$column] = $model->get($column);
+        foreach ($fields as $field) {
+            $data[$field] = $model->get($field);
         }
 
         return $data;
@@ -46,6 +64,6 @@ class BaseTransformer extends TransformerAbstract
         /** @var AbstractModel $data */
         $data = $model->getRelated($relationship);
 
-        return $this->$method($data, new $transformer(), $relationship);
+        return $this->$method($data, new $transformer($this->fields, $relationship), $relationship);
     }
 }

@@ -62,13 +62,12 @@ class BaseController extends Controller
     /**
      * Get the company/companies
      *
-     * @param int    $id
-     *
-     * @return array
+     * @param int $id
      */
     public function callAction($id = 0)
     {
         $parameters = $this->checkIdParameter($id);
+        $fields     = $this->checkFields();
         $related    = $this->checkIncludes();
         $validSort  = $this->checkSort();
 
@@ -79,12 +78,30 @@ class BaseController extends Controller
             if (count($parameters) > 0 && 0 === count($results)) {
                 $this->sendError($this->response::NOT_FOUND);
             } else {
-                $data = $this->format($this->method, $results, $this->transformer, $this->resource, $related);
+                $data = $this->format(
+                    $this->method,
+                    $results,
+                    $this->transformer,
+                    $this->resource,
+                    $related,
+                    $fields
+                );
                 $this
                     ->response
                     ->setPayloadSuccess($data);
             }
         }
+    }
+
+    private function checkFields(): array
+    {
+        $data      = [];
+        $fieldSent = $this->request->getQuery('fields', [Filter::FILTER_STRING, Filter::FILTER_TRIM], []);
+        foreach ($fieldSent as $resource => $fields) {
+            $data[$resource] = explode(',', $fields);
+        }
+
+        return $data;
     }
 
     /**

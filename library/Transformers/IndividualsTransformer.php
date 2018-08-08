@@ -13,10 +13,14 @@ use Niden\Models\Individuals;
  */
 class IndividualsTransformer extends BaseTransformer
 {
+    /** @var array */
     protected $availableIncludes = [
         Relationships::COMPANIES,
         Relationships::INDIVIDUAL_TYPES,
     ];
+
+    /** @var string */
+    protected $resource = Relationships::INDIVIDUALS;
 
     /**
      * Includes the companies

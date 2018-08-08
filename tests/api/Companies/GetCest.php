@@ -236,6 +236,87 @@ class GetCest
         $I->seeSuccessJsonResponse();
     }
 
+    public function getCompaniesWithIncludesAndFields(ApiTester $I)
+    {
+        list($com, $prdOne, $prdTwo) = $this->addRecords($I);
+
+        $I->addApiUserRecord();
+        $token = $I->apiLogin();
+
+        $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $I->sendGET(
+            sprintf(
+                Data::$companiesRecordIncludesUrl,
+                $com->get('id'),
+                Relationships::PRODUCTS
+            ) .
+            '&fields['. Relationships::COMPANIES . ']=id,name,city' .
+            '&fields['. Relationships::PRODUCTS . ']=id,name,price'
+        );
+
+        $I->deleteHeader('Authorization');
+
+        $I->seeResponseIsSuccessful();
+
+        $included = [];
+        $element  = [
+            'type'          => Relationships::COMPANIES,
+            'id'            => $com->get('id'),
+            'attributes'    => [
+                'name'    => $com->get('name'),
+                'city'    => $com->get('city'),
+            ],
+            'links'         => [
+                'self' => sprintf(
+                    '%s/%s/%s',
+                    envValue('APP_URL', 'localhost'),
+                    Relationships::COMPANIES,
+                    $com->get('id')
+                ),
+            ],
+        ];
+
+        $element['relationships'][Relationships::PRODUCTS] = [
+            'links' => [
+                'self'    => sprintf(
+                    '%s/%s/%s/relationships/%s',
+                    envValue('APP_URL', 'localhost'),
+                    Relationships::COMPANIES,
+                    $com->get('id'),
+                    Relationships::PRODUCTS
+                ),
+                'related' => sprintf(
+                    '%s/%s/%s/%s',
+                    envValue('APP_URL', 'localhost'),
+                    Relationships::COMPANIES,
+                    $com->get('id'),
+                    Relationships::PRODUCTS
+                ),
+            ],
+            'data'  => [
+                [
+                    'type' => Relationships::PRODUCTS,
+                    'id'   => $prdOne->get('id'),
+                ],
+                [
+                    'type' => Relationships::PRODUCTS,
+                    'id'   => $prdTwo->get('id'),
+                ],
+            ],
+        ];
+
+        $included[] = Data::productFieldsResponse($prdOne);
+        $included[] = Data::productFieldsResponse($prdTwo);
+
+        $I->seeSuccessJsonResponse('data', [$element]);
+
+        if (count($included) > 0) {
+            $I->seeSuccessJsonResponse('included', $included);
+        }
+
+    }
+
+
     private function addRecords(ApiTester $I): array
     {
         /** @var Companies $comOne */

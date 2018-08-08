@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Niden\Transformers;
 
+use function array_intersect;
 use function array_keys;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
@@ -42,8 +43,10 @@ class BaseTransformer extends TransformerAbstract
      */
     public function transform(AbstractModel $model)
     {
-        $fields  = $this->fields[$this->resource] ?? array_keys($model->getModelFilters());
-        $data    = [];
+        $modelFields     = array_keys($model->getModelFilters());
+        $requestedFields = $this->fields[$this->resource] ?? $modelFields;
+        $fields          = array_intersect($modelFields, $requestedFields);
+        $data            = [];
         foreach ($fields as $field) {
             $data[$field] = $model->get($field);
         }

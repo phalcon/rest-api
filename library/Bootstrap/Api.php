@@ -32,9 +32,12 @@ class Api extends AbstractBootstrap
      */
     public function setup()
     {
+        //set the default DI
         $this->container = new FactoryDefault();
+        //set all the services
         $this->providers = require appPath('api/config/providers.php');
 
+        //run my parents setup
         parent::setup();
     }
 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Niden\Providers;
 
-use function register_shutdown_function;
-use function set_error_handler;
 use Monolog\Logger;
 use Niden\ErrorHandler;
 use Phalcon\Config;
@@ -22,12 +20,17 @@ class ErrorHandlerProvider implements ServiceProviderInterface
     public function register(DiInterface $container)
     {
         /** @var Logger $logger */
-        $logger  = $container->getShared('logger');
+        $logger = $container->getShared('logger');
         /** @var Config $registry */
-        $config  = $container->getShared('config');
+        $config = $container->getShared('config');
 
         date_default_timezone_set($config->path('app.timezone'));
-        ini_set('display_errors', 'Off');
+
+        //if production?
+        if (strtolower($config->app->env) == 'production') {
+            ini_set('display_errors', 'Off');
+        }
+
         error_reporting(E_ALL);
 
         $handler = new ErrorHandler($logger, $config);

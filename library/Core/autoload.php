@@ -7,12 +7,13 @@ use function Niden\Core\appPath;
 // Register the auto loader
 require __DIR__ . '/functions.php';
 
-$loader     = new Loader();
+$loader = new Loader();
 $namespaces = [
-    'Niden'                 => appPath('/library'),
-    'Niden\Api\Controllers' => appPath('/api/controllers'),
-    'Niden\Cli\Tasks'       => appPath('/cli/tasks'),
-    'Niden\Tests'           => appPath('/tests'),
+    'Niden' => appPath('/library'),
+    'Baka' => appPath('/library'),
+    'Baka\Api\Controllers' => appPath('/api/controllers'),
+    'Baka\Cli\Tasks' => appPath('/cli/tasks'),
+    'Baka\Tests' => appPath('/tests'),
 ];
 
 $loader->registerNamespaces($namespaces);

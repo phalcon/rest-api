@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Niden\Bootstrap;
 
-use function microtime;
 use Niden\Http\Response;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;
@@ -12,6 +11,9 @@ use Phalcon\Di\FactoryDefault\Cli as PhCli;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Micro;
 
+/**
+ * Absstract class that provides the boostrap structure for any Micro PhalconPHP App
+ */
 abstract class AbstractBootstrap
 {
     /** @var Micro|Console */
@@ -72,6 +74,7 @@ abstract class AbstractBootstrap
      */
     protected function setupApplication()
     {
+        //setup the phalcon micro application
         $this->application = new Micro($this->container);
         $this->container->setShared('application', $this->application);
     }

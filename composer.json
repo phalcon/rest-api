@@ -4,12 +4,19 @@
     "ext-openssl": "*",
     "ext-phalcon": ">=3.2.0 <4.0",
     "dariuszp/cli-progress-bar": "^1.0",
-    "lcobucci/jwt": "^3.2",
     "league/fractal": "^0.17.0",
     "monolog/monolog": "^1.23",
     "psr/log": "^1.0",
     "robmorgan/phinx": "^0.9.2",
-    "vlucas/phpdotenv": "^2.4"
+    "vlucas/phpdotenv": "^2.4",
+    "baka/http": "dev-master",
+    "baka/mail": "dev-master",
+    "baka/database": "dev-master",
+    "dmkit/phalcon-jwt-auth": "dev-master",
+    "firebase/php-jwt": "^5.0",
+    "duncan3dc/fork-helper": "^2.2.0",
+    "phalcon/incubator": "~3.4",
+    "nesbot/carbon": "~1.18"
   },
   "require-dev": {
     "codeception/codeception": "^2.4",

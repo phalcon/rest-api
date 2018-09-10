@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Cli\Tasks;
+namespace Baka\Cli\Tasks;
 
 use Phalcon\Cli\Task as PhTask;
 
@@ -13,7 +13,7 @@ class MainTask extends PhTask
     {
         // 'green' => "\033[0;32m(%s)\033[0m",
         // 'red'   => "\033[0;31m(%s)\033[0m",
-        $year   = date('Y');
+        $year = date('Y');
         $output = <<<EOF
 ******************************************************
  Phalcon Team | (C) {$year}

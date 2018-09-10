@@ -62,7 +62,7 @@ class Cli extends AbstractBootstrap
 
         $options = [
             'clear-cache' => 'ClearCache',
-            'help'        => 'Main',
+            'help' => 'Main',
         ];
 
         $arguments = getopt('', array_keys($options));

@@ -15,11 +15,13 @@ class CliDispatcherProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
+        $config = $container->getShared('config');
+
         $container->setShared(
             'dispatcher',
-            function () {
+            function () use ($config) {
                 $dispatcher = new Dispatcher();
-                $dispatcher->setDefaultNamespace('Niden\Cli\Tasks');
+                $dispatcher->setDefaultNamespace(ucfirst($config->app->namespaceName) . '\Cli\Tasks');
 
                 return $dispatcher;
             }

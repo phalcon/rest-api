@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Exception;
+namespace Baka\Exception;
 
 class ModelException extends Exception
 {

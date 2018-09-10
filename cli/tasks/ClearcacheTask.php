@@ -1,13 +1,10 @@
 <?php
 
-namespace Niden\Cli\Tasks;
-
-use function in_array;
+namespace Baka\Cli\Tasks;
 
 use function Niden\Core\appPath;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cli\Task as PhTask;
-use const PHP_EOL;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -36,11 +33,11 @@ class ClearcacheTask extends PhTask
     {
         echo 'Clearing Cache folders' . PHP_EOL;
 
-        $fileList    = [];
-        $whitelist   = ['.', '..', '.gitignore'];
-        $path        = appPath('storage/cache');
+        $fileList = [];
+        $whitelist = ['.', '..', '.gitignore'];
+        $path = appPath('storage/cache');
         $dirIterator = new RecursiveDirectoryIterator($path);
-        $iterator    = new RecursiveIteratorIterator(
+        $iterator = new RecursiveIteratorIterator(
             $dirIterator,
             RecursiveIteratorIterator::CHILD_FIRST
         );
@@ -69,8 +66,8 @@ class ClearcacheTask extends PhTask
     private function clearMemCached()
     {
         echo 'Clearing data cache' . PHP_EOL;
-        $options   = $this->cache->getOptions();
-        $servers   = $options['servers'] ?? [];
+        $options = $this->cache->getOptions();
+        $servers = $options['servers'] ?? [];
         $memcached = new \Memcached();
         foreach ($servers as $server) {
             $memcached->addServer($server['host'], $server['port'], $server['weight']);
@@ -80,8 +77,8 @@ class ClearcacheTask extends PhTask
         echo sprintf('Found %s keys', count($keys)) . PHP_EOL;
         foreach ($keys as $key) {
             if ('api-data' === substr($key, 0, 8)) {
-                $server     = $memcached->getServerByKey($key);
-                $result     = $memcached->deleteByKey($server['host'], $key);
+                $server = $memcached->getServerByKey($key);
+                $result = $memcached->deleteByKey($server['host'], $key);
                 $resultCode = $memcached->getResultCode();
                 if (true === $result && $resultCode !== \Memcached::RES_NOTFOUND) {
                     echo '.';
@@ -91,6 +88,6 @@ class ClearcacheTask extends PhTask
             }
         }
 
-        echo  PHP_EOL . 'Cleared data cache'  . PHP_EOL;
+        echo  PHP_EOL . 'Cleared data cache' . PHP_EOL;
     }
 }

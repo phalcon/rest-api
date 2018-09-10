@@ -4,15 +4,17 @@
  * Enabled providers. Order does matter
  */
 
-use Niden\Providers\CacheDataProvider;
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\DatabaseProvider;
-use Niden\Providers\ErrorHandlerProvider;
-use Niden\Providers\LoggerProvider;
-use Niden\Providers\ModelsMetadataProvider;
-use Niden\Providers\RequestProvider;
-use Niden\Providers\ResponseProvider;
-use Niden\Providers\RouterProvider;
+use Baka\Providers\CacheDataProvider;
+use Baka\Providers\ConfigProvider;
+use Baka\Providers\DatabaseProvider;
+use Baka\Providers\ErrorHandlerProvider;
+use Baka\Providers\LoggerProvider;
+use Baka\Providers\ModelsMetadataProvider;
+use Baka\Providers\RouterProvider;
+use Baka\Providers\SessionProvider;
+use Baka\Providers\QueueProvider;
+use Baka\Providers\MailProvider;
+use Baka\Providers\RedisProvider;
 
 return [
     ConfigProvider::class,
@@ -20,8 +22,10 @@ return [
     ErrorHandlerProvider::class,
     DatabaseProvider::class,
     ModelsMetadataProvider::class,
-    RequestProvider::class,
-    ResponseProvider::class,
     RouterProvider::class,
     CacheDataProvider::class,
+    SessionProvider::class,
+    QueueProvider::class,
+    MailProvider::class,
+    RedisProvider::class,
 ];

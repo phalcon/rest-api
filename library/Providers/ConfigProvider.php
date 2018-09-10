@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Providers;
+namespace Baka\Providers;
 
 use function Niden\Core\appPath;
 use Phalcon\DiInterface;

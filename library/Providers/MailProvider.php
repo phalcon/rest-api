@@ -1,14 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Baka\Providers;
 
-use Phalcon\Cli\Dispatcher;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 
-class CliDispatcherProvider implements ServiceProviderInterface
+class MailProvider implements ServiceProviderInterface
 {
     /**
      * @param DiInterface $container
@@ -18,12 +15,10 @@ class CliDispatcherProvider implements ServiceProviderInterface
         $config = $container->getShared('config');
 
         $container->setShared(
-            'dispatcher',
+            'mail',
             function () use ($config) {
-                $dispatcher = new Dispatcher();
-                $dispatcher->setDefaultNamespace(ucfirst($config->app->namespaceName) . '\Cli\Tasks');
-
-                return $dispatcher;
+                $mailer = new \Baka\Mail\Manager($config->email->toArray());
+                return $mailer->createMessage();
             }
         );
     }

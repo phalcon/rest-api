@@ -7,6 +7,10 @@ namespace Niden\Bootstrap;
 use function Niden\Core\appPath;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
+use Phalcon\Http\Response;
+use Phalcon\Http\Request;
+use Throwable;
+use Dmkit\Phalcon\Auth\Middleware\Micro as AuthMicro;
 
 /**
  * Class Api
@@ -24,7 +28,49 @@ class Api extends AbstractBootstrap
      */
     public function run()
     {
-        return $this->application->handle();
+        try {
+            //JWT Validation
+            $auth = new AuthMicro($this->application, $this->container->getConfig()->jwt->toArray());
+
+            return $this->application->handle();
+        } catch (Throwable $e) {
+            $this->handleException($e)->send();
+        }
+    }
+
+    /**
+     * Handle the exception we throw from our api
+     *
+     * @param Throwable $e
+     * @return Response
+     */
+    public function handleException(Throwable $e): Response
+    {
+        $response = new Response();
+        $request = new Request();
+        $identifier = $request->getServerAddress();
+        $config = $this->container->getConfig();
+
+        $httpCode = (method_exists($e, 'getHttpCode')) ? $e->getHttpCode() : 400;
+        $httpMessage = (method_exists($e, 'getHttpMessage')) ? $e->getHttpMessage() : 'Bad Request';
+        $data = (method_exists($e, 'getData')) ? $e->getData() : [];
+
+        $message = $e->getMessage();
+        $response->setStatusCode($httpCode, $httpMessage);
+        $response->setContentType('application/json');
+        $response->setJsonContent([
+            'errors' => [
+                'type' => 'FAILED',
+                'identifier' => $identifier,
+                'message' => $e->getMessage(),
+                'trace' => strtolower($config->app->env) != 'production' ? $e->getTraceAsString() : null,
+                'data' => $data,
+            ],
+        ]);
+
+        $this->container->getLog()->error($e);
+
+        return $response;
     }
 
     /**

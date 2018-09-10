@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Niden\Providers;
+namespace Baka\Providers;
 
 use function Niden\Core\appPath;
 use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\AuthenticationMiddleware;
-use Niden\Middleware\TokenUserMiddleware;
 use Niden\Middleware\TokenValidationMiddleware;
-use Niden\Middleware\TokenVerificationMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
@@ -78,8 +76,6 @@ class RouterProvider implements ServiceProviderInterface
         return [
             NotFoundMiddleware::class => 'before',
             AuthenticationMiddleware::class => 'before',
-            TokenUserMiddleware::class => 'before',
-            TokenVerificationMiddleware::class => 'before',
             TokenValidationMiddleware::class => 'before',
         ];
     }

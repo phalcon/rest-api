@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Providers;
+namespace Baka\Providers;
 
 use function Niden\Core\envValue;
 use Phalcon\Di\ServiceProviderInterface;
@@ -19,21 +19,21 @@ class ModelsMetadataProvider implements ServiceProviderInterface
         $container->setShared(
             'modelsMetadata',
             function () {
-                $prefix      = 'metadata';
+                $prefix = 'metadata';
                 $backOptions = [
-                    'servers'  => [
+                    'servers' => [
                         0 => [
-                            'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
-                            'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
+                            'host' => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
+                            'port' => envValue('DATA_API_MEMCACHED_PORT', 11211),
                             'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
                         ],
                     ],
-                    'client'   => [
-                        \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
+                    'client' => [
+                        \Memcached::OPT_HASH => \Memcached::HASH_MD5,
                         \Memcached::OPT_PREFIX_KEY => 'api-',
                     ],
                     'lifetime' => 3600,
-                    'prefix'   => $prefix . '-',
+                    'prefix' => $prefix . '-',
                 ];
 
                 return new Libmemcached($backOptions);

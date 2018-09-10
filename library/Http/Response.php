@@ -4,29 +4,26 @@ declare(strict_types=1);
 
 namespace Niden\Http;
 
-use function date;
-use function json_decode;
 use Phalcon\Http\Response as PhResponse;
 use Phalcon\Mvc\Model\MessageInterface as ModelMessage;
 use Phalcon\Validation\Message\Group as ValidationMessage;
-use function sha1;
 
 class Response extends PhResponse
 {
-    const OK                    = 200;
-    const CREATED               = 201;
-    const ACCEPTED              = 202;
-    const MOVED_PERMANENTLY     = 301;
-    const FOUND                 = 302;
-    const TEMPORARY_REDIRECT    = 307;
-    const PERMANENTLY_REDIRECT  = 308;
-    const BAD_REQUEST           = 400;
-    const UNAUTHORIZED          = 401;
-    const FORBIDDEN             = 403;
-    const NOT_FOUND             = 404;
+    const OK = 200;
+    const CREATED = 201;
+    const ACCEPTED = 202;
+    const MOVED_PERMANENTLY = 301;
+    const FOUND = 302;
+    const TEMPORARY_REDIRECT = 307;
+    const PERMANENTLY_REDIRECT = 308;
+    const BAD_REQUEST = 400;
+    const UNAUTHORIZED = 401;
+    const FORBIDDEN = 403;
+    const NOT_FOUND = 404;
     const INTERNAL_SERVER_ERROR = 500;
-    const NOT_IMPLEMENTED       = 501;
-    const BAD_GATEWAY           = 502;
+    const NOT_IMPLEMENTED = 501;
+    const BAD_GATEWAY = 502;
 
     private $codes = [
         200 => 'OK',
@@ -65,33 +62,28 @@ class Response extends PhResponse
      */
     public function send(): PhResponse
     {
-        $content   = $this->getContent();
+        $content = $this->getContent();
         $timestamp = date('c');
-        $hash      = sha1($timestamp . $content);
-        $eTag      = sha1($content);
+        $hash = sha1($timestamp . $content);
+        $eTag = sha1($content);
 
         /** @var array $content */
         $content = json_decode($this->getContent(), true);
-        $jsonapi = [
-            'jsonapi' => [
-                'version' => '1.0',
-            ],
-        ];
-        $meta    = [
+
+        $meta = [
             'meta' => [
                 'timestamp' => $timestamp,
-                'hash'      => $hash,
+                'hash' => $hash,
             ]
         ];
 
         /**
          * Join the array again
          */
-        $data = $jsonapi + $content + $meta;
+        $data = $content + $meta;
         $this
             ->setHeader('E-Tag', $eTag)
             ->setJsonContent($data);
-
 
         return parent::send();
     }
@@ -139,7 +131,7 @@ class Response extends PhResponse
     public function setPayloadSuccess($content = []): Response
     {
         $data = (true === is_array($content)) ? $content : ['data' => $content];
-        $data = (true === isset($data['data'])) ? $data  : ['data' => $data];
+        $data = (true === isset($data['data'])) ? $data : ['data' => $data];
 
         $this->setJsonContent($data);
 

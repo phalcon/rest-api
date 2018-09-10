@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Providers;
+namespace Baka\Providers;
 
 use function Niden\Core\envValue;
 use Phalcon\Cache\Backend\Libmemcached;
@@ -18,25 +18,25 @@ class CacheDataProvider implements ServiceProviderInterface
         $container->setShared(
             'cache',
             function () {
-                $prefix       = 'data';
+                $prefix = 'data';
                 $frontAdapter = Data::class;
                 $frontOptions = [
                     'lifetime' => envValue('CACHE_LIFETIME', 86400),
                 ];
                 $backOptions = [
-                    'servers'  => [
+                    'servers' => [
                         0 => [
-                            'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
-                            'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
+                            'host' => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
+                            'port' => envValue('DATA_API_MEMCACHED_PORT', 11211),
                             'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
                         ],
                     ],
-                    'client'   => [
-                        \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
+                    'client' => [
+                        \Memcached::OPT_HASH => \Memcached::HASH_MD5,
                         \Memcached::OPT_PREFIX_KEY => 'api-',
                     ],
                     'lifetime' => 3600,
-                    'prefix'   => $prefix . '-',
+                    'prefix' => $prefix . '-',
                 ];
 
                 return new Libmemcached(new $frontAdapter($frontOptions), $backOptions);

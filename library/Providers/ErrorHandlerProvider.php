@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Providers;
+namespace Baka\Providers;
 
 use Monolog\Logger;
 use Niden\ErrorHandler;
@@ -20,7 +20,7 @@ class ErrorHandlerProvider implements ServiceProviderInterface
     public function register(DiInterface $container)
     {
         /** @var Logger $logger */
-        $logger = $container->getShared('logger');
+        $logger = $container->getShared('log');
         /** @var Config $registry */
         $config = $container->getShared('config');
 
@@ -35,6 +35,9 @@ class ErrorHandlerProvider implements ServiceProviderInterface
 
         $handler = new ErrorHandler($logger, $config);
         set_error_handler([$handler, 'handle']);
-        register_shutdown_function([$handler, 'shutdown']);
+
+        if (strtolower($config->app->env) != 'production') {
+            register_shutdown_function([$handler, 'shutdown']);
+        }
     }
 }

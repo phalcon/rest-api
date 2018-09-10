@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Niden\Middleware;
 
-use Niden\Traits\QueryTrait;
-use Niden\Traits\ResponseTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
@@ -16,9 +14,6 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
  */
 class AuthenticationMiddleware implements MiddlewareInterface
 {
-    use ResponseTrait;
-    use QueryTrait;
-
     /**
      * Call me
      *

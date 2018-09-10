@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Niden;
 
-use function memory_get_usage;
-use function microtime;
-use function number_format;
 use Monolog\Logger;
 use Phalcon\Config;
 
@@ -64,9 +61,9 @@ class ErrorHandler
     public function shutdown()
     {
         if (true === $this->config->path('app.devMode')) {
-            $memory    = number_format(memory_get_usage() / 1000000, 2);
+            $memory = number_format(memory_get_usage() / 1000000, 2);
             $execution = number_format(
-                microtime(true) -  $this->config->path('app.time'),
+                microtime(true) - $this->config->path('app.time'),
                 4
             );
 

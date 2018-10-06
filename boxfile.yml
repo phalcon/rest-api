@@ -103,7 +103,7 @@ run.config:
         - opcache
   extra_steps:
     - echo "alias phalcon=\'phalcon.php\'" >> /data/var/home/gonano/.bashrc
-    - cp nginx.conf /data/etc/nginx/nginx.conf
+    - cp  /app/storage/ci/nginx.conf /data/etc/nginx/nginx.conf
   build_triggers:
     - nginx.conf
 

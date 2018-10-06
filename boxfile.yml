@@ -5,8 +5,15 @@ run.config:
   engine.config:
     # Using the PHP 7.2 runtime
     runtime: php-7.2
-    # Apache
-    document_root: api/public
+    webserver: nginx
+    # Nginx
+    nginx_document_root: api/public
+
+    nginx_index_list:
+      - index.php
+      - index.html
+
+    nginx_default_gateway: 'index.php'
 
     # php.ini settings
     allow_url_fopen: 'On'
@@ -45,6 +52,25 @@ run.config:
     session_length: 3600
     session_autostart: 'false'
 
+    # PHP-FPM Settings
+    php_fpm_events_mechanism: 'epoll'
+    php_fpm_max_children: 20
+    php_fpm_max_spare_servers: 1
+    php_fpm_max_requests: 128
+
+    # PHP OPcache Settings
+    opcache_memory_consumption: 64
+    opcache_validate_timestamps: 1
+    opcache_revalidate_freq: 2
+    opcache_revalidate_path: 0
+    opcache_save_comments: 1
+    opcache_load_comments: 1
+    opcache_enable_file_override: 0
+    opcache_optimization_level: '0xffffffff'
+    opcache_inherited_hack: 1
+    opcache_dups_fix: 0
+    opcache_blacklist_filename: ''
+
     # Enabled extensions
     extensions:
       - curl
@@ -53,11 +79,16 @@ run.config:
       - igbinary
       - mbstring
       - memcached
+      - memcache
       - pdo
       - pdo_mysql
+      - pdo_pgsql
       - phalcon
       - session
+      - mcrypt
+      - gd
       - zip
+      - redis
     zend_extensions:
       - opcache
     dev_extensions:
@@ -69,13 +100,12 @@ run.config:
         - xml
         - xmlwriter
     dev_zend_extensions:
-      add:
-        - xdebug
-      rm:
         - opcache
   extra_steps:
     - echo "alias phalcon=\'phalcon.php\'" >> /data/var/home/gonano/.bashrc
-    - cp /app/storage/ci/xdebug.ini /data/etc/php.dev.d/xdebug.ini
+    - cp nginx.conf /data/etc/nginx/nginx.conf
+  build_triggers:
+    - nginx.conf
 
 # Components
 # Memcached
@@ -97,7 +127,7 @@ web.tdm:
   # Autostart services
   start:
     php: start-php
-    apache: start-apache
+    nginx: start-nginx
 
   # Only one route
   routes:

@@ -40,17 +40,10 @@ We use the library [Baka HTTP](https://github.com/bakaphp/http) to handle our Ro
 
 ```json
 {
-  "jsonapi": {
-    "version": "1.0"
-  },
   "errors": {
     "Description of the error no 1",
     "Description of the error no 2"
   },
-  "meta": {
-    "timestamp": "2018-06-08T15:04:34+00:00",
-    "hash": "e6d4d57162ae0f220c8649ae50a2b79fd1cb2c60"
-  }
 }
 ```
 

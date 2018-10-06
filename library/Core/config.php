@@ -93,7 +93,7 @@ return [
             'iss' => 'phalcon-jwt-auth',
         ],
         'ignoreUri' => [
-            '/v1'
+            '/v1',
         ],
     ],
 ];

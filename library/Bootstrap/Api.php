@@ -29,8 +29,15 @@ class Api extends AbstractBootstrap
     public function run()
     {
         try {
+            $config = $this->container->getConfig()->jwt->toArray();
+
+            //ignore token validation if disable
+            if (!$this->container->getConfig()->application->jwtSecurity) {
+                $config['ignoreUri'] = ['regex: *'];
+            }
+
             //JWT Validation
-            $auth = new AuthMicro($this->application, $this->container->getConfig()->jwt->toArray());
+            $auth = new AuthMicro($this->application, $config);
 
             return $this->application->handle();
         } catch (Throwable $e) {

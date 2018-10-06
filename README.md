@@ -1,9 +1,9 @@
 # phalcon-api
 Sample API using Phalcon
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bakaphp/phalcon-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/bakaphp/phalcon-api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/bakaphp/phalcon-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/build-status/master)
 
 
 Implementation of an API application using the Phalcon Framework [https://phalconphp.com](https://phalconphp.com)
@@ -11,7 +11,7 @@ Implementation of an API application using the Phalcon Framework [https://phalco
 ### Installation
 - Clone the project
 - In the project folder run `nanobox run` && `nanobox run start-nginx` && `nanobox run start-php`
-- Hit the IP address with postman
+- Hit the IP address with postman or `nanobox dns add local bakaapi.local`
 
 **NOTE** This requires [nanobox](https://nanobox.io) to be present in your system. Visit their site for installation instructions.
 
@@ -57,4 +57,4 @@ We use the library [Baka HTTP](https://github.com/bakaphp/http) to handle our Ro
                                                     
 ### TODO
 - Create docs endpoint
-- Sorting on related resources
+- Migrate Testing to Baka

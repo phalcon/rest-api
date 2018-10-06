@@ -70,17 +70,10 @@ class Response extends PhResponse
         /** @var array $content */
         $content = json_decode($this->getContent(), true);
 
-        $meta = [
-            'meta' => [
-                'timestamp' => $timestamp,
-                'hash' => $hash,
-            ]
-        ];
-
         /**
          * Join the array again
          */
-        $data = $content + $meta;
+        $data = $content ;
         $this
             ->setHeader('E-Tag', $eTag)
             ->setJsonContent($data);

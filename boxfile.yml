@@ -122,6 +122,30 @@ data.api_mysql:
       - federated
     event_scheduler: 'Off'
 
+# Redis 
+data.redis:
+  image: nanobox/redis:3.0
+  config:
+    tcp_keepalive: 60
+    databases: 16
+    stop_writes_on_bgsave_error: 'yes'
+    slave_serve_stale_data: 'yes'
+    slave_read_only: 'yes'
+    repl_ping_slave_period: 10
+    repl_timeout: 60
+    repl_disable_tcp_nodelay: 'no'
+    max_clients: 1024
+    maxmemory_policy: 'volatile-lru'
+    maxmemory_samples: 3
+    appendonly: 'no'
+    appendfsync: 'everysec'
+    no_appendfsync_on_rewrite: 'no'
+    auto_aof_rewrite_percentage: 100
+    auto_aof_rewrite_min_size: '64m'
+    lua_time_limit: 5000
+    slowlog_log_slower_than: 0
+    slowlog_max_len: 128
+
 # Website setup
 web.tdm:
   # Autostart services

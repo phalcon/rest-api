@@ -13,6 +13,7 @@ $namespaces = [
     'Baka' => appPath('/library'),
     'Baka\Api\Controllers' => appPath('/api/controllers'),
     'Baka\Cli\Tasks' => appPath('/cli/tasks'),
+    'Niden\Tests' => appPath('/tests'),
     'Baka\Tests' => appPath('/tests'),
 ];
 

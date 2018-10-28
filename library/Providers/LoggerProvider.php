@@ -29,11 +29,21 @@ class LoggerProvider implements ServiceProviderInterface
                 /** @var string $logPath */
                 $logPath = envValue('LOGGER_DEFAULT_PATH', 'storage/logs');
                 $logFile = appPath($logPath) . '/' . $logName . '.log';
+
                 $formatter = new LineFormatter("[%datetime%][%level_name%] %message%\n");
+
                 $logger = new Logger('api-logger');
+
                 $handler = new StreamHandler($logFile, Logger::DEBUG);
                 $handler->setFormatter($formatter);
+
+                //sentry logger
+                $client = new Raven_Client('https://' . getenv('SENTRY_RPOJECT_SECRET') . '@sentry.io/' . getenv('SENTRY_PROJECT_ID'));
+                $handlerSentry = new Monolog\Handler\RavenHandler($client, Logger::ERROR);
+                $handlerSentry->setFormatter(new Monolog\Formatter\LineFormatter("%message% %context% %extra%\n"));
+
                 $logger->pushHandler($handler);
+                $logger->pushHandler($handlerSentry);
 
                 return $logger;
             }

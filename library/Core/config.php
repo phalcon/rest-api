@@ -89,7 +89,7 @@ return [
     'jwt' => [
         'secretKey' => envValue('APP_JWT_TOKEN'),
         'payload' => [
-            'exp' => 1440,
+            'exp' => envValue('APP_JWT_SESSION_EXPIRATION', 1440),
             'iss' => 'phalcon-jwt-auth',
         ],
         'ignoreUri' => [

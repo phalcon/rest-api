@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Baka\Api\Controllers;
 
+use \Baka\Http\Rest\CrudExtendedController;
+
 /**
  * Class BaseController
  *
@@ -15,6 +17,6 @@ namespace Baka\Api\Controllers;
  * @property ModelsMetadataCache $modelsMetadata
  * @property Response            $response
  */
-abstract class BaseController extends \Baka\Http\Rest\CrudExtendedController
+abstract class BaseController extends CrudExtendedController
 {
 }

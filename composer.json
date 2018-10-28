@@ -33,7 +33,8 @@
     "symfony/filesystem": "3.4",
     "symfony/finder": "3.4",
     "symfony/process": "3.4",
-    "symfony/yaml": "3.4"
+    "symfony/yaml": "3.4",
+    "odan/phinx-migrations-generator": "dev-master"
   },
   "config": {
     "preferred-install": "dist",

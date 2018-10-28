@@ -1,29 +1,31 @@
 <?php
 
+(new Dotenv\Dotenv(__DIR__))->load();
+
 return [
-    'paths'         => [
-        'migrations' => getenv('PHINX_CONFIG_DIR') . 'storage/db/migrations',
-        'seeds'      => getenv('PHINX_CONFIG_DIR') . 'storage/db/seeds',
+    'paths' => [
+        'migrations' => getenv('PHINX_CONFIG_DIR') . '/db/migrations',
+        'seeds' => getenv('PHINX_CONFIG_DIR') . '/db/seeds',
     ],
-    'environments'  => [
+    'environments' => [
         'default_migration_table' => 'ut_migrations',
-        'default_database'        => 'development',
-        'production'              => [
+        'default_database' => 'development',
+        'production' => [
             'adapter' => 'mysql',
-            'host'    => getenv('DATA_API_MYSQL_HOST'),
-            'name'    => 'gonano',
-            'user'    => getenv('DATA_API_MYSQL_USER'),
-            'pass'    => getenv('DATA_API_MYSQL_PASS'),
-            'port'    => 3306,
+            'host' => getenv('DATABASE_HOST'),
+            'name' => getenv('DATABASE_NAME'),
+            'user' => getenv('DATABASE_USER'),
+            'pass' => getenv('DATABASE_PASS'),
+            'port' => 3306,
             'charset' => 'utf8',
         ],
-        'development'             => [
+        'development' => [
             'adapter' => 'mysql',
-            'host'    => getenv('DATA_API_MYSQL_HOST'),
-            'name'    => 'gonano',
-            'user'    => getenv('DATA_API_MYSQL_USER'),
-            'pass'    => getenv('DATA_API_MYSQL_PASS'),
-            'port'    => 3306,
+            'host' => getenv('DATABASE_HOST'),
+            'name' => getenv('DATABASE_NAME'),
+            'user' => getenv('DATABASE_USER'),
+            'pass' => getenv('DATABASE_PASS'),
+            'port' => 3306,
             'charset' => 'utf8',
         ],
     ],

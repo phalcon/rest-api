@@ -6,6 +6,7 @@
     "baka/database": "dev-master",
     "baka/http": "dev-master",
     "baka/mail": "dev-master",
+    "baka/auth": "dev-master",
     "dariuszp/cli-progress-bar": "^1.0",
     "dmkit/phalcon-jwt-auth": "dev-master",
     "duncan3dc/fork-helper": "^2.2.0",

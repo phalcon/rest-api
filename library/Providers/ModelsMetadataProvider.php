@@ -8,6 +8,8 @@ use function Gewaer\Core\envValue;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
+use Phalcon\Mvc\Model\Metadata\Memory as MemoryMetaDataAdapter;
+use Gewaer\Constants\Flags;
 
 class ModelsMetadataProvider implements ServiceProviderInterface
 {
@@ -18,7 +20,13 @@ class ModelsMetadataProvider implements ServiceProviderInterface
     {
         $container->setShared(
             'modelsMetadata',
-            function () {
+            function () use ($container) {
+                $config = $container->getShared('config');
+
+                if (strtolower($config->app->env) != Flags::PRODUCTION) {
+                    return new MemoryMetaDataAdapter();
+                }
+
                 $prefix = 'metadata';
                 $backOptions = [
                     'servers' => [
@@ -30,7 +38,7 @@ class ModelsMetadataProvider implements ServiceProviderInterface
                     ],
                     'client' => [
                         \Memcached::OPT_HASH => \Memcached::HASH_MD5,
-                        \Memcached::OPT_PREFIX_KEY => 'api-',
+                        \Memcached::OPT_PREFIX_KEY => 'bakaapi-',
                     ],
                     'lifetime' => 3600,
                     'prefix' => $prefix . '-',

@@ -17,6 +17,8 @@ use Phalcon\Di\FactoryDefault\Cli as PhCli;
  */
 class Cli extends AbstractBootstrap
 {
+    private $argv;
+
     /**
      * Run the application
      *
@@ -52,25 +54,32 @@ class Cli extends AbstractBootstrap
     }
 
     /**
+     * Pass php argv
+     *
+     * @param array $argv
+     * @return void
+     */
+    public function setArgv(array $argv): void
+    {
+        $this->argv = $argv;
+    }
+
+    /**
      * Parses arguments from the command line
      */
     private function processArguments()
     {
-        $this->options = [
-            'task' => 'Main',
-        ];
-
-        $options = [
-            'clear-cache' => 'ClearCache',
-            'help' => 'Main',
-        ];
-
-        $arguments = getopt('', array_keys($options));
-
-        foreach ($options as $option => $task) {
-            if (true === isset($arguments[$option])) {
-                $this->options['task'] = $task;
+        $arguments = [];
+        foreach ($this->argv as $k => $arg) {
+            if ($k == 1) {
+                $arguments['task'] = $arg;
+            } elseif ($k == 2) {
+                $arguments['action'] = $arg;
+            } elseif ($k >= 3) {
+                $arguments['params'][] = $arg;
             }
         }
+
+        $this->options = $arguments;
     }
 }

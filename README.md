@@ -12,6 +12,7 @@ Implementation of an API application using the Phalcon Framework [https://phalco
 - Clone the project
 - In the project folder run `nanobox run` && `nanobox run start-nginx` && `nanobox run start-php`
 - Hit the IP address with postman or `nanobox dns add local bakaapi.local`
+- Run migration `./vendor/bin/phinx migrate -e production`
 
 **NOTE** This requires [nanobox](https://nanobox.io) to be present in your system. Visit their site for installation instructions.
 

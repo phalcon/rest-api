@@ -1,6 +1,6 @@
 <?php
 
-namespace Baka\Cli\Tasks;
+namespace Gewaer\Cli\Tasks;
 
 use Phalcon\Cli\Task as PhTask;
 

@@ -4,16 +4,16 @@
  * Enabled providers. Order does matter
  */
 
-use Baka\Providers\CacheDataProvider;
-use Baka\Providers\CliDispatcherProvider;
-use Baka\Providers\ConfigProvider;
-use Baka\Providers\DatabaseProvider;
-use Baka\Providers\ErrorHandlerProvider;
-use Baka\Providers\LoggerProvider;
-use Baka\Providers\ModelsMetadataProvider;
-use Baka\Providers\QueueProvider;
-use Baka\Providers\MailProvider;
-use Baka\Providers\RedisProvider;
+use Gewaer\Providers\CacheDataProvider;
+use Gewaer\Providers\CliDispatcherProvider;
+use Gewaer\Providers\ConfigProvider;
+use Gewaer\Providers\DatabaseProvider;
+use Gewaer\Providers\ErrorHandlerProvider;
+use Gewaer\Providers\LoggerProvider;
+use Gewaer\Providers\ModelsMetadataProvider;
+use Gewaer\Providers\QueueProvider;
+use Gewaer\Providers\MailProvider;
+use Gewaer\Providers\RedisProvider;
 
 return [
     ConfigProvider::class,

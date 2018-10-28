@@ -4,8 +4,54 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f68a4016d824020a6b37ee5f41a6e5a4",
+    "content-hash": "488cde98ddfd725cf4b2019db825dac3",
     "packages": [
+        {
+            "name": "baka/auth",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bakaphp/auth.git",
+                "reference": "b17cabba93f02507b413b572a50a0cfbe835e4ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bakaphp/auth/zipball/b17cabba93f02507b413b572a50a0cfbe835e4ac",
+                "reference": "b17cabba93f02507b413b572a50a0cfbe835e4ac",
+                "shasum": ""
+            },
+            "require": {
+                "baka/database": "dev-master",
+                "baka/http": "dev-master",
+                "ext-phalcon": ">=3.0.0",
+                "phalcon/incubator": "~3.0",
+                "php": ">=7.1",
+                "robmorgan/phinx": "^0.10",
+                "vlucas/phpdotenv": "^2.0"
+            },
+            "require-dev": {
+                "codeception/verify": "*",
+                "odan/phinx-migrations-generator": "dev-master",
+                "phalcon/incubator": "~3.0",
+                "vlucas/phpdotenv": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Baka\\Auth\\": "src/",
+                    "Baka\\Auth\\Models\\": "src/models/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "kaioken",
+                    "email": "max@mctekk.com"
+                }
+            ],
+            "description": "Baka Component for user authentification",
+            "time": "2018-10-28T18:26:18+00:00"
+        },
         {
             "name": "baka/database",
             "version": "dev-master",
@@ -4854,6 +4900,7 @@
         "baka/database": 20,
         "baka/http": 20,
         "baka/mail": 20,
+        "baka/auth": 20,
         "dmkit/phalcon-jwt-auth": 20,
         "odan/phinx-migrations-generator": 20
     },

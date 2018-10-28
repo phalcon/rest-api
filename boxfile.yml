@@ -85,6 +85,7 @@ run.config:
       - pdo_pgsql
       - phalcon
       - session
+      - gettext
       - mcrypt
       - gd
       - zip

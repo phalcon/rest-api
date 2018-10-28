@@ -9,6 +9,7 @@ use Gewaer\ErrorHandler;
 use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
+use Gewaer\Constants\Flags;
 
 class ErrorHandlerProvider implements ServiceProviderInterface
 {
@@ -27,7 +28,7 @@ class ErrorHandlerProvider implements ServiceProviderInterface
         date_default_timezone_set($config->path('app.timezone'));
 
         //if production?
-        if (strtolower($config->app->env) == 'production') {
+        if (strtolower($config->app->env) == Flags::PRODUCTION) {
             ini_set('display_errors', 'Off');
         }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Baka\Cli\Tasks;
+namespace Gewaer\Cli\Tasks;
 
-use function Niden\Core\appPath;
+use function Gewaer\Core\appPath;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cli\Task as PhTask;
 use RecursiveDirectoryIterator;
@@ -74,9 +74,10 @@ class ClearcacheTask extends PhTask
         }
 
         $keys = $memcached->getAllKeys();
+        //print_r($keys);
         echo sprintf('Found %s keys', count($keys)) . PHP_EOL;
         foreach ($keys as $key) {
-            if ('api-data' === substr($key, 0, 8)) {
+            if ('bakaapi-' === substr($key, 0, 8)) {
                 $server = $memcached->getServerByKey($key);
                 $result = $memcached->deleteByKey($server['host'], $key);
                 $resultCode = $memcached->getResultCode();

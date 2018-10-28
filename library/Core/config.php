@@ -94,6 +94,8 @@ return [
         ],
         'ignoreUri' => [
             '/v1',
+            'regex:auth:POST',
+            'regex:users:POST',
         ],
     ],
 ];

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Niden\Middleware;
+namespace Gewaer\Middleware;
 
-use Niden\Http\Response;
-use Niden\Traits\ResponseTrait;
+use Gewaer\Http\Response;
+use Gewaer\Traits\ResponseTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Mvc\User\Plugin;
@@ -13,7 +13,7 @@ use Phalcon\Mvc\User\Plugin;
 /**
  * Class NotFoundMiddleware
  *
- * @package Niden\Middleware
+ * @package Gewaer\Middleware
  *
  * @property Micro    $application
  * @property Response $response

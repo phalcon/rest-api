@@ -1,8 +1,8 @@
 <?php
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
-use function Niden\Core\envValue;
+use function Gewaer\Core\envValue;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Di\ServiceProviderInterface;

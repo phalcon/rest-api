@@ -1,11 +1,11 @@
 <?php
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Redis;
-use function Niden\Core\envValue;
+use function Gewaer\Core\envValue;
 
 class RedisProvider implements ServiceProviderInterface
 {

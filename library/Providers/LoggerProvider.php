@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
-use function Niden\Core\appPath;
-use function Niden\Core\envValue;
+use function Gewaer\Core\appPath;
+use function Gewaer\Core\envValue;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
+use Raven_Client;
+use Monolog\Handler\RavenHandler;
 
 class LoggerProvider implements ServiceProviderInterface
 {
@@ -39,8 +41,8 @@ class LoggerProvider implements ServiceProviderInterface
 
                 //sentry logger
                 $client = new Raven_Client('https://' . getenv('SENTRY_RPOJECT_SECRET') . '@sentry.io/' . getenv('SENTRY_PROJECT_ID'));
-                $handlerSentry = new Monolog\Handler\RavenHandler($client, Logger::ERROR);
-                $handlerSentry->setFormatter(new Monolog\Formatter\LineFormatter("%message% %context% %extra%\n"));
+                $handlerSentry = new RavenHandler($client, Logger::ERROR);
+                $handlerSentry->setFormatter(new LineFormatter("%message% %context% %extra%\n"));
 
                 $logger->pushHandler($handler);
                 $logger->pushHandler($handlerSentry);

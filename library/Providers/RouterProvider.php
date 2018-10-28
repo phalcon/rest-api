@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
-use function Niden\Core\appPath;
-use Niden\Middleware\NotFoundMiddleware;
-use Niden\Middleware\AuthenticationMiddleware;
-use Niden\Middleware\TokenValidationMiddleware;
+use function Gewaer\Core\appPath;
+use Gewaer\Middleware\NotFoundMiddleware;
+use Gewaer\Middleware\AuthenticationMiddleware;
+use Gewaer\Middleware\TokenValidationMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Baka\Api\Controllers;
+namespace Gewaer\Api\Controllers;
 
-use \Baka\Http\Rest\CrudExtendedController;
+use Baka\Http\Rest\CrudExtendedController;
 
 /**
  * Class BaseController

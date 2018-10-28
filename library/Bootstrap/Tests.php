@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Bootstrap;
+namespace Gewaer\Bootstrap;
 
 class Tests extends Api
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Di\ServiceProviderInterface;

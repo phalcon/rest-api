@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
-use function Niden\Core\appPath;
+use function Gewaer\Core\appPath;
 use Phalcon\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Config;

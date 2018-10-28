@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Middleware;
+namespace Gewaer\Middleware;
 
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;

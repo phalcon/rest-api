@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Niden\Bootstrap;
+namespace Gewaer\Bootstrap;
 
-use function Niden\Core\appPath;
+use function Gewaer\Core\appPath;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault\Cli as PhCli;
 
 /**
  * Class Cli
  *
- * @package Niden\Bootstrap
+ * @package Gewaer\Bootstrap
  *
  * @property Console $application
  */

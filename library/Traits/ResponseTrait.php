@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Niden\Traits;
+namespace Gewaer\Traits;
 
-use Niden\Http\Response;
+use Gewaer\Http\Response;
 use Phalcon\Mvc\Micro;
 
 /**
  * Trait ResponseTrait
  *
- * @package Niden\Traits
+ * @package Gewaer\Traits
  */
 trait ResponseTrait
 {

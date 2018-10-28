@@ -2,7 +2,7 @@
 
 use Dotenv\Dotenv;
 use Phalcon\Loader;
-use function Niden\Core\appPath;
+use function Gewaer\Core\appPath;
 
 // Register the auto loader
 require __DIR__ . '/functions.php';
@@ -10,11 +10,11 @@ require __DIR__ . '/functions.php';
 $loader = new Loader();
 $namespaces = [
     'Niden' => appPath('/library'),
-    'Baka' => appPath('/library'),
-    'Baka\Api\Controllers' => appPath('/api/controllers'),
-    'Baka\Cli\Tasks' => appPath('/cli/tasks'),
+    'Gewaer' => appPath('/library'),
+    'Gewaer\Api\Controllers' => appPath('/api/controllers'),
+    'Gewaer\Cli\Tasks' => appPath('/cli/tasks'),
     'Niden\Tests' => appPath('/tests'),
-    'Baka\Tests' => appPath('/tests'),
+    'Gewaer\Tests' => appPath('/tests'),
 ];
 
 $loader->registerNamespaces($namespaces);

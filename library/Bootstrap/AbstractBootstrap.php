@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Niden\Bootstrap;
+namespace Gewaer\Bootstrap;
 
-use Niden\Http\Response;
+use Gewaer\Http\Response;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as PhCli;

@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Niden\Traits;
+namespace Gewaer\Traits;
 
 use League\Fractal\Manager;
 use League\Fractal\Serializer\JsonApiSerializer;
-use function Niden\Core\envValue;
+use function Gewaer\Core\envValue;
 use function sprintf;
 use function ucfirst;
 
 /**
  * Trait FractalTrait
  *
- * @package Niden\Traits
+ * @package Gewaer\Traits
  */
 trait FractalTrait
 {
@@ -37,8 +37,8 @@ trait FractalTrait
         array $relationships = [],
         array $fields = []
     ): array {
-        $url      = envValue('APP_URL', 'http://localhost');
-        $manager  = new Manager();
+        $url = envValue('APP_URL', 'http://localhost');
+        $manager = new Manager();
         $manager->setSerializer(new JsonApiSerializer($url));
 
         /**
@@ -48,9 +48,9 @@ trait FractalTrait
             $manager->parseIncludes($relationships);
         }
 
-        $class    = sprintf('League\Fractal\Resource\%s', ucfirst($method));
+        $class = sprintf('League\Fractal\Resource\%s', ucfirst($method));
         $resource = new $class($results, new $transformer($fields, $resource), $resource);
-        $results  = $manager->createData($resource)->toArray();
+        $results = $manager->createData($resource)->toArray();
 
         return $results;
     }

@@ -1,6 +1,6 @@
 <?php
 
-use Niden\Bootstrap\Api;
+use Gewaer\Bootstrap\Api;
 
 require_once __DIR__ . '/../../library/Core/autoload.php';
 

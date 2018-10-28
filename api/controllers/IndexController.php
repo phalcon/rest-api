@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Baka\Api\Controllers;
+namespace Gewaer\Api\Controllers;
 
 use Exception;
 use PDOException;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
-use function Niden\Core\envValue;
+use function Gewaer\Core\envValue;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;

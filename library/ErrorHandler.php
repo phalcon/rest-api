@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden;
+namespace Gewaer;
 
 use Monolog\Logger;
 use Phalcon\Config;
@@ -10,7 +10,7 @@ use Phalcon\Config;
 /**
  * Class ErrorHandler
  *
- * @package Niden
+ * @package Gewaer
  */
 class ErrorHandler
 {

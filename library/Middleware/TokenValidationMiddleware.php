@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Niden\Middleware;
+namespace Gewaer\Middleware;
 
-use Niden\Exception\ModelException;
+use Gewaer\Exception\ModelException;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 /**
  * Class TokenValidationMiddleware
  *
- * @package Niden\Middleware
+ * @package Gewaer\Middleware
  */
 class TokenValidationMiddleware implements MiddlewareInterface
 {

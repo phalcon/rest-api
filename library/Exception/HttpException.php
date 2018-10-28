@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Baka\Exception;
+namespace Gewaer\Exception;
 
 class HttpException extends Exception
 {

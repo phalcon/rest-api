@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Http;
+namespace Gewaer\Http;
 
 use Phalcon\Http\Response as PhResponse;
 use Phalcon\Mvc\Model\MessageInterface as ModelMessage;
@@ -70,10 +70,22 @@ class Response extends PhResponse
         /** @var array $content */
         $content = json_decode($this->getContent(), true);
 
+        $jsonapi = [
+            'jsonapi' => [
+                'version' => '1.0',
+            ],
+        ];
+        $meta = [
+            'meta' => [
+                'timestamp' => $timestamp,
+                'hash' => $hash,
+            ]
+        ];
+
         /**
          * Join the array again
          */
-        $data = $content ;
+        $data = $jsonapi + $content + $meta;
         $this
             ->setHeader('E-Tag', $eTag)
             ->setJsonContent($data);

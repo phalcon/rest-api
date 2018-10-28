@@ -1,6 +1,6 @@
 <?php
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;

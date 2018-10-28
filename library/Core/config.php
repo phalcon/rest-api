@@ -1,7 +1,7 @@
 <?php
 
-use function Niden\Core\appPath;
-use function Niden\Core\envValue;
+use function Gewaer\Core\appPath;
+use function Gewaer\Core\envValue;
 
 return [
     'application' => [ //@todo migration to app

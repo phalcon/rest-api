@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Niden\Bootstrap;
+namespace Gewaer\Bootstrap;
 
-use function Niden\Core\appPath;
+use function Gewaer\Core\appPath;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
-use Phalcon\Http\Response;
+use Gewaer\Http\Response;
 use Phalcon\Http\Request;
 use Throwable;
 use Dmkit\Phalcon\Auth\Middleware\Micro as AuthMicro;
@@ -15,7 +15,7 @@ use Dmkit\Phalcon\Auth\Middleware\Micro as AuthMicro;
 /**
  * Class Api
  *
- * @package Niden\Bootstrap
+ * @package Gewaer\Bootstrap
  *
  * @property Micro $application
  */

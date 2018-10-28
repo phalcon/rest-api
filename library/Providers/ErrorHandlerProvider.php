@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Baka\Providers;
+namespace Gewaer\Providers;
 
 use Monolog\Logger;
-use Niden\ErrorHandler;
+use Gewaer\ErrorHandler;
 use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;

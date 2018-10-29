@@ -36,6 +36,7 @@ $router->post('/auth', [
  */
 $defaultCrudRoutes = [
     'users',
+    'companies',
 ];
 
 foreach ($defaultCrudRoutes as $key => $route) {

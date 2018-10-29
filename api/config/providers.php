@@ -30,4 +30,5 @@ return [
     QueueProvider::class,
     MailProvider::class,
     RedisProvider::class,
+    RedisProvider::class,
 ];

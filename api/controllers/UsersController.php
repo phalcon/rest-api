@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gewaer\Api\Controllers;
 
-use Baka\Models\Users;
+use Gewaer\Models\Users;
 
 /**
  * Base controller

@@ -2,6 +2,7 @@
 
 namespace Gewaer\Providers;
 
+use function Gewaer\Core\envValue;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 
@@ -15,13 +16,24 @@ class SessionProvider implements ServiceProviderInterface
         $container->setShared(
             'session',
             function () {
-                $memcache = new \Phalcon\Session\Adapter\Memcache([
-                    'host' => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
-                    'post' => envValue('DATA_API_MEMCACHED_PORT', 11211),
-                    'lifetime' => 8600, // optional (standard: 8600)
-                    'prefix' => 'baka-api', // optional (standard: [empty_string]), means memcache key is my-app_31231jkfsdfdsfds3
-                    'persistent' => false, // optional (standard: false)
-                ]);
+                $backOptions = [
+                    'servers' => [
+                        0 => [
+                            'host' => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
+                            'port' => envValue('DATA_API_MEMCACHED_PORT', 11211),
+                            'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
+                        ],
+                    ],
+                    'client' => [
+                        \Memcached::OPT_HASH => \Memcached::HASH_MD5,
+                        \Memcached::OPT_PREFIX_KEY => 'bakasession-',
+                    ],
+                    'lifetime' => 8600,
+                    'prefix' => $prefix . '-',
+                    'persistent' => false
+                ];
+
+                $memcache = new \Phalcon\Session\Adapter\Libmemcached($backOptions);
 
                 $memcache->start();
 

@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/auth.git",
-                "reference": "b17cabba93f02507b413b572a50a0cfbe835e4ac"
+                "reference": "0abe87d11dba315175e9bddfba621ea02f55da4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakaphp/auth/zipball/b17cabba93f02507b413b572a50a0cfbe835e4ac",
-                "reference": "b17cabba93f02507b413b572a50a0cfbe835e4ac",
+                "url": "https://api.github.com/repos/bakaphp/auth/zipball/0abe87d11dba315175e9bddfba621ea02f55da4c",
+                "reference": "0abe87d11dba315175e9bddfba621ea02f55da4c",
                 "shasum": ""
             },
             "require": {
@@ -43,6 +43,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "kaioken",
@@ -50,7 +53,7 @@
                 }
             ],
             "description": "Baka Component for user authentification",
-            "time": "2018-10-28T18:26:18+00:00"
+            "time": "2018-10-29T02:25:11+00:00"
         },
         {
             "name": "baka/database",

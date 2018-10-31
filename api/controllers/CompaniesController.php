@@ -19,14 +19,14 @@ class CompaniesController extends BaseController
      *
      * @var array
      */
-    protected $createFields = ['name', 'profile_image', 'website', 'users_id', 'created_at', 'updated_at'];
+    protected $createFields = ['name', 'profile_image', 'website'];
 
     /*
      * fields we accept to create
      *
      * @var array
      */
-    protected $updateFields = ['name', 'profile_image', 'website', 'users_id', 'created_at', 'updated_at'];
+    protected $updateFields = ['name', 'profile_image', 'website'];
 
     /**
      * set objects
@@ -36,6 +36,7 @@ class CompaniesController extends BaseController
     public function onConstruct()
     {
         $this->model = new Companies();
+        $this->modal->users_id = $this->userData->getId();
 
         $this->additionalSearchFields = [
             ['users_id', ':', $this->userData->getId()],

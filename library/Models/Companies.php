@@ -67,7 +67,7 @@ class Companies extends \Baka\Auth\Models\Companies
 
         $this->belongsTo(
             'users_id',
-            'Ahorrando\Models\Users',
+            'Gewaer\Models\Users',
             'id',
             ['alias' => 'user']
         );

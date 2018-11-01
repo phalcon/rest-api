@@ -5,6 +5,8 @@ namespace Gewaer\Providers;
 use function Gewaer\Core\envValue;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
+use Memcached;
+use Phalcon\Session\Adapter\Libmemcached;
 
 class SessionProvider implements ServiceProviderInterface
 {
@@ -25,15 +27,15 @@ class SessionProvider implements ServiceProviderInterface
                         ],
                     ],
                     'client' => [
-                        \Memcached::OPT_HASH => \Memcached::HASH_MD5,
-                        \Memcached::OPT_PREFIX_KEY => 'bakasession-',
+                        Memcached::OPT_HASH => Memcached::HASH_MD5,
+                        Memcached::OPT_PREFIX_KEY => 'bakasession-',
                     ],
                     'lifetime' => 8600,
                     'prefix' => $prefix . '-',
                     'persistent' => false
                 ];
 
-                $memcache = new \Phalcon\Session\Adapter\Libmemcached($backOptions);
+                $memcache = new Libmemcached($backOptions);
 
                 $memcache->start();
 

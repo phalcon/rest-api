@@ -19,6 +19,7 @@ return [
         'timezone' => envValue('APP_TIMEZONE', 'UTC'),
         'debug' => envValue('APP_DEBUG', false),
         'env' => envValue('APP_ENV', 'development'),
+        'logsReport' => envValue('APP_LOGS_REPORT', false),
         'devMode' => boolval(
             'development' === envValue('APP_ENV', 'development')
         ),

@@ -19,7 +19,7 @@ class CompaniesController extends BaseController
      *
      * @var array
      */
-    protected $createFields = ['name', 'profile_image', 'website'];
+    protected $createFields = ['name', 'profile_image', 'website', 'users_id'];
 
     /*
      * fields we accept to create
@@ -72,6 +72,33 @@ class CompaniesController extends BaseController
             return $this->response($company);
         } else {
             throw new Exception('Record not found');
+        }
+    }
+
+    /**
+     * Add a new item
+     *
+     * @method POST
+     * @url /v1/company
+     *
+     * @return Phalcon\Http\Response
+     */
+    public function create() : Response
+    {
+        $request = $this->request->getPost();
+
+        if (empty($request)) {
+            $request = $this->request->getJsonRawBody(true);
+        }
+
+        //alwasy overwrite userid
+        $request['users_id'] = $this->userData->getId();
+
+        //try to save all the fields we allow
+        if ($this->model->save($request, $this->createFields)) {
+            return $this->response($this->model->toArray());
+        } else {
+            throw new Exception((string) $this->model->getMessages()[0]);
         }
     }
 

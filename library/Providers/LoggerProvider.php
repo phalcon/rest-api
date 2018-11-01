@@ -23,9 +23,11 @@ class LoggerProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
+        $config = $container->getShared('config');
+
         $container->setShared(
             'log',
-            function () {
+            function () use ($config) {
                 /** @var string $logName */
                 $logName = envValue('LOGGER_DEFAULT_FILENAME', 'api.log');
                 /** @var string $logPath */
@@ -38,14 +40,17 @@ class LoggerProvider implements ServiceProviderInterface
 
                 $handler = new StreamHandler($logFile, Logger::DEBUG);
                 $handler->setFormatter($formatter);
-
-                //sentry logger
-                $client = new Raven_Client('https://' . getenv('SENTRY_RPOJECT_SECRET') . '@sentry.io/' . getenv('SENTRY_PROJECT_ID'));
-                $handlerSentry = new RavenHandler($client, Logger::ERROR);
-                $handlerSentry->setFormatter(new LineFormatter("%message% %context% %extra%\n"));
+              
+                //only run logs in production
+                if ($config->app->logsReport) {
+                    //sentry logger
+                    $client = new Raven_Client('https://' . getenv('SENTRY_RPOJECT_SECRET') . '@sentry.io/' . getenv('SENTRY_PROJECT_ID'));
+                    $handlerSentry = new RavenHandler($client, Logger::ERROR);
+                    $handlerSentry->setFormatter(new LineFormatter("%message% %context% %extra%\n"));
+                    $logger->pushHandler($handlerSentry);
+                }
 
                 $logger->pushHandler($handler);
-                $logger->pushHandler($handlerSentry);
 
                 return $logger;
             }

@@ -99,4 +99,11 @@ return [
             'regex:users:POST',
         ],
     ],
+    'pusher' => [
+        'id' => envValue('PUSHER_ID'),
+        'key' => envValue('PUSHER_KEY'),
+        'secret' => envValue('PUSHER_SECRET'),
+        'cluster' => envValue('PUSHER_SECRET'),
+        'queue' => envValue('PUSHER_QUEUE'),
+    ]
 ];

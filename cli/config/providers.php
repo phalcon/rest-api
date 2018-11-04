@@ -14,6 +14,7 @@ use Gewaer\Providers\ModelsMetadataProvider;
 use Gewaer\Providers\QueueProvider;
 use Gewaer\Providers\MailProvider;
 use Gewaer\Providers\RedisProvider;
+use Gewaer\Providers\PusherProvider;
 
 return [
     ConfigProvider::class,
@@ -26,4 +27,5 @@ return [
     QueueProvider::class,
     MailProvider::class,
     RedisProvider::class,
+    PusherProvider::class,
 ];

@@ -20,6 +20,7 @@
     "sentry/sentry": "^1.9",
     "vlucas/phpdotenv": "^2.4",
     "sly/notification-pusher": "2.x",
+    "pusher/pusher-php-server": "^3.0"
   },
   "require-dev": {
     "codeception/codeception": "^2.4",

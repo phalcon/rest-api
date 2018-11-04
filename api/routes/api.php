@@ -31,6 +31,12 @@ $router->post('/auth', [
     'login',
 ]);
 
+//asociate mobile devices
+$router->post('/users/{id}/devices', [
+    'Gewaer\Api\Controllers\UsersController',
+    'devices',
+]);
+
 /**
  * Need to understand if using this can be a performance disadvantage in the future
  */

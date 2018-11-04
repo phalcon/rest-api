@@ -9,7 +9,7 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Baka\Auth\Models\Sessions;
 use Gewaer\Models\Users;
 use Phalcon\Http\Request;
-use Exception;
+use Gewaer\Exception\UnauthorizedHttpException;
 
 /**
  * Class AuthenticationMiddleware
@@ -22,7 +22,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
      * Call me
      *
      * @param Micro $api
-     *
+     * @todo need to check section for auth here
      * @return bool
      */
     public function call(Micro $api)
@@ -42,12 +42,12 @@ class AuthenticationMiddleware implements MiddlewareInterface
                 if (!empty($data) && !empty($data['sessionId'])) {
                     //user
                     if (!$user = Users::getByEmail($data['email'])) {
-                        throw new Exception('User not found');
+                        throw new UnauthorizedHttpException('User not found');
                     }
 
                     return $session->check($user, $data['sessionId'], $request->getClientAddress(), 1);
                 } else {
-                    throw new Exception('User not found');
+                    throw new UnauthorizedHttpException('User not found');
                 }
             }
         );

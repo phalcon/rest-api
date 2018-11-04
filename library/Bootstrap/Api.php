@@ -11,6 +11,8 @@ use Gewaer\Http\Response;
 use Phalcon\Http\Request;
 use Throwable;
 use Dmkit\Phalcon\Auth\Middleware\Micro as AuthMicro;
+use Gewaer\Exception\ServerErrorHttpException;
+use Gewaer\Constants\Flags;
 
 /**
  * Class Api
@@ -67,15 +69,18 @@ class Api extends AbstractBootstrap
         $response->setContentType('application/json');
         $response->setJsonContent([
             'errors' => [
-                'type' => 'FAILED',
+                'type' => $httpMessage,
                 'identifier' => $identifier,
                 'message' => $e->getMessage(),
-                'trace' => strtolower($config->app->env) != 'production' ? $e->getTraceAsString() : null,
+                'trace' => strtolower($config->app->env) != Flags::PRODUCTION ? $e->getTraceAsString() : null,
                 'data' => $data,
             ],
         ]);
 
-        $this->container->getLog()->error($e);
+        //only log when server error production is seerver error or dev
+        if ($e instanceof ServerErrorHttpException || strtolower($config->app->env) != Flags::PRODUCTION) {
+            $this->container->getLog()->error($e);
+        }
 
         return $response;
     }

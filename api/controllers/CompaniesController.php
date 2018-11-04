@@ -6,7 +6,7 @@ namespace Gewaer\Api\Controllers;
 
 use Gewaer\Models\Companies;
 use Phalcon\Http\Response;
-use Exception;
+use Gewaer\Exception\UnprocessableEntityHttpException;
 
 /**
  * Base controller
@@ -71,7 +71,7 @@ class CompaniesController extends BaseController
         if ($company) {
             return $this->response($company);
         } else {
-            throw new Exception('Record not found');
+            throw new UnprocessableEntityHttpException('Record not found');
         }
     }
 
@@ -98,7 +98,7 @@ class CompaniesController extends BaseController
         if ($this->model->save($request, $this->createFields)) {
             return $this->response($this->model->toArray());
         } else {
-            throw new Exception((string) $this->model->getMessages()[0]);
+            throw new UnprocessableEntityHttpException((string) $this->model->getMessages()[0]);
         }
     }
 
@@ -129,10 +129,10 @@ class CompaniesController extends BaseController
                 return $this->response($company);
             } else {
                 //didnt work
-                throw new Exception(current($company->getMessages()));
+                throw new UnprocessableEntityHttpException(current($company->getMessages()));
             }
         } else {
-            throw new Exception('Record not found');
+            throw new UnprocessableEntityHttpException('Record not found');
         }
     }
 }

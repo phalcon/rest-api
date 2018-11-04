@@ -18,7 +18,8 @@
     "psr/log": "^1.0",
     "robmorgan/phinx": "^0.10",
     "sentry/sentry": "^1.9",
-    "vlucas/phpdotenv": "^2.4"
+    "vlucas/phpdotenv": "^2.4",
+    "sly/notification-pusher": "2.x",
   },
   "require-dev": {
     "codeception/codeception": "^2.4",

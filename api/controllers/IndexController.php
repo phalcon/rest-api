@@ -7,6 +7,7 @@ use Exception;
 use PDOException;
 use Phalcon\Http\Response;
 use Phalcon\Queue\Beanstalk\Exception as BeanstalkException;
+use Gewaer\Exception\ServerErrorHttpException;
 
 /**
  * Base controller
@@ -84,15 +85,6 @@ class IndexController extends BaseController
             return $this->response(['OK']);
         }
 
-        $request = new \Phalcon\Http\Request();
-        $response = [
-            'status' => [
-                'type' => 'FAILED',
-                'identifier' => $request->getServerAddress(),
-                'errors' => $response['errors'],
-            ],
-        ];
-
-        return $this->response($response, 400, 'Error');
+        throw new ServerErrorHttpException(json_encode($response));
     }
 }

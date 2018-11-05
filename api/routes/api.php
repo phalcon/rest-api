@@ -86,4 +86,9 @@ $router->post('/users', [
     'signup',
 ]);
 
+$router->put('/auth/logout', [
+    'Gewaer\Api\Controllers\AuthController',
+    'logout',
+]);
+
 $router->mount();

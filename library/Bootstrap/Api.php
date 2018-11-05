@@ -65,6 +65,7 @@ class Api extends AbstractBootstrap
         $data = (method_exists($e, 'getData')) ? $e->getData() : [];
 
         $message = $e->getMessage();
+        $response->setHeader('Access-Control-Allow-Origin', '*'); //@todo check why this fales on nginx
         $response->setStatusCode($httpCode, $httpMessage);
         $response->setContentType('application/json');
         $response->setJsonContent([

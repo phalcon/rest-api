@@ -91,4 +91,14 @@ $router->put('/auth/logout', [
     'logout',
 ]);
 
+$router->post('/auth/forgot', [
+    'Gewaer\Api\Controllers\AuthController',
+    'recover',
+]);
+
+$router->post('/auth/reset/{key}', [
+    'Gewaer\Api\Controllers\AuthController',
+    'reset',
+]);
+
 $router->mount();

@@ -80,6 +80,7 @@ run.config:
       - mbstring
       - memcached
       - memcache
+      - intl
       - pdo
       - pdo_mysql
       - pdo_pgsql

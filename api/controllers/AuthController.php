@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Gewaer\Api\Controllers;
 
 use Gewaer\Models\Users;
+use Baka\Auth\Models\Users as BakaUsers;
 use Gewaer\Models\UserLinkedSources;
 use Gewaer\Exception\ServerErrorHttpException;
 
@@ -35,7 +36,7 @@ class AuthController extends \Baka\Auth\AuthController
     * @param String $emailAction
     * @param Users  $user
     */
-    protected function sendEmail(Users $user, string $type): void
+    protected function sendEmail(BakaUsers $user, string $type): void
     {
         $send = true;
 

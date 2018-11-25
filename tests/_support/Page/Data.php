@@ -5,8 +5,8 @@ namespace Page;
 class Data
 {
     public static $loginUrl = '/v1/auth';
-    public static $usersUrl = '/users';
-    public static $wrongUrl = '/baka';
+    public static $usersUrl = '/v1/users';
+    public static $statusUrl = '/v1/status';
 
     /**
      * @return array

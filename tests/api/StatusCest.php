@@ -5,12 +5,11 @@ namespace Gewaer\Tests\api;
 use ApiTester;
 use Page\Data;
 
-class NotFoundCest
+class StatusCest
 {
     public function checkNotFoundRoute(ApiTester $I)
     {
-        $I->sendGET(Data::$wrongUrl);
-
-        $I->seeResponseCodeIs('404');
+        $I->sendGET(Data::$statusUrl);
+        $I->seeResponseCodeIs('200');
     }
 }

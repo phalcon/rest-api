@@ -19,7 +19,7 @@ use BadMethodCallException;
 /**
  * Phalcon\Acl\Adapter\Database
  * Manages Geweaer Multi tenant ACL lists in database
- * 
+ *
  * #extends PhalconAclDatabaseAdapter #had to comments it out testing breaking
  */
 class Manager extends Adapter
@@ -79,7 +79,7 @@ class Manager extends Adapter
      */
     protected $app;
 
-      /**
+    /**
      * Class constructor.
      *
      * @param  array $options Adapter config
@@ -143,6 +143,22 @@ class Manager extends Adapter
     }
 
     /**
+     * Get the current App
+     *
+     * @return void
+     */
+    public function getCompany() : Companies
+    {
+        if (!is_object($this->company)) {
+            $this->company = new Companies();
+            $this->company->id = 0;
+            $this->company->name = 'Canvas';
+        }
+
+        return $this->company;
+    }
+
+    /**
      * {@inheritdoc}
      *
      * Example:
@@ -152,11 +168,12 @@ class Manager extends Adapter
      * </code>
      *
      * @param  \Phalcon\Acl\Role|string $role
+     * @param  int   $scope
      * @param  string                   $accessInherits
      * @return boolean
      * @throws \Phalcon\Acl\Exception
      */
-    public function addRole($role, $accessInherits = null): bool
+    public function addRole($role, $scope = 0, $accessInherits = null): bool
     {
         if (is_string($role)) {
             $role = new Role($role, ucwords($role) . ' Role');
@@ -173,8 +190,8 @@ class Manager extends Adapter
 
         if (!$exists[0]) {
             $this->connection->execute(
-                "INSERT INTO {$this->roles} (name, description, apps_id, created_at) VALUES (?, ?, ?, ?)",
-                [$role->getName(), $role->getDescription(), $this->getApp()->getId(), date('Y-m-d H:i:s')]
+                "INSERT INTO {$this->roles} (name, description, company_id, apps_id, scope, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                [$role->getName(), $role->getDescription(), $this->getCompany()->getId(), $this->getApp()->getId(), $scope, date('Y-m-d H:i:s')]
             );
             $this->connection->execute(
                 "INSERT INTO {$this->accessList} (roles_name, resources_name, access_name, allowed, apps_id, created_at) VALUES (?, ?, ?, ?, ?, ?)",
@@ -247,6 +264,29 @@ class Manager extends Adapter
     }
 
     /**
+     * Given a resource with a dot CRM.Leads , it will set the app
+     *
+     * @param string $resource
+     * @return void
+     */
+    protected function setAppByResource(string $resource): string
+    {
+        //echeck if we have a dot , taht means we are sending the specific app to use
+        if (strpos($resource, '.') !== false) {
+            $appResource = explode('.', $resource);
+            $resource = $appResource[1];
+            $appName = $appResource[0];
+
+            //look for the app and set it
+            if ($app = Apps::findFirstByName($appName)) {
+                $this->setApp($app);
+            }
+        }
+
+        return $resource;
+    }
+
+    /**
      * {@inheritdoc}
      * Example:
      * <code>
@@ -267,16 +307,7 @@ class Manager extends Adapter
     {
         if (!is_object($resource)) {
             //echeck if we have a dot , taht means we are sending the specific app to use
-            if (strpos($resource, '.') !== false) {
-                $appResource = explode('.', $resource);
-                $resource = $appResource[1];
-                $appName = $appResource[0];
-
-                //look for the app and set it
-                if ($app = Apps::findFirstByName($appName)) {
-                    $this->setApp($app);
-                }
-            }
+            $resource = $this->setAppByResource($resource);
 
             $resource = new Resource($resource);
         }
@@ -395,7 +426,7 @@ class Manager extends Adapter
      */
     public function allow($roleName, $resourceName, $access, $func = null)
     {
-        $this->allowOrDeny($roleName, $resourceName, $access, Acl::ALLOW);
+        return $this->allowOrDeny($roleName, $resourceName, $access, Acl::ALLOW);
     }
 
     /**
@@ -421,7 +452,7 @@ class Manager extends Adapter
      */
     public function deny($roleName, $resourceName, $access, $func = null)
     {
-        $this->allowOrDeny($roleName, $resourceName, $access, Acl::DENY);
+        return $this->allowOrDeny($roleName, $resourceName, $access, Acl::DENY);
     }
 
     /**
@@ -442,6 +473,8 @@ class Manager extends Adapter
      */
     public function isAllowed($role, $resource, $access, array $parameters = null): bool
     {
+        $resource = $this->setAppByResource($resource);
+
         $sql = implode(' ', [
             'SELECT ' . $this->connection->escapeIdentifier('allowed') . " FROM {$this->accessList} AS a",
             // role_name in:
@@ -456,22 +489,27 @@ class Manager extends Adapter
             // resources_name should be given one or 'any'
             "AND resources_name IN (?, '*')",
             // access_name should be given one or 'any'
-            "AND access_name IN (?, '*')",
+            //"AND access_name IN (?, '*')", you need to specify * , we are forcing to check always for permisions
+            "AND access_name IN (?)",
             'AND apps_id = ? ',
             // order be the sum of bools for 'literals' before 'any'
             'ORDER BY ' . $this->connection->escapeIdentifier('allowed') . ' DESC',
             // get only one...
             'LIMIT 1'
         ]);
+        
+
         // fetch one entry...
         $allowed = $this->connection->fetchOne($sql, Db::FETCH_NUM, [$role, $role, $resource, $access, $this->getApp()->getId()]);
+
         if (is_array($allowed)) {
             return (bool) $allowed[0];
         }
+        
         /**
          * Return the default access action
          */
-        return $this->_defaultAccess;
+        return (bool) $this->_defaultAccess;
     }
 
     /**
@@ -508,12 +546,14 @@ class Manager extends Adapter
      */
     protected function insertOrUpdateAccess($roleName, $resourceName, $accessName, $action)
     {
+        $resourceName = $this->setAppByResource($resourceName);
+
         /**
          * Check if the access is valid in the resource unless wildcard
          */
         if ($resourceName !== '*' && $accessName !== '*') {
-            $sql = "SELECT COUNT(*) FROM {$this->resourcesAccesses} WHERE resources_name = ? AND access_name = ?";
-            $exists = $this->connection->fetchOne($sql, null, [$resourceName, $accessName]);
+            $sql = "SELECT COUNT(*) FROM {$this->resourcesAccesses} WHERE resources_name = ? AND access_name = ? and apps_id  = ?";
+            $exists = $this->connection->fetchOne($sql, null, [$resourceName, $accessName, $this->getApp()->getId()]);
             if (!$exists[0]) {
                 throw new Exception(
                     "Access '{$accessName}' does not exist in resource '{$resourceName}' in ACL"
@@ -527,8 +567,8 @@ class Manager extends Adapter
             . ' WHERE roles_name = ? AND resources_name = ? AND access_name = ? AND apps_id = ?';
         $exists = $this->connection->fetchOne($sql, null, [$roleName, $resourceName, $accessName, $this->getApp()->getId()]);
         if (!$exists[0]) {
-            $sql = "INSERT INTO {$this->accessList} (roles_name, resources_name, access_name, allowed, apps_id) VALUES (?, ?, ?, ?, ?)";
-            $params = [$roleName, $resourceName, $accessName, $action, $this->getApp()->getId()];
+            $sql = "INSERT INTO {$this->accessList} (roles_name, resources_name, access_name, allowed, apps_id, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+            $params = [$roleName, $resourceName, $accessName, $action, $this->getApp()->getId(), date('Y-m-d H:i:s')];
         } else {
             $sql = "UPDATE {$this->accessList} SET allowed = ? " .
                 'WHERE roles_name = ? AND resources_name = ? AND access_name = ? AND apps_id = ?';
@@ -543,9 +583,10 @@ class Manager extends Adapter
             'WHERE roles_name = ? AND resources_name = ? AND access_name = ? and apps_id = ?';
         $exists = $this->connection->fetchOne($sql, null, [$roleName, $resourceName, '*', $this->getApp()->getId()]);
         if (!$exists[0]) {
-            $sql = "INSERT INTO {$this->accessList} (roles_name, resources_name, access_name, allowed, apps_id) VALUES (?, ?, ?, ?, ?)";
-            $this->connection->execute($sql, [$roleName, $resourceName, '*', $this->_defaultAccess, $this->getApp()->getId()]);
+            $sql = "INSERT INTO {$this->accessList} (roles_name, resources_name, access_name, allowed, apps_id, created_at) VALUES (?, ?, ?, ?, ? , ?)";
+            $this->connection->execute($sql, [$roleName, $resourceName, '*', $this->_defaultAccess, $this->getApp()->getId(), date('Y-m-d H:i:s')]);
         }
+
         return true;
     }
 
@@ -569,5 +610,7 @@ class Manager extends Adapter
         foreach ($access as $accessName) {
             $this->insertOrUpdateAccess($roleName, $resourceName, $accessName, $action);
         }
+
+        return true;
     }
 }

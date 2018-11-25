@@ -15,6 +15,7 @@ use Gewaer\Providers\QueueProvider;
 use Gewaer\Providers\MailProvider;
 use Gewaer\Providers\RedisProvider;
 use Gewaer\Providers\PusherProvider;
+use Gewaer\Providers\AclProvider;
 
 return [
     ConfigProvider::class,
@@ -28,4 +29,5 @@ return [
     MailProvider::class,
     RedisProvider::class,
     PusherProvider::class,
+    AclProvider::class,
 ];

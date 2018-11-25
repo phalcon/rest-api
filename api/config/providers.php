@@ -20,10 +20,10 @@ use Gewaer\Providers\RequestProvider;
 return [
     ConfigProvider::class,
     LoggerProvider::class,
-    RequestProvider::class,
     ErrorHandlerProvider::class,
     DatabaseProvider::class,
     ModelsMetadataProvider::class,
+    RequestProvider::class,
     RouterProvider::class,
     CacheDataProvider::class,
     SessionProvider::class,

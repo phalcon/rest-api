@@ -31,21 +31,6 @@ class ApiTester extends \Codeception\Actor
     {
         $this->seeResponseIsJson();
         $this->seeResponseCodeIs($code);
-        $this->seeResponseMatchesJsonType(
-            [
-                'jsonapi' => [
-                    'version' => 'string'
-                ],
-//                'data'    => 'array',
-//                'errors'  => 'array',
-                'meta'    => [
-                    'timestamp' => 'string:date',
-                    'hash'      => 'string',
-                ]
-            ]
-        );
-
-        $this->checkHash();
     }
 
     /**
@@ -72,7 +57,7 @@ class ApiTester extends \Codeception\Actor
                     'version' => '1.0',
                 ],
                 'errors' => [
-                    $message,
+                    'message' => $message,
                 ],
             ]
         );
@@ -90,9 +75,8 @@ class ApiTester extends \Codeception\Actor
         $this->seeResponseIsSuccessful();
 
         $response = $this->grabResponse();
-        $response  = json_decode($response, true);
-        $data      = $response['data'];
-        $token     = $data['token'];
+        $response = json_decode($response, true);
+        $token = $response['token'];
 
         return $token;
     }
@@ -102,48 +86,37 @@ class ApiTester extends \Codeception\Actor
         return $this->haveRecordWithFields(
             Users::class,
             [
-                'status'        => 1,
-                'username'      => 'testuser',
-                'password'      => 'testpassword',
-                'issuer'        => 'https://niden.net',
+                'status' => 1,
+                'username' => 'testuser',
+                'password' => 'testpassword',
+                'issuer' => 'https://niden.net',
                 'tokenPassword' => '12345',
-                'tokenId'       => '110011',
+                'tokenId' => '110011',
             ]
         );
     }
 
     private function checkHash()
     {
-        $response  = $this->grabResponse();
-        $response  = json_decode($response, true);
+        $response = $this->grabResponse();
+        $response = json_decode($response, true);
         $timestamp = $response['meta']['timestamp'];
-        $hash      = $response['meta']['hash'];
+        $hash = $response['meta']['hash'];
         unset($response['meta'], $response['jsonapi']);
         $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
     }
 
     private function checkErrorResponse(int $code)
     {
-        $this->seeResponseMatchesJsonType(
-            [
-                'jsonapi' => [
-                    'version' => 'string'
-                ],
-                'meta'    => [
-                    'timestamp' => 'string:date',
-                    'hash'      => 'string',
-                ]
-            ]
-        );
+        $response = $this->grabResponse();
 
-        $response  = $this->grabResponse();
-        $response  = json_decode($response, true);
+        $response = json_decode($response, true);
+
         $timestamp = $response['meta']['timestamp'];
-        $hash      = $response['meta']['hash'];
+        $hash = $response['meta']['hash'];
         $this->assertEquals(HttpCode::getDescription($code), $response['errors'][0]);
         unset($response['jsonapi'], $response['meta']);
         $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
-
 
         $this->seeResponseIsJson();
         $this->seeResponseCodeIs($code);
@@ -152,9 +125,12 @@ class ApiTester extends \Codeception\Actor
                 'jsonapi' => [
                     'version' => 'string'
                 ],
-                'meta'    => [
+                'errors' => [
+                    'message' => 'string'
+                ],
+                'meta' => [
                     'timestamp' => 'string:date',
-                    'hash'      => 'string',
+                    'hash' => 'string',
                 ]
             ]
         );

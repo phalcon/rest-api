@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\api;
+namespace Gewaer\Tests\api;
 
 use ApiTester;
 use Page\Data;
@@ -10,6 +10,7 @@ class NotFoundCest
     public function checkNotFoundRoute(ApiTester $I)
     {
         $I->sendGET(Data::$wrongUrl);
-        $I->seeResponseIs404();
+
+        $I->seeResponseCodeIs('404');
     }
 }

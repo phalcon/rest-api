@@ -1,8 +1,8 @@
 <?php
 
-namespace Niden\Tests\unit\library\Providers;
+namespace Gewaer\Tests\unit\library\Providers;
 
-use Niden\Providers\CacheDataProvider;
+use Gewaer\Providers\CacheDataProvider;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
@@ -15,7 +15,7 @@ class CacheCest
     public function checkRegistration(UnitTester $I)
     {
         $diContainer = new FactoryDefault();
-        $provider    = new CacheDataProvider();
+        $provider = new CacheDataProvider();
         $provider->register($diContainer);
 
         $I->assertTrue($diContainer->has('cache'));

@@ -2,6 +2,8 @@
 
 namespace Gewaer\Bootstrap;
 
+use Dmkit\Phalcon\Auth\Middleware\Micro as AuthMicro;
+
 class Tests extends Api
 {
     /**
@@ -11,6 +13,14 @@ class Tests extends Api
      */
     public function run()
     {
+        $config = $this->container->getConfig()->jwt->toArray();
+
+        //ignore token validation if disable
+        $config['ignoreUri'] = ['regex: *'];
+
+        //JWT Validation
+        $auth = new AuthMicro($this->application, $config);
+
         return $this->application;
     }
 }

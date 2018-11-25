@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/auth.git",
-                "reference": "b56ad63e1b43ed1f4d754b3c4d6b5834f8eb8b64"
+                "reference": "d2dce861341576efa023914f5aaf60012212a4ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakaphp/auth/zipball/b56ad63e1b43ed1f4d754b3c4d6b5834f8eb8b64",
-                "reference": "b56ad63e1b43ed1f4d754b3c4d6b5834f8eb8b64",
+                "url": "https://api.github.com/repos/bakaphp/auth/zipball/d2dce861341576efa023914f5aaf60012212a4ca",
+                "reference": "d2dce861341576efa023914f5aaf60012212a4ca",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 }
             ],
             "description": "Baka Component for user authentification",
-            "time": "2018-11-06T00:02:06+00:00"
+            "time": "2018-11-06T19:09:08+00:00"
         },
         {
             "name": "baka/database",
@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/database.git",
-                "reference": "121c3c893d15df04d475bcad43947e1bb0cdb85b"
+                "reference": "a48c77bf57c22dff20aa9101e8be3e3810eb4b88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakaphp/database/zipball/121c3c893d15df04d475bcad43947e1bb0cdb85b",
-                "reference": "121c3c893d15df04d475bcad43947e1bb0cdb85b",
+                "url": "https://api.github.com/repos/bakaphp/database/zipball/a48c77bf57c22dff20aa9101e8be3e3810eb4b88",
+                "reference": "a48c77bf57c22dff20aa9101e8be3e3810eb4b88",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 }
             ],
             "description": "Baka Databse component",
-            "time": "2018-05-13T23:33:01+00:00"
+            "time": "2018-11-25T04:28:47+00:00"
         },
         {
             "name": "baka/http",
@@ -105,12 +105,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/http.git",
-                "reference": "d323d79c2d8046fa6b9a4364e7528b59277199ed"
+                "reference": "a0b7d045082fd6166d26f9421b00a1613f9672f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakaphp/http/zipball/d323d79c2d8046fa6b9a4364e7528b59277199ed",
-                "reference": "d323d79c2d8046fa6b9a4364e7528b59277199ed",
+                "url": "https://api.github.com/repos/bakaphp/http/zipball/a0b7d045082fd6166d26f9421b00a1613f9672f6",
+                "reference": "a0b7d045082fd6166d26f9421b00a1613f9672f6",
                 "shasum": ""
             },
             "require": {
@@ -142,7 +142,7 @@
                 }
             ],
             "description": "Baka Http component",
-            "time": "2018-10-25T19:11:43+00:00"
+            "time": "2018-11-16T19:55:06+00:00"
         },
         {
             "name": "baka/mail",
@@ -150,12 +150,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/mail.git",
-                "reference": "a89306d56b75251d49753e9b10efc1475e36303d"
+                "reference": "537fd9a5c73c397bd9a1a45f554d98c811ce874f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakaphp/mail/zipball/a89306d56b75251d49753e9b10efc1475e36303d",
-                "reference": "a89306d56b75251d49753e9b10efc1475e36303d",
+                "url": "https://api.github.com/repos/bakaphp/mail/zipball/537fd9a5c73c397bd9a1a45f554d98c811ce874f",
+                "reference": "537fd9a5c73c397bd9a1a45f554d98c811ce874f",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,8 @@
                 "ext-phalcon": ">=3.0.0",
                 "nesbot/carbon": "^1.21",
                 "phalcon/incubator": ">=3.0",
-                "php": ">=7.0"
+                "php": ">=7.0",
+                "swiftmailer/swiftmailer": "~5.2"
             },
             "require-dev": {
                 "codeception/verify": "*",
@@ -189,7 +190,7 @@
                 }
             ],
             "description": "Baka Component for handling email via a simple queue interfase",
-            "time": "2018-07-20T16:16:01+00:00"
+            "time": "2018-11-19T18:36:09+00:00"
         },
         {
             "name": "cakephp/cache",
@@ -515,17 +516,20 @@
         },
         {
             "name": "dariuszp/cli-progress-bar",
-            "version": "1.0.2",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dariuszp/cli-progress-bar.git",
-                "reference": "54020a8fc60bf19579bfe0317f17a2848d48991d"
+                "reference": "1be746082242092ce9e7c735be45f9d9a77be1aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dariuszp/cli-progress-bar/zipball/54020a8fc60bf19579bfe0317f17a2848d48991d",
-                "reference": "54020a8fc60bf19579bfe0317f17a2848d48991d",
+                "url": "https://api.github.com/repos/dariuszp/cli-progress-bar/zipball/1be746082242092ce9e7c735be45f9d9a77be1aa",
+                "reference": "1be746082242092ce9e7c735be45f9d9a77be1aa",
                 "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.4"
             },
             "type": "library",
             "autoload": {
@@ -541,10 +545,15 @@
                 {
                     "name": "Dariusz Półtorak",
                     "email": "poltorak.dariusz@gmail.com"
+                },
+                {
+                    "name": "Mason Phillips",
+                    "email": "math.matrix@icloud.com",
+                    "role": "Contributor"
                 }
             ],
             "description": "Cli progress bar",
-            "time": "2015-11-02T14:38:59+00:00"
+            "time": "2018-11-24T20:35:59+00:00"
         },
         {
             "name": "dmkit/phalcon-jwt-auth",
@@ -901,16 +910,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.34.0",
+            "version": "1.36.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
+                "reference": "63da8cdf89d7a5efe43aabc794365f6e7b7b8983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/63da8cdf89d7a5efe43aabc794365f6e7b7b8983",
+                "reference": "63da8cdf89d7a5efe43aabc794365f6e7b7b8983",
                 "shasum": ""
             },
             "require": {
@@ -918,8 +927,11 @@
                 "symfony/translation": "~2.6 || ~3.0 || ~4.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "~2",
                 "phpunit/phpunit": "^4.8.35 || ^5.7"
+            },
+            "suggest": {
+                "friendsofphp/php-cs-fixer": "Needed for the `composer phpcs` command. Allow to automatically fix code style.",
+                "phpstan/phpstan": "Needed for the `composer phpstan` command. Allow to detect potential errors."
             },
             "type": "library",
             "extra": {
@@ -952,7 +964,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-09-20T19:36:25+00:00"
+            "time": "2018-11-22T18:23:02+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1083,23 +1095,21 @@
         },
         {
             "name": "phalcon/incubator",
-            "version": "v3.4.0",
+            "version": "v3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/incubator.git",
-                "reference": "747cd52ed3d7287f0bcff28d5c9fc2b70086104f"
+                "reference": "2ab139c977577dbcb42e0f766cb7631966abe278"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/incubator/zipball/747cd52ed3d7287f0bcff28d5c9fc2b70086104f",
-                "reference": "747cd52ed3d7287f0bcff28d5c9fc2b70086104f",
+                "url": "https://api.github.com/repos/phalcon/incubator/zipball/2ab139c977577dbcb42e0f766cb7631966abe278",
+                "reference": "2ab139c977577dbcb42e0f766cb7631966abe278",
                 "shasum": ""
             },
             "require": {
                 "ext-phalcon": "~3.3",
-                "php": ">=5.5",
-                "swiftmailer/swiftmailer": "~5.2",
-                "twig/twig": "~1.35|~2.0"
+                "php": ">=5.5"
             },
             "require-dev": {
                 "codeception/aerospike-module": "^1.0",
@@ -1118,7 +1128,9 @@
                 "duncan3dc/fork-helper": "To use extended class to access the beanstalk queue service",
                 "ext-aerospike": "*",
                 "phalcon/ide-stubs": "Phalcon IDE Stubs",
-                "sergeyklay/aerospike-php-stubs": "The most complete Aerospike PHP stubs which allows autocomplete in modern IDEs"
+                "sergeyklay/aerospike-php-stubs": "The most complete Aerospike PHP stubs which allows autocomplete in modern IDEs",
+                "swiftmailer/swiftmailer": "~5.2",
+                "twig/twig": "~1.35|~2.0"
             },
             "type": "library",
             "autoload": {
@@ -1148,7 +1160,7 @@
                 "incubator",
                 "phalcon"
             ],
-            "time": "2018-05-30T06:05:23+00:00"
+            "time": "2018-11-19T09:30:11+00:00"
         },
         {
             "name": "psr/container",
@@ -1201,16 +1213,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
                 "shasum": ""
             },
             "require": {
@@ -1244,7 +1256,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "pusher/pusher-php-server",
@@ -1376,16 +1388,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "1.9.2",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "6b4c80ee1f5d9d5ab5bae949f4eb5d758a0bf64b"
+                "reference": "b2b8ffe1560b9fb0110b02993594a4b04a511959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/6b4c80ee1f5d9d5ab5bae949f4eb5d758a0bf64b",
-                "reference": "6b4c80ee1f5d9d5ab5bae949f4eb5d758a0bf64b",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/b2b8ffe1560b9fb0110b02993594a4b04a511959",
+                "reference": "b2b8ffe1560b9fb0110b02993594a4b04a511959",
                 "shasum": ""
             },
             "require": {
@@ -1436,7 +1448,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2018-08-18T19:41:03+00:00"
+            "time": "2018-11-09T12:27:19+00:00"
         },
         {
             "name": "sly/notification-pusher",
@@ -1852,64 +1864,6 @@
             "time": "2018-09-18T12:45:12+00:00"
         },
         {
-            "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "suggest": {
-                "ext-ctype": "For best performance"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.9-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                },
-                {
-                    "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
-                }
-            ],
-            "description": "Symfony polyfill for ctype functions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "ctype",
-                "polyfill",
-                "portable"
-            ],
-            "time": "2018-08-06T14:22:27+00:00"
-        },
-        {
             "name": "symfony/polyfill-mbstring",
             "version": "v1.10.0",
             "source": {
@@ -2143,73 +2097,6 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2017-11-29T13:28:14+00:00"
-        },
-        {
-            "name": "twig/twig",
-            "version": "v2.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twigphp/Twig.git",
-                "reference": "6a5f676b77a90823c2d4eaf76137b771adf31323"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/6a5f676b77a90823c2d4eaf76137b771adf31323",
-                "reference": "6a5f676b77a90823c2d4eaf76137b771adf31323",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.0",
-                "symfony/polyfill-ctype": "^1.8",
-                "symfony/polyfill-mbstring": "~1.0"
-            },
-            "require-dev": {
-                "psr/container": "^1.0",
-                "symfony/debug": "^2.7",
-                "symfony/phpunit-bridge": "^3.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.5-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Twig_": "lib/"
-                },
-                "psr-4": {
-                    "Twig\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
-                },
-                {
-                    "name": "Twig Team",
-                    "homepage": "https://twig.symfony.com/contributors",
-                    "role": "Contributors"
-                }
-            ],
-            "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "https://twig.symfony.com",
-            "keywords": [
-                "templating"
-            ],
-            "time": "2018-07-13T07:18:09+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -3927,12 +3814,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/odan/phinx-migrations-generator.git",
-                "reference": "43351631e77a2189b8a8f450928c80e750543001"
+                "reference": "0b5787b75b8ae2f8402ee7277551c78e4cd19221"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/43351631e77a2189b8a8f450928c80e750543001",
-                "reference": "43351631e77a2189b8a8f450928c80e750543001",
+                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/0b5787b75b8ae2f8402ee7277551c78e4cd19221",
+                "reference": "0b5787b75b8ae2f8402ee7277551c78e4cd19221",
                 "shasum": ""
             },
             "require": {
@@ -3967,7 +3854,7 @@
                 "mysql",
                 "phinx"
             ],
-            "time": "2018-10-21T12:46:50+00:00"
+            "time": "2018-11-24T18:31:52+00:00"
         },
         {
             "name": "phalcon/ide-stubs",

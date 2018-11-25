@@ -1,5 +1,5 @@
 <?php
 
-use Niden\Bootstrap\Cli;
+use Gewaer\Bootstrap\Cli;
 
 return (new Cli())->run();

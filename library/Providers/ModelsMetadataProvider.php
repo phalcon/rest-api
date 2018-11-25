@@ -18,11 +18,11 @@ class ModelsMetadataProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
+        $config = $container->getShared('config');
+
         $container->setShared(
             'modelsMetadata',
-            function () use ($container) {
-                $config = $container->getShared('config');
-
+            function () use ($config) {
                 if (strtolower($config->app->env) != Flags::PRODUCTION) {
                     return new MemoryMetaDataAdapter();
                 }

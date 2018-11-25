@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\cli;
+namespace Gewaer\Tests\cli;
 
 use CliTester;
 

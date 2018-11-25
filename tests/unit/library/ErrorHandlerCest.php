@@ -1,22 +1,22 @@
 <?php
 
-namespace Niden\Tests\unit\library;
+namespace Gewaer\Tests\unit\library;
 
-use Niden\ErrorHandler;
-use Niden\Logger;
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\LoggerProvider;
+use Gewaer\ErrorHandler;
+use Gewaer\Logger;
+use Gewaer\Providers\ConfigProvider;
+use Gewaer\Providers\LoggerProvider;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
-use function Niden\Core\appPath;
+use function Gewaer\Core\appPath;
 
 class ErrorHandlerCest
 {
     public function logErrorOnError(UnitTester $I)
     {
         $diContainer = new FactoryDefault();
-        $provider    = new ConfigProvider();
+        $provider = new ConfigProvider();
         $provider->register($diContainer);
         $provider = new LoggerProvider();
         $provider->register($diContainer);
@@ -24,20 +24,19 @@ class ErrorHandlerCest
         /** @var Config $config */
         $config = $diContainer->getShared('config');
         /** @var Logger $logger */
-        $logger  = $diContainer->getShared('logger');
-        $handler = new ErrorHandler($logger, $config);
+        $logger = $diContainer->getShared('log');
 
-        $handler->handle(1, 'test error', 'file.php', 4);
+        $logger->error('baka');
         $fileName = appPath('storage/logs/api.log');
         $I->openFile($fileName);
-        $expected = '[ERROR] [#:1]-[L: 4] : test error (file.php)';
+        $expected = '[ERROR] baka';
         $I->seeInThisFile($expected);
     }
 
     public function logErrorOnShutdown(UnitTester $I)
     {
         $diContainer = new FactoryDefault();
-        $provider    = new ConfigProvider();
+        $provider = new ConfigProvider();
         $provider->register($diContainer);
         $provider = new LoggerProvider();
         $provider->register($diContainer);
@@ -45,7 +44,7 @@ class ErrorHandlerCest
         /** @var Config $config */
         $config = $diContainer->getShared('config');
         /** @var Logger $logger */
-        $logger  = $diContainer->getShared('logger');
+        $logger = $diContainer->getShared('log');
         $handler = new ErrorHandler($logger, $config);
 
         $handler->shutdown();

@@ -1,9 +1,8 @@
 <?php
 
-namespace Niden\Tests\unit\library;
+namespace Gewaer\Tests\unit\library;
 
-use Niden\Bootstrap\Api;
-use Niden\Http\Response;
+use Gewaer\Bootstrap\Api;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 use UnitTester;
@@ -16,7 +15,6 @@ class BootstrapCest
         $bootstrap->setup();
 
         $I->assertTrue($bootstrap->getContainer() instanceof FactoryDefault);
-        $I->assertTrue($bootstrap->getResponse() instanceof Response);
         $I->assertTrue($bootstrap->getApplication() instanceof Micro);
     }
 }

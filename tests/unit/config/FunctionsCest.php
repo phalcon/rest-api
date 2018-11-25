@@ -1,12 +1,10 @@
 <?php
 
-namespace Niden\Tests\unit\config;
+namespace Gewaer\Tests\unit\config;
 
-use Niden\Constants\Relationships;
 use UnitTester;
-use function Niden\Core\appPath;
-use function Niden\Core\appUrl;
-use function Niden\Core\envValue;
+use function Gewaer\Core\appPath;
+use function Gewaer\Core\envValue;
 
 class FunctionsCest
 {
@@ -38,13 +36,5 @@ class FunctionsCest
     {
         putenv('SOMEVAL=someval');
         $I->assertEquals('someval', envValue('SOMEVAL'));
-    }
-
-    public function checkEnvurlWithUrl(UnitTester $I)
-    {
-        $I->assertEquals(
-            'http://api.phalcon.ld/companies/1',
-            appUrl(Relationships::COMPANIES, 1)
-        );
     }
 }

@@ -103,7 +103,12 @@ class Response extends PhResponse
      */
     public function setPayloadError(string $detail = ''): Response
     {
-        $this->setJsonContent(['errors' => [$detail]]);
+        $this->setJsonContent([
+            'errors' => [
+                'message' => $detail,
+                'type' => $this->codes[404]
+                ]
+        ]);
 
         return $this;
     }

@@ -1,15 +1,15 @@
 <?php
 
-namespace Niden\Tests\unit\cli;
+namespace Gewaer\Tests\unit\cli;
 
 use FilesystemIterator;
-use Niden\Cli\Tasks\ClearcacheTask;
-use Niden\Providers\CacheDataProvider;
+use Gewaer\Cli\Tasks\ClearcacheTask;
+use Gewaer\Providers\CacheDataProvider;
 use Phalcon\Di\FactoryDefault\Cli;
 use UnitTester;
 use function fclose;
 use function iterator_count;
-use function Niden\Core\appPath;
+use function Gewaer\Core\appPath;
 use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;
@@ -21,15 +21,15 @@ class ClearCacheCest
     {
         require appPath('vendor/autoload.php');
 
-        $path      = appPath('/storage/cache/data');
+        $path = appPath('/storage/cache/data');
         $container = new Cli();
-        $cache     = new CacheDataProvider();
+        $cache = new CacheDataProvider();
         $cache->register($container);
-        $task      = new ClearcacheTask();
+        $task = new ClearcacheTask();
         $task->setDI($container);
 
         $iterator = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
-        $count    = iterator_count($iterator);
+        $count = iterator_count($iterator);
 
         $this->createFile();
         $this->createFile();
@@ -53,7 +53,7 @@ class ClearCacheCest
 
     private function createFile()
     {
-        $name    = appPath('/storage/cache/data/') . uniqid('tmp_') . '.cache';
+        $name = appPath('/storage/cache/data/') . uniqid('tmp_') . '.cache';
         $pointer = fopen($name, 'wb');
         fwrite($pointer, 'test');
         fclose($pointer);

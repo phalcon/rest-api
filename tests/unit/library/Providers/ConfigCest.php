@@ -1,8 +1,8 @@
 <?php
 
-namespace Niden\Tests\unit\library\Providers;
+namespace Gewaer\Tests\unit\library\Providers;
 
-use Niden\Providers\ConfigProvider;
+use Gewaer\Providers\ConfigProvider;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
@@ -15,7 +15,7 @@ class ConfigCest
     public function checkRegistration(UnitTester $I)
     {
         $diContainer = new FactoryDefault();
-        $provider    = new ConfigProvider();
+        $provider = new ConfigProvider();
         $provider->register($diContainer);
 
         $I->assertTrue($diContainer->has('config'));

@@ -10,6 +10,7 @@ use Baka\Auth\Models\Sessions;
 use Gewaer\Models\Users;
 use Phalcon\Http\Request;
 use Gewaer\Exception\UnauthorizedHttpException;
+use Gewaer\Constants\Flags;
 
 /**
  * Class AuthenticationMiddleware
@@ -38,6 +39,11 @@ class AuthenticationMiddleware implements MiddlewareInterface
             function () use ($config, $data) {
                 $session = new Sessions();
                 $request = new Request();
+
+                //dev?
+                if (strtolower($config->app->env) == Flags::DEVELOPMENT) {
+                    return Users::findFirst(1);
+                }
 
                 if (!empty($data) && !empty($data['sessionId'])) {
                     //user

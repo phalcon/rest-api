@@ -15,11 +15,17 @@ $router->setPrefix('/v1');
 $router->get('/', [
     'Gewaer\Api\Controllers\IndexController',
     'index',
+    'options' => [
+        'jwt' => false,
+    ]
 ]);
 
 $router->get('/status', [
     'Gewaer\Api\Controllers\IndexController',
     'status',
+    'options' => [
+        'jwt' => false,
+    ]
 ]);
 
 /**
@@ -29,6 +35,9 @@ $router->get('/status', [
 $router->post('/auth', [
     'Gewaer\Api\Controllers\AuthController',
     'login',
+    'options' => [
+        'jwt' => false,
+    ]
 ]);
 
 //asociate mobile devices
@@ -84,6 +93,9 @@ foreach ($defaultCrudRoutes as $key => $route) {
 $router->post('/users', [
     'Gewaer\Api\Controllers\AuthController',
     'signup',
+    'options' => [
+        'jwt' => false,
+    ]
 ]);
 
 $router->put('/auth/logout', [
@@ -94,11 +106,17 @@ $router->put('/auth/logout', [
 $router->post('/auth/forgot', [
     'Gewaer\Api\Controllers\AuthController',
     'recover',
+    'options' => [
+        'jwt' => false,
+    ]
 ]);
 
 $router->post('/auth/reset/{key}', [
     'Gewaer\Api\Controllers\AuthController',
     'reset',
+    'options' => [
+        'jwt' => false,
+    ]
 ]);
 
 $router->mount();

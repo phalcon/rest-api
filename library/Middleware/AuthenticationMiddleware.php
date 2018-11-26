@@ -40,8 +40,8 @@ class AuthenticationMiddleware implements MiddlewareInterface
                 $session = new Sessions();
                 $request = new Request();
 
-                //dev?
-                if (strtolower($config->app->env) == Flags::DEVELOPMENT) {
+                //all is empty and is dev, ok take use the first user
+                if (empty($data) && empty($data['sessionId']) && strtolower($config->app->env) == Flags::DEVELOPMENT) {
                     return Users::findFirst(1);
                 }
 

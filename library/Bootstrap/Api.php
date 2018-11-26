@@ -13,6 +13,7 @@ use Throwable;
 use Dmkit\Phalcon\Auth\Middleware\Micro as AuthMicro;
 use Gewaer\Exception\ServerErrorHttpException;
 use Gewaer\Constants\Flags;
+use Baka\Http\RouterCollection;
 
 /**
  * Class Api
@@ -33,8 +34,13 @@ class Api extends AbstractBootstrap
         try {
             $config = $this->container->getConfig()->jwt->toArray();
 
-            //ignore token validation if disable
-            if (!$this->container->getConfig()->application->jwtSecurity) {
+            //if the router has jwt ignore url we always overwrite the app config
+            $routerJwtIgnoreUrl = RouterCollection::getJwtIgnoreRoutes();
+            if (!empty($routerJwtIgnoreUrl)) {
+                $config['ignoreUri'] = $routerJwtIgnoreUrl;
+            }
+            elseif (!$this->container->getConfig()->application->jwtSecurity) {
+                //ignore token validation if disable
                 $config['ignoreUri'] = ['regex: *'];
             }
 

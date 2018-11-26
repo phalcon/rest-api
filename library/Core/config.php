@@ -94,11 +94,6 @@ return [
             'exp' => envValue('APP_JWT_SESSION_EXPIRATION', 1440),
             'iss' => 'phalcon-jwt-auth',
         ],
-        'ignoreUri' => [
-            '/v1',
-            'regex:auth:POST',
-            'regex:users:POST',
-        ],
     ],
     'pusher' => [
         'id' => envValue('PUSHER_ID'),

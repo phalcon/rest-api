@@ -10,13 +10,20 @@ Implementation of an API application using the Phalcon Framework [https://phalco
 
 ### Installation
 - Clone the project
-- In the project folder run `nanobox run` && `nanobox run start-nginx` && `nanobox run start-php`
-- Hit the IP address with postman or `nanobox dns add local bakaapi.local`
-- View your nanobox informacion `nanobox info local`
-- Run migration `./vendor/bin/phinx migrate -e production`
-- If you need to update a migration `./vendor/bin/phinx-migrations  generate`
+- In the project folder run `nanobox run` , this will start nanobox and leave you inside the console
+- In the project folder run `nanobox run start-nginx`  , will start nginx 
+- In the project folder run `nanobox run start-php` , will start php-fpm
+- Now to add your local address inside the project folder run `nanobox dns add local bakaapi.local`
+- To view the information mysql , redis a dn other information needed to configure your .env variables run insde the project folder `nanobox info local`
+- Inside the nanobox console run  `./vendor/bin/phinx migrate -e production` to create the db , you need to have the phinx.php file , if you dont see it on your main filder you can find the copy at `storage/ci/phinx.php`
+- If you need to update a migration run `./vendor/bin/phinx-migrations  generate` , inside the nanobox console
 
 **NOTE** This requires [nanobox](https://nanobox.io) to be present in your system. Visit their site for installation instructions.
+
+### CLI
+- On every deploy crear the session caches `php cli/cli.php clearcache` 
+- On every deploy update your DB `./vendor/bin/phinx migrate -e production`
+- Queue to clear jwt sessions `php cli/cli.php clearcache sessions`
 
 ### Features
 - User Managament

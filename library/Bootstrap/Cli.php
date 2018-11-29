@@ -7,6 +7,9 @@ namespace Gewaer\Bootstrap;
 use function Gewaer\Core\appPath;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault\Cli as PhCli;
+use Throwable;
+use Gewaer\Exception\ServerErrorHttpException;
+use Gewaer\Constants\Flags;
 
 /**
  * Class Cli
@@ -26,7 +29,19 @@ class Cli extends AbstractBootstrap
      */
     public function run()
     {
-        return $this->application->handle($this->options);
+        try {
+            $config = $this->container->getConfig();
+
+            return $this->application->handle($this->options);
+        } catch (Throwable $e) {
+            //only log when server error production is seerver error or dev
+            if ($e instanceof ServerErrorHttpException || strtolower($config->app->env) != Flags::PRODUCTION) {
+                $this->container->getLog()->error($e->getTraceAsString());
+            }
+
+            //we need to see it on the console -_-
+            echo $e->getMessage();
+        }
     }
 
     /**

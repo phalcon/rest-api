@@ -90,6 +90,11 @@ return [
             ],
         ],
     ],
+    'beanstalk' => [
+        'host' => getenv('BEANSTALK_HOST'),
+        'port' => getenv('BEANSTALK_PORT'),
+        'prefix' => getenv('BEANSTALK_PREFIX'),
+    ],
     'jwt' => [
         'secretKey' => envValue('APP_JWT_TOKEN'),
         'payload' => [

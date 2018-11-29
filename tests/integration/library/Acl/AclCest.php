@@ -8,6 +8,7 @@ use Phalcon\Di\FactoryDefault;
 use Gewaer\Providers\AclProvider;
 use Gewaer\Providers\ConfigProvider;
 use Gewaer\Providers\DatabaseProvider;
+use Gewaer\Models\Users;
 
 class AclCest
 {
@@ -75,5 +76,44 @@ class AclCest
         $acl = $this->aclService();
 
         $I->assertTrue(!$acl->isAllowed('Admins', 'Canvas.Users', 'edit'));
+    }
+
+    public function checkSetAppByRole(IntegrationTester $I)
+    {
+        $acl = $this->aclService();
+
+        $I->assertTrue($acl->addRole('Canvas.Admins'));
+    }
+
+    public function checkUsersAssignRole(IntegrationTester $I)
+    {
+        $acl = $this->aclService();
+        $userData = Users::findFirst(1);
+
+        $I->assertTrue($userData->assignRole('Canvas.Admins'));
+    }
+
+    public function checkUsersHasPermission(IntegrationTester $I)
+    {
+        $acl = $this->aclService();
+        $userData = Users::findFirst(1);
+
+        $I->assertTrue($userData->can('Users.create'));
+    }
+
+    public function checkUsersDoesntHavePermission(IntegrationTester $I)
+    {
+        $acl = $this->aclService();
+        $userData = Users::findFirst(1);
+
+        $I->assertFalse($userData->can('Users.delete'));
+    }
+
+    public function checkUsersRemoveRole(IntegrationTester $I)
+    {
+        $acl = $this->aclService();
+        $userData = Users::findFirst(1);
+
+        $I->assertTrue($userData->removeRole('Canvas.Admins'));
     }
 }

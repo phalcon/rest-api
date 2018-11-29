@@ -52,8 +52,6 @@ class UserRoles extends AbstractModel
      */
     public function initialize()
     {
-        parent::initialize();
-
         $this->setSource('user_roles');
 
         $this->belongsTo(

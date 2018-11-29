@@ -60,5 +60,4 @@ class CompanySettings extends \Baka\Auth\Models\CompanySettings
     {
         return 'company_settings';
     }
-
 }

@@ -18,62 +18,56 @@ trait PermissionsTrait
 {
     /**
      * Assigne a user this role
+     * Example: App.Role
      *
      * @param string $role
      * @return boolean
      */
     public function assignRole(string $role): bool
     {
-        $role = Roles::findFirst([
-            'conditions' => 'name = ? and company_id = ? and apps_id = ?',
-            'bind' => [$role, $this->userData->default_company, 0]
-        ]);
+        $role = Roles::getByAppName($role, $this->defaultCompany);
 
         if (!$role) {
             throw new ServerErrorHttpException('Role not found in DB');
         }
 
         $userRole = UserRoles::findFirst([
-            'conditions' => 'user_id = ? and roles_id = ? and apps_id =? and company_id = ?',
-            'bind' => [$this->userData->getId(), $role->getId(), 0, $this->userData->default_company]
+            'conditions' => 'users_id = ?0 and roles_id = ?1 and apps_id = ?2 and company_id = ?3',
+            'bind' => [$this->getId(), $role->getId(), $role->apps_id, $this->default_company]
         ]);
 
         if (!$userRole) {
             $userRole = new UserRoles();
-            $userRole->user_id = $this->userData->getid();
-            $userRole->roles_id = $this->userData->getid();
-            $userRole->apps_id = $this->userData->getid();
-            $userRole->company_id = $this->userData->getid();
+            $userRole->users_id = $this->getid();
+            $userRole->roles_id = $role->getId();
+            $userRole->apps_id = $role->apps_id;
+            $userRole->company_id = $this->default_company;
             if (!$userRole->save()) {
-                throw new ModelException($userRole->getMessages());
+                throw new ModelException((string) current($userRole->getMessages()));
             }
-
-            return true;
         }
 
-        return false;
+        return true;
     }
 
     /**
      * Remove a role for the current user
+     * Example: App.Role
      *
      * @param string $role
      * @return boolean
      */
     public function removeRole(string $role): bool
     {
-        $role = Roles::findFirst([
-            'conditions' => 'name = ? and company_id = ? and apps_id = ?',
-            'bind' => [$role, $this->userData->default_company, 0]
-        ]);
+        $role = Roles::getByAppName($role, $this->defaultCompany);
 
         if (!$role) {
             throw new ServerErrorHttpException('Role not found in DB');
         }
 
         $userRole = UserRoles::findFirst([
-            'conditions' => 'user_id = ? and roles_id = ? and apps_id =? and company_id = ?',
-            'bind' => [$this->userData->getId(), $role->getId(), 0, $this->userData->default_company]
+            'conditions' => 'users_id = ?0 and roles_id = ?1 and apps_id = ?2 and company_id = ?3',
+            'bind' => [$this->getId(), $role->getId(), $role->apps_id, $this->default_company]
         ]);
 
         if ($userRole) {
@@ -91,18 +85,15 @@ trait PermissionsTrait
      */
     public function hasRole(string $role): bool
     {
-        $role = Roles::findFirst([
-            'conditions' => 'name = ? and company_id = ? and apps_id = ?',
-            'bind' => [$role, $this->userData->default_company, 0]
-        ]);
+        $role = Roles::getByAppName($role, $this->defaultCompany);
 
         if (!$role) {
             throw new ServerErrorHttpException('Role not found in DB');
         }
 
         $userRole = UserRoles::findFirst([
-            'conditions' => 'user_id = ? and roles_id = ? and apps_id =? and company_id = ?',
-            'bind' => [$this->userData->getId(), $role->getId(), 0, $this->userData->default_company]
+            'conditions' => 'users_id = ?0 and roles_id = ?1 and apps_id = ?2 and company_id = ?3',
+            'bind' => [$this->getId(), $role->getId(), $role->apps_id, $this->default_company]
         ]);
 
         if ($userRole) {
@@ -115,14 +106,37 @@ trait PermissionsTrait
     /**
      * At this current system / app can you do this?
      *
+     * Example: resource.action
+     *  Leads.add || leads.updates || lead.delete
+     *
      * @param string $action
      * @return boolean
      */
     public function can(string $action): bool
     {
-        //get current role for this company
+        //get current role for this company App.Role
+        // Section.Action
         //action is going to be resource.action so we need to explode it
 
-        return $this->acl->isAllowed('Admins', 'Products', 'update');
+        $userRole = UserRoles::findFirst([
+            'conditions' => 'users_id = ?0 and apps_id in ( ?1, ?2) and company_id = ?3',
+            'bind' => [$this->getId(), $this->di->getConfig()->app->id, Roles::DEFAULT_ACL_APP_ID, $this->default_company]
+        ]);
+
+        if (!$userRole) {
+            throw new ServerErrorHttpException('ACL - You dont have acces to this role for this app ');
+        }
+
+        //if we find the . then les
+        if (strpos($action, '.') == false) {
+            throw new ServerErrorHttpException('ACL - We are expecting the resource for this action');
+        }
+
+        $action = explode('.', $action);
+        $resource = $action[0];
+        $action = $action[1];
+        $app = $userRole->app->name;
+
+        return $this->di->getAcl()->isAllowed($userRole->roles->name, ucfirst($app) . '.' . $resource, $action);
     }
 }

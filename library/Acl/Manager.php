@@ -176,6 +176,8 @@ class Manager extends Adapter
     public function addRole($role, $scope = 0, $accessInherits = null): bool
     {
         if (is_string($role)) {
+            $role = $this->setAppByRole($role);
+
             $role = new Role($role, ucwords($role) . ' Role');
         }
         if (!$role instanceof RoleInterface) {
@@ -278,12 +280,35 @@ class Manager extends Adapter
             $appName = $appResource[0];
 
             //look for the app and set it
-            if ($app = Apps::findFirstByName($appName)) {
+            if ($app = Apps::getACLApp($appName)) {
                 $this->setApp($app);
             }
         }
 
         return $resource;
+    }
+
+    /**
+     * Given a resource with a dot CRM.Leads , it will set the app
+     *
+     * @param string $resource
+     * @return void
+     */
+    protected function setAppByRole(string $role) : string
+    {
+        //echeck if we have a dot , taht means we are sending the specific app to use
+        if (strpos($role, '.') !== false) {
+            $appRole = explode('.', $role);
+            $role = $appRole[1];
+            $appName = $appRole[0];
+
+            //look for the app and set it
+            if ($app = Apps::getACLApp($appName)) {
+                $this->setApp($app);
+            }
+        }
+
+        return $role;
     }
 
     /**
@@ -473,6 +498,8 @@ class Manager extends Adapter
      */
     public function isAllowed($role, $resource, $access, array $parameters = null): bool
     {
+        $role = $this->setAppByRole($role);
+        //resoure always overwrites the role app?
         $resource = $this->setAppByResource($resource);
 
         $sql = implode(' ', [
@@ -490,14 +517,13 @@ class Manager extends Adapter
             "AND resources_name IN (?, '*')",
             // access_name should be given one or 'any'
             //"AND access_name IN (?, '*')", you need to specify * , we are forcing to check always for permisions
-            "AND access_name IN (?)",
+            'AND access_name IN (?)',
             'AND apps_id = ? ',
             // order be the sum of bools for 'literals' before 'any'
             'ORDER BY ' . $this->connection->escapeIdentifier('allowed') . ' DESC',
             // get only one...
             'LIMIT 1'
         ]);
-        
 
         // fetch one entry...
         $allowed = $this->connection->fetchOne($sql, Db::FETCH_NUM, [$role, $role, $resource, $access, $this->getApp()->getId()]);
@@ -505,7 +531,7 @@ class Manager extends Adapter
         if (is_array($allowed)) {
             return (bool) $allowed[0];
         }
-        
+
         /**
          * Return the default access action
          */

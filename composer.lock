@@ -4,25 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "256cce26cd30738fffc3a5179a128f9b",
+    "content-hash": "d31b4c830fbf9e9efdcb0090d330701d",
     "packages": [
         {
             "name": "baka/auth",
-            "version": "dev-master",
+            "version": "v0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/auth.git",
-                "reference": "d2dce861341576efa023914f5aaf60012212a4ca"
+                "reference": "12ecaa23235ded7f98382d9d91e4d9a40a4ec719"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakaphp/auth/zipball/d2dce861341576efa023914f5aaf60012212a4ca",
-                "reference": "d2dce861341576efa023914f5aaf60012212a4ca",
+                "url": "https://api.github.com/repos/bakaphp/auth/zipball/12ecaa23235ded7f98382d9d91e4d9a40a4ec719",
+                "reference": "12ecaa23235ded7f98382d9d91e4d9a40a4ec719",
                 "shasum": ""
             },
             "require": {
-                "baka/database": "dev-master",
-                "baka/http": "dev-master",
+                "baka/database": "^0.1",
+                "baka/http": "^0.1",
                 "ext-phalcon": ">=3.0.0",
                 "phalcon/incubator": "~3.0",
                 "php": ">=7.1",
@@ -53,11 +53,11 @@
                 }
             ],
             "description": "Baka Component for user authentification",
-            "time": "2018-11-06T19:09:08+00:00"
+            "time": "2018-11-26T15:33:54+00:00"
         },
         {
             "name": "baka/database",
-            "version": "dev-master",
+            "version": "v0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/database.git",
@@ -101,16 +101,16 @@
         },
         {
             "name": "baka/http",
-            "version": "dev-master",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/http.git",
-                "reference": "a0b7d045082fd6166d26f9421b00a1613f9672f6"
+                "reference": "e94aa1f7aeb4a572dbfc86e2ba8bc7749fe9fcd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakaphp/http/zipball/a0b7d045082fd6166d26f9421b00a1613f9672f6",
-                "reference": "a0b7d045082fd6166d26f9421b00a1613f9672f6",
+                "url": "https://api.github.com/repos/bakaphp/http/zipball/e94aa1f7aeb4a572dbfc86e2ba8bc7749fe9fcd1",
+                "reference": "e94aa1f7aeb4a572dbfc86e2ba8bc7749fe9fcd1",
                 "shasum": ""
             },
             "require": {
@@ -122,6 +122,7 @@
             "require-dev": {
                 "baka/phalconphp-hmac": "dev-auth-phalcon-3",
                 "codeception/verify": "*",
+                "dmkit/phalcon-jwt-auth": "dev-master",
                 "phalcon/incubator": "~3.3",
                 "vlucas/phpdotenv": "^2.0"
             },
@@ -142,11 +143,11 @@
                 }
             ],
             "description": "Baka Http component",
-            "time": "2018-11-16T19:55:06+00:00"
+            "time": "2018-11-26T14:39:49+00:00"
         },
         {
             "name": "baka/mail",
-            "version": "dev-master",
+            "version": "v0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/mail.git",
@@ -1811,16 +1812,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.1.7",
+            "version": "v4.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "40f0e40d37c1c8a762334618dea597d64bbb75ff"
+                "reference": "31e5523373cb06163079ef46d0a2d507d70fe064"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/40f0e40d37c1c8a762334618dea597d64bbb75ff",
-                "reference": "40f0e40d37c1c8a762334618dea597d64bbb75ff",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/31e5523373cb06163079ef46d0a2d507d70fe064",
+                "reference": "31e5523373cb06163079ef46d0a2d507d70fe064",
                 "shasum": ""
             },
             "require": {
@@ -1861,7 +1862,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2018-09-18T12:45:12+00:00"
+            "time": "2018-11-11T19:51:29+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1973,16 +1974,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v4.1.7",
+            "version": "v4.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "aa04dc1c75b7d3da7bd7003104cd0cfc5dff635c"
+                "reference": "615e3cf75d00a7d6788316d9631957991ba9c26a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/aa04dc1c75b7d3da7bd7003104cd0cfc5dff635c",
-                "reference": "aa04dc1c75b7d3da7bd7003104cd0cfc5dff635c",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/615e3cf75d00a7d6788316d9631957991ba9c26a",
+                "reference": "615e3cf75d00a7d6788316d9631957991ba9c26a",
                 "shasum": ""
             },
             "require": {
@@ -2038,7 +2039,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-28T18:38:52+00:00"
+            "time": "2018-11-26T10:26:29+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -3814,12 +3815,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/odan/phinx-migrations-generator.git",
-                "reference": "0b5787b75b8ae2f8402ee7277551c78e4cd19221"
+                "reference": "327b1f79989fc2cd2ee0b4dd1b17be073e4b9905"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/0b5787b75b8ae2f8402ee7277551c78e4cd19221",
-                "reference": "0b5787b75b8ae2f8402ee7277551c78e4cd19221",
+                "url": "https://api.github.com/repos/odan/phinx-migrations-generator/zipball/327b1f79989fc2cd2ee0b4dd1b17be073e4b9905",
+                "reference": "327b1f79989fc2cd2ee0b4dd1b17be073e4b9905",
                 "shasum": ""
             },
             "require": {
@@ -3854,7 +3855,7 @@
                 "mysql",
                 "phinx"
             ],
-            "time": "2018-11-24T18:31:52+00:00"
+            "time": "2018-11-25T09:21:37+00:00"
         },
         {
             "name": "phalcon/ide-stubs",
@@ -5701,10 +5702,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "baka/database": 20,
-        "baka/http": 20,
-        "baka/mail": 20,
-        "baka/auth": 20,
         "dmkit/phalcon-jwt-auth": 20,
         "odan/phinx-migrations-generator": 20
     },

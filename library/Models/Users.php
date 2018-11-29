@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 namespace Gewaer\Models;
 
+use Gewaer\Traits\PermissionsTrait;
+
 class Users extends \Baka\Auth\Models\Users
 {
+    use PermissionsTrait;
+
     /**
      * Initialize method for model.
      */

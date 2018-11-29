@@ -17,6 +17,20 @@ class Users extends \Baka\Auth\Models\Users
         parent::initialize();
 
         $this->setSource('users');
+
+        $this->hasOne(
+            'id',
+            'Gewaer\Models\UserRoles',
+            'users_id',
+            ['alias' => 'permission']
+        );
+
+        $this->hasMany(
+            'id',
+            'Gewaer\Models\UserRoles',
+            'users_id',
+            ['alias' => 'permissions']
+        );
     }
 
     /**

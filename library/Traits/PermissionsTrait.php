@@ -114,19 +114,6 @@ trait PermissionsTrait
      */
     public function can(string $action): bool
     {
-        //get current role for this company App.Role
-        // Section.Action
-        //action is going to be resource.action so we need to explode it
-
-        $userRole = UserRoles::findFirst([
-            'conditions' => 'users_id = ?0 and apps_id in ( ?1, ?2) and company_id = ?3',
-            'bind' => [$this->getId(), $this->di->getConfig()->app->id, Roles::DEFAULT_ACL_APP_ID, $this->default_company]
-        ]);
-
-        if (!$userRole) {
-            throw new ServerErrorHttpException('ACL - You dont have acces to this role for this app ');
-        }
-
         //if we find the . then les
         if (strpos($action, '.') == false) {
             throw new ServerErrorHttpException('ACL - We are expecting the resource for this action');
@@ -135,8 +122,9 @@ trait PermissionsTrait
         $action = explode('.', $action);
         $resource = $action[0];
         $action = $action[1];
-        $app = $userRole->app->name;
+        //get your user account role for this app or the canvas ecosystem
+        $role = $this->getPermission('apps_id in (' . \Phalcon\DI::getDefault()->getConfig()->app->id . ',' . Roles::DEFAULT_ACL_APP_ID . ')')->roles->name;
 
-        return $this->di->getAcl()->isAllowed($userRole->roles->name, ucfirst($app) . '.' . $resource, $action);
+        return $this->di->getAcl()->isAllowed($role, $resource, $action);
     }
 }

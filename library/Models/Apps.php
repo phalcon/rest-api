@@ -63,7 +63,7 @@ class Apps extends \Baka\Auth\Models\Apps
      * @param string $name
      * @return Apps
      */
-    public function getACLApp(string $name): Apps
+    public static function getACLApp(string $name): Apps
     {
         if (trim($name) == self::GEWAER_DEFAULT_APP_NAME) {
             $app = self::findFirst(0);

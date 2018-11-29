@@ -38,8 +38,7 @@ class Api extends AbstractBootstrap
             $routerJwtIgnoreUrl = RouterCollection::getJwtIgnoreRoutes();
             if (!empty($routerJwtIgnoreUrl)) {
                 $config['ignoreUri'] = $routerJwtIgnoreUrl;
-            }
-            elseif (!$this->container->getConfig()->application->jwtSecurity) {
+            } elseif (!$this->container->getConfig()->application->jwtSecurity) {
                 //ignore token validation if disable
                 $config['ignoreUri'] = ['regex: *'];
             }
@@ -71,7 +70,7 @@ class Api extends AbstractBootstrap
         $data = (method_exists($e, 'getData')) ? $e->getData() : [];
 
         $message = $e->getMessage();
-        $response->setHeader('Access-Control-Allow-Origin', '*'); //@todo check why this fales on nginx
+        $response->setHeader('Access-Control-Allow-Origin', '*'); //@todo check why this fails on nginx
         $response->setStatusCode($httpCode, $httpMessage);
         $response->setContentType('application/json');
         $response->setJsonContent([

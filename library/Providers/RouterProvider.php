@@ -8,6 +8,7 @@ use function Gewaer\Core\appPath;
 use Gewaer\Middleware\NotFoundMiddleware;
 use Gewaer\Middleware\AuthenticationMiddleware;
 use Gewaer\Middleware\TokenValidationMiddleware;
+use Gewaer\Middleware\AclMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
@@ -77,6 +78,7 @@ class RouterProvider implements ServiceProviderInterface
             NotFoundMiddleware::class => 'before',
             AuthenticationMiddleware::class => 'before',
             TokenValidationMiddleware::class => 'before',
+            AclMiddleware::class => 'before',
         ];
     }
 

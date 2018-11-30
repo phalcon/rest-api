@@ -24,14 +24,14 @@ class AddLanguages extends AbstractMigration
                 'name' => 'English',
                 'title' => 'English',
                 'order' => 1,
-                'created' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
                 'is_deleted' => 0
             ], [
                 'id' => 'ES',
                 'name' => 'Español',
                 'title' => 'Español',
                 'order' => 2,
-                'created' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
                 'is_deleted' => 0
             ]
         ];

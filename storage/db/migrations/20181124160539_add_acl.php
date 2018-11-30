@@ -49,6 +49,38 @@ class AddAcl extends AbstractMigration
             ->addColumn('is_deleted', 'integer', ['null' => false, 'default' => '0', 'limit' => MysqlAdapter::INT_TINY, 'precision' => 3, 'after' => 'updated_at'])
             ->save();
 
+        //add default languages
+        $data = [
+            [
+                'name' => 'Admins',
+                'description' => 'System Administrator',
+                'scope' => 0,
+                'company_id' => 0,
+                'apps_id' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'is_deleted' => 0
+            ], [
+                'name' => 'Users',
+                'description' => 'Normal Users can (CRUD)',
+                'scope' => 0,
+                'company_id' => 0,
+                'apps_id' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'is_deleted' => 0
+            ], [
+                'name' => 'Agents',
+                'description' => 'Agents Users can (CRU)',
+                'scope' => 0,
+                'company_id' => 0,
+                'apps_id' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'is_deleted' => 0
+            ]
+        ];
+
+        $table = $this->table('roles');
+        $table->insert($data)->save();
+
         $table = $this->table('roles_inherits', ['id' => false, 'primary_key' => ['roles_name', 'roles_inherit'], 'engine' => 'InnoDB', 'encoding' => 'utf8mb4', 'collation' => 'utf8mb4_unicode_520_ci', 'comment' => '', 'row_format' => 'Dynamic']);
         $table->addColumn('roles_name', 'string', ['null' => false, 'limit' => 32, 'collation' => 'utf8mb4_unicode_520_ci', 'encoding' => 'utf8mb4'])
             ->addColumn('roles_inherit', 'string', ['null' => false, 'limit' => 32, 'collation' => 'utf8mb4_unicode_520_ci', 'encoding' => 'utf8mb4', 'after' => 'roles_name'])

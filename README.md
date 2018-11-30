@@ -16,6 +16,7 @@ Implementation of an API application using the Phalcon Framework [https://phalco
 - Now to add your local address inside the project folder run `nanobox dns add local bakaapi.local`
 - To view the information mysql , redis a dn other information needed to configure your .env variables run insde the project folder `nanobox info local`
 - Inside the nanobox console run  `./vendor/bin/phinx migrate -e production` to create the db , you need to have the phinx.php file , if you dont see it on your main filder you can find the copy at `storage/ci/phinx.php`
+- Inside the nanobox console run `php cli/cli.php acl` to create the default roles of the system
 - If you need to update a migration run `./vendor/bin/phinx-migrations  generate` , inside the nanobox console
 
 **NOTE** This requires [nanobox](https://nanobox.io) to be present in your system. Visit their site for installation instructions.

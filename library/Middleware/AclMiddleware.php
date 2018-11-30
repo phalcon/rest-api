@@ -52,6 +52,7 @@ class AclMiddleware implements MiddlewareInterface
                     $action = 'delete';
                 break;
                 case 'put':
+                case 'patch':
                     $action = 'update';
                 break;
                 default:

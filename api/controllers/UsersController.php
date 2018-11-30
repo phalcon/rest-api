@@ -41,6 +41,110 @@ class UsersController extends \Baka\Auth\UsersController
     public function onConstruct()
     {
         $this->model = new Users();
+
+        //if you are not a admin you cant see all the users
+        if (!$this->userData->hasRole('Default.Admins')) {
+            $this->additionalSearchFields = [
+                ['id', ':', $this->userData->getId()],
+            ];
+        } else {
+            //admin get all the users for this company
+            $this->additionalSearchFields = [
+                ['default_company', ':', $this->userData->default_company],
+            ];
+        }
+    }
+
+    /**
+     * Get Uer
+     *
+     * @param mixed $id
+     *
+     * @method GET
+     * @url /v1/users/{id}
+     *
+     * @return Phalcon\Http\Response
+     */
+    public function getById($id) : Response
+    {
+        //find the info
+        $user = $this->model->findFirst([
+            'id = ?0 AND is_deleted = 0',
+            'bind' => [$this->userData->getId()],
+        ]);
+
+        $user->password = null;
+
+        //get relationship
+        if ($this->request->hasQuery('relationships')) {
+            $relationships = $this->request->getQuery('relationships', 'string');
+
+            $user = QueryParser::parseRelationShips($relationships, $user);
+        }
+
+        if ($user) {
+            return $this->response($user);
+        } else {
+            throw new Exception('Record not found');
+        }
+    }
+
+    /**
+     * Update a User Info
+     *
+     * @method PUT
+     * @url /v1/users/{id}
+     *
+     * @return Phalcon\Http\Response
+     */
+    public function edit($id) : Response
+    {
+        if ($user = $this->model->findFirst($this->userData->getId())) {
+            $request = $this->request->getPut();
+
+            if (empty($request)) {
+                $request = $this->request->getJsonRawBody(true);
+            }
+
+            //clean pass
+            if (array_key_exists('password', $request) && !empty($request['password'])) {
+                $user->password = Users::passwordHash($request['password']);
+                unset($request['password']);
+            }
+
+            //clean default company
+            if (array_key_exists('default_company', $request)) {
+                //@todo check if I belong to this company
+                if ($company = Companies::findFirst($request['default_company'])) {
+                    $user->default_company = $company->getId();
+                    unset($request['default_company']);
+                }
+            }
+
+            //update
+            if ($user->update($request, $this->updateFields)) {
+                $user->password = null;
+                return $this->response($user);
+            } else {
+                //didnt work
+                throw new Exception($user->getMessages()[0]);
+            }
+        } else {
+            throw new Exception('Record not found');
+        }
+    }
+
+    /**
+     * Add users notifications
+     *
+     * @param int $id
+     * @return void
+     */
+    public function updateNotifications($id): Response
+    {
+        //get the notification array
+        //delete the current ones
+        //iterate and save into users
     }
 
     /**

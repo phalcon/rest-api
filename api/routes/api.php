@@ -28,6 +28,11 @@ $router->get('/status', [
     ]
 ]);
 
+$router->get('/timezones', [
+    'Gewaer\Api\Controllers\TimeZonesController',
+    'index',
+]);
+
 /**
  * Authentification Calls
  * @var [type]
@@ -52,6 +57,8 @@ $router->post('/users/{id}/devices', [
 $defaultCrudRoutes = [
     'users',
     'companies',
+    'languages',
+    'roles',
 ];
 
 foreach ($defaultCrudRoutes as $key => $route) {

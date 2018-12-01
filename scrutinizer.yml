@@ -48,7 +48,7 @@ build:
             command: 'cd ~/ && git clone -q --depth=1 https://github.com/phalcon/cphalcon.git && cd cphalcon/build && ./install'
             not_if: 'test -e /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so'
           -
-            command: 'cp -v /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so  /home/scrutinizer/.phpenv/versions/7.2.0/lib/php/extensions/no-debug-zts-20160303/'
+            command: 'cp -v /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so  /home/scrutinizer/.phpenv/versions/7.2.0/lib/php/extensions/no-debug-zts-20170718/'
             only_if: 'test -e /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so'
           - sed -i '$ a \\n[Phalcon]\nextension=phalcon.so\n' /home/scrutinizer/.phpenv/versions/7.2.0/etc/php.ini
           - php -m | grep -i Phalcon

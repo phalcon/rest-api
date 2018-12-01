@@ -126,7 +126,7 @@ data.api_mysql:
 
 # Redis 
 data.redis:
-  image: nanobox/redis:4.0
+  image: nanobox/redis:3.2
   config:
     tcp_keepalive: 60
     databases: 16

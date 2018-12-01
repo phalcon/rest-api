@@ -8,6 +8,7 @@ use PDOException;
 use Phalcon\Http\Response;
 use Phalcon\Queue\Beanstalk\Exception as BeanstalkException;
 use Gewaer\Exception\ServerErrorHttpException;
+use RedisException;
 
 /**
  * Base controller
@@ -49,7 +50,7 @@ class IndexController extends BaseController
             $this->redis->hGetAll('htest');
 
             //$this->redis->ping();
-        } catch (\RedisException $e) {
+        } catch (RedisException $e) {
             $this->log->error($e->getMessage(), $e->getTrace());
             $response['errors']['redis'] = $e->getMessage();
         } catch (Exception $e) {

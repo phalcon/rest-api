@@ -80,7 +80,7 @@ class PushNotificationTask extends PhTask
 
                         // Set the device(s) to push the notification to.
                         $devices = new DeviceCollection([
-                            new Device($userDevice->source_users_id_text),
+                            new Device((string) $userDevice->source_users_id_text),
                         ]);
 
                         if (is_null($notificationInfo['id'])) {

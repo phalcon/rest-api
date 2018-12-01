@@ -145,7 +145,8 @@ class UsersController extends \Baka\Auth\UsersController
      * Add users notifications
      *
      * @param int $id
-     * @return void
+     * @method PUT
+     * @return Response
      */
     public function updateNotifications($id): Response
     {

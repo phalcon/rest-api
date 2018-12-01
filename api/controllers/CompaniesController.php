@@ -9,8 +9,12 @@ use Phalcon\Http\Response;
 use Gewaer\Exception\UnprocessableEntityHttpException;
 
 /**
- * Base controller
+ * Class CompaniesController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Users $userData
+ * @property Request $request
  */
 class CompaniesController extends BaseController
 {
@@ -51,7 +55,7 @@ class CompaniesController extends BaseController
      * @method GET
      * @url /v1/company/{id}
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function getById($id) : Response
     {
@@ -81,7 +85,7 @@ class CompaniesController extends BaseController
      * @method POST
      * @url /v1/company
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function create() : Response
     {
@@ -108,7 +112,7 @@ class CompaniesController extends BaseController
      * @method PUT
      * @url /v1/company/{id}
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function edit($id) : Response
     {

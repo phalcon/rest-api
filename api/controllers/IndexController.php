@@ -11,8 +11,13 @@ use Gewaer\Exception\ServerErrorHttpException;
 use RedisException;
 
 /**
- * Base controller
+ * Class IndexController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Redis $redis
+ * @property Beanstalk $queue
+ * @property Mysql $db
  */
 class IndexController extends BaseController
 {

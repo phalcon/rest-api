@@ -12,10 +12,17 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Gewaer\Exception\BadRequestHttpException;
 use Gewaer\Exception\UnprocessableEntityHttpException;
+use Baka\Http\QueryParser;
+use Gewaer\Exception\ModelException;
+use Gewaer\Exception\NotFoundHttpException;
 
 /**
- * Users controller
+ * Class UsersController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Users $userData
+ * @property Request $request
  */
 class UsersController extends \Baka\Auth\UsersController
 {
@@ -63,7 +70,7 @@ class UsersController extends \Baka\Auth\UsersController
      * @method GET
      * @url /v1/users/{id}
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function getById($id) : Response
     {
@@ -85,7 +92,7 @@ class UsersController extends \Baka\Auth\UsersController
         if ($user) {
             return $this->response($user);
         } else {
-            throw new Exception('Record not found');
+            throw new ModelException('Record not found');
         }
     }
 
@@ -95,7 +102,7 @@ class UsersController extends \Baka\Auth\UsersController
      * @method PUT
      * @url /v1/users/{id}
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function edit($id) : Response
     {
@@ -127,10 +134,10 @@ class UsersController extends \Baka\Auth\UsersController
                 return $this->response($user);
             } else {
                 //didnt work
-                throw new Exception($user->getMessages()[0]);
+                throw new ModelException((string) current($user->getMessages()));
             }
         } else {
-            throw new Exception('Record not found');
+            throw new NotFoundHttpException('Record not found');
         }
     }
 
@@ -174,12 +181,12 @@ class UsersController extends \Baka\Auth\UsersController
 
         //get the app source
         if ($source = Sources::getByTitle($app)) {
-            if (!$userSource = UserLinkedSources::findFirst(['conditions' => 'user_id = ?0 and source_user_id_text =?1', 'bind' => [$this->userData->getId(), $deviceId]])) {
+            if (!$userSource = UserLinkedSources::findFirst(['conditions' => 'users_id = ?0 and source_users_id_text =?1', 'bind' => [$this->userData->getId(), $deviceId]])) {
                 $userSource = new UserLinkedSources();
-                $userSource->user_id = $this->userData->getId();
+                $userSource->users_id = $this->userData->getId();
                 $userSource->source_id = $source->source_id;
-                $userSource->source_user_id = $this->userData->getId();
-                $userSource->source_user_id_text = $deviceId;
+                $userSource->source_users_id = $this->userData->getId();
+                $userSource->source_users_id_text = $deviceId;
                 $userSource->source_username = $this->userData->displayname . ' ' . $app;
 
                 if (!$userSource->save()) {

@@ -6,7 +6,9 @@ namespace Gewaer\Api\Controllers;
 use Gewaer\Models\Languages;
 
 /**
- * Base controller
+ * Class LanguagesController
+ *
+ * @package Gewaer\Api\Controllers
  *
  */
 class LanguagesController extends BaseController

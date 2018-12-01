@@ -9,13 +9,8 @@ use Baka\Http\Rest\CrudExtendedController;
 /**
  * Class BaseController
  *
- * @package Niden\Api\Controllers
+ * @package Gewaer\Api\Controllers
  *
- * @property Micro               $application
- * @property CacheMemcached      $cache
- * @property Config              $config
- * @property ModelsMetadataCache $modelsMetadata
- * @property Response            $response
  */
 abstract class BaseController extends CrudExtendedController
 {

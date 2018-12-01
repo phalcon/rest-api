@@ -10,8 +10,14 @@ use Gewaer\Models\UserLinkedSources;
 use Gewaer\Exception\ServerErrorHttpException;
 
 /**
- * Base controller
+ * Class AuthController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Users $userData
+ * @property Request $request
+ * @property Config $config
+ * @property \Phalcon\Mailer\Message $mail
  */
 class AuthController extends \Baka\Auth\AuthController
 {

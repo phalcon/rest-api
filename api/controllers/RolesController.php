@@ -6,8 +6,11 @@ namespace Gewaer\Api\Controllers;
 use Gewaer\Models\Roles;
 
 /**
- * Base controller
+ * Class RolesController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Users $userData
  */
 class RolesController extends BaseController
 {

@@ -21,7 +21,7 @@ use Throwable;
  * @package Gewaer\Cli\Tasks
  *
  * @property Config $config
- * @property \Pusher\Pusher $config
+ * @property \Pusher\Pusher $pusher
  * @property \Monolog\Logger $log
  */
 class PushNotificationTask extends PhTask

@@ -19,7 +19,7 @@ class RedisProvider implements ServiceProviderInterface
             function () {
                 //Connect to redis
                 $redis = new Redis();
-                $redis->connect(envValue('REDIS_HOST', '127.0.0.1'), envValue('REDIS_PORT', 6379));
+                $redis->connect(envValue('REDIS_HOST', '127.0.0.1'), (int) envValue('REDIS_PORT', 6379));
                 $redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
                 return $redis;
             }

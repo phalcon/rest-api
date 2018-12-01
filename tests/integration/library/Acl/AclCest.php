@@ -47,42 +47,42 @@ class AclCest
     {
         $acl = $this->aclService();
 
-        $I->assertTrue($acl->addResource('Canvas.Users', ['list', 'create', 'edit', 'delete']));
+        $I->assertTrue($acl->addResource('Default.Users', ['list', 'create', 'edit', 'delete']));
     }
 
     public function checkAllowPermission(IntegrationTester $I)
     {
         $acl = $this->aclService();
 
-        $I->assertTrue($acl->allow('Admins', 'Canvas.Users', ['list', 'create']));
+        $I->assertTrue($acl->allow('Admins', 'Default.Users', ['list', 'create']));
     }
 
     public function checkDenyPermission(IntegrationTester $I)
     {
         $acl = $this->aclService();
 
-        $I->assertTrue($acl->deny('Admins', 'Canvas.Users', ['edit', 'delete']));
+        $I->assertTrue($acl->deny('Admins', 'Default.Users', ['edit', 'delete']));
     }
 
     public function checkIsAllowPermission(IntegrationTester $I)
     {
         $acl = $this->aclService();
 
-        $I->assertTrue($acl->isAllowed('Admins', 'Canvas.Users', 'list'));
+        $I->assertTrue($acl->isAllowed('Admins', 'Default.Users', 'list'));
     }
 
     public function checkIsDeniedPermission(IntegrationTester $I)
     {
         $acl = $this->aclService();
 
-        $I->assertTrue(!$acl->isAllowed('Admins', 'Canvas.Users', 'edit'));
+        $I->assertTrue(!$acl->isAllowed('Admins', 'Default.Users', 'edit'));
     }
 
     public function checkSetAppByRole(IntegrationTester $I)
     {
         $acl = $this->aclService();
 
-        $I->assertTrue($acl->addRole('Canvas.Admins'));
+        $I->assertTrue($acl->addRole('Default.Admins'));
     }
 
     public function checkUsersAssignRole(IntegrationTester $I)
@@ -90,7 +90,7 @@ class AclCest
         $acl = $this->aclService();
         $userData = Users::findFirst(1);
 
-        $I->assertTrue($userData->assignRole('Canvas.Admins'));
+        $I->assertTrue($userData->assignRole('Default.Admins'));
     }
 
     public function checkUsersHasPermission(IntegrationTester $I)
@@ -114,6 +114,6 @@ class AclCest
         $acl = $this->aclService();
         $userData = Users::findFirst(1);
 
-        $I->assertTrue($userData->removeRole('Canvas.Admins'));
+        $I->assertTrue($userData->removeRole('Default.Admins'));
     }
 }

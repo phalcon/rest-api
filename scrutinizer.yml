@@ -28,6 +28,8 @@ build:
           DATA_API_MEMCACHED_HOST: "127.0.0.1"
           DATA_API_MEMCACHED_PORT: 11211
           DATA_API_MEMCACHED_WEIGHT: 100
+          REDIS_HOST: "127.0.0.1"
+          REDIS_PORT: 6379
           APP_IP: "api.baka.ld"
           APP_ENV: development
           JWT_SECURITY: 0
@@ -53,6 +55,7 @@ build:
           - sed -i '$ a \\n[Phalcon]\nextension=phalcon.so\n' /home/scrutinizer/.phpenv/versions/7.2.0/etc/php.ini
           - php -m | grep -i Phalcon
           - sudo /etc/init.d/apache2 restart
+          - beanstalkd -p 11300 &
           - mysql -e "CREATE DATABASE gonano"
           - mysql -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('password');"
           - mysql -e "FLUSH PRIVILEGES"

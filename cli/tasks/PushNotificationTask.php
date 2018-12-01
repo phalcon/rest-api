@@ -14,7 +14,6 @@ use Sly\NotificationPusher\Model\Message;
 use Sly\NotificationPusher\Model\Push;
 use Sly\NotificationPusher\PushManager;
 use Throwable;
-use Phalcon\DI\FactoryDefault;
 
 /**
  * CLI To send push ontification and pusher msg
@@ -22,7 +21,7 @@ use Phalcon\DI\FactoryDefault;
  * @package Gewaer\Cli\Tasks
  *
  * @property Config $config
- * @property Pusher $config
+ * @property \Pusher\Pusher $config
  * @property \Monolog\Logger $log
  */
 class PushNotificationTask extends PhTask
@@ -48,10 +47,9 @@ class PushNotificationTask extends PhTask
 
         //dependent variables
         $config = $this->config;
-        $di = FactoryDefault::getDefault();
 
         //call que que tube
-        $queue->addWorker($queueName, function (Job $job) use ($di, $config) {
+        $queue->addWorker($queueName, function (Job $job) use ($config) {
             try {
                 //get the array from the queue
                 $notificationInfo = $job->getBody();
@@ -75,14 +73,14 @@ class PushNotificationTask extends PhTask
                         $this->log->addInfo('Pusher Sending push notification');
 
                         //send push notification
-                        $pushManager = new PushManager($config->application->production ? PushManager::ENVIRONMENT_PROD : PushManager::ENVIRONMENT_DEV);
+                        $pushManager = new PushManager($config->app->production ? PushManager::ENVIRONMENT_PROD : PushManager::ENVIRONMENT_DEV);
                         $gcmAdapter = new GcmAdapter([
                             'apiKey' => $config->pushNotifcation->android,
                         ]);
 
                         // Set the device(s) to push the notification to.
                         $devices = new DeviceCollection([
-                            new Device($userDevice->source_user_id_text),
+                            new Device($userDevice->source_users_id_text),
                         ]);
 
                         if (is_null($notificationInfo['id'])) {

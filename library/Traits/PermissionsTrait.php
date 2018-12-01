@@ -27,7 +27,7 @@ trait PermissionsTrait
     {
         $role = Roles::getByAppName($role, $this->defaultCompany);
 
-        if (!$role) {
+        if (!is_object($role)) {
             throw new ServerErrorHttpException('Role not found in DB');
         }
 
@@ -38,7 +38,7 @@ trait PermissionsTrait
 
         if (!$userRole) {
             $userRole = new UserRoles();
-            $userRole->users_id = $this->getid();
+            $userRole->users_id = $this->getId();
             $userRole->roles_id = $role->getId();
             $userRole->apps_id = $role->apps_id;
             $userRole->company_id = $this->default_company;
@@ -61,7 +61,7 @@ trait PermissionsTrait
     {
         $role = Roles::getByAppName($role, $this->defaultCompany);
 
-        if (!$role) {
+        if (!is_object($role)) {
             throw new ServerErrorHttpException('Role not found in DB');
         }
 
@@ -70,7 +70,7 @@ trait PermissionsTrait
             'bind' => [$this->getId(), $role->getId(), $role->apps_id, $this->default_company]
         ]);
 
-        if ($userRole) {
+        if (is_object($userRole)) {
             return $userRole->delete();
         }
 
@@ -96,7 +96,7 @@ trait PermissionsTrait
             'bind' => [$this->getId(), $role->getId(), $role->apps_id, $this->default_company]
         ]);
 
-        if ($userRole) {
+        if (is_object($userRole)) {
             return true;
         }
 
@@ -115,7 +115,7 @@ trait PermissionsTrait
     public function can(string $action): bool
     {
         //if we find the . then les
-        if (strpos($action, '.') == false) {
+        if (strpos($action, '.') === false) {
             throw new ServerErrorHttpException('ACL - We are expecting the resource for this action');
         }
 

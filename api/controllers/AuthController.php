@@ -45,6 +45,8 @@ class AuthController extends \Baka\Auth\AuthController
     protected function sendEmail(BakaUsers $user, string $type): void
     {
         $send = true;
+        $subject = null;
+        $body = null;
 
         switch ($type) {
             case 'recover':

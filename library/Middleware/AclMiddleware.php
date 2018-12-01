@@ -63,7 +63,6 @@ class AclMiddleware implements MiddlewareInterface
             //do you have permision
             if (!$userData->can($resource . '.' . $action)) {
                 throw new PermissionException('You dont have permission to run this action ' . $action . ' at ' . $resource);
-                $api->stop();
                 return false;
             }
         }

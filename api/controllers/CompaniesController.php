@@ -7,6 +7,7 @@ namespace Gewaer\Api\Controllers;
 use Gewaer\Models\Companies;
 use Phalcon\Http\Response;
 use Gewaer\Exception\UnprocessableEntityHttpException;
+use Baka\Http\QueryParser;
 
 /**
  * Class CompaniesController
@@ -40,7 +41,7 @@ class CompaniesController extends BaseController
     public function onConstruct()
     {
         $this->model = new Companies();
-        $this->modal->users_id = $this->userData->getId();
+        $this->model->users_id = $this->userData->getId();
 
         $this->additionalSearchFields = [
             ['users_id', ':', $this->userData->getId()],
@@ -133,7 +134,7 @@ class CompaniesController extends BaseController
                 return $this->response($company);
             } else {
                 //didnt work
-                throw new UnprocessableEntityHttpException(current($company->getMessages()));
+                throw new UnprocessableEntityHttpException((string) current($company->getMessages()));
             }
         } else {
             throw new UnprocessableEntityHttpException('Record not found');

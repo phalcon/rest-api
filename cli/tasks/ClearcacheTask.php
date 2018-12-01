@@ -16,6 +16,7 @@ use Phalcon\Queue\Beanstalk\Job;
  * @package Gewaer\Cli\Tasks
  *
  * @property Libmemcached $cache
+ * @property Config $config
  */
 class ClearcacheTask extends PhTask
 {

@@ -93,7 +93,7 @@ class Roles extends AbstractModel
      * @param string $role
      * @return Roles
      */
-    public function getByAppName(string $role, Companies $company): Roles
+    public static function getByAppName(string $role, Companies $company): Roles
     {
         //echeck if we have a dot , taht means we are sending the specific app to use
         if (strpos($role, '.') == false) {

@@ -184,13 +184,13 @@ class UsersController extends \Baka\Auth\UsersController
             if (!$userSource = UserLinkedSources::findFirst(['conditions' => 'users_id = ?0 and source_users_id_text =?1', 'bind' => [$this->userData->getId(), $deviceId]])) {
                 $userSource = new UserLinkedSources();
                 $userSource->users_id = $this->userData->getId();
-                $userSource->source_id = $source->source_id;
+                $userSource->source_id = $source->getId();
                 $userSource->source_users_id = $this->userData->getId();
                 $userSource->source_users_id_text = $deviceId;
                 $userSource->source_username = $this->userData->displayname . ' ' . $app;
 
                 if (!$userSource->save()) {
-                    throw new UnprocessableEntityHttpException(current($userSource->getMessages()));
+                    throw new UnprocessableEntityHttpException((string) current($userSource->getMessages()));
                 }
 
                 $msg = 'User Device Associated';

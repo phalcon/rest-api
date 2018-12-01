@@ -18,6 +18,12 @@ use Phalcon\DI\FactoryDefault;
 
 /**
  * CLI To send push ontification and pusher msg
+ *
+ * @package Gewaer\Cli\Tasks
+ *
+ * @property Config $config
+ * @property Pusher $config
+ * @property \Monolog\Logger $log
  */
 class PushNotificationTask extends PhTask
 {

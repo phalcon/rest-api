@@ -2,15 +2,14 @@
 
 namespace Gewaer\Cli\Tasks;
 
-use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cli\Task as PhTask;
 
 /**
- * Class ClearcacheTask
+ * Class AclTask
  *
- * @package Niden\Cli\Tasks
+ * @package Gewaer\Cli\Tasks;
  *
- * @property Libmemcached $cache
+ * @property \Gewaer\Acl\Manager $acl
  */
 class AclTask extends PhTask
 {

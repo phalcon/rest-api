@@ -41,8 +41,6 @@ class IndexController extends BaseController
     {
         $response = [];
 
-        $this->redis->set('3');
-        die();
         //Try to connect to Redis
         try {
             $this->redis->hSet('htest', 'a', 'x');

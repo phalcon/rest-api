@@ -152,6 +152,8 @@ class UsersController extends \Baka\Auth\UsersController
         //get the notification array
         //delete the current ones
         //iterate and save into users
+
+        return $this->response(['OK']);
     }
 
     /**

@@ -20,7 +20,6 @@ class RedisProvider implements ServiceProviderInterface
             'redis',
             function () use ($config) {
                 //Connect to redis
-                //for now redis normal
                 $redis = new Redis();
                 $redis->connect(envValue('REDIS_HOST', '127.0.0.1'), envValue('REDIS_PORT', '6379'));
                 $redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);

@@ -6,20 +6,20 @@ build:
         elasticsearch: false
         rabbitmq: false
         postgresql: false
-        redis: false
+        redis: true
         node: false
         php:
-          version: 7.1.12
+          version: 7.2
           ini:
             'date.timezone': 'UTC'
         hosts:
-          api.phalcon.ld: '127.0.0.1'
+          api.baka.ld: '127.0.0.1'
         apache2:
           modules: ['rewrite']
           sites:
             api:
               web_root: 'public'
-              host: 'api.phalcon.ld'
+              host: 'api.baka.ld'
         variables:
           DATA_API_MYSQL_HOST: "localhost"
           DATA_API_MYSQL_PASS: "password"
@@ -28,7 +28,11 @@ build:
           DATA_API_MEMCACHED_HOST: "127.0.0.1"
           DATA_API_MEMCACHED_PORT: 11211
           DATA_API_MEMCACHED_WEIGHT: 100
-          APP_IP: "api.phalcon.ld"
+          APP_IP: "api.baka.ld"
+          APP_ENV: development
+          JWT_SECURITY: 0
+          PHINX_CONFIG_DIR: "/home/scrutinizer/build/storage"
+
 
     cache:
         directories:
@@ -53,7 +57,7 @@ build:
           - mysql -e "FLUSH PRIVILEGES"
           - cd /home/scrutinizer/build
           - composer install --no-interaction
-          - ./vendor/bin/phinx migrate
+          - ./vendor/bin/phinx migrate -e development
           - ./vendor/bin/codecept build
 
 #    project_setup:

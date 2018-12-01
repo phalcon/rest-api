@@ -19,12 +19,16 @@ class GewearCanvasInit extends AbstractMigration
             ->addColumn('is_deleted', 'integer', ['null' => true, 'limit' => MysqlAdapter::INT_REGULAR, 'precision' => 10, 'after' => 'updated_at'])
             ->save();
 
-         //add default languages
+        //add default languages
         $data = [
             [
-                'id' => 0,
-                'name' => 'Canvas',
-                'description' => 'Gewaer Canvas',
+                'name' => 'Default',
+                'description' => 'Gewaer Ecosystem',
+                'created_at' => date('Y-m-d H:i:s'),
+                'is_deleted' => 0
+            ], [
+                'name' => 'CRM',
+                'description' => 'CRM App',
                 'created_at' => date('Y-m-d H:i:s'),
                 'is_deleted' => 0
             ]
@@ -33,6 +37,8 @@ class GewearCanvasInit extends AbstractMigration
         $table = $this->table('apps');
         $table->insert($data)->save();
 
+        $this->execute("update apps set id = 0 where id = 1");
+        $this->execute("update apps set id = 1 where id = 2");
 
         $table = $this->table('apps_roles', ['id' => false, 'engine' => 'InnoDB', 'encoding' => 'utf8mb4', 'collation' => 'utf8mb4_unicode_ci', 'comment' => '', 'row_format' => 'Compact']);
         $table->addColumn('apps_id', 'integer', ['null' => false, 'limit' => MysqlAdapter::INT_REGULAR, 'precision' => 10])
@@ -68,6 +74,20 @@ class GewearCanvasInit extends AbstractMigration
             ->addColumn('updated_at', 'datetime', ['null' => true, 'after' => 'created_at'])
             ->addColumn('is_deleted', 'integer', ['null' => true, 'limit' => MysqlAdapter::INT_REGULAR, 'precision' => 10, 'after' => 'updated_at'])
             ->save();
+
+         //add default companies
+        $data = [
+            [
+                'name' => 'Canvas',
+                'users_id' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'is_deleted' => 0
+            ],
+        ];
+
+        $table = $this->table('companies');
+        $table->insert($data)->save();
+
 
         $table = $this->table('company_settings');
         if ($table->hasIndex('index4')) {
@@ -161,8 +181,7 @@ class GewearCanvasInit extends AbstractMigration
         $table = $this->table('sources');
         $table->addIndex(['url'], ['name' => 'unq1', 'unique' => true])->save();
 
-
-         //add source
+        //add source
         $data = [
             [
                 'title' => 'baka',
@@ -189,8 +208,6 @@ class GewearCanvasInit extends AbstractMigration
 
         $table = $this->table('sources');
         $table->insert($data)->save();
-
-
 
         $table = $this->table('user_company_apps', ['id' => false, 'primary_key' => ['company_id', 'apps_id'], 'engine' => 'InnoDB', 'encoding' => 'utf8mb4', 'collation' => 'utf8mb4_unicode_ci', 'comment' => '', 'row_format' => 'Compact']);
         $table->addColumn('company_id', 'integer', ['null' => false, 'limit' => MysqlAdapter::INT_REGULAR, 'precision' => 10, 'comment' => 'las apps que tiene contraída o usando el usuario
@@ -234,7 +251,7 @@ class GewearCanvasInit extends AbstractMigration
         if ($table->hasIndex('source_user_id_text')) {
             $table->removeIndexByName('source_user_id_text')->save();
         }
-     
+
         $table = $this->table('user_linked_sources');
         $table->addIndex(['source_username'], ['name' => 'source_username', 'unique' => false])->save();
         $table = $this->table('user_linked_sources');
@@ -279,6 +296,25 @@ class GewearCanvasInit extends AbstractMigration
             ->addColumn('is_deleted', 'boolean', ['null' => true, 'default' => '0', 'limit' => MysqlAdapter::INT_TINY, 'precision' => 3, 'after' => 'status'])
             ->save();
 
+
+        //add default languages
+        $data = [
+            [
+                'email' => 'test@baka.io',
+                'password' => password_hash('bakatest123567', PASSWORD_DEFAULT),
+                'firstname' => 'Baka',
+                'lastname' => 'Idiot',
+                'default_company' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'status' => 1,
+                'is_deleted' => 0
+            ], 
+        ];
+
+        $table = $this->table('users');
+        $table->insert($data)->save();
+
+
         $table = $this->table('users_associated_company', ['id' => false, 'primary_key' => ['users_id', 'company_id'], 'engine' => 'InnoDB', 'encoding' => 'utf8mb4', 'collation' => 'utf8mb4_unicode_ci', 'comment' => '', 'row_format' => 'Compact']);
         $table->addColumn('users_id', 'integer', ['null' => false, 'limit' => MysqlAdapter::INT_REGULAR, 'precision' => 10])
             ->addColumn('company_id', 'integer', ['null' => false, 'limit' => MysqlAdapter::INT_REGULAR, 'precision' => 10, 'after' => 'users_id'])
@@ -312,6 +348,5 @@ class GewearCanvasInit extends AbstractMigration
         }
         $table = $this->table('banlist');
         $table->addIndex(['ip', 'users_id'], ['name' => 'ban_ip_user_id', 'unique' => false])->save();
-
     }
 }

@@ -44,7 +44,7 @@ class Api extends AbstractBootstrap
             }
 
             //JWT Validation
-            $auth = new AuthMicro($this->application, $config);
+            new AuthMicro($this->application, $config);
 
             return $this->application->handle();
         } catch (Throwable $e) {
@@ -69,7 +69,6 @@ class Api extends AbstractBootstrap
         $httpMessage = (method_exists($e, 'getHttpMessage')) ? $e->getHttpMessage() : 'Bad Request';
         $data = (method_exists($e, 'getData')) ? $e->getData() : [];
 
-        $message = $e->getMessage();
         $response->setHeader('Access-Control-Allow-Origin', '*'); //@todo check why this fails on nginx
         $response->setStatusCode($httpCode, $httpMessage);
         $response->setContentType('application/json');

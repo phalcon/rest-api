@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gewaer\Api\Controllers;
@@ -6,7 +7,9 @@ namespace Gewaer\Api\Controllers;
 use Gewaer\Models\Languages;
 
 /**
- * Base controller
+ * Class LanguagesController
+ *
+ * @package Gewaer\Api\Controllers
  *
  */
 class LanguagesController extends BaseController

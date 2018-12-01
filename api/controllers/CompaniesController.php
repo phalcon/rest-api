@@ -7,10 +7,15 @@ namespace Gewaer\Api\Controllers;
 use Gewaer\Models\Companies;
 use Phalcon\Http\Response;
 use Gewaer\Exception\UnprocessableEntityHttpException;
+use Baka\Http\QueryParser;
 
 /**
- * Base controller
+ * Class CompaniesController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Users $userData
+ * @property Request $request
  */
 class CompaniesController extends BaseController
 {
@@ -36,7 +41,7 @@ class CompaniesController extends BaseController
     public function onConstruct()
     {
         $this->model = new Companies();
-        $this->modal->users_id = $this->userData->getId();
+        $this->model->users_id = $this->userData->getId();
 
         $this->additionalSearchFields = [
             ['users_id', ':', $this->userData->getId()],
@@ -51,7 +56,7 @@ class CompaniesController extends BaseController
      * @method GET
      * @url /v1/company/{id}
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function getById($id) : Response
     {
@@ -81,7 +86,7 @@ class CompaniesController extends BaseController
      * @method POST
      * @url /v1/company
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function create() : Response
     {
@@ -108,7 +113,7 @@ class CompaniesController extends BaseController
      * @method PUT
      * @url /v1/company/{id}
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function edit($id) : Response
     {
@@ -129,7 +134,7 @@ class CompaniesController extends BaseController
                 return $this->response($company);
             } else {
                 //didnt work
-                throw new UnprocessableEntityHttpException(current($company->getMessages()));
+                throw new UnprocessableEntityHttpException((string) current($company->getMessages()));
             }
         } else {
             throw new UnprocessableEntityHttpException('Record not found');

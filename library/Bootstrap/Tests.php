@@ -19,7 +19,7 @@ class Tests extends Api
         $config['ignoreUri'] = ['regex: *'];
 
         //JWT Validation
-        $auth = new AuthMicro($this->application, $config);
+        new AuthMicro($this->application, $config);
 
         return $this->application;
     }

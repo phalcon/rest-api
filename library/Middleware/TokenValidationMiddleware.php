@@ -25,8 +25,6 @@ class TokenValidationMiddleware implements MiddlewareInterface
      */
     public function call(Micro $api)
     {
-        $config = $api->getService('config');
-
         $auth = $api->getService('auth');
         // to get the payload
         $data = $auth->data();

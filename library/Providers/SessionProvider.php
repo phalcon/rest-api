@@ -15,9 +15,11 @@ class SessionProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container)
     {
+        $config = $container->getShared('config');
+
         $container->setShared(
             'session',
-            function () {
+            function () use ($config) {
                 $backOptions = [
                     'servers' => [
                         0 => [
@@ -28,10 +30,10 @@ class SessionProvider implements ServiceProviderInterface
                     ],
                     'client' => [
                         Memcached::OPT_HASH => Memcached::HASH_MD5,
-                        Memcached::OPT_PREFIX_KEY => 'bakasession-',
+                        Memcached::OPT_PREFIX_KEY => 'bakasession' . $config->app->id . '-',
                     ],
                     'lifetime' => 8600,
-                    'prefix' => $prefix . '-',
+                    'prefix' => 'bakasession' . $config->app->id . '-',
                     'persistent' => false
                 ];
 

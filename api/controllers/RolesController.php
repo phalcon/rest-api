@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gewaer\Api\Controllers;
@@ -6,8 +7,11 @@ namespace Gewaer\Api\Controllers;
 use Gewaer\Models\Roles;
 
 /**
- * Base controller
+ * Class RolesController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Users $userData
  */
 class RolesController extends BaseController
 {

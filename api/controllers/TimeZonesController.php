@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gewaer\Api\Controllers;
@@ -7,7 +8,9 @@ use Phalcon\Http\Response;
 use DateTimeZone;
 
 /**
- * Base controller
+ * Class TimeZonesController
+ *
+ * @package Gewaer\Api\Controllers
  *
  */
 class TimeZonesController extends BaseController
@@ -18,7 +21,7 @@ class TimeZonesController extends BaseController
      * @method GET
      * @url /
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function index($id = null) : Response
     {

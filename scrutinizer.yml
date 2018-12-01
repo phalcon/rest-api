@@ -87,9 +87,9 @@ filter:
 
 build_failure_conditions:
     # No classes/methods with a rating of D or worse
-    - 'elements.rating(<= C).exists'
+    - 'elements.rating(< D).exists'
     # No new classes/methods with a rating of D or worse allowed
-    - 'elements.rating(<= C).new.exists'
+    - 'elements.rating(< D).new.exists'
 
     # No coding style issues allowed - Removing it for now until we fix index.php
     - 'issues.label("coding-style").exists'
@@ -103,8 +103,8 @@ build_failure_conditions:
 
     # Code Quality Rating drops below 8
     - 'project.metric("scrutinizer.quality", < 8)'
-    # Code Coverage drops below 60%
-    - 'project.metric("scrutinizer.test_coverage", < 0.60)'
+    # Code Coverage drops below 50%
+    - 'project.metric("scrutinizer.test_coverage", < 0.45)'
 
     # Code Coverage decreased from previous inspection by more than 10%
     - 'project.metric_change("scrutinizer.test_coverage", < -0.10)'

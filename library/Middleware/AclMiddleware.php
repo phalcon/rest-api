@@ -44,17 +44,17 @@ class AclMiddleware implements MiddlewareInterface
             switch (strtolower($request->getMethod())) {
                 case 'get':
                     $action = 'read';
-                break;
+                    break;
                 case 'post':
                     $action = 'create';
-                break;
+                    break;
                 case 'delete':
                     $action = 'delete';
-                break;
+                    break;
                 case 'put':
                 case 'patch':
                     $action = 'update';
-                break;
+                    break;
                 default:
                     throw new ServerErrorHttpException('No Permission define for this action');
                 break;
@@ -63,8 +63,6 @@ class AclMiddleware implements MiddlewareInterface
             //do you have permision
             if (!$userData->can($resource . '.' . $action)) {
                 throw new PermissionException('You dont have permission to run this action ' . $action . ' at ' . $resource);
-                $api->stop();
-                return false;
             }
         }
 

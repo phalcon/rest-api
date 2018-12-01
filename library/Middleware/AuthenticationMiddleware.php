@@ -51,7 +51,8 @@ class AuthenticationMiddleware implements MiddlewareInterface
                         throw new UnauthorizedHttpException('User not found');
                     }
 
-                    return $session->check($user, $data['sessionId'], $request->getClientAddress(), 1);
+                    $ip = $request->getClientAddress();
+                    return $session->check($user, $data['sessionId'], (string) $ip, 1);
                 } else {
                     throw new UnauthorizedHttpException('User not found');
                 }

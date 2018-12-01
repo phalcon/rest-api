@@ -10,8 +10,14 @@ use Gewaer\Models\UserLinkedSources;
 use Gewaer\Exception\ServerErrorHttpException;
 
 /**
- * Base controller
+ * Class AuthController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Users $userData
+ * @property Request $request
+ * @property Config $config
+ * @property \Baka\Mail\Message $mail
  */
 class AuthController extends \Baka\Auth\AuthController
 {
@@ -39,6 +45,8 @@ class AuthController extends \Baka\Auth\AuthController
     protected function sendEmail(BakaUsers $user, string $type): void
     {
         $send = true;
+        $subject = null;
+        $body = null;
 
         switch ($type) {
             case 'recover':
@@ -48,17 +56,17 @@ class AuthController extends \Baka\Auth\AuthController
                 $body = sprintf(_('Click %shere%s to set a new password for your account.'), '<a href="' . $recoveryLink . '" target="_blank">', '</a>');
 
                 // send email to recover password
-            break;
+                break;
             case 'reset':
                 $activationUrl = $this->config->app->frontEndUrl . '/user/activate/' . $user->user_activation_key;
 
                 $subject = _('Password Updated!');
                 $body = sprintf(_('Your password was update please, use this link to activate your account: %sActivate account%s'), '<a href="' . $activationUrl . '">', '</a>');
                 // send email that password was update
-            break;
+                break;
             default:
                 $send = false;
-            break;
+                break;
         }
 
         if ($send) {

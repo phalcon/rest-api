@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gewaer\Acl;
@@ -12,15 +13,18 @@ use Phalcon\Acl\Role;
 use Phalcon\Acl\RoleInterface;
 use Gewaer\Models\Companies;
 use Gewaer\Models\Apps;
-use Phalcon\Acl\Adapter\Database as PhalconAclDatabaseAdapter;
 use Phalcon\Acl\Adapter;
 use BadMethodCallException;
 
 /**
- * Phalcon\Acl\Adapter\Database
+ * Class Manager
+ *
  * Manages Geweaer Multi tenant ACL lists in database
  *
- * #extends PhalconAclDatabaseAdapter #had to comments it out testing breaking
+ * @package Gewaer\Acl
+ *
+ * @property Users $userData
+ * @property Request $request
  */
 class Manager extends Adapter
 {

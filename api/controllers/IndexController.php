@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gewaer\Api\Controllers;
@@ -11,8 +12,14 @@ use Gewaer\Exception\ServerErrorHttpException;
 use RedisException;
 
 /**
- * Base controller
+ * Class IndexController
  *
+ * @package Gewaer\Api\Controllers
+ *
+ * @property Redis $redis
+ * @property Beanstalk $queue
+ * @property Mysql $db
+ * @property \Monolog\Logger $log
  */
 class IndexController extends BaseController
 {
@@ -22,7 +29,7 @@ class IndexController extends BaseController
      * @method GET
      * @url /
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function index($id = null) : Response
     {
@@ -35,7 +42,7 @@ class IndexController extends BaseController
      * @method GET
      * @url /status
      *
-     * @return Phalcon\Http\Response
+     * @return Response
      */
     public function status() : Response
     {

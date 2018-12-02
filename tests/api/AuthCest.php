@@ -47,7 +47,7 @@ class AuthCest
         $userName = $random->base58();
 
         $I->sendPOST(Data::$usersUrl, [
-            'email' => 'test@baka.io',
+            'email' => 'tes2t@baka.io',
             'password' => 'bakatest123567',
             'firstname' => $userName,
             'lastname' => $userName,

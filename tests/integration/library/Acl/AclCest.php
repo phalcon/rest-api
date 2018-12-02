@@ -17,7 +17,7 @@ class AclCest
      *
      * @return void
      */
-    protected function aclService(): AclManager
+    protected function aclService() : AclManager
     {
         $diContainer = new FactoryDefault();
         $provider = new ConfigProvider();

@@ -4,6 +4,7 @@ namespace Gewaer\Providers;
 
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\DiInterface;
+use Baka\Mail\Manager as BakaMail;
 
 class MailProvider implements ServiceProviderInterface
 {
@@ -17,7 +18,7 @@ class MailProvider implements ServiceProviderInterface
         $container->setShared(
             'mail',
             function () use ($config) {
-                $mailer = new \Baka\Mail\Manager($config->email->toArray());
+                $mailer = new BakaMail($config->email->toArray());
                 return $mailer->createMessage();
             }
         );

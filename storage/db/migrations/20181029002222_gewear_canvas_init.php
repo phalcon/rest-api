@@ -307,6 +307,7 @@ class GewearCanvasInit extends AbstractMigration
                 'default_company' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'status' => 1,
+                'user_active' => 1,
                 'is_deleted' => 0
             ], 
         ];

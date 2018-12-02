@@ -2,7 +2,6 @@
 
 use Codeception\Util\HttpCode;
 use Niden\Http\Response;
-use Niden\Models\Users;
 use Page\Data as DataPage;
 
 /**
@@ -19,7 +18,7 @@ use Page\Data as DataPage;
  * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class ApiTester extends \Codeception\Actor
 {
     use _generated\ApiTesterActions;
@@ -49,6 +48,12 @@ class ApiTester extends \Codeception\Actor
         $this->checkErrorResponse(HttpCode::NOT_FOUND);
     }
 
+    /**
+     * Is a error response
+     *
+     * @param string $message
+     * @return void
+     */
     public function seeErrorJsonResponse(string $message)
     {
         $this->seeResponseContainsJson(
@@ -63,39 +68,39 @@ class ApiTester extends \Codeception\Actor
         );
     }
 
+    /**
+     * Is a successful json response
+     *
+     * @param string $key
+     * @param array $data
+     * @return void
+     */
     public function seeSuccessJsonResponse(string $key = 'data', array $data = [])
     {
         $this->seeResponseContainsJson([$key => $data]);
     }
 
-    public function apiLogin()
+    /**
+     * Login the user
+     *
+     * @return void
+     */
+    public function apiLogin() : object
     {
         $this->deleteHeader('Authorization');
         $this->sendPOST(DataPage::$loginUrl, DataPage::loginJson());
         $this->seeResponseIsSuccessful();
 
         $response = $this->grabResponse();
-        $response = json_decode($response, true);
-        $token = $response['token'];
 
-        return $token;
+        return json_decode($response);
     }
 
-    public function addApiUserRecord()
-    {
-        return $this->haveRecordWithFields(
-            Users::class,
-            [
-                'status' => 1,
-                'username' => 'testuser',
-                'password' => 'testpassword',
-                'issuer' => 'https://niden.net',
-                'tokenPassword' => '12345',
-                'tokenId' => '110011',
-            ]
-        );
-    }
-
+    /**
+     * Check if it has hash
+     *
+     * @return void
+     */
     private function checkHash()
     {
         $response = $this->grabResponse();
@@ -106,6 +111,12 @@ class ApiTester extends \Codeception\Actor
         $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
     }
 
+    /**
+     * Check if it has a error
+     *
+     * @param integer $code
+     * @return void
+     */
     private function checkErrorResponse(int $code)
     {
         $response = $this->grabResponse();

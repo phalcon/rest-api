@@ -61,6 +61,7 @@ build:
           - mysql -e "FLUSH PRIVILEGES"
           - cd /home/scrutinizer/build
           - composer install --no-interaction
+          - composer update --no-interaction
           - ./vendor/bin/phinx migrate -e development
           - ./vendor/bin/codecept build
 

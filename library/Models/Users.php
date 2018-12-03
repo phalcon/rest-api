@@ -5,12 +5,18 @@ namespace Gewaer\Models;
 
 use Gewaer\Traits\PermissionsTrait;
 use Gewaer\Exception\ModelException;
+use Phalcon\Cashier\Billable;
 
 class Users extends \Baka\Auth\Models\Users
 {
     use PermissionsTrait;
+    use Billable;
 
     public $roles_id;
+    public $stripe_id;
+    public $card_last_four;
+    public $card_brand;
+    public $trial_ends_at;
 
     /**
      * Initialize method for model.

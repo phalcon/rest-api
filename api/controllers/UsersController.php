@@ -24,6 +24,7 @@ use Gewaer\Models\AccessList;
  *
  * @property Users $userData
  * @property Request $request
+ * @property Config $config
  */
 class UsersController extends \Baka\Auth\UsersController
 {

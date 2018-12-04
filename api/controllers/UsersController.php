@@ -15,6 +15,7 @@ use Gewaer\Exception\UnprocessableEntityHttpException;
 use Baka\Http\QueryParser;
 use Gewaer\Exception\ModelException;
 use Gewaer\Exception\NotFoundHttpException;
+use Gewaer\Models\AccessList;
 
 /**
  * Class UsersController
@@ -23,6 +24,7 @@ use Gewaer\Exception\NotFoundHttpException;
  *
  * @property Users $userData
  * @property Request $request
+ * @property Config $config
  */
 class UsersController extends \Baka\Auth\UsersController
 {
@@ -87,6 +89,20 @@ class UsersController extends \Baka\Auth\UsersController
             $relationships = $this->request->getQuery('relationships', 'string');
 
             $user = QueryParser::parseRelationShips($relationships, $user);
+        }
+
+        //if you search for roles we give you the access for this app
+        if (array_key_exists('roles', $user)) {
+            $accesList = AccessList::find([
+                'conditions' => 'roles_name = ?0 and apps_id = ?1 and allowed = 0',
+                'bind' => [$user['roles'][0]->name, $this->config->app->id]
+            ]);
+
+            if (count($accesList) > 0) {
+                foreach ($accesList as $access) {
+                    $user['access_list'][strtolower($access->resources_name)][$access->access_name] = 0;
+                }
+            }
         }
 
         if ($user) {

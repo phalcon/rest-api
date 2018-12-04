@@ -40,6 +40,22 @@ class Users extends \Baka\Auth\Models\Users
             'users_id',
             ['alias' => 'permissions']
         );
+
+        $this->hasManyToMany(
+            'id',
+            'Gewaer\Models\UserRoles',
+            'users_id',
+            'roles_id',
+            'Gewaer\Models\Roles',
+            'id',
+            [
+                'alias' => 'roles',
+                'params' => [
+                    'limit' => 1,
+                    'conditions' => 'Gewaer\Models\UserRoles.apps_id = ' . $this->di->getConfig()->app->id,
+                ]
+            ]
+        );
     }
 
     /**

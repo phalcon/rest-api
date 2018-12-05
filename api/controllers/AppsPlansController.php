@@ -9,6 +9,9 @@ use Gewaer\Exception\UnauthorizedHttpException;
 use Gewaer\Exception\NotFoundHttpException;
 use Stripe\Token as StripeToken;
 use Phalcon\Http\Response;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
+use Gewaer\Exception\UnprocessableEntityHttpException;
 
 /**
  * Class LanguagesController
@@ -52,7 +55,7 @@ class AppsPlansController extends BaseController
      * @param string $stripeId
      * @return void
      */
-    public function subscribe(string $stripeId): Response
+    public function create(): Response
     {
         if (!$this->userData->hasRole('Default.Admins')) {
             throw new UnauthorizedHttpException(_('You dont have permission to subscribe this apps'));
@@ -64,6 +67,23 @@ class AppsPlansController extends BaseController
             throw new NotFoundHttpException(_('This plan doesnt exist'));
         }
 
+        //Ok let validate user password
+        $validation = new Validation();
+        $validation->add('stripe_id', new PresenceOf(['message' => _('The plan is required.')]));
+        $validation->add('number', new PresenceOf(['message' => _('Credit Card Number is required.')]));
+        $validation->add('exp_month', new PresenceOf(['message' => _('Credit Card Number is required.')]));
+        $validation->add('exp_year', new PresenceOf(['message' => _('Credit Card Number is required.')]));
+        $validation->add('cvc', new PresenceOf(['message' => _('CVC is required.')]));
+
+        //validate this form for password
+        $messages = $validation->validate($this->request->getPost());
+        if (count($messages)) {
+            foreach ($messages as $message) {
+                throw new UnprocessableEntityHttpException($message);
+            }
+        }
+
+        $stripeId = $this->request->getPost('stripe_id');
         $company = $this->userData->defaultCompany;
         $cardNumber = $this->request->getPost('number');
         $expMonth = $this->request->getPost('exp_month');
@@ -94,7 +114,17 @@ class AppsPlansController extends BaseController
      * @param string $stripeId
      * @return boolean
      */
-    public function cancelSubscription(string $stripeId): Response
+    public function update($stripeId) : Response
+    {
+    }
+
+    /**
+     * Cancel a given subscription
+     *
+     * @param string $stripeId
+     * @return boolean
+     */
+    public function delete($stripeId): Response
     {
     }
 }

@@ -5,9 +5,8 @@ namespace Gewaer\Models;
 
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
-use Gewaer\Exception\ModelException;
 
-class Companies extends \Baka\Auth\Models\Companies
+class CompanyBranches extends AbstractModel
 {
     /**
      *
@@ -23,15 +22,9 @@ class Companies extends \Baka\Auth\Models\Companies
 
     /**
      *
-     * @var string
+     * @var integer
      */
-    public $profile_image;
-
-    /**
-     *
-     * @var string
-     */
-    public $website;
+    public $company_id;
 
     /**
      *
@@ -62,22 +55,20 @@ class Companies extends \Baka\Auth\Models\Companies
      */
     public function initialize()
     {
-        parent::initialize();
+        $this->setSource('company_branches');
 
-        $this->setSource('companies');
+        $this->belongsTo(
+            'company_id',
+            'Gewaer\Models\Companies',
+            'id',
+            ['alias' => 'company']
+        );
 
         $this->belongsTo(
             'users_id',
             'Gewaer\Models\Users',
             'id',
-            ['alias' => 'user']
-        );
-
-        $this->hasMany(
-            'id',
-            'Gewaer\Models\CompanyBranches',
-            'company_id',
-            ['alias' => 'branches']
+            ['alias' => 'id']
         );
     }
 
@@ -108,33 +99,6 @@ class Companies extends \Baka\Auth\Models\Companies
      */
     public function getSource() : string
     {
-        return 'companies';
-    }
-
-    /**
-     * After creating the company
-     *
-     * @return void
-     */
-    public function afterCreate()
-    {
-        parent::afterCreate();
-
-        /**
-         * @var CompanyBranches
-         */
-        $branch = new CompanyBranches();
-        $branch->company_id = $this->getId();
-        $branch->users_id = $this->user->getId();
-        $branch->name = 'Default';
-        $branch->description = '';
-        if (!$branch->save()) {
-            throw new ModelException((string) current($branch->getMessages()));
-        }
-
-        //assign default branch to the user
-        if (empty($this->user->default_company_branch)) {
-            $this->user->default_company_branch = $branch->getId();
-        }
+        return 'company_branches';
     }
 }

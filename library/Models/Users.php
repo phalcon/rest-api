@@ -12,6 +12,7 @@ class Users extends \Baka\Auth\Models\Users
     use PermissionsTrait;
     use Billable;
 
+    public $default_company_branch;
     public $roles_id;
     public $stripe_id;
     public $card_last_four;

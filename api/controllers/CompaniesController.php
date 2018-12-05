@@ -96,13 +96,19 @@ class CompaniesController extends BaseController
             $request = $this->request->getJsonRawBody(true);
         }
 
+        //transaction
+        $this->db->begin();
+
         //alwasy overwrite userid
         $request['users_id'] = $this->userData->getId();
 
         //try to save all the fields we allow
         if ($this->model->save($request, $this->createFields)) {
+            
+            $this->db->commit();
             return $this->response($this->model->toArray());
         } else {
+            $this->db->rollback();
             throw new UnprocessableEntityHttpException((string) $this->model->getMessages()[0]);
         }
     }

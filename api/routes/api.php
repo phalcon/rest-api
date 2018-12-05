@@ -58,6 +58,7 @@ $defaultCrudRoutes = [
     'users',
     'companies',
     'languages',
+    'AppsPlans' => 'apps-plans',
     'roles',
 ];
 

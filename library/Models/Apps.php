@@ -27,6 +27,18 @@ class Apps extends \Baka\Auth\Models\Apps
      *
      * @var string
      */
+    public $url;
+
+    /**
+     *
+     * @var integer
+     */
+    public $is_actived;
+
+    /**
+     *
+     * @var string
+     */
     public $created_at;
 
     /**
@@ -72,6 +84,16 @@ class Apps extends \Baka\Auth\Models\Apps
         }
 
         return $app;
+    }
+
+    /**
+     * Is active?
+     *
+     * @return boolean
+     */
+    public function isActive(): bool
+    {
+        return (bool) $this->is_actived;
     }
 
     /**

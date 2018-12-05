@@ -3,8 +3,14 @@ declare(strict_types=1);
 
 namespace Gewaer\Models;
 
-class AppsRoles extends \Baka\Auth\Models\AppsRoles
+class AppsPlansSettings extends AbstractModel
 {
+    /**
+     *
+     * @var integer
+     */
+    public $apps_plans_id;
+
     /**
      *
      * @var integer
@@ -15,16 +21,38 @@ class AppsRoles extends \Baka\Auth\Models\AppsRoles
      *
      * @var string
      */
-    public $roles_name;
+    public $key;
+
+    /**
+     *
+     * @var string
+     */
+    public $value;
+
+    /**
+     *
+     * @var string
+     */
+    public $created_at;
+
+    /**
+     *
+     * @var string
+     */
+    public $updated_at;
+
+    /**
+     *
+     * @var integer
+     */
+    public $is_deleted;
 
     /**
      * Initialize method for model.
      */
     public function initialize()
     {
-        parent::initialize();
-
-        $this->setSource('apps_roles');
+        $this->setSource('apps_plans');
 
         $this->belongsTo(
             'apps_id',
@@ -41,6 +69,6 @@ class AppsRoles extends \Baka\Auth\Models\AppsRoles
      */
     public function getSource() : string
     {
-        return 'apps_roles';
+        return 'apps_plans';
     }
 }

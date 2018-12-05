@@ -109,5 +109,9 @@ return [
         'secret' => envValue('PUSHER_SECRET'),
         'cluster' => envValue('PUSHER_SECRET'),
         'queue' => envValue('PUSHER_QUEUE'),
+    ],
+    'stripe' => [
+        'secret' => getenv('STRIPE_SECRET'),
+        'public' => getenv('STRIPE_PUBLIC')
     ]
 ];

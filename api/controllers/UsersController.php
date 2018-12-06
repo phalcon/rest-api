@@ -122,7 +122,12 @@ class UsersController extends \Baka\Auth\UsersController
      */
     public function edit($id) : Response
     {
-        if ($user = $this->model->findFirst($this->userData->getId())) {
+        //none admin users can only edit themselves 
+        if (!$this->userData->hasRole('Default.Admins')) {
+            $id = $this->userData->getId();
+        }
+
+        if ($user = $this->model->findFirst($id)) {
             $request = $this->request->getPut();
 
             if (empty($request)) {

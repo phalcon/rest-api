@@ -116,7 +116,9 @@ class Users extends \Baka\Auth\Models\Users
      */
     public function afterCreate()
     {
-        parent::afterCreate();
+        if (empty($this->default_company)) {
+            parent::afterCreate();
+        }
 
         //Assign admin role to the system if we dont get a specify role
         if (empty($this->roles_id)) {

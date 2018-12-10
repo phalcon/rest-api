@@ -118,7 +118,7 @@ class AuthController extends \Baka\Auth\AuthController
         //Save data to users_invite table and generate a hash for the invite
         $userInvite = new UsersInvite();
         $userInvite->company_id = $this->userData->default_company;
-        $userInvite->app_id = 1;
+        $userInvite->app_id = $this->app->getId();
         $userInvite->role_id = $request['role'] == 'Admins' ? 1 : 2;
         $userInvite->email = $request['email'];
         $userInvite->invite_hash = hash('md5', $request['email']);

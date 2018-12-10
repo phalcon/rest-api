@@ -284,6 +284,7 @@ class UsersController extends \Baka\Auth\UsersController
 
         $request['email'] = $usersInvite->email;
         $request['roles_id'] = $usersInvite->role_id;
+        $request['created_at'] = date('Y-m-d H:m:s');
 
         if ($company = Companies::findFirst($this->userData->default_company)) {
             $request['name'] = $company->name;
@@ -308,11 +309,13 @@ class UsersController extends \Baka\Auth\UsersController
                 $userRole = new UserRoles();
                 $userRole->users_id = $userArray['id'];
                 $userRole->roles_id = $userArray['roles_id'];
-                $userRole->apps_id = $this->userData->app->getId();
+                $userRole->apps_id = $this->app->getId();
                 $userRole->company_id = $this->userData->default_company;
+                $userRole->created_at = date('Y-m-d H:m:s');
+                $userRole->is_deleted = 0;
 
                 if ($userRole->save()) {
-                    return $this->response($userRole->toArray());
+                    return $this->response($this->model->toArray());
                 } else {
                     throw new UnprocessableEntityHttpException((string) current($userRole->getMessages()));
                 }

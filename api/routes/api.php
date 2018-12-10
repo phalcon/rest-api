@@ -127,4 +127,20 @@ $router->post('/auth/reset/{key}', [
     ]
 ]);
 
+$router->post('/users/invite', [
+    'Gewaer\Api\Controllers\AuthController',
+    'insertInvite',
+    'options' => [
+        'jwt' => false,
+    ]
+]);
+
+$router->post('/users/invite/insert', [
+    'Gewaer\Api\Controllers\UsersController',
+    'processUserInvite',
+    'options' => [
+        'jwt' => false,
+    ]
+]);
+
 $router->mount();

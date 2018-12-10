@@ -58,7 +58,7 @@ class UsersController extends \Baka\Auth\UsersController
         $this->model = new Users();
 
         //if you are not a admin you cant see all the users
-        if (!$this->userData->hasRole('Default.Admins')) {
+        if (!$this->userData->hasRole('Defaults.Admins')) {
             $this->additionalSearchFields = [
                 ['id', ':', $this->userData->getId()],
             ];
@@ -253,7 +253,6 @@ class UsersController extends \Baka\Auth\UsersController
 
         //Ok let validate user password
         $validation = new Validation();
-        $validation->add('email', new PresenceOf(['message' => _('The email is required.')]));
         $validation->add('password', new PresenceOf(['message' => _('The password is required.')]));
 
         $validation->add(

@@ -132,7 +132,7 @@ class AuthController extends \Baka\Auth\AuthController
 
         $this->setInviteHash($userInviteArray['invite_hash']);
 
-        return $this->response($userInviteArray['invite_hash']);
+        return $this->response($userInviteArray);
     }
 
     /**

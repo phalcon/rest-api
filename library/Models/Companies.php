@@ -58,6 +58,13 @@ class Companies extends \Baka\Auth\Models\Companies
     public $is_deleted;
 
     /**
+     * Provide the app plan id
+     *
+     * @var integer
+     */
+    public $appPlanId = null;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -135,6 +142,22 @@ class Companies extends \Baka\Auth\Models\Companies
         //assign default branch to the user
         if (empty($this->user->default_company_branch)) {
             $this->user->default_company_branch = $branch->getId();
+        }
+
+        //we need to assign this company to a plan
+        if (empty($this->appPlanId)) {
+            $plan = AppsPlans::getDefaultPlan();
+        }
+
+        //look for the default plan for this app
+        $companyApps = new UserCompanyApps();
+        $companyApps->company_id = $this->getId();
+        $companyApps->apps_id = $this->di->getApp()->getId();
+        $companyApps->stripe_id = $plan->stripe_id;
+        $companyApps->subscriptions_id = 0;
+
+        if (!$companyApps->save()) {
+            throw new ModelException((string) current($companyApps->getMessages()));
         }
     }
 }

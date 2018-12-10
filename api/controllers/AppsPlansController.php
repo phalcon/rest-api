@@ -12,6 +12,8 @@ use Phalcon\Http\Response;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Gewaer\Exception\UnprocessableEntityHttpException;
+use Phalcon\Cashier\Subscription;
+use Baka\Auth\Models\UserCompanyApps;
 
 /**
  * Class LanguagesController
@@ -102,7 +104,24 @@ class AppsPlansController extends BaseController
         ])->id;
 
         //if fails it will throw exception
-        $this->userData->newSubscription($appPlan->name, $appPlan->stripe_id, $company, $this->app)->create($card);
+        if ($appPlan->free_trial_dates == 0) {
+            $this->userData->newSubscription($appPlan->name, $appPlan->stripe_id, $company, $this->app)->create($card);
+        } else {
+            $this->userData->newSubscription($appPlan->name, $appPlan->stripe_id, $company, $this->app)->trialDays($appPlan->free_trial_dates)->create($card);
+        }
+
+        //update company app
+        $companyApp = UserCompanyApps::findFirst([
+            'conditions' => 'company_id = ?0 and apps_id = ?1',
+            'bind' => [$this->userData->defaultCompany->getId(), $this->app->getId()]
+        ]);
+
+        //udpate the company app to the new plan
+        if ($companyApp) {
+            $companyApp->strip_id = $stripeId;
+            $companyApp->subscriptions_id = $this->userData->subscription($appPlan->name)->getId();
+            $companyApp->update();
+        }
 
         //sucess
         return $this->response($appPlan);
@@ -116,6 +135,32 @@ class AppsPlansController extends BaseController
      */
     public function update($stripeId) : Response
     {
+        $appPlan = $this->model->findFirstByStripeId($stripeId);
+
+        if (!$appPlan) {
+            throw new NotFoundHttpException(_('This plan doesnt exist'));
+        }
+
+        $userSubscription = Subscription::findFirst([
+            'conditions' => 'user_id = ?0 and company_id = ?1 and apps_id = ?2 and is_deleted  = 0',
+            'bind' => [$this->userData->getId(), $this->userData->default_company, $this->app->getId()]
+        ]);
+
+        if (!$userSubscription) {
+            throw new NotFoundHttpException(_('No current subscription found'));
+        }
+
+        $this->userData->subscription($userSubscription->name)->swap($stripeId);
+
+        //udpate the company app to the new plan
+        if ($companyApp) {
+            $companyApp->strip_id = $stripeId;
+            $companyApp->subscriptions_id = $this->userData->subscription($stripeId)->getId();
+            $companyApp->update();
+        }
+
+        //return the new subscription plan
+        return $this->response($appPlan);
     }
 
     /**
@@ -126,5 +171,23 @@ class AppsPlansController extends BaseController
      */
     public function delete($stripeId): Response
     {
+        $appPlan = $this->model->findFirstByStripeId($stripeId);
+
+        if (!$appPlan) {
+            throw new NotFoundHttpException(_('This plan doesnt exist'));
+        }
+
+        $userSubscription = Subscription::findFirst([
+            'conditions' => 'user_id = ?0 and company_id = ?1 and apps_id = ?2 and is_deleted  = 0',
+            'bind' => [$this->userData->getId(), $this->userData->default_company, $this->app->getId()]
+        ]);
+
+        if (!$userSubscription) {
+            throw new NotFoundHttpException(_('No current subscription found'));
+        }
+
+        $this->userData->subscription($userSubscription->stripe_id)->cancel();
+
+        return $this->response($appPlan);
     }
 }

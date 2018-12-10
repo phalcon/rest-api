@@ -20,6 +20,14 @@ class Users extends \Baka\Auth\Models\Users
     public $trial_ends_at;
 
     /**
+     * Provide the app plan id
+     * if the user is signing up a new company
+     *
+     * @var integer
+     */
+    public $appPlanId = null;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
@@ -77,6 +85,27 @@ class Users extends \Baka\Auth\Models\Users
     public function getKey(): string
     {
         return $this->id;
+    }
+
+    /**
+     * Get all of the subscriptions for the user.
+     */
+    public function subscriptions()
+    {
+        $this->hasMany(
+            'id',
+            Subscription::class,
+            'user_id',
+            [
+                'alias' => 'subscriptions',
+                'params' => [
+                    'conditions' => 'apps_id = ?0 and company_id = ?1',
+                    'bind' => [$this->di->getApp()->getId(), $this->default_company],
+                    'order' => 'id DESC'
+                ]
+            ]
+        );
+        return $this->getRelated('subscriptions');
     }
 
     /**

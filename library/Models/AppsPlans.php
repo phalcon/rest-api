@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Gewaer\Models;
 
 use Gewaer\Exception\ModelException;
+use Phalcon\Di;
+
 
 class AppsPlans extends AbstractModel
 {
@@ -63,6 +65,12 @@ class AppsPlans extends AbstractModel
 
     /**
      *
+     * @var integer
+     */
+    public $is_default;
+
+    /**
+     *
      * @var string
      */
     public $created_at;
@@ -116,6 +124,19 @@ class AppsPlans extends AbstractModel
     public function settings(): AppsPlans
     {
         return $this;
+    }
+
+    /**
+     * Get the default plan for this given app
+     *
+     * @return AppsPlans
+     */
+    public static function getDefaultPlan(): AppsPlans
+    {
+       return AppsPlans::findFirst([
+            'conditions' => 'apps_id = ?0 and is_default = 1',
+            'bind' => [Di::getDefault()->getApp()->getId()]
+        ]);
     }
 
     /**

@@ -16,6 +16,7 @@ use Gewaer\Providers\MailProvider;
 use Gewaer\Providers\RedisProvider;
 use Gewaer\Providers\PusherProvider;
 use Gewaer\Providers\AclProvider;
+use Gewaer\Providers\AppProvider;
 
 return [
     ConfigProvider::class,
@@ -30,4 +31,5 @@ return [
     RedisProvider::class,
     PusherProvider::class,
     AclProvider::class,
+    AppProvider::class,
 ];

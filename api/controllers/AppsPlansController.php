@@ -63,12 +63,6 @@ class AppsPlansController extends BaseController
             throw new UnauthorizedHttpException(_('You dont have permission to subscribe this apps'));
         }
 
-        $appPlan = $this->model->findFirstByStripeId($stripeId);
-
-        if (!$appPlan) {
-            throw new NotFoundHttpException(_('This plan doesnt exist'));
-        }
-
         //Ok let validate user password
         $validation = new Validation();
         $validation->add('stripe_id', new PresenceOf(['message' => _('The plan is required.')]));
@@ -91,6 +85,21 @@ class AppsPlansController extends BaseController
         $expMonth = $this->request->getPost('exp_month');
         $expYear = $this->request->getPost('exp_year');
         $cvc = $this->request->getPost('cvc');
+
+        $appPlan = $this->model->findFirstByStripeId($stripeId);
+
+        if (!$appPlan) {
+            throw new NotFoundHttpException(_('This plan doesnt exist'));
+        }
+
+        $userSubscription = Subscription::findFirst([
+            'conditions' => 'user_id = ?0 and company_id = ?1 and apps_id = ?2 and is_deleted  = 0',
+            'bind' => [$this->userData->getId(), $this->userData->default_company, $this->app->getId()]
+        ]);
+
+        if ($userSubscription) {
+            throw new NotFoundHttpException(_('You are already subscribed to this plan'));
+        }
 
         $card = StripeToken::create([
             'card' => [
@@ -119,7 +128,7 @@ class AppsPlansController extends BaseController
         //udpate the company app to the new plan
         if ($companyApp) {
             $companyApp->strip_id = $stripeId;
-            $companyApp->subscriptions_id = $this->userData->subscription($appPlan->name)->getId();
+            $companyApp->subscriptions_id = $this->userData->subscription($appPlan->stripe_plan)->getId();
             $companyApp->update();
         }
 
@@ -133,7 +142,7 @@ class AppsPlansController extends BaseController
      * @param string $stripeId
      * @return boolean
      */
-    public function update($stripeId) : Response
+    public function edit($stripeId) : Response
     {
         $appPlan = $this->model->findFirstByStripeId($stripeId);
 
@@ -186,7 +195,9 @@ class AppsPlansController extends BaseController
             throw new NotFoundHttpException(_('No current subscription found'));
         }
 
-        $this->userData->subscription($userSubscription->stripe_id)->cancel();
+        $subscription = $this->userData->subscription($userSubscription->name)->cancel();
+        $subscription->is_deleted = 1;
+        $subscription->update();
 
         return $this->response($appPlan);
     }

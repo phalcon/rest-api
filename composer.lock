@@ -61,12 +61,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bakaphp/cashier.git",
-                "reference": "e6330c1dd2ebfbe75bae0362ce18ef50302c953e"
+                "reference": "67c12cdeacccca5cd0559925950c57bfefcf0306"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bakaphp/cashier/zipball/e6330c1dd2ebfbe75bae0362ce18ef50302c953e",
-                "reference": "e6330c1dd2ebfbe75bae0362ce18ef50302c953e",
+                "url": "https://api.github.com/repos/bakaphp/cashier/zipball/67c12cdeacccca5cd0559925950c57bfefcf0306",
+                "reference": "67c12cdeacccca5cd0559925950c57bfefcf0306",
                 "shasum": ""
             },
             "require": {
@@ -107,7 +107,7 @@
                 "phalcon",
                 "stripe"
             ],
-            "time": "2018-12-03T04:46:30+00:00"
+            "time": "2018-12-11T05:24:03+00:00"
         },
         {
             "name": "baka/database",
@@ -1651,16 +1651,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v6.24.0",
+            "version": "v6.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "e608b6538b45d233db66838c389c6548c1152a27"
+                "reference": "53e100d87e0af3d4f32e2ac8e4b9d816910c6198"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e608b6538b45d233db66838c389c6548c1152a27",
-                "reference": "e608b6538b45d233db66838c389c6548c1152a27",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/53e100d87e0af3d4f32e2ac8e4b9d816910c6198",
+                "reference": "53e100d87e0af3d4f32e2ac8e4b9d816910c6198",
                 "shasum": ""
             },
             "require": {
@@ -1702,7 +1702,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2018-11-28T16:32:29+00:00"
+            "time": "2018-12-11T01:05:29+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

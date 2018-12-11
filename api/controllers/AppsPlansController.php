@@ -195,7 +195,9 @@ class AppsPlansController extends BaseController
             throw new NotFoundHttpException(_('No current subscription found'));
         }
 
-        $this->userData->subscription($userSubscription->name)->cancel();
+        $subscription = $this->userData->subscription($userSubscription->name)->cancel();
+        $subscription->is_deleted = 1;
+        $subscription->update();
 
         return $this->response($appPlan);
     }

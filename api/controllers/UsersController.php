@@ -302,6 +302,7 @@ class UsersController extends \Baka\Auth\UsersController
             $newUserAssocCompany->identify_id = 1;
             $newUserAssocCompany->user_active = 1;
             $newUserAssocCompany->user_role = $userArray['roles_id'] == 1 ? 'admins' : 'users';
+            $newUserAssocCompany->created_at = date('Y-m-d H:m:s');
 
             if ($newUserAssocCompany->save()) {
                 //Insert record into user_roles

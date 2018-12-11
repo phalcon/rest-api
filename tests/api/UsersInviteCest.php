@@ -21,7 +21,7 @@ class UsersInviteCest
 
         $hash = $data['invite_hash'];
 
-        $I->sendPost(`/v1/users/invite/insert?hash=$hash`, [
+        $I->sendPost('/v1/users/invite/insert?hash=' . $hash, [
             'firstname' => 'testFirstName',
             'lastname' => 'testLastName',
             'displayname' => 'testDisplayName',
@@ -34,29 +34,4 @@ class UsersInviteCest
 
         $I->assertTrue($dataInvite['email'] == $testEmail);
     }
-
-    // public function processUserInvite(ApiTester $I):void
-    // {
-    //     $userData = $I->apiLogin();
-    //     $testEmail = 'testMC@example.com';
-
-    //     //Buscar email hash en la base de datos poner luego en url.
-
-    //     $I->haveHttpHeader('Authorization', $userData->token);
-
-    //     $hash = $data['invite_hash'];
-
-    //     $I->sendPost(`/v1/users/invite/insert?hash=$hash`, [
-    //         'firstname' => 'testFirstName',
-    //         'lastname' => 'testLastName',
-    //         'displayname' => 'testDisplayName',
-    //         'password' => 'testpassword',
-    //     ]);
-
-    //     $I->seeResponseIsSuccessful();
-    //     $response = $I->grabResponse();
-    //     $data = json_decode($response, true);
-
-    //     $I->assertTrue($data['email'] == $testEmail);
-    // }
 }

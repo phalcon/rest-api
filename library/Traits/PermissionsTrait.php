@@ -92,8 +92,8 @@ trait PermissionsTrait
         }
 
         $userRole = UserRoles::findFirst([
-            'conditions' => 'users_id = ?0 and roles_id = ?1 and apps_id = ?2 and company_id = ?3',
-            'bind' => [$this->getId(), $role->getId(), $role->apps_id, $this->default_company]
+            'conditions' => 'users_id = ?0 and roles_id = ?1 and (apps_id = ?2 or apps_id = ?4) and company_id = ?3',
+            'bind' => [$this->getId(), $role->getId(), $role->apps_id, $this->default_company, $this->di->getApp()->getId()]
         ]);
 
         if (is_object($userRole)) {

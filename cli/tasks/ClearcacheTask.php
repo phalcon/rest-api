@@ -5,7 +5,7 @@ namespace Niden\Cli\Tasks;
 use function in_array;
 
 use function Niden\Core\appPath;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Cli\Task as PhTask;
 use const PHP_EOL;
 use RecursiveDirectoryIterator;

@@ -7,7 +7,7 @@ namespace Niden\Providers;
 use function Niden\Core\envValue;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 class DatabaseProvider implements ServiceProviderInterface
 {

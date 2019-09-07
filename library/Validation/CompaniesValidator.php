@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Niden\Validation;
 
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 

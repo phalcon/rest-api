@@ -6,7 +6,7 @@ use IntegrationTester;
 use Niden\Constants\Relationships;
 use Niden\Models\Individuals;
 use Niden\Models\IndividualTypes;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 class IndividualTypesCest
 {

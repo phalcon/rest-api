@@ -3,7 +3,7 @@
 namespace Niden\Tests\unit\library\Providers;
 
 use Niden\Providers\CacheDataProvider;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 

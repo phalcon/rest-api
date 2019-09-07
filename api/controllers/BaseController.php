@@ -6,13 +6,12 @@ namespace Niden\Api\Controllers;
 
 use function implode;
 use Niden\Http\Response;
-use Niden\Mvc\Model\AbstractModel;
 use Niden\Traits\FractalTrait;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
-use Phalcon\Cache\Backend\Libmemcached as CacheMemcached;
+use Phalcon\Cache\Adapter\Libmemcached as CacheMemcached;
 use Phalcon\Config;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Model\MetaData\Libmemcached as ModelsMetadataCache;
 use Phalcon\Mvc\Micro;

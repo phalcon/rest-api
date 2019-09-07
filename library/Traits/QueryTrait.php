@@ -9,7 +9,7 @@ use Lcobucci\JWT\Token;
 use Niden\Constants\Flags;
 use Niden\Constants\JWTClaims;
 use Niden\Models\Users;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Config;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\ResultsetInterface;

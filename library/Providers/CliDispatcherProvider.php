@@ -6,7 +6,7 @@ namespace Niden\Providers;
 
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 class CliDispatcherProvider implements ServiceProviderInterface
 {

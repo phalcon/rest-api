@@ -20,7 +20,7 @@ use Niden\Middleware\TokenUserMiddleware;
 use Niden\Middleware\TokenValidationMiddleware;
 use Niden\Middleware\TokenVerificationMiddleware;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;

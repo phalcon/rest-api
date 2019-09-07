@@ -10,7 +10,7 @@ use Monolog\Logger;
 use Niden\ErrorHandler;
 use Phalcon\Config;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 class ErrorHandlerProvider implements ServiceProviderInterface
 {

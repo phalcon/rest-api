@@ -7,7 +7,7 @@ namespace Niden\Middleware;
 use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Models\Users;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Config;
 use Phalcon\Mvc\Micro;
 

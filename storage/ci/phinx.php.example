@@ -11,7 +11,7 @@ return [
         'production'              => [
             'adapter' => 'mysql',
             'host'    => getenv('DATA_API_MYSQL_HOST'),
-            'name'    => 'gonano',
+            'name'    => getenv('DATA_API_MYSQL_NAME'),
             'user'    => getenv('DATA_API_MYSQL_USER'),
             'pass'    => getenv('DATA_API_MYSQL_PASS'),
             'port'    => 3306,
@@ -20,7 +20,7 @@ return [
         'development'             => [
             'adapter' => 'mysql',
             'host'    => getenv('DATA_API_MYSQL_HOST'),
-            'name'    => 'gonano',
+            'name'    => getenv('DATA_API_MYSQL_NAME'),
             'user'    => getenv('DATA_API_MYSQL_USER'),
             'pass'    => getenv('DATA_API_MYSQL_PASS'),
             'port'    => 3306,

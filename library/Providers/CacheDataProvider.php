@@ -6,7 +6,7 @@ use function Niden\Core\envValue;
 use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 class CacheDataProvider implements ServiceProviderInterface
 {

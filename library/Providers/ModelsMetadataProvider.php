@@ -6,7 +6,7 @@ namespace Niden\Providers;
 
 use function Niden\Core\envValue;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
 
 class ModelsMetadataProvider implements ServiceProviderInterface

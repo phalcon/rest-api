@@ -7,7 +7,7 @@ use IntegrationTester;
 use Monolog\Logger;
 use Niden\Exception\ModelException;
 use Niden\Models\Users;
-use Phalcon\Mvc\Model\Message;
+use Phalcon\Messages\Message;
 use function Niden\Core\appPath;
 
 /**

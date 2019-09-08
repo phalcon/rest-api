@@ -86,7 +86,7 @@ trait QueryTrait
         string $orderBy = ''
     ): ResultsetInterface {
         $builder = new Builder();
-        $builder->addFrom($class);
+        $builder->addFrom($class, 't1');
 
         foreach ($where as $field => $value) {
             $builder->andWhere(

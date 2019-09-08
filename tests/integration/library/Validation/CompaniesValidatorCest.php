@@ -9,8 +9,6 @@ class CompaniesValidatorCest
 {
     /**
      * @param IntegrationTester $I
-     *
-     * @throws \Niden\Exception\ModelException
      */
     public function checkTransformer(IntegrationTester $I)
     {

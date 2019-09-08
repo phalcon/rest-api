@@ -8,7 +8,6 @@ use Phalcon\Filter\Filter;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 
-
 class CompaniesValidator extends Validation
 {
     public function initialize()

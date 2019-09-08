@@ -6,7 +6,6 @@ use Niden\Providers\CliDispatcherProvider;
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\DatabaseProvider;
 use Niden\Providers\ErrorHandlerProvider;
-use Niden\Providers\EventsManagerProvider;
 use Niden\Providers\LoggerProvider;
 use Niden\Providers\ModelsMetadataProvider;
 use Niden\Providers\RequestProvider;

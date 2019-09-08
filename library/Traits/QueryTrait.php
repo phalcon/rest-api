@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Niden\Traits;
 
-use Phalcon\Cache;
-use function json_encode;
 use Lcobucci\JWT\Token;
 use Niden\Constants\Flags;
 use Niden\Constants\JWTClaims;
 use Niden\Models\Users;
+use Phalcon\Cache;
 use Phalcon\Config;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\ResultsetInterface;
+use function json_encode;
 use function sha1;
 
 /**

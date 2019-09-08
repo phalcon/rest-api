@@ -8,7 +8,6 @@ use Niden\Models\Products;
 use Niden\Models\ProductTypes;
 use Page\Data;
 use function Niden\Core\envValue;
-use function uniqid;
 
 class GetCest
 {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Niden\Providers;
 
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Storage\SerializerFactory;
 use function Niden\Core\envValue;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Di\DiInterface;
@@ -29,14 +31,16 @@ class ModelsMetadataProvider implements ServiceProviderInterface
                         ],
                     ],
                     'client'   => [
-                        \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
                         \Memcached::OPT_PREFIX_KEY => 'api-',
                     ],
                     'lifetime' => 3600,
                     'prefix'   => $prefix . '-',
                 ];
 
-                return new Libmemcached($backOptions);
+                $serializer = new SerializerFactory();
+                $adapterFactor = new AdapterFactory($serializer);
+
+                return new Libmemcached($adapterFactor, $backOptions);
             }
         );
     }

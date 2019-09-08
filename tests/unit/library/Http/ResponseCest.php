@@ -5,7 +5,6 @@ namespace Niden\Tests\unit\library\Http;
 use Niden\Http\Response;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
-use Phalcon\Validation\Message\Group as ValidationGroup;
 use UnitTester;
 use function is_string;
 use function json_decode;

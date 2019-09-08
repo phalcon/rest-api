@@ -69,7 +69,7 @@ class ClearcacheTask extends PhTask
     private function clearMemCached()
     {
         echo 'Clearing data cache' . PHP_EOL;
-        $options   = $this->cache->getOptions();
+        $options   = include appPath('cli/config/cache.php');
         $servers   = $options['servers'] ?? [];
         $memcached = new \Memcached();
         foreach ($servers as $server) {

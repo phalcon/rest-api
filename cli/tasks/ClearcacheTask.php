@@ -2,21 +2,18 @@
 
 namespace Niden\Cli\Tasks;
 
-use function in_array;
-
-use function Niden\Core\appPath;
-use Phalcon\Cache\Adapter\Libmemcached;
+use Phalcon\Cache;
 use Phalcon\Cli\Task as PhTask;
-use const PHP_EOL;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use function in_array;
+use function Niden\Core\appPath;
+use const PHP_EOL;
 
 /**
  * Class ClearcacheTask
  *
- * @package Niden\Cli\Tasks
- *
- * @property Libmemcached $cache
+ * @property Cache $cache
  */
 class ClearcacheTask extends PhTask
 {

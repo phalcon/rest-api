@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Niden\Providers;
 
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Mvc\Model\MetaData\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
 use function Niden\Core\envValue;
-use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\Model\MetaData\Libmemcached;
 
 class ModelsMetadataProvider implements ServiceProviderInterface
 {
@@ -21,7 +21,6 @@ class ModelsMetadataProvider implements ServiceProviderInterface
         $container->setShared(
             'modelsMetadata',
             function () {
-                $prefix      = 'metadata';
                 $backOptions = [
                     'servers'  => [
                         0 => [
@@ -34,7 +33,7 @@ class ModelsMetadataProvider implements ServiceProviderInterface
                         \Memcached::OPT_PREFIX_KEY => 'api-',
                     ],
                     'lifetime' => 3600,
-                    'prefix'   => $prefix . '-',
+                    'prefix'   => 'metadata-',
                 ];
 
                 $serializer = new SerializerFactory();

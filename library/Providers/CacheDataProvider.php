@@ -3,10 +3,10 @@
 namespace Niden\Providers;
 
 use Phalcon\Cache;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
 use function Niden\Core\appPath;
-use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Di\DiInterface;
 
 class CacheDataProvider implements ServiceProviderInterface
 {

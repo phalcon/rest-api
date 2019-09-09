@@ -1,7 +1,8 @@
 <?php
 
+use Codeception\Actor;
+use Codeception\Lib\Friend;
 use Codeception\Util\HttpCode;
-use Niden\Http\Response;
 use Niden\Models\Users;
 use Page\Data as DataPage;
 
@@ -16,11 +17,11 @@ use Page\Data as DataPage;
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
+ * @method Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
 */
-class ApiTester extends \Codeception\Actor
+class ApiTester extends Actor
 {
     use _generated\ApiTesterActions;
 

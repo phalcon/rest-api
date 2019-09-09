@@ -2,21 +2,18 @@
 
 namespace Niden\Cli\Tasks;
 
-use function in_array;
-
-use function Niden\Core\appPath;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache;
 use Phalcon\Cli\Task as PhTask;
-use const PHP_EOL;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use function in_array;
+use function Niden\Core\appPath;
+use const PHP_EOL;
 
 /**
  * Class ClearcacheTask
  *
- * @package Niden\Cli\Tasks
- *
- * @property Libmemcached $cache
+ * @property Cache $cache
  */
 class ClearcacheTask extends PhTask
 {
@@ -69,7 +66,7 @@ class ClearcacheTask extends PhTask
     private function clearMemCached()
     {
         echo 'Clearing data cache' . PHP_EOL;
-        $options   = $this->cache->getOptions();
+        $options   = include appPath('cli/config/cache.php');
         $servers   = $options['servers'] ?? [];
         $memcached = new \Memcached();
         foreach ($servers as $server) {

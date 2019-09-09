@@ -311,8 +311,9 @@ class Integration extends Module
         foreach ($fields as $key => $val) {
             $record->set($key, $val);
         }
+
+        $result = $record->save();
         $this->savedModels[$modelName] = $fields;
-        $result                        = $record->save();
         $this->assertNotSame(false, $result);
 
         $this->savedRecords[] = $record;

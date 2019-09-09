@@ -7,6 +7,7 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Niden\Constants\Relationships;
+use Niden\Exception\ModelException;
 use Niden\Models\Companies;
 use Niden\Models\Individuals;
 use Niden\Models\IndividualTypes;
@@ -20,7 +21,7 @@ class IndividualsTransformerCest
     /**
      * @param IntegrationTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function checkTransformer(IntegrationTester $I)
     {

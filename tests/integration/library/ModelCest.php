@@ -3,12 +3,11 @@
 namespace Niden\Tests\integration\library;
 
 use Codeception\Stub;
-use Exception;
 use IntegrationTester;
 use Monolog\Logger;
 use Niden\Exception\ModelException;
 use Niden\Models\Users;
-use Phalcon\Messages\Message;
+use Phalcon\Mvc\Model\Message;
 use function Niden\Core\appPath;
 
 /**
@@ -18,6 +17,8 @@ class ModelCest
 {
     /**
      * @param IntegrationTester $I
+     *
+     * @throws ModelException
      */
     public function modelGetSetFields(IntegrationTester $I)
     {
@@ -116,6 +117,8 @@ class ModelCest
 
     /**
      * @param IntegrationTester $I
+     *
+     * @throws ModelException
      */
     public function modelUpdateFieldsNotSanitized(IntegrationTester $I)
     {
@@ -173,7 +176,6 @@ class ModelCest
 
     /**
      * @param IntegrationTester $I
-     * @throws Exception
      */
     public function checkModelMessagesWithLogger(IntegrationTester $I)
     {

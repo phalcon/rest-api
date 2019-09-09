@@ -7,7 +7,6 @@ use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Niden\Constants\Relationships;
-use Niden\Exception\ModelException;
 use Niden\Models\Companies;
 use Niden\Models\CompaniesXProducts;
 use Niden\Models\Products;
@@ -21,7 +20,7 @@ class ProductsTransformerCest
     /**
      * @param IntegrationTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function checkTransformer(IntegrationTester $I)
     {

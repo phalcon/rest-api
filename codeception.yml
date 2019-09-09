@@ -11,11 +11,10 @@ paths:
   support: tests/_support
   envs: tests/_envs
 
-# The name of bootstrap that will be used.
-# Each bootstrap file should be inside a suite directory.
-bootstrap: _bootstrap.php
-
 settings:
+  # The name of bootstrap that will be used.
+  # Each bootstrap file should be inside a suite directory.
+  bootstrap: _bootstrap.php
   colors: true
   # Tests (especially functional) can take a lot of memory
   # We set a high limit for them by default.

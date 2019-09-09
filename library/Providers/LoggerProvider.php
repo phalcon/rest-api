@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Niden\Providers;
 
+use function Niden\Core\appPath;
+use function Niden\Core\envValue;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use function Niden\Core\appPath;
-use function Niden\Core\envValue;
+use Phalcon\DiInterface;
 
 class LoggerProvider implements ServiceProviderInterface
 {

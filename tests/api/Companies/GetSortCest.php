@@ -3,16 +3,17 @@
 namespace Niden\Tests\api\Companies;
 
 use ApiTester;
-use Niden\Exception\ModelException;
+use Niden\Constants\Relationships;
 use Niden\Models\Companies;
 use Page\Data;
+use function Niden\Core\envValue;
 
 class GetSortCest extends GetBase
 {
     /**
      * @param ApiTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function getCompaniesSingleSort(ApiTester $I)
     {
@@ -52,7 +53,7 @@ class GetSortCest extends GetBase
     /**
      * @param ApiTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function getCompaniesMultipleSort(ApiTester $I)
     {

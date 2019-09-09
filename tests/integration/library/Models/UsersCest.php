@@ -6,7 +6,7 @@ use IntegrationTester;
 use Lcobucci\JWT\ValidationData;
 use Niden\Models\Users;
 use Niden\Traits\TokenTrait;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 class UsersCest
 {

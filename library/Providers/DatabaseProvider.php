@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Niden\Providers;
 
-use Phalcon\Db\Adapter\Pdo\Mysql;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
 use function Niden\Core\envValue;
+use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\DiInterface;
 
 class DatabaseProvider implements ServiceProviderInterface
 {

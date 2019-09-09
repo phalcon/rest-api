@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Niden\Validation;
 
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
+
 
 class CompaniesValidator extends Validation
 {

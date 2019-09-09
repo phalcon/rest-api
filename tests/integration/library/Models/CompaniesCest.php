@@ -6,7 +6,7 @@ use IntegrationTester;
 use Niden\Constants\Relationships;
 use Niden\Models\Companies;
 use Niden\Models\Individuals;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 class CompaniesCest
 {

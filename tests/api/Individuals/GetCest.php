@@ -4,7 +4,6 @@ namespace Niden\Tests\api\Individuals;
 
 use ApiTester;
 use Niden\Constants\Relationships;
-use Niden\Exception\ModelException;
 use Niden\Models\Companies;
 use Niden\Models\Individuals;
 use Niden\Models\IndividualTypes;
@@ -16,7 +15,7 @@ class GetCest
     /**
      * @param ApiTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function getIndividual(ApiTester $I)
     {
@@ -58,7 +57,7 @@ class GetCest
     /**
      * @param ApiTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function getIndividuals(ApiTester $I)
     {

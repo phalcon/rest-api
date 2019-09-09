@@ -6,7 +6,7 @@ namespace Niden\Models;
 
 use Niden\Constants\Relationships;
 use Niden\Mvc\Model\AbstractModel;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 /**
  * Class CompaniesXProducts
@@ -20,8 +20,6 @@ class CompaniesXProducts extends AbstractModel
      */
     public function initialize()
     {
-        $this->setSource('co_companies_x_products');
-
         $this->belongsTo(
             'companyId',
             Companies::class,
@@ -56,5 +54,15 @@ class CompaniesXProducts extends AbstractModel
             'companyId' => Filter::FILTER_ABSINT,
             'productId' => Filter::FILTER_ABSINT,
         ];
+    }
+
+    /**
+     * Returns the source table from the database
+     *
+     * @return string
+     */
+    public function getSource(): string
+    {
+        return 'co_companies_x_products';
     }
 }

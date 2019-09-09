@@ -6,7 +6,7 @@ namespace Niden\Mvc\Model;
 
 use Monolog\Logger;
 use Niden\Exception\ModelException;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Mvc\Model as PhModel;
 
 abstract class AbstractModel extends PhModel

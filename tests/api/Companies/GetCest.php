@@ -3,16 +3,17 @@
 namespace Niden\Tests\api\Companies;
 
 use ApiTester;
-use Niden\Exception\ModelException;
+use Niden\Constants\Relationships;
 use Niden\Models\Companies;
 use Page\Data;
+use function Niden\Core\envValue;
 
 class GetCest extends GetBase
 {
     /**
      * @param ApiTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function getCompany(ApiTester $I)
     {
@@ -49,7 +50,7 @@ class GetCest extends GetBase
     /**
      * @param ApiTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function getCompanies(ApiTester $I)
     {

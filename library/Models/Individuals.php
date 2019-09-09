@@ -6,7 +6,7 @@ namespace Niden\Models;
 
 use Niden\Constants\Relationships;
 use Niden\Mvc\Model\AbstractModel;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 /**
  * Class Individuals
@@ -20,8 +20,6 @@ class Individuals extends AbstractModel
      */
     public function initialize()
     {
-        $this->setSource('co_individuals');
-
         $this->belongsTo(
             'companyId',
             Companies::class,
@@ -62,5 +60,15 @@ class Individuals extends AbstractModel
             'last'      => Filter::FILTER_STRING,
             'suffix'    => Filter::FILTER_STRING,
         ];
+    }
+
+    /**
+     * Returns the source table from the database
+     *
+     * @return string
+     */
+    public function getSource(): string
+    {
+        return 'co_individuals';
     }
 }

@@ -6,7 +6,7 @@ namespace Niden\Models;
 
 use Niden\Constants\Relationships;
 use Niden\Mvc\Model\AbstractModel;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
 
@@ -22,8 +22,6 @@ class Companies extends AbstractModel
      */
     public function initialize()
     {
-        $this->setSource('co_companies');
-
         $this->hasMany(
             'id',
             Individuals::class,
@@ -64,6 +62,16 @@ class Companies extends AbstractModel
             'city'    => Filter::FILTER_STRING,
             'phone'   => Filter::FILTER_STRING,
         ];
+    }
+
+    /**
+     * Returns the source table from the database
+     *
+     * @return string
+     */
+    public function getSource(): string
+    {
+        return 'co_companies';
     }
 
     /**

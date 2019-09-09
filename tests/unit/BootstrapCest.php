@@ -10,12 +10,6 @@ class BootstrapCest
 {
     public function checkBootstrap(CliTester $I)
     {
-        /**
-         * As current request is inside CLI
-         * There are no REQUEST URI
-         */
-        $_SERVER['REQUEST_URI'] = '/';
-
         ob_start();
         require appPath('api/public/index.php');
         $actual = ob_get_contents();
@@ -23,7 +17,7 @@ class BootstrapCest
 
         $results = json_decode($actual, true);
         $I->assertEquals('1.0', $results['jsonapi']['version']);
-        $I->assertTrue(empty($results['data']));
+        $I->assertEmpty($results['data']);
         $I->assertEquals(HttpCode::getDescription(404), $results['errors'][0]);
     }
 }

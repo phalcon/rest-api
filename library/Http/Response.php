@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Niden\Http;
 
-use Phalcon\Http\Response as PhResponse;
-use Phalcon\Http\ResponseInterface;
-use Phalcon\Messages\Messages;
 use function date;
 use function json_decode;
+use Phalcon\Http\Response as PhResponse;
+use Phalcon\Mvc\Model\MessageInterface as ModelMessage;
+use Phalcon\Validation\Message\Group as ValidationMessage;
 use function sha1;
 
 class Response extends PhResponse
@@ -61,9 +61,9 @@ class Response extends PhResponse
     /**
      * Send the response back
      *
-     * @return ResponseInterface
+     * @return PhResponse
      */
-    public function send(): ResponseInterface
+    public function send(): PhResponse
     {
         $content   = $this->getContent();
         $timestamp = date('c');
@@ -113,7 +113,7 @@ class Response extends PhResponse
     /**
      * Traverses the errors collection and sets the errors in the payload
      *
-     * @param Messages $errors
+     * @param ModelMessage[]|ValidationMessage $errors
      *
      * @return Response
      */

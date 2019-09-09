@@ -12,7 +12,7 @@ use Niden\Models\Companies;
 use Niden\Traits\FractalTrait;
 use Niden\Transformers\BaseTransformer;
 use Niden\Validation\CompaniesValidator;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 
 /**

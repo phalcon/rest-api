@@ -6,7 +6,7 @@ namespace Niden\Providers;
 
 use Niden\Http\Response;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\Di\DiInterface;
+use Phalcon\DiInterface;
 
 class ResponseProvider implements ServiceProviderInterface
 {

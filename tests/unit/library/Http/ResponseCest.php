@@ -3,8 +3,9 @@
 namespace Niden\Tests\unit\library\Http;
 
 use Niden\Http\Response;
-use Phalcon\Messages\Message;
-use Phalcon\Messages\Messages;
+use Phalcon\Mvc\Model\Message as ModelMessage;
+use Phalcon\Validation\Message as ValidationMessage;
+use Phalcon\Validation\Message\Group as ValidationGroup;
 use UnitTester;
 use function is_string;
 use function json_decode;
@@ -71,8 +72,8 @@ class ResponseCest
     public function checkResponseWithModelErrors(UnitTester $I)
     {
         $messages = [
-            new Message('hello'),
-            new Message('goodbye'),
+            new ModelMessage('hello'),
+            new ModelMessage('goodbye'),
         ];
         $response = new Response();
         $response
@@ -88,10 +89,10 @@ class ResponseCest
 
     public function checkResponseWithValidationErrors(UnitTester $I)
     {
-        $group   = new Messages();
-        $message = new Message('hello');
+        $group   = new ValidationGroup();
+        $message = new ValidationMessage('hello');
         $group->appendMessage($message);
-        $message = new Message('goodbye');
+        $message = new ValidationMessage('goodbye');
         $group->appendMessage($message);
 
         $response = new Response();

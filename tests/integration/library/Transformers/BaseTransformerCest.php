@@ -3,7 +3,6 @@
 namespace Niden\Tests\integration\library\Transformers;
 
 use IntegrationTester;
-use Niden\Exception\ModelException;
 use Niden\Models\Companies;
 use Niden\Transformers\BaseTransformer;
 
@@ -12,7 +11,7 @@ class BaseTransformerCest
     /**
      * @param IntegrationTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function checkTransformer(IntegrationTester $I)
     {

@@ -7,7 +7,7 @@ namespace Niden\Middleware;
 use Niden\Http\Request;
 use Niden\Http\Response;
 use Niden\Models\Users;
-use Phalcon\Cache;
+use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Config;
 use Phalcon\Mvc\Micro;
 
@@ -25,7 +25,7 @@ class TokenUserMiddleware extends TokenBase
      */
     public function call(Micro $api)
     {
-        /** @var Cache $cache */
+        /** @var Libmemcached $cache */
         $cache    = $api->getService('cache');
         /** @var Config $config */
         $config   = $api->getService('config');

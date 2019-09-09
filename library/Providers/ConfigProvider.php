@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Niden\Providers;
 
-use Phalcon\Config;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\ServiceProviderInterface;
 use function Niden\Core\appPath;
+use Phalcon\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Config;
 
 class ConfigProvider implements ServiceProviderInterface
 {

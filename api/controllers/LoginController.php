@@ -10,9 +10,9 @@ use Niden\Http\Response;
 use Niden\Models\Users;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\TokenTrait;
-use Phalcon\Cache;
+use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Config;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 
 /**
@@ -20,7 +20,7 @@ use Phalcon\Mvc\Controller;
  *
  * @package Niden\Api\Controllers
  *
- * @property Cache $cache
+ * @property Libmemcached $cache
  * @property Config       $config
  * @property Request      $request
  * @property Response     $response

@@ -6,7 +6,7 @@ use IntegrationTester;
 use Niden\Constants\Relationships;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 class ProductTypesCest
 {

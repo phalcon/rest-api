@@ -11,7 +11,7 @@ use Niden\Traits\TokenTrait;
 use Lcobucci\JWT\ValidationData;
 use Niden\Exception\ModelException;
 use Niden\Mvc\Model\AbstractModel;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 /**
  * Class Users
@@ -21,16 +21,6 @@ use Phalcon\Filter\Filter;
 class Users extends AbstractModel
 {
     use TokenTrait;
-
-    /**
-     * Returns the source table from the database
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        $this->setSource('co_users');
-    }
 
     /**
      * Model filters
@@ -48,6 +38,16 @@ class Users extends AbstractModel
             'tokenPassword' => Filter::FILTER_STRING,
             'tokenId'       => Filter::FILTER_STRING,
         ];
+    }
+
+    /**
+     * Returns the source table from the database
+     *
+     * @return string
+     */
+    public function getSource(): string
+    {
+        return 'co_users';
     }
 
     /**

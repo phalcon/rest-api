@@ -4,7 +4,6 @@ namespace Niden\Tests\api\Products;
 
 use ApiTester;
 use Niden\Constants\Relationships;
-use Niden\Exception\ModelException;
 use Niden\Models\Companies;
 use Niden\Models\Products;
 use Niden\Models\ProductTypes;
@@ -16,7 +15,7 @@ class GetCest
     /**
      * @param ApiTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function getProduct(ApiTester $I)
     {
@@ -56,7 +55,7 @@ class GetCest
     /**
      * @param ApiTester $I
      *
-     * @throws ModelException
+     * @throws \Niden\Exception\ModelException
      */
     public function getProducts(ApiTester $I)
     {

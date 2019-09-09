@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Providers;
+namespace Phalcon\Api\Providers;
 
 use Niden\Api\Controllers\Companies\AddController as CompaniesAddController;
 use Niden\Api\Controllers\Companies\GetController as CompaniesGetController;

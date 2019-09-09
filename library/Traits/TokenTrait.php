@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Traits;
+namespace Phalcon\Api\Traits;
 
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;

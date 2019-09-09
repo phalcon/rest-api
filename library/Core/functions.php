@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Core;
+namespace Phalcon\Api\Core;
 
 use function function_exists;
 use function getenv;

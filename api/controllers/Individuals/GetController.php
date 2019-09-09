@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Api\Controllers\Individuals;
+namespace Phalcon\Api\Api\Controllers\Individuals;
 
 use Niden\Api\Controllers\BaseController;
 use Niden\Constants\Relationships;

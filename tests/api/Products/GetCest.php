@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\api\Products;
+namespace Phalcon\Api\Tests\api\Products;
 
 use ApiTester;
 use Niden\Constants\Relationships;

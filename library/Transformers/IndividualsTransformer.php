@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Transformers;
+namespace Phalcon\Api\Transformers;
 
 use League\Fractal\Resource\Item;
 use Niden\Constants\Relationships;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Bootstrap;
+namespace Phalcon\Api\Bootstrap;
 
 use function Niden\Core\appPath;
 use Phalcon\Di\FactoryDefault;

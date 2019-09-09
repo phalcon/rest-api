@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Traits;
+namespace Phalcon\Api\Traits;
 
 use Niden\Http\Response;
 use Phalcon\Mvc\Micro;

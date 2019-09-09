@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit;
+namespace Phalcon\Api\Tests\unit;
 
 use CliTester;
 use Codeception\Util\HttpCode;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden;
+namespace Phalcon\Api;
 
 use function memory_get_usage;
 use function microtime;

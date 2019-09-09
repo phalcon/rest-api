@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Cli\Tasks;
+namespace Phalcon\Api\Cli\Tasks;
 
 use function in_array;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Cli\Tasks;
+namespace Phalcon\Api\Cli\Tasks;
 
 use Phalcon\Cli\Task as PhTask;
 

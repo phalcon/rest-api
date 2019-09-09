@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\api\Users;
+namespace Phalcon\Api\Tests\api\Users;
 
 use ApiTester;
 use Lcobucci\JWT\Builder;

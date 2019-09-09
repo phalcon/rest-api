@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Models;
+namespace Phalcon\Api\Models;
 
 use Niden\Constants\Relationships;
 use Niden\Mvc\Model\AbstractModel;

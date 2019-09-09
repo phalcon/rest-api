@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Constants;
+namespace Phalcon\Api\Constants;
 
 class Flags
 {

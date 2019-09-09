@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit\library\Http;
+namespace Phalcon\Api\Tests\unit\library\Http;
 
 use Niden\Http\Response;
 use Phalcon\Mvc\Model\Message as ModelMessage;

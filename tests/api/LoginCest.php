@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\api;
+namespace Phalcon\Api\Tests\api;
 
 use ApiTester;
 use Niden\Models\Users;

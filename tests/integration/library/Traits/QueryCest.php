@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\integration\library\Traits;
+namespace Phalcon\Api\Tests\integration\library\Traits;
 
 use IntegrationTester;
 use Lcobucci\JWT\Builder;

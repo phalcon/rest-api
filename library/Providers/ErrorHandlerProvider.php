@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Providers;
+namespace Phalcon\Api\Providers;
 
 use function register_shutdown_function;
 use function set_error_handler;

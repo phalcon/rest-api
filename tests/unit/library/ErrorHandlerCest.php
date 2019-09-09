@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit\library;
+namespace Phalcon\Api\Tests\unit\library;
 
 use Niden\ErrorHandler;
 use Niden\Logger;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit\cli;
+namespace Phalcon\Api\Tests\unit\cli;
 
 use CliTester;
 use function Niden\Core\appPath;

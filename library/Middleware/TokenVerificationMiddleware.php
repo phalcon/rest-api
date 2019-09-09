@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Middleware;
+namespace Phalcon\Api\Middleware;
 
 use Lcobucci\JWT\Signer\Hmac\Sha512;
 use Niden\Exception\ModelException;

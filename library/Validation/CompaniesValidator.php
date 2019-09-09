@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Validation;
+namespace Phalcon\Api\Validation;
 
 use Phalcon\Filter;
 use Phalcon\Validation;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Middleware;
+namespace Phalcon\Api\Middleware;
 
 use Niden\Exception\ModelException;
 use Niden\Http\Request;

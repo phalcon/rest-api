@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Traits;
+namespace Phalcon\Api\Traits;
 
 use function json_encode;
 use Lcobucci\JWT\Token;

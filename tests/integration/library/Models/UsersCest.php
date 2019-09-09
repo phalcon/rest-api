@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\integration\library\Models;
+namespace Phalcon\Api\Tests\integration\library\Models;
 
 use IntegrationTester;
 use Lcobucci\JWT\ValidationData;

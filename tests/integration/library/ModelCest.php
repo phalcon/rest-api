@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\integration\library;
+namespace Phalcon\Api\Tests\integration\library;
 
 use Codeception\Stub;
 use IntegrationTester;

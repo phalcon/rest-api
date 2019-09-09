@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Transformers;
+namespace Phalcon\Api\Transformers;
 
 use function array_intersect;
 use function array_keys;

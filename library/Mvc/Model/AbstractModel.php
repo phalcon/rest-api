@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Mvc\Model;
+namespace Phalcon\Api\Mvc\Model;
 
 use Monolog\Logger;
 use Niden\Exception\ModelException;

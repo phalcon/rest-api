@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Api\Controllers;
+namespace Phalcon\Api\Api\Controllers;
 
 use Niden\Exception\ModelException;
 use Niden\Http\Request;

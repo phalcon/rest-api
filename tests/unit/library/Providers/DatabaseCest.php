@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit\library\Providers;
+namespace Phalcon\Api\Tests\unit\library\Providers;
 
 use Niden\Providers\ConfigProvider;
 use Niden\Providers\DatabaseProvider;

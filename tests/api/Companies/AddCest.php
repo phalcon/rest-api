@@ -1,11 +1,10 @@
 <?php
 
-namespace Niden\Tests\api\Companies;
+namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
 use Niden\Constants\Relationships;
 use function Niden\Core\appUrl;
-use function Niden\Core\envValue;
 use Niden\Http\Response;
 use Niden\Models\Companies;
 use Page\Data;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Exception;
+namespace Phalcon\Api\Exception;
 
 class HttpException extends Exception
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Providers;
+namespace Phalcon\Api\Providers;
 
 use function Niden\Core\envValue;
 use Phalcon\Db\Adapter\Pdo\Mysql;

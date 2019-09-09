@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Bootstrap;
+namespace Phalcon\Api\Bootstrap;
 
 class Tests extends Api
 {

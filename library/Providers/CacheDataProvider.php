@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Providers;
+namespace Phalcon\Api\Providers;
 
 use function Niden\Core\envValue;
 use Phalcon\Cache\Backend\Libmemcached;

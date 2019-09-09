@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\unit\config;
+namespace Phalcon\Api\Tests\unit\config;
 
 use Niden\Providers\CliDispatcherProvider;
 use Niden\Providers\ConfigProvider;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Niden\Http;
+namespace Phalcon\Api\Http;
 
 use function str_replace;
 use Phalcon\Http\Request as PhRequest;

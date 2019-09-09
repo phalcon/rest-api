@@ -4,6 +4,7 @@ namespace Phalcon\Api\Tests\api\Individuals;
 
 use ApiTester;
 use Niden\Constants\Relationships;
+use Niden\Exception\ModelException;
 use Niden\Models\Companies;
 use Niden\Models\Individuals;
 use Niden\Models\IndividualTypes;
@@ -15,7 +16,7 @@ class GetCest
     /**
      * @param ApiTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function getIndividual(ApiTester $I)
     {
@@ -57,7 +58,7 @@ class GetCest
     /**
      * @param ApiTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function getIndividuals(ApiTester $I)
     {

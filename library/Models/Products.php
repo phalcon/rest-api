@@ -6,7 +6,7 @@ namespace Phalcon\Api\Models;
 
 use Niden\Constants\Relationships;
 use Niden\Mvc\Model\AbstractModel;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 /**
  * Class Products
@@ -20,6 +20,8 @@ class Products extends AbstractModel
      */
     public function initialize()
     {
+        $this->setSource('co_products');
+
         $this->hasManyToMany(
             'id',
             CompaniesXProducts::class,
@@ -61,15 +63,5 @@ class Products extends AbstractModel
             'quantity'    => Filter::FILTER_ABSINT,
             'price'       => Filter::FILTER_FLOAT,
         ];
-    }
-
-    /**
-     * Returns the source table from the database
-     *
-     * @return string
-     */
-    public function getSource(): string
-    {
-        return 'co_products';
     }
 }

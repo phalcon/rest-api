@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Api\Controllers;
 
+use Phalcon\Cache;
 use function implode;
 use Niden\Http\Response;
-use Niden\Mvc\Model\AbstractModel;
 use Niden\Traits\FractalTrait;
 use Niden\Traits\QueryTrait;
 use Niden\Traits\ResponseTrait;
-use Phalcon\Cache\Backend\Libmemcached as CacheMemcached;
 use Phalcon\Config;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Model\MetaData\Libmemcached as ModelsMetadataCache;
 use Phalcon\Mvc\Micro;
@@ -27,7 +26,7 @@ use function substr;
  * @package Niden\Api\Controllers
  *
  * @property Micro               $application
- * @property CacheMemcached      $cache
+ * @property Cache               $cache
  * @property Config              $config
  * @property ModelsMetadataCache $modelsMetadata
  * @property Response            $response

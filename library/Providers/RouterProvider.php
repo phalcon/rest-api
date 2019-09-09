@@ -8,19 +8,19 @@ use Niden\Api\Controllers\Companies\AddController as CompaniesAddController;
 use Niden\Api\Controllers\Companies\GetController as CompaniesGetController;
 use Niden\Api\Controllers\Individuals\GetController as IndividualsGetController;
 use Niden\Api\Controllers\IndividualTypes\GetController as IndividualTypesGetController;
+use Niden\Api\Controllers\LoginController;
 use Niden\Api\Controllers\Products\GetController as ProductsGetController;
 use Niden\Api\Controllers\ProductTypes\GetController as ProductTypesGetController;
 use Niden\Api\Controllers\Users\GetController as UsersGetController;
-use Niden\Api\Controllers\LoginController;
 use Niden\Constants\Relationships as Rel;
-use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\AuthenticationMiddleware;
+use Niden\Middleware\NotFoundMiddleware;
 use Niden\Middleware\ResponseMiddleware;
 use Niden\Middleware\TokenUserMiddleware;
 use Niden\Middleware\TokenValidationMiddleware;
 use Niden\Middleware\TokenVerificationMiddleware;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
@@ -121,7 +121,6 @@ class RouterProvider implements ServiceProviderInterface
         $routes = $this->getMultiRoutes($routes, IndividualTypesGetController::class, Rel::INDIVIDUAL_TYPES);
         $routes = $this->getMultiRoutes($routes, ProductsGetController::class, Rel::PRODUCTS);
         $routes = $this->getMultiRoutes($routes, ProductTypesGetController::class, Rel::PRODUCT_TYPES);
-
 
         return $routes;
     }

@@ -3,17 +3,16 @@
 namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
-use Niden\Constants\Relationships;
+use Niden\Exception\ModelException;
 use Niden\Models\Companies;
 use Page\Data;
-use function Niden\Core\envValue;
 
 class GetCest extends GetBase
 {
     /**
      * @param ApiTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function getCompany(ApiTester $I)
     {
@@ -50,7 +49,7 @@ class GetCest extends GetBase
     /**
      * @param ApiTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function getCompanies(ApiTester $I)
     {

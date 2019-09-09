@@ -2,11 +2,11 @@
 
 namespace Phalcon\Api\Providers;
 
-use function Niden\Core\envValue;
-use Phalcon\Cache\Backend\Libmemcached;
-use Phalcon\Cache\Frontend\Data;
+use Phalcon\Cache;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use Phalcon\Storage\SerializerFactory;
+use function Niden\Core\appPath;
 
 class CacheDataProvider implements ServiceProviderInterface
 {
@@ -18,28 +18,13 @@ class CacheDataProvider implements ServiceProviderInterface
         $container->setShared(
             'cache',
             function () {
-                $prefix       = 'data';
-                $frontAdapter = Data::class;
-                $frontOptions = [
-                    'lifetime' => envValue('CACHE_LIFETIME', 86400),
-                ];
-                $backOptions = [
-                    'servers'  => [
-                        0 => [
-                            'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
-                            'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
-                            'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
-                        ],
-                    ],
-                    'client'   => [
-                        \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
-                        \Memcached::OPT_PREFIX_KEY => 'api-',
-                    ],
-                    'lifetime' => 3600,
-                    'prefix'   => $prefix . '-',
-                ];
+                /** @var array $backOptions */
+                $options = include appPath('cli/config/cache.php');
 
-                return new Libmemcached(new $frontAdapter($frontOptions), $backOptions);
+                $serializer = new SerializerFactory();
+                $adapter = new Cache\Adapter\Libmemcached($serializer, $options);
+
+                return new Cache($adapter);
             }
         );
     }

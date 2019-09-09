@@ -5,7 +5,6 @@ namespace Phalcon\Api\Tests\api\Users;
 use ApiTester;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Niden\Constants\Relationships;
 use Niden\Models\Users;
 use Niden\Traits\TokenTrait;
 use Page\Data;

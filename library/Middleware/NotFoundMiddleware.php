@@ -8,7 +8,7 @@ use Niden\Http\Response;
 use Niden\Traits\ResponseTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
-use Phalcon\Mvc\User\Plugin;
+use Phalcon\Plugin;
 
 /**
  * Class NotFoundMiddleware

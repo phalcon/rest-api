@@ -4,10 +4,12 @@ namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
 use Niden\Constants\Relationships;
+use Niden\Exception\ModelException;
 use function Niden\Core\appUrl;
 use Niden\Http\Response;
 use Niden\Models\Companies;
 use Page\Data;
+use function Niden\Core\appUrl;
 use function uniqid;
 
 class AddCest
@@ -15,7 +17,7 @@ class AddCest
     /**
      * @param ApiTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function addNewCompany(ApiTester $I)
     {

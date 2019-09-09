@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Transformers;
 
-use function array_intersect;
-use function array_keys;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use Niden\Exception\ModelException;
 use Niden\Mvc\Model\AbstractModel;
+use function array_intersect;
+use function array_keys;
 
 /**
  * Class BaseTransformer

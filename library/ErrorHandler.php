@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Api;
 
+use Monolog\Logger;
+use Phalcon\Config;
 use function memory_get_usage;
 use function microtime;
 use function number_format;
-use Monolog\Logger;
-use Phalcon\Config;
 
 /**
  * Class ErrorHandler

@@ -7,7 +7,7 @@ use Niden\Constants\Relationships;
 use Niden\Models\Companies;
 use Niden\Models\CompaniesXProducts;
 use Niden\Models\Products;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 class CompaniesXProductsCest
 {

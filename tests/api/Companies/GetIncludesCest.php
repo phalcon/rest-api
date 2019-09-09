@@ -4,7 +4,6 @@ namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
 use Niden\Constants\Relationships;
-use Niden\Models\Companies;
 use Page\Data;
 use function Niden\Core\envValue;
 

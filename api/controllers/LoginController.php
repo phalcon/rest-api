@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Api\Controllers;
 
-use Niden\Exception\ModelException;
-use Niden\Http\Request;
-use Niden\Http\Response;
-use Niden\Models\Users;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\TokenTrait;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Http\Request;
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Models\Users;
+use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Cache;
 use Phalcon\Config;
 use Phalcon\Filter\Filter;
@@ -17,8 +17,6 @@ use Phalcon\Mvc\Controller;
 
 /**
  * Class LoginController
- *
- * @package Niden\Api\Controllers
  *
  * @property Cache $cache
  * @property Config       $config

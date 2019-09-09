@@ -6,13 +6,11 @@ namespace Phalcon\Api\Traits;
 
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 use function time;
 
 /**
  * Trait TokenTrait
- *
- * @package Niden\Traits
  */
 trait TokenTrait
 {

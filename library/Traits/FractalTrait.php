@@ -6,14 +6,12 @@ namespace Phalcon\Api\Traits;
 
 use League\Fractal\Manager;
 use League\Fractal\Serializer\JsonApiSerializer;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 use function sprintf;
 use function ucfirst;
 
 /**
  * Trait FractalTrait
- *
- * @package Niden\Traits
  */
 trait FractalTrait
 {

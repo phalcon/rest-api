@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Middleware;
 
-use Niden\Http\Request;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\ResponseTrait;
-use Niden\Traits\TokenTrait;
+use Phalcon\Api\Http\Request;
+use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Traits\ResponseTrait;
+use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 /**
  * Class AuthenticationMiddleware
- *
- * @package Niden\Middleware
  */
 abstract class TokenBase implements MiddlewareInterface
 {

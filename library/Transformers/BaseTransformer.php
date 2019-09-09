@@ -7,8 +7,8 @@ namespace Phalcon\Api\Transformers;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
-use Niden\Exception\ModelException;
-use Niden\Mvc\Model\AbstractModel;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Mvc\Model\AbstractModel;
 use function array_intersect;
 use function array_keys;
 

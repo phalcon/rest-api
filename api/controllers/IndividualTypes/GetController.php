@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Api\Controllers\IndividualTypes;
 
-use Niden\Api\Controllers\BaseController;
-use Niden\Constants\Relationships;
-use Niden\Models\IndividualTypes;
-use Niden\Transformers\IndividualTypesTransformer;
+use Phalcon\Api\Api\Controllers\BaseController;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\IndividualTypes;
+use Phalcon\Api\Transformers\IndividualTypesTransformer;
 
 /**
  * Class GetController
- *
- * @package Niden\Api\Controllers\IndividualTypes
  */
 class GetController extends BaseController
 {

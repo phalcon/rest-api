@@ -3,7 +3,7 @@
 namespace Phalcon\Api\Tests\integration\library\Transformers;
 
 use IntegrationTester;
-use Niden\Validation\CompaniesValidator;
+use Phalcon\Api\Validation\CompaniesValidator;
 
 class CompaniesValidatorCest
 {

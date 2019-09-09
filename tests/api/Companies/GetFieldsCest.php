@@ -3,9 +3,9 @@
 namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
-use Niden\Constants\Relationships;
+use Phalcon\Api\Constants\Relationships;
 use Page\Data;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 
 class GetFieldsCest extends GetBase
 {

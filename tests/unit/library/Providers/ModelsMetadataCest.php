@@ -2,7 +2,7 @@
 
 namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Providers\ModelsMetadataProvider;
+use Phalcon\Api\Providers\ModelsMetadataProvider;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
 use UnitTester;

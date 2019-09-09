@@ -1,6 +1,6 @@
 <?php
 
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 
 return [
     'servers'  => [

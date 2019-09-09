@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Middleware;
 
-use Niden\Exception\ModelException;
-use Niden\Http\Request;
-use Niden\Http\Response;
-use Niden\Models\Users;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Http\Request;
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Models\Users;
 use Phalcon\Cache;
 use Phalcon\Config;
 use Phalcon\Mvc\Micro;
 
 /**
  * Class TokenValidationMiddleware
- *
- * @package Niden\Middleware
  */
 class TokenValidationMiddleware extends TokenBase
 {

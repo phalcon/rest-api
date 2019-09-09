@@ -2,7 +2,7 @@
 
 namespace Phalcon\Api\Tests\unit\library\Http;
 
-use Niden\Http\Response;
+use Phalcon\Api\Http\Response;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;

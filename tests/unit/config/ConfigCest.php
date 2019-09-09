@@ -4,7 +4,7 @@ namespace Phalcon\Api\Tests\unit\config;
 
 use UnitTester;
 use function is_array;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class ConfigCest
 {

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Bootstrap;
 
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 
 /**
  * Class Api
- *
- * @package Niden\Bootstrap
  *
  * @property Micro $application
  */

@@ -2,11 +2,11 @@
 
 namespace Phalcon\Api\Tests\unit\config;
 
-use Niden\Constants\Relationships;
+use Phalcon\Api\Constants\Relationships;
 use UnitTester;
-use function Niden\Core\appPath;
-use function Niden\Core\appUrl;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\appPath;
+use function Phalcon\Api\Core\appUrl;
+use function Phalcon\Api\Core\envValue;
 
 class FunctionsCest
 {

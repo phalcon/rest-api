@@ -2,17 +2,17 @@
 
 use Dotenv\Dotenv;
 use Phalcon\Loader;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 // Register the auto loader
 require __DIR__ . '/functions.php';
 
 $loader     = new Loader();
 $namespaces = [
-    'Niden'                 => appPath('/library'),
-    'Niden\Api\Controllers' => appPath('/api/controllers'),
-    'Niden\Cli\Tasks'       => appPath('/cli/tasks'),
-    'Niden\Tests'           => appPath('/tests'),
+    'Phalcon\Api'                 => appPath('/library'),
+    'Phalcon\Api\Api\Controllers' => appPath('/api/controllers'),
+    'Phalcon\Api\Cli\Tasks'       => appPath('/cli/tasks'),
+    'Phalcon\Api\Tests'           => appPath('/tests'),
 ];
 
 $loader->registerNamespaces($namespaces);

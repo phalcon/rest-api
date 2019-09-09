@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Phalcon\Api\Traits;
 
 use Lcobucci\JWT\Token;
-use Niden\Constants\Flags;
-use Niden\Constants\JWTClaims;
-use Niden\Models\Users;
+use Phalcon\Api\Constants\Flags;
+use Phalcon\Api\Constants\JWTClaims;
+use Phalcon\Api\Models\Users;
 use Phalcon\Cache;
 use Phalcon\Config;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -17,8 +17,6 @@ use function sha1;
 
 /**
  * Trait QueryTrait
- *
- * @package Niden\Traits
  */
 trait QueryTrait
 {

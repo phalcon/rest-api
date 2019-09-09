@@ -3,7 +3,7 @@
 namespace Phalcon\Api\Tests\unit\cli;
 
 use CliTester;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class BootstrapCest
 {

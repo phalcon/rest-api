@@ -4,7 +4,7 @@ namespace Phalcon\Api\Tests\unit;
 
 use CliTester;
 use Codeception\Util\HttpCode;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class BootstrapCest
 {

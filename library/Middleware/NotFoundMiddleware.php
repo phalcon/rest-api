@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Middleware;
 
-use Niden\Http\Response;
-use Niden\Traits\ResponseTrait;
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Traits\ResponseTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Plugin;
 
 /**
  * Class NotFoundMiddleware
- *
- * @package Niden\Middleware
  *
  * @property Micro    $application
  * @property Response $response

@@ -5,14 +5,14 @@ namespace Phalcon\Api\Tests\integration\library\Traits;
 use IntegrationTester;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Niden\Exception\ModelException;
-use Niden\Models\Companies;
-use Niden\Models\Users;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\TokenTrait;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\Users;
+use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Cache;
 use Phalcon\Config;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 /**
  * Class QueryCest

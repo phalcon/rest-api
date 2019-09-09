@@ -6,14 +6,14 @@ use Codeception\Module;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\TestInterface;
 
-use Niden\Bootstrap\Api;
-use Niden\Models\Companies;
-use Niden\Models\CompaniesXProducts;
-use Niden\Models\Individuals;
-use Niden\Models\IndividualTypes;
-use Niden\Models\Products;
-use Niden\Models\ProductTypes;
-use Niden\Mvc\Model\AbstractModel;
+use Phalcon\Api\Bootstrap\Api;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\CompaniesXProducts;
+use Phalcon\Api\Models\Individuals;
+use Phalcon\Api\Models\IndividualTypes;
+use Phalcon\Api\Models\Products;
+use Phalcon\Api\Models\ProductTypes;
+use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\DI\FactoryDefault as PhDI;
 use Phalcon\Config as PhConfig;
 

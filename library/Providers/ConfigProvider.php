@@ -7,7 +7,7 @@ namespace Phalcon\Api\Providers;
 use Phalcon\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class ConfigProvider implements ServiceProviderInterface
 {

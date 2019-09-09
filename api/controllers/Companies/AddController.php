@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Api\Controllers\Companies;
 
-use Niden\Constants\Relationships;
-use function Niden\Core\appUrl;
-use Niden\Exception\ModelException;
-use Niden\Http\Response;
-use Niden\Models\Companies;
-use Niden\Traits\FractalTrait;
-use Niden\Transformers\BaseTransformer;
-use Niden\Validation\CompaniesValidator;
+use Phalcon\Api\Constants\Relationships;
+use function Phalcon\Api\Core\appUrl;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Traits\FractalTrait;
+use Phalcon\Api\Transformers\BaseTransformer;
+use Phalcon\Api\Validation\CompaniesValidator;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
 
 /**
  * Class AddController
- *
- * @package Niden\Api\Controllers\Companies
  *
  * @property Response $response
  */

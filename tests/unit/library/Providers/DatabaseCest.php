@@ -2,8 +2,8 @@
 
 namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\DatabaseProvider;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Api\Providers\DatabaseProvider;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;

@@ -3,9 +3,9 @@
 namespace Phalcon\Api\Tests\integration\library\Models;
 
 use IntegrationTester;
-use Niden\Constants\Relationships;
-use Niden\Models\Products;
-use Niden\Models\ProductTypes;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Products;
+use Phalcon\Api\Models\ProductTypes;
 use Phalcon\Filter\Filter;
 
 class ProductTypesCest

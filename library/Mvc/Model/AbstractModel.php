@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phalcon\Api\Mvc\Model;
 
 use Monolog\Logger;
-use Niden\Exception\ModelException;
+use Phalcon\Api\Exception\ModelException;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Model as PhModel;
 

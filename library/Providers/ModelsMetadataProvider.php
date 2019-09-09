@@ -9,7 +9,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 
 class ModelsMetadataProvider implements ServiceProviderInterface
 {

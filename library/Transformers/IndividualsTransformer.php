@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Phalcon\Api\Transformers;
 
 use League\Fractal\Resource\Item;
-use Niden\Constants\Relationships;
-use Niden\Models\Individuals;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Individuals;
 
 /**
  * Class IndividualsTransformer

@@ -6,8 +6,8 @@ namespace Phalcon\Api\Transformers;
 
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
-use Niden\Constants\Relationships;
-use Niden\Models\Products;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Products;
 
 /**
  * Class ProductsTransformer

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Models;
 
-use Niden\Constants\Relationships;
-use Niden\Mvc\Model\AbstractModel;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\Filter\Filter;
 
 /**
  * Class Products
- *
- * @package Niden\Models
  */
 class Products extends AbstractModel
 {

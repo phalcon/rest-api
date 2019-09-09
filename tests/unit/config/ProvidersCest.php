@@ -2,17 +2,17 @@
 
 namespace Phalcon\Api\Tests\unit\config;
 
-use Niden\Providers\CliDispatcherProvider;
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\DatabaseProvider;
-use Niden\Providers\ErrorHandlerProvider;
-use Niden\Providers\LoggerProvider;
-use Niden\Providers\ModelsMetadataProvider;
-use Niden\Providers\RequestProvider;
-use Niden\Providers\ResponseProvider;
-use Niden\Providers\RouterProvider;
+use Phalcon\Api\Providers\CliDispatcherProvider;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Api\Providers\DatabaseProvider;
+use Phalcon\Api\Providers\ErrorHandlerProvider;
+use Phalcon\Api\Providers\LoggerProvider;
+use Phalcon\Api\Providers\ModelsMetadataProvider;
+use Phalcon\Api\Providers\RequestProvider;
+use Phalcon\Api\Providers\ResponseProvider;
+use Phalcon\Api\Providers\RouterProvider;
 use UnitTester;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class ProvidersCest
 {

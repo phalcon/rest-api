@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phalcon\Api\Providers;
 
 use Monolog\Logger;
-use Niden\ErrorHandler;
+use Phalcon\Api\ErrorHandler;
 use Phalcon\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;

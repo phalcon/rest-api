@@ -7,7 +7,7 @@ use Phalcon\Cli\Task as PhTask;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use function in_array;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 use const PHP_EOL;
 
 /**

@@ -6,7 +6,7 @@ use Phalcon\Cache;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class CacheDataProvider implements ServiceProviderInterface
 {

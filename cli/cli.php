@@ -1,6 +1,6 @@
 <?php
 
-use Niden\Bootstrap\Cli;
+use Phalcon\Api\Bootstrap\Cli;
 
 require_once __DIR__ . '/../library/Core/autoload.php';
 

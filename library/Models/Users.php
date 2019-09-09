@@ -7,16 +7,14 @@ namespace Phalcon\Api\Models;
 use function time;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Niden\Traits\TokenTrait;
+use Phalcon\Api\Traits\TokenTrait;
 use Lcobucci\JWT\ValidationData;
-use Niden\Exception\ModelException;
-use Niden\Mvc\Model\AbstractModel;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\Filter\Filter;
 
 /**
  * Class Users
- *
- * @package Niden\Models
  */
 class Users extends AbstractModel
 {

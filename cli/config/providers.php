@@ -4,13 +4,13 @@
  * Enabled providers. Order does matter
  */
 
-use Niden\Providers\CacheDataProvider;
-use Niden\Providers\CliDispatcherProvider;
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\DatabaseProvider;
-use Niden\Providers\ErrorHandlerProvider;
-use Niden\Providers\LoggerProvider;
-use Niden\Providers\ModelsMetadataProvider;
+use Phalcon\Api\Providers\CacheDataProvider;
+use Phalcon\Api\Providers\CliDispatcherProvider;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Api\Providers\DatabaseProvider;
+use Phalcon\Api\Providers\ErrorHandlerProvider;
+use Phalcon\Api\Providers\LoggerProvider;
+use Phalcon\Api\Providers\ModelsMetadataProvider;
 
 return [
     ConfigProvider::class,

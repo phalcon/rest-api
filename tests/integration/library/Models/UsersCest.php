@@ -4,8 +4,8 @@ namespace Phalcon\Api\Tests\integration\library\Models;
 
 use IntegrationTester;
 use Lcobucci\JWT\ValidationData;
-use Niden\Models\Users;
-use Niden\Traits\TokenTrait;
+use Phalcon\Api\Models\Users;
+use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Filter\Filter;
 
 class UsersCest

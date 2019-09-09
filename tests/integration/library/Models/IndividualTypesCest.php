@@ -3,9 +3,9 @@
 namespace Phalcon\Api\Tests\integration\library\Models;
 
 use IntegrationTester;
-use Niden\Constants\Relationships;
-use Niden\Models\Individuals;
-use Niden\Models\IndividualTypes;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Individuals;
+use Phalcon\Api\Models\IndividualTypes;
 use Phalcon\Filter\Filter;
 
 class IndividualTypesCest

@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Models;
 
-use Niden\Constants\Relationships;
-use Niden\Mvc\Model\AbstractModel;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\Filter\Filter;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
 
 /**
  * Class Companies
- *
- * @package Niden\Models
  */
 class Companies extends AbstractModel
 {

@@ -19,7 +19,7 @@ class CliDispatcherProvider implements ServiceProviderInterface
             'dispatcher',
             function () {
                 $dispatcher = new Dispatcher();
-                $dispatcher->setDefaultNamespace('Niden\Cli\Tasks');
+                $dispatcher->setDefaultNamespace('Phalcon\Api\Cli\Tasks');
 
                 return $dispatcher;
             }

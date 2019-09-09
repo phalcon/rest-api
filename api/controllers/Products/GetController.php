@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Api\Controllers\Products;
 
-use Niden\Api\Controllers\BaseController;
-use Niden\Constants\Relationships;
-use Niden\Models\Products;
-use Niden\Transformers\ProductsTransformer;
+use Phalcon\Api\Api\Controllers\BaseController;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Products;
+use Phalcon\Api\Transformers\ProductsTransformer;
 
 /**
  * Class GetController
- *
- * @package Niden\Api\Controllers\Products
  */
 class GetController extends BaseController
 {

@@ -7,7 +7,7 @@ namespace Phalcon\Api\Providers;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 
 class DatabaseProvider implements ServiceProviderInterface
 {

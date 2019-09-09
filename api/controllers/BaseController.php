@@ -4,26 +4,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Api\Controllers;
 
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Traits\FractalTrait;
+use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Traits\ResponseTrait;
 use Phalcon\Cache;
-use function implode;
-use Niden\Http\Response;
-use Niden\Traits\FractalTrait;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\ResponseTrait;
 use Phalcon\Config;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
-use Phalcon\Mvc\Model\MetaData\Libmemcached as ModelsMetadataCache;
 use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Model\MetaData\Libmemcached as ModelsMetadataCache;
 use function explode;
+use function implode;
 use function in_array;
 use function strtolower;
 use function substr;
 
 /**
  * Class BaseController
- *
- * @package Niden\Api\Controllers
  *
  * @property Micro               $application
  * @property Cache               $cache

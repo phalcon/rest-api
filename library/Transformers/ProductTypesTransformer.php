@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Phalcon\Api\Transformers;
 
 use League\Fractal\Resource\Collection;
-use Niden\Constants\Relationships;
-use Niden\Models\ProductTypes;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\ProductTypes;
 
 /**
  * Class ProductTypesTransformer

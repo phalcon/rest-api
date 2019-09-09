@@ -3,8 +3,8 @@
 namespace Phalcon\Api\Tests\unit\library\Providers;
 
 use Monolog\Logger;
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\LoggerProvider;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Api\Providers\LoggerProvider;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 

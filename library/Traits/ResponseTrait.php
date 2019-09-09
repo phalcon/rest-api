@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Traits;
 
-use Niden\Http\Response;
+use Phalcon\Api\Http\Response;
 use Phalcon\Mvc\Micro;
 
 /**
  * Trait ResponseTrait
- *
- * @package Niden\Traits
  */
 trait ResponseTrait
 {

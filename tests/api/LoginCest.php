@@ -3,7 +3,7 @@
 namespace Phalcon\Api\Tests\api;
 
 use ApiTester;
-use Niden\Models\Users;
+use Phalcon\Api\Models\Users;
 use Page\Data;
 use function json_decode;
 

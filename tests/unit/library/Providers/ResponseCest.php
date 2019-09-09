@@ -2,8 +2,8 @@
 
 namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Http\Response;
-use Niden\Providers\ResponseProvider;
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Providers\ResponseProvider;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 

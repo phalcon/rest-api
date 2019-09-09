@@ -2,7 +2,7 @@
 
 namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Providers\CacheDataProvider;
+use Phalcon\Api\Providers\CacheDataProvider;
 use Phalcon\Cache;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;

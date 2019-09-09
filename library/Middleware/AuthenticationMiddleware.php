@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Middleware;
 
-use Niden\Http\Request;
-use Niden\Http\Response;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\ResponseTrait;
+use Phalcon\Api\Http\Request;
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Traits\ResponseTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
 /**
  * Class AuthenticationMiddleware
- *
- * @package Niden\Middleware
  */
 class AuthenticationMiddleware implements MiddlewareInterface
 {

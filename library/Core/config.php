@@ -1,7 +1,7 @@
 <?php
 
-use function Niden\Core\appPath;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\appPath;
+use function Phalcon\Api\Core\envValue;
 
 return [
     'app'        => [

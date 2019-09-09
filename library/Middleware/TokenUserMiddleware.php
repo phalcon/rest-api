@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Middleware;
 
-use Niden\Http\Request;
-use Niden\Http\Response;
-use Niden\Models\Users;
+use Phalcon\Api\Http\Request;
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Models\Users;
 use Phalcon\Cache;
 use Phalcon\Config;
 use Phalcon\Mvc\Micro;
 
 /**
  * Class TokenUserMiddleware
- *
- * @package Niden\Middleware
  */
 class TokenUserMiddleware extends TokenBase
 {

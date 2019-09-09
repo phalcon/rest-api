@@ -2,10 +2,10 @@
 
 namespace Phalcon\Api\Tests\unit\config;
 
-use Niden\Http\Response;
+use Phalcon\Api\Http\Response;
 use UnitTester;
 use function function_exists;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class AutoloaderCest
 {
@@ -44,6 +44,6 @@ class AutoloaderCest
 
         $class = new Response();
         $I->assertTrue($class instanceof Response);
-        $I->assertTrue(function_exists('Niden\Core\envValue'));
+        $I->assertTrue(function_exists('Phalcon\Api\Core\envValue'));
     }
 }

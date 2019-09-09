@@ -12,8 +12,6 @@ use function number_format;
 
 /**
  * Class ErrorHandler
- *
- * @package Niden
  */
 class ErrorHandler
 {

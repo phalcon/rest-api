@@ -4,15 +4,15 @@
  * Enabled providers. Order does matter
  */
 
-use Niden\Providers\CacheDataProvider;
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\DatabaseProvider;
-use Niden\Providers\ErrorHandlerProvider;
-use Niden\Providers\LoggerProvider;
-use Niden\Providers\ModelsMetadataProvider;
-use Niden\Providers\RequestProvider;
-use Niden\Providers\ResponseProvider;
-use Niden\Providers\RouterProvider;
+use Phalcon\Api\Providers\CacheDataProvider;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Api\Providers\DatabaseProvider;
+use Phalcon\Api\Providers\ErrorHandlerProvider;
+use Phalcon\Api\Providers\LoggerProvider;
+use Phalcon\Api\Providers\ModelsMetadataProvider;
+use Phalcon\Api\Providers\RequestProvider;
+use Phalcon\Api\Providers\ResponseProvider;
+use Phalcon\Api\Providers\RouterProvider;
 
 return [
     ConfigProvider::class,

@@ -2,14 +2,14 @@
 
 namespace Phalcon\Api\Tests\unit\library;
 
-use Niden\ErrorHandler;
-use Niden\Logger;
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\LoggerProvider;
+use Phalcon\Api\ErrorHandler;
+use Phalcon\Api\Logger;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Api\Providers\LoggerProvider;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class ErrorHandlerCest
 {

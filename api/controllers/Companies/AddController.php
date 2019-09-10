@@ -1,11 +1,18 @@
 <?php
-
 declare(strict_types=1);
+
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
 namespace Phalcon\Api\Api\Controllers\Companies;
 
 use Phalcon\Api\Constants\Relationships;
-use function Phalcon\Api\Core\appUrl;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Companies;
@@ -14,6 +21,7 @@ use Phalcon\Api\Transformers\BaseTransformer;
 use Phalcon\Api\Validation\CompaniesValidator;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
+use function Phalcon\Api\Core\appUrl;
 
 /**
  * Class AddController

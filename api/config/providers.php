@@ -1,7 +1,13 @@
 <?php
+declare(strict_types=1);
 
 /**
- * Enabled providers. Order does matter
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 use Phalcon\Api\Providers\CacheDataProvider;
@@ -14,6 +20,9 @@ use Phalcon\Api\Providers\RequestProvider;
 use Phalcon\Api\Providers\ResponseProvider;
 use Phalcon\Api\Providers\RouterProvider;
 
+/**
+ * Enabled providers. Order does matter
+ */
 return [
     ConfigProvider::class,
     LoggerProvider::class,

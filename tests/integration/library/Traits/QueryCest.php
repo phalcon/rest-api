@@ -35,7 +35,7 @@ class QueryCest
                 'username' => 'testusername',
                 'password' => 'testpass',
                 'status'   => 1,
-                'issuer'   => 'phalconphp.com',
+                'issuer'   => 'phalcon.io',
                 'tokenId'  => '00110011',
             ]
         );
@@ -62,7 +62,7 @@ class QueryCest
                 'username' => 'testusername',
                 'password' => 'testpass',
                 'status'   => 1,
-                'issuer'   => 'phalconphp.com',
+                'issuer'   => 'phalcon.io',
                 'tokenId'  => '00110011',
             ]
         );
@@ -88,7 +88,7 @@ class QueryCest
                 'username' => 'testusername',
                 'password' => 'testpass',
                 'status'   => 1,
-                'issuer'   => 'phalconphp.com',
+                'issuer'   => 'phalcon.io',
                 'tokenId'  => '00110011',
             ]
         );

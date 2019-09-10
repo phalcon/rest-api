@@ -30,7 +30,7 @@ class LoginCest
                 'status'   => 1,
                 'username' => 'testuser',
                 'password' => 'testpassword',
-                'issuer'   => 'https://phalconphp.com',
+                'issuer'   => 'https://phalcon.io',
                 'tokenId'  => '110011',
             ]
         );

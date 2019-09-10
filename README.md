@@ -6,7 +6,7 @@ Sample API using Phalcon
 [![Build Status](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/build-status/master)
 
 
-Implementation of an API application using the Phalcon Framework [https://phalconphp.com](https://phalconphp.com)
+Implementation of an API application using the Phalcon Framework [https://phalcon.io](https://phalcon.io)
 
 ### Installation
 - Clone the project

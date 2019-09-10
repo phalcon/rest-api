@@ -30,7 +30,7 @@ class AutoloaderCest
         $I->assertEquals('development', getenv('APP_ENV'));
         $I->assertEquals('http://api.phalcon.ld', getenv('APP_URL'));
         $I->assertEquals('/', getenv('APP_BASE_URI'));
-        $I->assertEquals('team@phalconphp.com', getenv('APP_SUPPORT_EMAIL'));
+        $I->assertEquals('team@phalcon.io', getenv('APP_SUPPORT_EMAIL'));
         $I->assertEquals('UTC', getenv('APP_TIMEZONE'));
         $I->assertEquals('api_cache_', getenv('CACHE_PREFIX'));
         $I->assertEquals(86400, getenv('CACHE_LIFETIME'));

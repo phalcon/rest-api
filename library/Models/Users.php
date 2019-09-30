@@ -18,7 +18,7 @@ use Lcobucci\JWT\ValidationData;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\Api\Traits\TokenTrait;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use function time;
 
 /**

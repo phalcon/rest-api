@@ -14,9 +14,9 @@ namespace Phalcon\Api\Middleware;
 
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Traits\ResponseTrait;
+use Phalcon\Di\Injectable;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
-use Phalcon\Plugin;
 
 /**
  * Class NotFoundMiddleware
@@ -24,7 +24,7 @@ use Phalcon\Plugin;
  * @property Micro    $application
  * @property Response $response
  */
-class NotFoundMiddleware extends Plugin implements MiddlewareInterface
+class NotFoundMiddleware extends Injectable implements MiddlewareInterface
 {
     use ResponseTrait;
 

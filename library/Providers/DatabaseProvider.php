@@ -22,7 +22,7 @@ class DatabaseProvider implements ServiceProviderInterface
     /**
      * @param DiInterface $container
      */
-    public function register(DiInterface $container)
+    public function register(DiInterface $container): void
     {
         $container->setShared(
             'db',

@@ -14,7 +14,7 @@ namespace Phalcon\Api\Models;
 
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Mvc\Model\AbstractModel;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 /**
  * Class Individuals

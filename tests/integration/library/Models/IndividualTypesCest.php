@@ -6,7 +6,7 @@ use IntegrationTester;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Individuals;
 use Phalcon\Api\Models\IndividualTypes;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 class IndividualTypesCest
 {

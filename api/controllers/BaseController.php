@@ -18,7 +18,7 @@ use Phalcon\Api\Traits\QueryTrait;
 use Phalcon\Api\Traits\ResponseTrait;
 use Phalcon\Cache;
 use Phalcon\Config;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Model\MetaData\Libmemcached as ModelsMetadataCache;

@@ -40,7 +40,7 @@ class RouterProvider implements ServiceProviderInterface
      *
      * @param DiInterface $container
      */
-    public function register(DiInterface $container)
+    public function register(DiInterface $container): void
     {
         /** @var Micro $application */
         $application   = $container->getShared('application');

@@ -27,7 +27,7 @@ class ErrorHandlerProvider implements ServiceProviderInterface
      *
      * @param DiInterface $container
      */
-    public function register(DiInterface $container)
+    public function register(DiInterface $container): void
     {
         /** @var Logger $logger */
         $logger  = $container->getShared('logger');

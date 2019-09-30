@@ -7,7 +7,7 @@ use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\CompaniesXProducts;
 use Phalcon\Api\Models\Products;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 class CompaniesXProductsCest
 {

@@ -20,7 +20,7 @@ use Phalcon\Api\Traits\QueryTrait;
 use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Cache;
 use Phalcon\Config;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 
 /**

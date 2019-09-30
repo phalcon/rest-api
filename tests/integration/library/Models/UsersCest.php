@@ -6,7 +6,7 @@ use IntegrationTester;
 use Lcobucci\JWT\ValidationData;
 use Phalcon\Api\Models\Users;
 use Phalcon\Api\Traits\TokenTrait;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 class UsersCest
 {

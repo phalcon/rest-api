@@ -19,7 +19,7 @@ use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Traits\FractalTrait;
 use Phalcon\Api\Transformers\BaseTransformer;
 use Phalcon\Api\Validation\CompaniesValidator;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
 use function Phalcon\Api\Core\appUrl;
 

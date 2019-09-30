@@ -6,7 +6,7 @@ use IntegrationTester;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 class ProductsCest
 {

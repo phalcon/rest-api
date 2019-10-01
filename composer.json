@@ -15,7 +15,7 @@
     "authors": [
         {
             "name": "Contributors",
-            "homepage": "https://github.com/phalcon/vokuro/graphs/contributors"
+            "homepage": "https://github.com/phalcon/rest-api/graphs/contributors"
         }
     ],
     "require": {

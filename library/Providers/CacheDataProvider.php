@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Api\Providers;
 
 use Phalcon\Cache;
+use Phalcon\Cache\AdapterFactory;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
@@ -31,8 +32,9 @@ class CacheDataProvider implements ServiceProviderInterface
                 /** @var array $backOptions */
                 $options = include appPath('cli/config/cache.php');
 
-                $serializer = new SerializerFactory();
-                $adapter = new Cache\Adapter\Libmemcached($serializer, $options);
+                $serializerFactory = new SerializerFactory();
+                $adapterFactory = new AdapterFactory($serializerFactory);
+                $adapter = $adapterFactory->newInstance($options['adapter'], $options);
 
                 return new Cache($adapter);
             }

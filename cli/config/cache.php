@@ -13,6 +13,7 @@ declare(strict_types=1);
 use function Phalcon\Api\Core\envValue;
 
 return [
+    'adapter' => envValue('CACHE_ADAPTER'),
     'servers'  => [
         0 => [
             'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),

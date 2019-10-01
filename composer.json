@@ -1,4 +1,23 @@
 {
+    "name": "phalcon/rest-api",
+    "type": "library",
+    "description": "This is a sample API REST application for the Phalcon PHP Framework",
+    "keywords": [
+        "phalcon",
+        "framework",
+        "sample app",
+        "rest-api",
+        "rest",
+        "api"
+    ],
+    "homepage": "https://phalcon.io",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/phalcon/vokuro/graphs/contributors"
+        }
+    ],
     "require": {
         "php": ">=7.2",
         "ext-openssl": "*",

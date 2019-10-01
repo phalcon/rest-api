@@ -43,4 +43,3 @@ class GetController extends BaseController
     /** @var string */
     protected $transformer = IndividualTypesTransformer::class;
 }
-

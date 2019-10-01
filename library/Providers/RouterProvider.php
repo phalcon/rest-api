@@ -147,7 +147,12 @@ class RouterProvider implements ServiceProviderInterface
         $routes[] = [$class, '/' . $relationship, 'get', '/'];
         $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}'];
         $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'];
-        $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}'];
+        $routes[] = [
+            $class,
+            '/' . $relationship,
+            'get',
+            '/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}',
+        ];
 
         return $routes;
     }

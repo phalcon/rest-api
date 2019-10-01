@@ -4,7 +4,7 @@
         "ext-openssl": "*",
         "ext-json": "*",
         "ext-memcached": "*",
-        "ext-phalcon": "~4.0.0-beta.2",
+        "ext-phalcon": "^4.0.0-rc.1",
         "dariuszp/cli-progress-bar": "^1.0",
         "lcobucci/jwt": "^3.2",
         "league/fractal": "^0.18.0",
@@ -28,7 +28,8 @@
         "symfony/filesystem": "4.3",
         "symfony/finder": "4.3",
         "symfony/process": "4.3",
-        "symfony/yaml": "4.3"
+        "symfony/yaml": "4.3",
+        "vimeo/psalm": "^3.4"
     },
     "config": {
         "preferred-install": "dist",

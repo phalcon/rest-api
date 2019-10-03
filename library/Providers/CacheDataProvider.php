@@ -14,27 +14,31 @@ namespace Phalcon\Api\Providers;
 
 use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
-use function Phalcon\Api\Core\appPath;
 
 class CacheDataProvider implements ServiceProviderInterface
 {
     /**
-     * @param DiInterface $container
+     * @param DiInterface $di
      */
-    public function register(DiInterface $container): void
+    public function register(DiInterface $di): void
     {
-        $container->setShared(
+        /** @var Config $config */
+        $config = $di->getShared('config');
+
+        $di->setShared(
             'cache',
-            function () {
-                /** @var array $backOptions */
-                $options = include appPath('cli/config/cache.php');
+            function () use ($config) {
+                $cache = $config->get('cache')->toArray();
+                $adapter = $cache['adapter'];
+                $options = $cache['options'][$adapter] ?? [];
 
                 $serializerFactory = new SerializerFactory();
                 $adapterFactory = new AdapterFactory($serializerFactory);
-                $adapter = $adapterFactory->newInstance($options['adapter'], $options);
+                $adapter = $adapterFactory->newInstance($adapter, $options);
 
                 return new Cache($adapter);
             }

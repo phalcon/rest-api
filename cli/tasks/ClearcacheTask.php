@@ -76,7 +76,11 @@ class ClearcacheTask extends PhTask
     private function clearMemCached()
     {
         echo 'Clearing data cache' . PHP_EOL;
-        $options   = include appPath('cli/config/cache.php');
+        $options = [];
+        if (isset($this->getDI()->getShared('config')->get('cache')->options->libmemcached)) {
+            $options = $this->getDI()->getShared('config')->get('cache')->options->libmemcached;
+        }
+
         $servers   = $options['servers'] ?? [];
         $memcached = new \Memcached();
         foreach ($servers as $server) {
@@ -84,6 +88,8 @@ class ClearcacheTask extends PhTask
         }
 
         $keys = $memcached->getAllKeys();
+        // 7.2 countable
+        $keys = $keys ?: [];
         echo sprintf('Found %s keys', count($keys)) . PHP_EOL;
         foreach ($keys as $key) {
             if ('api-data' === substr($key, 0, 8)) {

@@ -27,34 +27,24 @@ return [
         'time'         => microtime(true),
     ],
     'cache'      => [
-        'data'     => [
-            'front' => [
-                'adapter' => 'Data',
-                'options' => [
-                    'lifetime' => envValue('CACHE_LIFETIME'),
-                ],
-            ],
-            'back'  => [
-                'dev'  => [
-                    'adapter' => 'File',
-                    'options' => [
-                        'cacheDir' => appPath('storage/cache/data/'),
+        'adapter' => envValue('CACHE_ADAPTER'),
+        'options' => [
+            'libmemcached' => [
+                'servers'  => [
+                    0 => [
+                        'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
+                        'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
+                        'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
                     ],
                 ],
-                'prod' => [
-                    'adapter' => 'Libmemcached',
-                    'options' => [
-                        'servers' => [
-                            [
-                                'host'   => envValue('DATA_API_MEMCACHED_HOST'),
-                                'port'   => envValue('DATA_API_MEMCACHED_PORT'),
-                                'weight' => envValue('DATA_API_MEMCACHED_WEIGHT'),
-                            ],
-                        ],
-                    ],
+                'client'   => [
+                    \Memcached::OPT_PREFIX_KEY => 'api-',
                 ],
+                'lifetime' => envValue('CACHE_LIFETIME', 86400),
+                'prefix'   => 'data-',
             ],
         ],
+
         'metadata' => [
             'dev'  => [
                 'adapter' => 'Memory',

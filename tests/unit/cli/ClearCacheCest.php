@@ -5,6 +5,7 @@ namespace Phalcon\Api\Tests\unit\cli;
 use FilesystemIterator;
 use Phalcon\Api\Cli\Tasks\ClearcacheTask;
 use Phalcon\Api\Providers\CacheDataProvider;
+use Phalcon\Api\Providers\ConfigProvider;
 use Phalcon\Di\FactoryDefault\Cli;
 use UnitTester;
 use function fclose;
@@ -23,6 +24,8 @@ class ClearCacheCest
 
         $path      = appPath('/storage/cache/data');
         $container = new Cli();
+        $config    = new ConfigProvider();
+        $config->register($container);
         $cache     = new CacheDataProvider();
         $cache->register($container);
         $task      = new ClearcacheTask();

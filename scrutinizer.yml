@@ -9,7 +9,7 @@ build:
         redis: false
         node: false
         php:
-          version: 7.2
+          version: 7.2.23
           ini:
             'date.timezone': 'UTC'
         hosts:
@@ -40,14 +40,14 @@ build:
           - cp storage/ci/.env.example .env
           - cp storage/ci/phinx.php.example phinx.php
           - command: 'cd ~/ && git clone https://github.com/jbboehr/php-psr.git && cd php-psr && phpize && ./configure && make && make test && sudo make install'
-          - sed -i '$ a \\nextension=psr.so\n' /home/scrutinizer/.phpenv/versions/7.2/etc/php.ini
+          - sed -i '$ a \\nextension=psr.so\n' /home/scrutinizer/.phpenv/versions/7.2.23/etc/php.ini
           -
             command: 'cd ~/ && git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b 4.0.x && cd cphalcon/build && ./install'
             not_if: 'test -e /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so'
           -
-            command: 'cp -v /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so  /home/scrutinizer/.phpenv/versions/7.2/lib/php/extensions/no-debug-zts-20160303/'
+            command: 'cp -v /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so  /home/scrutinizer/.phpenv/versions/7.2.23/lib/php/extensions/no-debug-zts-20160303/'
             only_if: 'test -e /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so'
-          - sed -i '$ a \\n[Phalcon]\nextension=phalcon.so\n' /home/scrutinizer/.phpenv/versions/7.2/etc/php.ini
+          - sed -i '$ a \\n[Phalcon]\nextension=phalcon.so\n' /home/scrutinizer/.phpenv/versions/7.2.23/etc/php.ini
           - php -m | grep -i Phalcon
           - sudo /etc/init.d/apache2 restart
           - mysql -e "CREATE DATABASE gonano"

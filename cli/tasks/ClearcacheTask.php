@@ -14,6 +14,7 @@ namespace Phalcon\Api\Cli\Tasks;
 
 use Phalcon\Cache;
 use Phalcon\Cli\Task as PhTask;
+use Phalcon\Config;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use function in_array;
@@ -24,6 +25,7 @@ use const PHP_EOL;
  * Class ClearcacheTask
  *
  * @property Cache $cache
+ * @property Config $config
  */
 class ClearcacheTask extends PhTask
 {
@@ -76,9 +78,27 @@ class ClearcacheTask extends PhTask
     private function clearMemCached()
     {
         echo 'Clearing data cache' . PHP_EOL;
-        $options = [];
-        if (isset($this->getDI()->getShared('config')->get('cache')->options->libmemcached)) {
-            $options = $this->getDI()->getShared('config')->get('cache')->options->libmemcached;
+
+        $default = [
+            'servers'  => [
+                0 => [
+                    'host'   => '127.0.0.1',
+                    'port'   => 11211,
+                    'weight' => 100,
+                ],
+            ],
+            'client'   => [
+                \Memcached::OPT_PREFIX_KEY => 'api-',
+            ],
+            'lifetime' => 86400,
+            'prefix'   => 'data-',
+        ];
+
+        $options = $this->config->path('cache.options.libmemcached', null);
+        if (true !== empty($options)) {
+            $options = $options->toArray();
+        } else {
+            $options = $default;
         }
 
         $servers   = $options['servers'] ?? [];

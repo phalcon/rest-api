@@ -22,14 +22,14 @@ use Phalcon\Storage\SerializerFactory;
 class CacheDataProvider implements ServiceProviderInterface
 {
     /**
-     * @param DiInterface $di
+     * @param DiInterface $container
      */
-    public function register(DiInterface $di): void
+    public function register(DiInterface $container): void
     {
         /** @var Config $config */
-        $config = $di->getShared('config');
+        $config = $container->getShared('config');
 
-        $di->setShared(
+        $container->setShared(
             'cache',
             function () use ($config) {
                 $cache = $config->get('cache')->toArray();

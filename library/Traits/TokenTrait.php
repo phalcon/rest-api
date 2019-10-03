@@ -1,18 +1,24 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Traits;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+namespace Phalcon\Api\Traits;
 
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 use function time;
 
 /**
  * Trait TokenTrait
- *
- * @package Niden\Traits
  */
 trait TokenTrait
 {
@@ -36,7 +42,7 @@ trait TokenTrait
     protected function getTokenAudience(): string
     {
         /** @var string $audience */
-        $audience = envValue('TOKEN_AUDIENCE', 'https://phalconphp.com');
+        $audience = envValue('TOKEN_AUDIENCE', 'https://phalcon.io');
 
         return $audience;
     }

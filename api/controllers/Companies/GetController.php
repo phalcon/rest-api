@@ -1,18 +1,24 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Api\Controllers\Companies;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use Niden\Api\Controllers\BaseController;
-use Niden\Constants\Relationships;
-use Niden\Models\Companies;
-use Niden\Transformers\CompaniesTransformer;
+namespace Phalcon\Api\Api\Controllers\Companies;
+
+use Phalcon\Api\Api\Controllers\BaseController;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Transformers\CompaniesTransformer;
 
 /**
  * Class GetController
- *
- * @package Niden\Api\Controllers\Companies
  */
 class GetController extends BaseController
 {

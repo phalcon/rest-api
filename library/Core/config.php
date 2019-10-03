@@ -1,7 +1,17 @@
 <?php
+declare(strict_types=1);
 
-use function Niden\Core\appPath;
-use function Niden\Core\envValue;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+use function Phalcon\Api\Core\appPath;
+use function Phalcon\Api\Core\envValue;
 
 return [
     'app'        => [
@@ -17,34 +27,24 @@ return [
         'time'         => microtime(true),
     ],
     'cache'      => [
-        'data'     => [
-            'front' => [
-                'adapter' => 'Data',
-                'options' => [
-                    'lifetime' => envValue('CACHE_LIFETIME'),
-                ],
-            ],
-            'back'  => [
-                'dev'  => [
-                    'adapter' => 'File',
-                    'options' => [
-                        'cacheDir' => appPath('storage/cache/data/'),
+        'adapter' => 'libmemcached',
+        'options' => [
+            'libmemcached' => [
+                'servers'  => [
+                    0 => [
+                        'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
+                        'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
+                        'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
                     ],
                 ],
-                'prod' => [
-                    'adapter' => 'Libmemcached',
-                    'options' => [
-                        'servers' => [
-                            [
-                                'host'   => envValue('DATA_API_MEMCACHED_HOST'),
-                                'port'   => envValue('DATA_API_MEMCACHED_PORT'),
-                                'weight' => envValue('DATA_API_MEMCACHED_WEIGHT'),
-                            ],
-                        ],
-                    ],
+                'client'   => [
+                    \Memcached::OPT_PREFIX_KEY => 'api-',
                 ],
+                'lifetime' => envValue('CACHE_LIFETIME', 86400),
+                'prefix'   => 'data-',
             ],
         ],
+
         'metadata' => [
             'dev'  => [
                 'adapter' => 'Memory',

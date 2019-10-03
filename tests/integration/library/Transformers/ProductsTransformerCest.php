@@ -1,19 +1,19 @@
 <?php
 
-namespace Niden\Tests\integration\library\Transformers;
+namespace Phalcon\Api\Tests\integration\library\Transformers;
 
 use IntegrationTester;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Niden\Constants\Relationships;
-use Niden\Exception\ModelException;
-use Niden\Models\Companies;
-use Niden\Models\CompaniesXProducts;
-use Niden\Models\Products;
-use Niden\Models\ProductTypes;
-use Niden\Transformers\ProductsTransformer;
-use function Niden\Core\envValue;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\CompaniesXProducts;
+use Phalcon\Api\Models\Products;
+use Phalcon\Api\Models\ProductTypes;
+use Phalcon\Api\Transformers\ProductsTransformer;
+use function Phalcon\Api\Core\envValue;
 use Page\Data;
 
 class ProductsTransformerCest

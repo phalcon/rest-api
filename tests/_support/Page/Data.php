@@ -2,9 +2,10 @@
 
 namespace Page;
 
-use Niden\Constants\Relationships;
-use function Niden\Core\envValue;
-use Niden\Mvc\Model\AbstractModel;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Mvc\Model\AbstractModel;
+use function Phalcon\Api\Core\envValue;
 
 class Data
 {
@@ -61,7 +62,7 @@ class Data
      * @param AbstractModel $record
      *
      * @return array
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public static function companiesResponse(AbstractModel $record)
     {
@@ -89,7 +90,7 @@ class Data
      * @param AbstractModel $record
      *
      * @return array
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public static function individualResponse(AbstractModel $record)
     {
@@ -120,7 +121,7 @@ class Data
      * @param AbstractModel $record
      *
      * @return array
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public static function individualTypeResponse(AbstractModel $record)
     {
@@ -146,7 +147,7 @@ class Data
      * @param AbstractModel $record
      *
      * @return array
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public static function productResponse(AbstractModel $record)
     {
@@ -175,7 +176,7 @@ class Data
      * @param AbstractModel $record
      *
      * @return array
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public static function productFieldsResponse(AbstractModel $record)
     {
@@ -201,7 +202,7 @@ class Data
      * @param AbstractModel $record
      *
      * @return array
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public static function productTypeResponse(AbstractModel $record)
     {
@@ -227,7 +228,7 @@ class Data
      * @param AbstractModel $record
      *
      * @return array
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public static function userResponse(AbstractModel $record)
     {

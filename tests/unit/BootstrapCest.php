@@ -1,21 +1,15 @@
 <?php
 
-namespace Niden\Tests\unit;
+namespace Phalcon\Api\Tests\unit;
 
 use CliTester;
 use Codeception\Util\HttpCode;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 class BootstrapCest
 {
     public function checkBootstrap(CliTester $I)
     {
-        /**
-         * As current request is inside CLI
-         * There are no REQUEST URI
-         */
-        $_SERVER['REQUEST_URI'] = '/';
-
         ob_start();
         require appPath('api/public/index.php');
         $actual = ob_get_contents();

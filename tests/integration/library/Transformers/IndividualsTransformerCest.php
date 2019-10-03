@@ -1,19 +1,19 @@
 <?php
 
-namespace Niden\Tests\integration\library\Transformers;
+namespace Phalcon\Api\Tests\integration\library\Transformers;
 
 use IntegrationTester;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Niden\Constants\Relationships;
-use Niden\Exception\ModelException;
-use Niden\Models\Companies;
-use Niden\Models\Individuals;
-use Niden\Models\IndividualTypes;
-use Niden\Transformers\IndividualsTransformer;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\Individuals;
+use Phalcon\Api\Models\IndividualTypes;
+use Phalcon\Api\Transformers\IndividualsTransformer;
 use Page\Data;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 use function uniqid;
 
 class IndividualsTransformerCest

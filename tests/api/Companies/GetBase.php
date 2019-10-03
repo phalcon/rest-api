@@ -1,9 +1,9 @@
 <?php
 
-namespace Niden\Tests\api\Companies;
+namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
-use Niden\Models\Companies;
+use Phalcon\Api\Models\Companies;
 
 class GetBase
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Niden\Tests\unit\library\Providers;
+namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Logger;
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\RouterProvider;
+use Phalcon\Api\Logger;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Api\Providers\RouterProvider;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\RouterInterface;

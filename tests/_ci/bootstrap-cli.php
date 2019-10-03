@@ -1,5 +1,5 @@
 <?php
 
-use Niden\Bootstrap\Cli;
+use Phalcon\Api\Bootstrap\Cli;
 
 return (new Cli())->run();

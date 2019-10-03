@@ -1,8 +1,8 @@
 <?php
 
-namespace Niden\Tests\unit\cli;
+namespace Phalcon\Api\Tests\unit\cli;
 
-use Niden\Cli\Tasks\MainTask;
+use Phalcon\Api\Cli\Tasks\MainTask;
 use Phalcon\Di\FactoryDefault\Cli;
 use UnitTester;
 use function ob_end_clean;

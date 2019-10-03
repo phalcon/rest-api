@@ -1,24 +1,30 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Middleware;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use Niden\Http\Response;
-use Niden\Traits\ResponseTrait;
+namespace Phalcon\Api\Middleware;
+
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Traits\ResponseTrait;
+use Phalcon\Di\Injectable;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
-use Phalcon\Plugin;
 
 /**
  * Class NotFoundMiddleware
  *
- * @package Niden\Middleware
- *
  * @property Micro    $application
  * @property Response $response
  */
-class NotFoundMiddleware extends Plugin implements MiddlewareInterface
+class NotFoundMiddleware extends Injectable implements MiddlewareInterface
 {
     use ResponseTrait;
 

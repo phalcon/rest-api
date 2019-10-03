@@ -1,9 +1,9 @@
 <?php
 
-namespace Niden\Tests\unit\library\Constants;
+namespace Phalcon\Api\Tests\unit\library\Constants;
 
 use CliTester;
-use Niden\Constants\JWTClaims;
+use Phalcon\Api\Constants\JWTClaims;
 
 class JWTClaimsCest
 {

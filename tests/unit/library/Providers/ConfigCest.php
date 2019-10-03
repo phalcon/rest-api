@@ -1,8 +1,8 @@
 <?php
 
-namespace Niden\Tests\unit\library\Providers;
+namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Providers\ConfigProvider;
+use Phalcon\Api\Providers\ConfigProvider;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;

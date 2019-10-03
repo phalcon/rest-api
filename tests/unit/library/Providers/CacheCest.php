@@ -1,8 +1,9 @@
 <?php
 
-namespace Niden\Tests\unit\library\Providers;
+namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Providers\CacheDataProvider;
+use Phalcon\Api\Providers\CacheDataProvider;
+use Phalcon\Api\Providers\ConfigProvider;
 use Phalcon\Cache;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
@@ -15,6 +16,8 @@ class CacheCest
     public function checkRegistration(UnitTester $I)
     {
         $diContainer = new FactoryDefault();
+        $config      = new ConfigProvider();
+        $config->register($diContainer);
         $provider    = new CacheDataProvider();
         $provider->register($diContainer);
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace Niden\Tests\integration\library;
+namespace Phalcon\Api\Tests\integration\library;
 
 use Codeception\Stub;
 use Exception;
 use IntegrationTester;
 use Monolog\Logger;
-use Niden\Exception\ModelException;
-use Niden\Models\Users;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Users;
 use Phalcon\Messages\Message;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 
 /**
  * Class ModelCest
@@ -27,7 +27,7 @@ class ModelCest
                 'username'      => 'testusername',
                 'password'      => 'testpass',
                 'status'        => 1,
-                'issuer'        => 'phalconphp.com',
+                'issuer'        => 'phalcon.io',
                 'tokenPassword' => '12345',
                 'tokenId'       => '00110011',
             ]
@@ -67,7 +67,7 @@ class ModelCest
                 'username'      => 'testusername',
                 'password'      => 'testpass',
                 'status'        => 1,
-                'issuer'        => 'phalconphp.com',
+                'issuer'        => 'phalcon.io',
                 'tokenPassword' => '12345',
                 'tokenId'       => '00110011',
             ]
@@ -97,7 +97,7 @@ class ModelCest
                 'username'      => 'testusername',
                 'password'      => 'testpass',
                 'status'        => 1,
-                'issuer'        => 'phalconphp.com',
+                'issuer'        => 'phalcon.io',
                 'tokenPassword' => '12345',
                 'tokenId'       => '00110011',
             ]
@@ -109,7 +109,7 @@ class ModelCest
 
         $I->assertEquals($user->get('username'), 'testusername');
         $I->assertEquals($user->get('password'), 'testpass');
-        $I->assertEquals($user->get('issuer'), 'phalconphp.com');
+        $I->assertEquals($user->get('issuer'), 'phalcon.io');
         $I->assertEquals($user->get('tokenPassword'), '12345');
         $I->assertEquals($user->get('tokenId'), '00110011');
     }
@@ -126,7 +126,7 @@ class ModelCest
                 'username'      => 'testusername',
                 'password'      => 'testpass',
                 'status'        => 1,
-                'issuer'        => 'phalconphp.com',
+                'issuer'        => 'phalcon.io',
                 'tokenPassword' => '12345',
                 'tokenId'       => '00110011',
 

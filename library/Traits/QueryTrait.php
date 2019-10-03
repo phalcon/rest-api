@@ -1,13 +1,21 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Traits;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+namespace Phalcon\Api\Traits;
 
 use Lcobucci\JWT\Token;
-use Niden\Constants\Flags;
-use Niden\Constants\JWTClaims;
-use Niden\Models\Users;
+use Phalcon\Api\Constants\Flags;
+use Phalcon\Api\Constants\JWTClaims;
+use Phalcon\Api\Models\Users;
 use Phalcon\Cache;
 use Phalcon\Config;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -17,8 +25,6 @@ use function sha1;
 
 /**
  * Trait QueryTrait
- *
- * @package Niden\Traits
  */
 trait QueryTrait
 {

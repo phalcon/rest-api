@@ -1,9 +1,9 @@
 <?php
 
-namespace Niden\Tests\unit\library;
+namespace Phalcon\Api\Tests\unit\library;
 
-use Niden\Bootstrap\Api;
-use Niden\Http\Response;
+use Phalcon\Api\Bootstrap\Api;
+use Phalcon\Api\Http\Response;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
 use UnitTester;

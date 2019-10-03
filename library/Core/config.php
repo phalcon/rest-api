@@ -27,7 +27,7 @@ return [
         'time'         => microtime(true),
     ],
     'cache'      => [
-        'adapter' => envValue('CACHE_ADAPTER'),
+        'adapter' => 'libmemcached',
         'options' => [
             'libmemcached' => [
                 'servers'  => [

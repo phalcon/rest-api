@@ -6,6 +6,7 @@ use IntegrationTester;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\Individuals;
+use Phalcon\Api\Models\Products;
 use Phalcon\Filter;
 
 class CompaniesCest
@@ -42,7 +43,9 @@ class CompaniesCest
         $actual   = $I->getModelRelationships(Companies::class);
         $expected = [
             [2, 'id', Individuals::class, 'companyId', ['alias' => Relationships::INDIVIDUALS, 'reusable' => true]],
+            [4, 'id', Products::class, 'id', ['alias' => Relationships::PRODUCTS, 'reusable' => true]],
         ];
+
         $I->assertEquals($expected, $actual);
     }
 

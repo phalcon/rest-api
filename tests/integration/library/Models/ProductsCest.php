@@ -4,6 +4,7 @@ namespace Phalcon\Api\Tests\integration\library\Models;
 
 use IntegrationTester;
 use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
 use Phalcon\Filter;
@@ -44,7 +45,9 @@ class ProductsCest
         $actual   = $I->getModelRelationships(Products::class);
         $expected = [
             [0, 'typeId', ProductTypes::class, 'id', ['alias' => Relationships::PRODUCT_TYPES, 'reusable' => true]],
+            [4, 'id', Companies::class, 'id', ['alias' => Relationships::COMPANIES, 'reusable' => true]],
         ];
+
         $I->assertEquals($expected, $actual);
     }
 }

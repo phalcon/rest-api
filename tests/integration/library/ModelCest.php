@@ -41,7 +41,7 @@ class ModelCest
      */
     public function modelSetNonExistingFields(IntegrationTester $I)
     {
-        $I->expectException(
+        $I->expectThrowable(
             ModelException::class,
             function () {
                 $fixture = new Users();
@@ -73,7 +73,7 @@ class ModelCest
             ]
         );
 
-        $I->expectException(
+        $I->expectThrowable(
             ModelException::class,
             function () use ($user) {
                 $user->get('some_field');

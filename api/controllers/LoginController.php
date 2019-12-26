@@ -1,16 +1,24 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Api\Controllers;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use Niden\Exception\ModelException;
-use Niden\Http\Request;
-use Niden\Http\Response;
-use Niden\Models\Users;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\TokenTrait;
-use Phalcon\Cache\Backend\Libmemcached;
+namespace Phalcon\Api\Api\Controllers;
+
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Http\Request;
+use Phalcon\Api\Http\Response;
+use Phalcon\Api\Models\Users;
+use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Traits\TokenTrait;
+use Phalcon\Cache;
 use Phalcon\Config;
 use Phalcon\Filter;
 use Phalcon\Mvc\Controller;
@@ -18,9 +26,7 @@ use Phalcon\Mvc\Controller;
 /**
  * Class LoginController
  *
- * @package Niden\Api\Controllers
- *
- * @property Libmemcached $cache
+ * @property Cache $cache
  * @property Config       $config
  * @property Request      $request
  * @property Response     $response

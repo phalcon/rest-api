@@ -1,10 +1,10 @@
 <?php
 
-namespace Niden\Tests\unit\library\Providers;
+namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Providers\ConfigProvider;
-use Niden\Providers\ErrorHandlerProvider;
-use Niden\Providers\LoggerProvider;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Api\Providers\ErrorHandlerProvider;
+use Phalcon\Api\Providers\LoggerProvider;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 use function date_default_timezone_get;

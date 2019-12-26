@@ -1,6 +1,6 @@
 <?php
 
-namespace Niden\Tests\cli;
+namespace Phalcon\Api\Tests\cli;
 
 use CliTester;
 

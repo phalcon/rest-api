@@ -1,16 +1,24 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Providers;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
+namespace Phalcon\Api\Providers;
+
+use Monolog\Logger;
+use Phalcon\Api\ErrorHandler;
+use Phalcon\Config;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
 use function register_shutdown_function;
 use function set_error_handler;
-use Monolog\Logger;
-use Niden\ErrorHandler;
-use Phalcon\Config;
-use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
 
 class ErrorHandlerProvider implements ServiceProviderInterface
 {
@@ -19,7 +27,7 @@ class ErrorHandlerProvider implements ServiceProviderInterface
      *
      * @param DiInterface $container
      */
-    public function register(DiInterface $container)
+    public function register(DiInterface $container): void
     {
         /** @var Logger $logger */
         $logger  = $container->getShared('logger');

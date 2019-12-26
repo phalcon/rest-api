@@ -1,13 +1,21 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Transformers;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+namespace Phalcon\Api\Transformers;
 
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
-use Niden\Constants\Relationships;
-use Niden\Models\Products;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Products;
 
 /**
  * Class ProductsTransformer

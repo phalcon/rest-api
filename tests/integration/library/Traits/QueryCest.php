@@ -1,18 +1,18 @@
 <?php
 
-namespace Niden\Tests\integration\library\Traits;
+namespace Phalcon\Api\Tests\integration\library\Traits;
 
 use IntegrationTester;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use function Niden\Core\appPath;
-use Niden\Exception\ModelException;
-use Niden\Models\Companies;
-use Niden\Models\Users;
-use Niden\Traits\QueryTrait;
-use Niden\Traits\TokenTrait;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\Users;
+use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Traits\TokenTrait;
+use Phalcon\Cache;
 use Phalcon\Config;
+use function Phalcon\Api\Core\appPath;
 
 /**
  * Class QueryCest
@@ -25,7 +25,6 @@ class QueryCest
     /**
      * @param IntegrationTester $I
      *
-     * @throws ModelException
      */
     public function checkGetUserByUsernameAndPassword(IntegrationTester $I)
     {
@@ -36,12 +35,12 @@ class QueryCest
                 'username' => 'testusername',
                 'password' => 'testpass',
                 'status'   => 1,
-                'issuer'   => 'phalconphp.com',
+                'issuer'   => 'phalcon.io',
                 'tokenId'  => '00110011',
             ]
         );
 
-        /** @var Libmemcached $cache */
+        /** @var Cache $cache */
         $cache  = $I->grabFromDi('cache');
         /** @var Config $config */
         $config = $I->grabFromDi('config');
@@ -53,7 +52,6 @@ class QueryCest
     /**
      * @param IntegrationTester $I
      *
-     * @throws ModelException
      */
     public function checkGetUserByWrongUsernameAndPasswordReturnsFalse(IntegrationTester $I)
     {
@@ -64,12 +62,12 @@ class QueryCest
                 'username' => 'testusername',
                 'password' => 'testpass',
                 'status'   => 1,
-                'issuer'   => 'phalconphp.com',
+                'issuer'   => 'phalcon.io',
                 'tokenId'  => '00110011',
             ]
         );
 
-        /** @var Libmemcached $cache */
+        /** @var Cache $cache */
         $cache  = $I->grabFromDi('cache');
         /** @var Config $config */
         $config = $I->grabFromDi('config');
@@ -90,7 +88,7 @@ class QueryCest
                 'username' => 'testusername',
                 'password' => 'testpass',
                 'status'   => 1,
-                'issuer'   => 'phalconphp.com',
+                'issuer'   => 'phalcon.io',
                 'tokenId'  => '00110011',
             ]
         );
@@ -105,7 +103,7 @@ class QueryCest
             ->getToken()
         ;
 
-        /** @var Libmemcached $cache */
+        /** @var Cache $cache */
         $cache  = $I->grabFromDi('cache');
         /** @var Config $config */
         $config = $I->grabFromDi('config');
@@ -124,8 +122,9 @@ class QueryCest
         $container->set('config', $config);
         $I->assertFalse($config->path('app.devMode'));
 
-        /** @var Libmemcached $cache */
+        /** @var Cache $cache */
         $cache  = $I->grabFromDi('cache');
+        $cache->clear();
         /** @var Config $config */
         $config = $I->grabFromDi('config');
         $I->assertFalse($config->path('app.devMode'));
@@ -166,7 +165,5 @@ class QueryCest
         $I->assertEquals($comOne->get('address'), $results[0]->get('address'));
         $I->assertEquals($comOne->get('city'), $results[0]->get('city'));
         $I->assertEquals($comOne->get('phone'), $results[0]->get('phone'));
-
-
     }
 }

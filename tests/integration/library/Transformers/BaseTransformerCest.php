@@ -1,17 +1,18 @@
 <?php
 
-namespace Niden\Tests\integration\library\Transformers;
+namespace Phalcon\Api\Tests\integration\library\Transformers;
 
 use IntegrationTester;
-use Niden\Models\Companies;
-use Niden\Transformers\BaseTransformer;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Transformers\BaseTransformer;
 
 class BaseTransformerCest
 {
     /**
      * @param IntegrationTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function checkTransformer(IntegrationTester $I)
     {

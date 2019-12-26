@@ -1,45 +1,46 @@
 <?php
+declare(strict_types=1);
 
-namespace Niden\Providers;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use function Niden\Core\envValue;
-use Phalcon\Cache\Backend\Libmemcached;
-use Phalcon\Cache\Frontend\Data;
+namespace Phalcon\Api\Providers;
+
+use Phalcon\Cache;
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Config;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use Phalcon\Storage\SerializerFactory;
 
 class CacheDataProvider implements ServiceProviderInterface
 {
     /**
      * @param DiInterface $container
      */
-    public function register(DiInterface $container)
+    public function register(DiInterface $container): void
     {
+        /** @var Config $config */
+        $config = $container->getShared('config');
+
         $container->setShared(
             'cache',
-            function () {
-                $prefix       = 'data';
-                $frontAdapter = Data::class;
-                $frontOptions = [
-                    'lifetime' => envValue('CACHE_LIFETIME', 86400),
-                ];
-                $backOptions = [
-                    'servers'  => [
-                        0 => [
-                            'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
-                            'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
-                            'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
-                        ],
-                    ],
-                    'client'   => [
-                        \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
-                        \Memcached::OPT_PREFIX_KEY => 'api-',
-                    ],
-                    'lifetime' => 3600,
-                    'prefix'   => $prefix . '-',
-                ];
+            function () use ($config) {
+                $cache = $config->get('cache')->toArray();
+                $adapter = $cache['adapter'];
+                $options = $cache['options'][$adapter] ?? [];
 
-                return new Libmemcached(new $frontAdapter($frontOptions), $backOptions);
+                $serializerFactory = new SerializerFactory();
+                $adapterFactory = new AdapterFactory($serializerFactory);
+                $adapter = $adapterFactory->newInstance($adapter, $options);
+
+                return new Cache($adapter);
             }
         );
     }

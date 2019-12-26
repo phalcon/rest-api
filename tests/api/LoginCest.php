@@ -1,9 +1,9 @@
 <?php
 
-namespace Niden\Tests\api;
+namespace Phalcon\Api\Tests\api;
 
 use ApiTester;
-use Niden\Models\Users;
+use Phalcon\Api\Models\Users;
 use Page\Data;
 use function json_decode;
 
@@ -30,7 +30,7 @@ class LoginCest
                 'status'   => 1,
                 'username' => 'testuser',
                 'password' => 'testpassword',
-                'issuer'   => 'https://phalconphp.com',
+                'issuer'   => 'https://phalcon.io',
                 'tokenId'  => '110011',
             ]
         );

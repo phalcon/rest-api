@@ -1,26 +1,42 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Models;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use function time;
+namespace Phalcon\Api\Models;
+
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Hmac\Sha512;
-use Niden\Traits\TokenTrait;
 use Lcobucci\JWT\ValidationData;
-use Niden\Exception\ModelException;
-use Niden\Mvc\Model\AbstractModel;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Mvc\Model\AbstractModel;
+use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Filter;
+use function time;
 
 /**
  * Class Users
- *
- * @package Niden\Models
  */
 class Users extends AbstractModel
 {
     use TokenTrait;
+
+    /**
+     * Returns the source table from the database
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        $this->setSource('co_users');
+    }
 
     /**
      * Model filters
@@ -38,16 +54,6 @@ class Users extends AbstractModel
             'tokenPassword' => Filter::FILTER_STRING,
             'tokenId'       => Filter::FILTER_STRING,
         ];
-    }
-
-    /**
-     * Returns the source table from the database
-     *
-     * @return string
-     */
-    public function getSource(): string
-    {
-        return 'co_users';
     }
 
     /**

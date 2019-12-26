@@ -39,8 +39,10 @@ build:
           - cd /home/scrutinizer/build
           - cp storage/ci/.env.example .env
           - cp storage/ci/phinx.php.example phinx.php
+          - command: 'cd ~/ && git clone https://github.com/jbboehr/php-psr.git && cd php-psr && phpize && ./configure && make && make test && sudo make install'
+          - sed -i '$ a \\nextension=psr.so\n' /home/scrutinizer/.phpenv/versions/7.1.12/etc/php.ini
           -
-            command: 'cd ~/ && git clone -q --depth=1 https://github.com/phalcon/cphalcon.git && cd cphalcon/build && ./install'
+            command: 'cd ~/ && git clone -q --depth=1 https://github.com/phalcon/cphalcon.git -b 4.0.x && cd cphalcon/build && ./install'
             not_if: 'test -e /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so'
           -
             command: 'cp -v /home/scrutinizer/cphalcon/build/php7/64bits/modules/phalcon.so  /home/scrutinizer/.phpenv/versions/7.1.12/lib/php/extensions/no-debug-zts-20160303/'

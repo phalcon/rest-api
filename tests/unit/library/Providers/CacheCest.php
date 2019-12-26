@@ -1,9 +1,10 @@
 <?php
 
-namespace Niden\Tests\unit\library\Providers;
+namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Niden\Providers\CacheDataProvider;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Api\Providers\CacheDataProvider;
+use Phalcon\Api\Providers\ConfigProvider;
+use Phalcon\Cache;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 
@@ -15,12 +16,14 @@ class CacheCest
     public function checkRegistration(UnitTester $I)
     {
         $diContainer = new FactoryDefault();
+        $config      = new ConfigProvider();
+        $config->register($diContainer);
         $provider    = new CacheDataProvider();
         $provider->register($diContainer);
 
         $I->assertTrue($diContainer->has('cache'));
-        /** @var Libmemcached $cache */
+        /** @var Cache $cache */
         $cache = $diContainer->getShared('cache');
-        $I->assertTrue($cache instanceof Libmemcached);
+        $I->assertTrue($cache instanceof Cache);
     }
 }

@@ -1,17 +1,23 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Bootstrap;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use function Niden\Core\appPath;
+namespace Phalcon\Api\Bootstrap;
+
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
+use function Phalcon\Api\Core\appPath;
 
 /**
  * Class Api
- *
- * @package Niden\Bootstrap
  *
  * @property Micro $application
  */
@@ -24,7 +30,7 @@ class Api extends AbstractBootstrap
      */
     public function run()
     {
-        return $this->application->handle();
+        return $this->application->handle($_SERVER['REQUEST_URI']);
     }
 
     /**

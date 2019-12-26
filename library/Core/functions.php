@@ -1,11 +1,21 @@
 <?php
+declare(strict_types=1);
 
-namespace Niden\Core;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+namespace Phalcon\Api\Core;
 
 use function function_exists;
 use function getenv;
 
-if (true !== function_exists('Niden\Core\appPath')) {
+if (true !== function_exists('Phalcon\Api\Core\appPath')) {
     /**
      * Get the application path.
      *
@@ -19,7 +29,7 @@ if (true !== function_exists('Niden\Core\appPath')) {
     }
 }
 
-if (true !== function_exists('Niden\Core\envValue')) {
+if (true !== function_exists('Phalcon\Api\Core\envValue')) {
     /**
      * Gets a variable from the environment, returns it properly formatted or the
      * default if it does not exist
@@ -47,7 +57,7 @@ if (true !== function_exists('Niden\Core\envValue')) {
     }
 }
 
-if (true !== function_exists('Niden\Core\appUrl')) {
+if (true !== function_exists('Phalcon\Api\Core\appUrl')) {
     /**
      * Constructs a URL for links with resource and id
      *

@@ -1,16 +1,24 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Providers;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use function Niden\Core\appPath;
-use function Niden\Core\envValue;
+namespace Phalcon\Api\Providers;
+
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
+use function Phalcon\Api\Core\appPath;
+use function Phalcon\Api\Core\envValue;
 
 class LoggerProvider implements ServiceProviderInterface
 {
@@ -19,7 +27,7 @@ class LoggerProvider implements ServiceProviderInterface
      *
      * @param DiInterface $container
      */
-    public function register(DiInterface $container)
+    public function register(DiInterface $container): void
     {
         $container->setShared(
             'logger',

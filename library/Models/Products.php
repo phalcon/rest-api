@@ -1,17 +1,23 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Models;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use Niden\Constants\Relationships;
-use Niden\Mvc\Model\AbstractModel;
+namespace Phalcon\Api\Models;
+
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\Filter;
 
 /**
  * Class Products
- *
- * @package Niden\Models
  */
 class Products extends AbstractModel
 {
@@ -20,6 +26,8 @@ class Products extends AbstractModel
      */
     public function initialize()
     {
+        $this->setSource('co_products');
+
         $this->hasManyToMany(
             'id',
             CompaniesXProducts::class,
@@ -61,15 +69,5 @@ class Products extends AbstractModel
             'quantity'    => Filter::FILTER_ABSINT,
             'price'       => Filter::FILTER_FLOAT,
         ];
-    }
-
-    /**
-     * Returns the source table from the database
-     *
-     * @return string
-     */
-    public function getSource(): string
-    {
-        return 'co_products';
     }
 }

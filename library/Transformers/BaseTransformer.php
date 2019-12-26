@@ -1,16 +1,24 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Transformers;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use function array_intersect;
-use function array_keys;
+namespace Phalcon\Api\Transformers;
+
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
-use Niden\Exception\ModelException;
-use Niden\Mvc\Model\AbstractModel;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Mvc\Model\AbstractModel;
+use function array_intersect;
+use function array_keys;
 
 /**
  * Class BaseTransformer

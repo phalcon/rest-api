@@ -1,14 +1,22 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Http;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
+namespace Phalcon\Api\Http;
+
+use Phalcon\Http\Response as PhResponse;
+use Phalcon\Http\ResponseInterface;
+use Phalcon\Messages\Messages;
 use function date;
 use function json_decode;
-use Phalcon\Http\Response as PhResponse;
-use Phalcon\Mvc\Model\MessageInterface as ModelMessage;
-use Phalcon\Validation\Message\Group as ValidationMessage;
 use function sha1;
 
 class Response extends PhResponse
@@ -61,9 +69,9 @@ class Response extends PhResponse
     /**
      * Send the response back
      *
-     * @return PhResponse
+     * @return ResponseInterface
      */
-    public function send(): PhResponse
+    public function send(): ResponseInterface
     {
         $content   = $this->getContent();
         $timestamp = date('c');
@@ -113,7 +121,7 @@ class Response extends PhResponse
     /**
      * Traverses the errors collection and sets the errors in the payload
      *
-     * @param ModelMessage[]|ValidationMessage $errors
+     * @param Messages $errors
      *
      * @return Response
      */

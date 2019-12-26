@@ -1,18 +1,24 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Api\Controllers\IndividualTypes;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use Niden\Api\Controllers\BaseController;
-use Niden\Constants\Relationships;
-use Niden\Models\IndividualTypes;
-use Niden\Transformers\IndividualTypesTransformer;
+namespace Phalcon\Api\Api\Controllers\IndividualTypes;
+
+use Phalcon\Api\Api\Controllers\BaseController;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\IndividualTypes;
+use Phalcon\Api\Transformers\IndividualTypesTransformer;
 
 /**
  * Class GetController
- *
- * @package Niden\Api\Controllers\IndividualTypes
  */
 class GetController extends BaseController
 {
@@ -37,4 +43,3 @@ class GetController extends BaseController
     /** @var string */
     protected $transformer = IndividualTypesTransformer::class;
 }
-

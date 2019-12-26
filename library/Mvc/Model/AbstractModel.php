@@ -1,11 +1,19 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Mvc\Model;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+namespace Phalcon\Api\Mvc\Model;
 
 use Monolog\Logger;
-use Niden\Exception\ModelException;
+use Phalcon\Api\Exception\ModelException;
 use Phalcon\Filter;
 use Phalcon\Mvc\Model as PhModel;
 

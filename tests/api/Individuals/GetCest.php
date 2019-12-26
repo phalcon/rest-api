@@ -1,21 +1,22 @@
 <?php
 
-namespace Niden\Tests\api\Individuals;
+namespace Phalcon\Api\Tests\api\Individuals;
 
 use ApiTester;
-use Niden\Constants\Relationships;
-use Niden\Models\Companies;
-use Niden\Models\Individuals;
-use Niden\Models\IndividualTypes;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\Individuals;
+use Phalcon\Api\Models\IndividualTypes;
 use Page\Data;
-use function Niden\Core\envValue;
+use function Phalcon\Api\Core\envValue;
 
 class GetCest
 {
     /**
      * @param ApiTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function getIndividual(ApiTester $I)
     {
@@ -57,7 +58,7 @@ class GetCest
     /**
      * @param ApiTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function getIndividuals(ApiTester $I)
     {

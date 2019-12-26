@@ -1,22 +1,31 @@
 <?php
+declare(strict_types=1);
 
-namespace Niden\Cli\Tasks;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use function in_array;
+namespace Phalcon\Api\Cli\Tasks;
 
-use function Niden\Core\appPath;
-use Phalcon\Cache\Backend\Libmemcached;
+use Phalcon\Cache;
 use Phalcon\Cli\Task as PhTask;
-use const PHP_EOL;
+use Phalcon\Config;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use function in_array;
+use function Phalcon\Api\Core\appPath;
+use const PHP_EOL;
 
 /**
  * Class ClearcacheTask
  *
- * @package Niden\Cli\Tasks
- *
- * @property Libmemcached $cache
+ * @property Cache $cache
+ * @property Config $config
  */
 class ClearcacheTask extends PhTask
 {
@@ -69,7 +78,29 @@ class ClearcacheTask extends PhTask
     private function clearMemCached()
     {
         echo 'Clearing data cache' . PHP_EOL;
-        $options   = $this->cache->getOptions();
+
+        $default = [
+            'servers'  => [
+                0 => [
+                    'host'   => '127.0.0.1',
+                    'port'   => 11211,
+                    'weight' => 100,
+                ],
+            ],
+            'client'   => [
+                \Memcached::OPT_PREFIX_KEY => 'api-',
+            ],
+            'lifetime' => 86400,
+            'prefix'   => 'data-',
+        ];
+
+        $options = $this->config->path('cache.options.libmemcached', null);
+        if (true !== empty($options)) {
+            $options = $options->toArray();
+        } else {
+            $options = $default;
+        }
+
         $servers   = $options['servers'] ?? [];
         $memcached = new \Memcached();
         foreach ($servers as $server) {
@@ -77,6 +108,8 @@ class ClearcacheTask extends PhTask
         }
 
         $keys = $memcached->getAllKeys();
+        // 7.2 countable
+        $keys = $keys ?: [];
         echo sprintf('Found %s keys', count($keys)) . PHP_EOL;
         foreach ($keys as $key) {
             if ('api-data' === substr($key, 0, 8)) {

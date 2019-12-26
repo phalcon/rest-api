@@ -1,18 +1,24 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Api\Controllers\ProductTypes;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use Niden\Api\Controllers\BaseController;
-use Niden\Constants\Relationships;
-use Niden\Models\ProductTypes;
-use Niden\Transformers\ProductTypesTransformer;
+namespace Phalcon\Api\Api\Controllers\ProductTypes;
+
+use Phalcon\Api\Api\Controllers\BaseController;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\ProductTypes;
+use Phalcon\Api\Transformers\ProductTypesTransformer;
 
 /**
  * Class GetController
- *
- * @package Niden\Api\Controllers\ProductTypes
  */
 class GetController extends BaseController
 {
@@ -37,4 +43,3 @@ class GetController extends BaseController
     /** @var string */
     protected $transformer = ProductTypesTransformer::class;
 }
-

@@ -1,11 +1,12 @@
 <?php
 
-namespace Niden\Tests\integration\library\Models;
+namespace Phalcon\Api\Tests\integration\library\Models;
 
 use IntegrationTester;
-use Niden\Constants\Relationships;
-use Niden\Models\Products;
-use Niden\Models\ProductTypes;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\Products;
+use Phalcon\Api\Models\ProductTypes;
 use Phalcon\Filter;
 
 class ProductsCest
@@ -44,7 +45,9 @@ class ProductsCest
         $actual   = $I->getModelRelationships(Products::class);
         $expected = [
             [0, 'typeId', ProductTypes::class, 'id', ['alias' => Relationships::PRODUCT_TYPES, 'reusable' => true]],
+            [4, 'id', Companies::class, 'id', ['alias' => Relationships::COMPANIES, 'reusable' => true]],
         ];
+
         $I->assertEquals($expected, $actual);
     }
 }

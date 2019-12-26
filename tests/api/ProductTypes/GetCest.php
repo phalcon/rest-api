@@ -1,21 +1,20 @@
 <?php
 
-namespace Niden\Tests\api\ProductTypes;
+namespace Phalcon\Api\Tests\api\ProductTypes;
 
 use ApiTester;
-use Niden\Constants\Relationships;
-use Niden\Models\Products;
-use Niden\Models\ProductTypes;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Products;
+use Phalcon\Api\Models\ProductTypes;
 use Page\Data;
-use function Niden\Core\envValue;
-use function uniqid;
+use function Phalcon\Api\Core\envValue;
 
 class GetCest
 {
     /**
      * @param ApiTester $I
-     *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function getProductTypes(ApiTester $I)
     {
@@ -54,7 +53,7 @@ class GetCest
     /**
      * @param ApiTester $I
      *
-     * @throws \Niden\Exception\ModelException
+     * @throws ModelException
      */
     public function getProductTypesWithIncludesProducts(ApiTester $I)
     {

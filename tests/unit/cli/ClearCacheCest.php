@@ -1,15 +1,16 @@
 <?php
 
-namespace Niden\Tests\unit\cli;
+namespace Phalcon\Api\Tests\unit\cli;
 
 use FilesystemIterator;
-use Niden\Cli\Tasks\ClearcacheTask;
-use Niden\Providers\CacheDataProvider;
+use Phalcon\Api\Cli\Tasks\ClearcacheTask;
+use Phalcon\Api\Providers\CacheDataProvider;
+use Phalcon\Api\Providers\ConfigProvider;
 use Phalcon\Di\FactoryDefault\Cli;
 use UnitTester;
 use function fclose;
 use function iterator_count;
-use function Niden\Core\appPath;
+use function Phalcon\Api\Core\appPath;
 use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;
@@ -23,6 +24,8 @@ class ClearCacheCest
 
         $path      = appPath('/storage/cache/data');
         $container = new Cli();
+        $config    = new ConfigProvider();
+        $config->register($container);
         $cache     = new CacheDataProvider();
         $cache->register($container);
         $task      = new ClearcacheTask();

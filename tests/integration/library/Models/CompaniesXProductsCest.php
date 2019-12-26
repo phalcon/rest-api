@@ -1,12 +1,12 @@
 <?php
 
-namespace Niden\Tests\integration\library\Models;
+namespace Phalcon\Api\Tests\integration\library\Models;
 
 use IntegrationTester;
-use Niden\Constants\Relationships;
-use Niden\Models\Companies;
-use Niden\Models\CompaniesXProducts;
-use Niden\Models\Products;
+use Phalcon\Api\Constants\Relationships;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\CompaniesXProducts;
+use Phalcon\Api\Models\Products;
 use Phalcon\Filter;
 
 class CompaniesXProductsCest

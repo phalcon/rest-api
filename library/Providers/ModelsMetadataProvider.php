@@ -1,25 +1,34 @@
 <?php
-
 declare(strict_types=1);
 
-namespace Niden\Providers;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use function Niden\Core\envValue;
+namespace Phalcon\Api\Providers;
+
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\MetaData\Libmemcached;
+use Phalcon\Storage\SerializerFactory;
+use function Phalcon\Api\Core\envValue;
 
 class ModelsMetadataProvider implements ServiceProviderInterface
 {
     /**
      * @param DiInterface $container
      */
-    public function register(DiInterface $container)
+    public function register(DiInterface $container): void
     {
         $container->setShared(
             'modelsMetadata',
             function () {
-                $prefix      = 'metadata';
                 $backOptions = [
                     'servers'  => [
                         0 => [
@@ -29,14 +38,16 @@ class ModelsMetadataProvider implements ServiceProviderInterface
                         ],
                     ],
                     'client'   => [
-                        \Memcached::OPT_HASH       => \Memcached::HASH_MD5,
                         \Memcached::OPT_PREFIX_KEY => 'api-',
                     ],
                     'lifetime' => 3600,
-                    'prefix'   => $prefix . '-',
+                    'prefix'   => 'metadata-',
                 ];
 
-                return new Libmemcached($backOptions);
+                $serializer = new SerializerFactory();
+                $adapterFactor = new AdapterFactory($serializer);
+
+                return new Libmemcached($adapterFactor, $backOptions);
             }
         );
     }

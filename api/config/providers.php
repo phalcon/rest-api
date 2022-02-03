@@ -32,5 +32,5 @@ return [
     RequestProvider::class,
     ResponseProvider::class,
     RouterProvider::class,
-    CacheDataProvider::class,
+    //CacheDataProvider::class,
 ];

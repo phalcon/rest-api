@@ -26,36 +26,36 @@ return [
         'supportEmail' => envValue('APP_SUPPORT_EMAIL'),
         'time'         => microtime(true),
     ],
-    'cache'      => [
-        'adapter' => 'libmemcached',
-        'options' => [
-            'libmemcached' => [
-                'servers'  => [
-                    0 => [
-                        'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
-                        'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
-                        'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
-                    ],
-                ],
-                'client'   => [
-                    \Memcached::OPT_PREFIX_KEY => 'api-',
-                ],
-                'lifetime' => envValue('CACHE_LIFETIME', 86400),
-                'prefix'   => 'data-',
-            ],
-        ],
-
-        'metadata' => [
-            'dev'  => [
-                'adapter' => 'Memory',
-                'options' => [],
-            ],
-            'prod' => [
-                'adapter' => 'Files',
-                'options' => [
-                    'metaDataDir' => appPath('storage/cache/metadata/'),
-                ],
-            ],
-        ],
-    ],
+//    'cache'      => [
+//        'adapter' => 'libmemcached',
+//        'options' => [
+//            'libmemcached' => [
+//                'servers'  => [
+//                    0 => [
+//                        'host'   => envValue('DATA_API_MEMCACHED_HOST', '127.0.0.1'),
+//                        'port'   => envValue('DATA_API_MEMCACHED_PORT', 11211),
+//                        'weight' => envValue('DATA_API_MEMCACHED_WEIGHT', 100),
+//                    ],
+//                ],
+//                'client'   => [
+//                    \Memcached::OPT_PREFIX_KEY => 'api-',
+//                ],
+//                'lifetime' => envValue('CACHE_LIFETIME', 86400),
+//                'prefix'   => 'data-',
+//            ],
+//        ],
+//
+//        'metadata' => [
+//            'dev'  => [
+//                'adapter' => 'Memory',
+//                'options' => [],
+//            ],
+//            'prod' => [
+//                'adapter' => 'Files',
+//                'options' => [
+//                    'metaDataDir' => appPath('storage/cache/metadata/'),
+//                ],
+//            ],
+//        ],
+//    ],
 ];

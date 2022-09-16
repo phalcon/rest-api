@@ -21,7 +21,10 @@ use Phalcon\Api\Models\Companies;
  */
 class CompaniesTransformer extends BaseTransformer
 {
-    protected $availableIncludes = [
+    /**
+     * @var array
+     */
+    protected array $availableIncludes = [
         Relationships::PRODUCTS,
         Relationships::INDIVIDUALS,
     ];
@@ -31,7 +34,7 @@ class CompaniesTransformer extends BaseTransformer
      *
      * @return Collection
      */
-    public function includeIndividuals(Companies $company)
+    public function includeIndividuals(Companies $company): Collection
     {
         return $this->getRelatedData(
             'collection',
@@ -46,7 +49,7 @@ class CompaniesTransformer extends BaseTransformer
      *
      * @return Collection
      */
-    public function includeProducts(Companies $company)
+    public function includeProducts(Companies $company): Collection
     {
         return $this->getRelatedData(
             'collection',

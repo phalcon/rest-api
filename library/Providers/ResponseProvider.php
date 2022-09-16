@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Api\Providers;
 
 use Phalcon\Api\Http\Response;
-use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\ServiceProviderInterface;
 
 class ResponseProvider implements ServiceProviderInterface
 {

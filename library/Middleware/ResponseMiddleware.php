@@ -17,11 +17,6 @@ use Phalcon\Api\Traits\ResponseTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
-/**
- * Class ResponseMiddleware
- *
- * @property Response $response
- */
 class ResponseMiddleware implements MiddlewareInterface
 {
     use ResponseTrait;
@@ -33,7 +28,7 @@ class ResponseMiddleware implements MiddlewareInterface
      *
      * @return bool
      */
-    public function call(Micro $api)
+    public function call(Micro $api): bool
     {
         /** @var Response $response */
         $response = $api->getService('response');

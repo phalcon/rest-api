@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Providers;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+
 use function Phalcon\Api\Core\appPath;
 
 class ConfigProvider implements ServiceProviderInterface

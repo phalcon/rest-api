@@ -14,6 +14,6 @@ namespace Phalcon\Api\Constants;
 
 class Flags
 {
-    const ACTIVE   = 1;
-    const INACTIVE = 2;
+    public const ACTIVE   = 1;
+    public const INACTIVE = 2;
 }

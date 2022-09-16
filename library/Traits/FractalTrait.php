@@ -14,6 +14,7 @@ namespace Phalcon\Api\Traits;
 
 use League\Fractal\Manager;
 use League\Fractal\Serializer\JsonApiSerializer;
+
 use function Phalcon\Api\Core\envValue;
 use function sprintf;
 use function ucfirst;
@@ -26,12 +27,12 @@ trait FractalTrait
     /**
      * Format results based on a transformer
      *
-     * @param string  $method
-     * @param mixed   $results
-     * @param string  $transformer
-     * @param string  $resource
-     * @param array   $relationships
-     * @param array   $fields
+     * @param string $method
+     * @param mixed  $results
+     * @param string $transformer
+     * @param string $resource
+     * @param array  $relationships
+     * @param array  $fields
      *
      * @return array
      */
@@ -43,8 +44,8 @@ trait FractalTrait
         array $relationships = [],
         array $fields = []
     ): array {
-        $url      = envValue('APP_URL', 'http://localhost');
-        $manager  = new Manager();
+        $url     = envValue('APP_URL', 'http://localhost');
+        $manager = new Manager();
         $manager->setSerializer(new JsonApiSerializer($url));
 
         /**
@@ -56,7 +57,9 @@ trait FractalTrait
 
         $class    = sprintf('League\Fractal\Resource\%s', ucfirst($method));
         $resource = new $class($results, new $transformer($fields, $resource), $resource);
-        $results  = $manager->createData($resource)->toArray();
+        $results  = $manager->createData($resource)
+                            ->toArray()
+        ;
 
         return $results;
     }

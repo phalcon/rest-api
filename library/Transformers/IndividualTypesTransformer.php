@@ -22,19 +22,19 @@ use Phalcon\Api\Models\IndividualTypes;
 class IndividualTypesTransformer extends BaseTransformer
 {
     /** @var array */
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         Relationships::INDIVIDUALS,
     ];
 
     /** @var string */
-    protected $resource = Relationships::INDIVIDUAL_TYPES;
+    protected string $resource = Relationships::INDIVIDUAL_TYPES;
 
     /**
      * @param IndividualTypes $type
      *
      * @return Collection
      */
-    public function includeIndividuals(IndividualTypes $type)
+    public function includeIndividuals(IndividualTypes $type): Collection
     {
         return $this->getRelatedData(
             'collection',

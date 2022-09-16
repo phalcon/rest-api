@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Api\Http;
 
 use Phalcon\Http\Request as PhRequest;
+
 use function str_replace;
 
 class Request extends PhRequest

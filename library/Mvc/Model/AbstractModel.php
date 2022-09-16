@@ -12,17 +12,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Mvc\Model;
 
-use Monolog\Logger;
 use Phalcon\Api\Exception\ModelException;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
+use Phalcon\Logger\Logger;
 use Phalcon\Mvc\Model as PhModel;
+
+use function sprintf;
 
 abstract class AbstractModel extends PhModel
 {
     /**
      * Master initializer
+     *
+     * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->setup(
             [
@@ -98,7 +102,7 @@ abstract class AbstractModel extends PhModel
      * @return mixed
      * @throws ModelException
      */
-    private function getSetFields(string $type, string $field, $value = '')
+    private function getSetFields(string $type, string $field, $value = ''): mixed
     {
         $return      = null;
         $modelFields = $this->getModelFilters();
@@ -130,10 +134,12 @@ abstract class AbstractModel extends PhModel
      *
      * @return mixed
      */
-    private function sanitize($value, $filter)
+    private function sanitize($value, $filter): mixed
     {
         /** @var Filter $filterService */
-        $filterService = $this->getDI()->get('filter');
+        $filterService = $this->getDI()
+                              ->get('filter')
+        ;
 
         return $filterService->sanitize($value, $filter);
     }

@@ -12,9 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Bootstrap;
 
-use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro;
-use function Phalcon\Api\Core\appPath;
 
 /**
  * Class Api
@@ -26,21 +24,12 @@ class Api extends AbstractBootstrap
     /**
      * Run the application
      *
-     * @return mixed
+     * @return mixed|void
      */
     public function run()
     {
-        return $this->application->handle($_SERVER['REQUEST_URI']);
-    }
+        $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
-    /**
-     * @return mixed
-     */
-    public function setup()
-    {
-        $this->container = new FactoryDefault();
-        $this->providers = require appPath('api/config/providers.php');
-
-        parent::setup();
+        return $this->application->handle($uri);
     }
 }

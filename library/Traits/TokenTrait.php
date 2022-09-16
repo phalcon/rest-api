@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Traits;
 
-use Lcobucci\JWT\Parser;
-use Lcobucci\JWT\Token;
+use Phalcon5\Encryption\Security\JWT\Token\Parser;
+use Phalcon5\Encryption\Security\JWT\Token\Token;
+
 use function Phalcon\Api\Core\envValue;
 use function time;
 
@@ -64,7 +65,7 @@ trait TokenTrait
      */
     protected function getTokenTimeNotBefore(): int
     {
-        return (time() + envValue('TOKEN_NOT_BEFORE', 10));
+        return (time() + envValue('TOKEN_NOT_BEFORE', 0));
     }
 
     /**

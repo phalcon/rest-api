@@ -34,10 +34,10 @@ class AuthenticationMiddleware implements MiddlewareInterface
      *
      * @return bool
      */
-    public function call(Micro $api)
+    public function call(Micro $api): bool
     {
         /** @var Request $request */
-        $request  = $api->getService('request');
+        $request = $api->getService('request');
         /** @var Response $response */
         $response = $api->getService('response');
 

@@ -16,9 +16,14 @@ use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Http\Request;
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Users;
-use Phalcon\Cache;
-use Phalcon\Config;
+use Phalcon\Cache\Cache;
+use Phalcon\Config\Config;
 use Phalcon\Mvc\Micro;
+use Phalcon5\Encryption\Security\JWT\Exceptions\ValidatorException;
+use Phalcon5\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon5\Encryption\Security\JWT\Validator;
+
+use function implode;
 
 /**
  * Class TokenValidationMiddleware
@@ -31,14 +36,14 @@ class TokenValidationMiddleware extends TokenBase
      * @return bool
      * @throws ModelException
      */
-    public function call(Micro $api)
+    public function call(Micro $api): bool
     {
         /** @var Cache $cache */
-        $cache    = $api->getService('cache');
+        $cache = $api->getService('cache');
         /** @var Config $config */
-        $config   = $api->getService('config');
+        $config = $api->getService('config');
         /** @var Request $request */
-        $request  = $api->getService('request');
+        $request = $api->getService('request');
         /** @var Response $response */
         $response = $api->getService('response');
         if (true === $this->isValidCheck($request)) {
@@ -51,12 +56,14 @@ class TokenValidationMiddleware extends TokenBase
             $token = $this->getToken($request->getBearerTokenFromHeader());
 
             /** @var Users $user */
-            $user = $this->getUserByToken($config, $cache, $token);
-            if (false === $token->validate($user->getValidationData())) {
+            $user   = $this->getUserByToken($config, $cache, $token);
+            $errors = $token->validate($user->getValidationData());
+
+            if (true !== empty($errors)) {
                 $this->halt(
                     $api,
                     $response::OK,
-                    'Invalid Token'
+                    'Invalid Token [' . implode('; ', $errors) . ']'
                 );
 
                 return false;

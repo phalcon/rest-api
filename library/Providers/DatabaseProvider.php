@@ -15,6 +15,7 @@ namespace Phalcon\Api\Providers;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+
 use function Phalcon\Api\Core\envValue;
 
 class DatabaseProvider implements ServiceProviderInterface
@@ -28,10 +29,10 @@ class DatabaseProvider implements ServiceProviderInterface
             'db',
             function () {
                 $options = [
-                    'host'       => envValue('DATA_API_MYSQL_HOST', 'localhost'),
-                    'username'   => envValue('DATA_API_MYSQL_USER', 'nanobox'),
-                    'password'   => envValue('DATA_API_MYSQL_PASS', ''),
-                    'dbname'     => envValue('DATA_API_MYSQL_NAME', 'gonano'),
+                    'host'     => envValue('DATA_API_MYSQL_HOST', 'localhost'),
+                    'username' => envValue('DATA_API_MYSQL_USER', 'phalcon'),
+                    'password' => envValue('DATA_API_MYSQL_PASS', ''),
+                    'dbname'   => envValue('DATA_API_MYSQL_NAME', 'phalcon_api'),
                 ];
 
                 $connection = new Mysql($options);

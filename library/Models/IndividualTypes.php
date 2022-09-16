@@ -14,7 +14,7 @@ namespace Phalcon\Api\Models;
 
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Mvc\Model\AbstractModel;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 /**
  * Class IndividualTypes
@@ -23,8 +23,10 @@ class IndividualTypes extends AbstractModel
 {
     /**
      * Initialize relationships and model properties
+     *
+     * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->setSource('co_individual_types');
 

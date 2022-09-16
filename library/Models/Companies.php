@@ -14,9 +14,9 @@ namespace Phalcon\Api\Models;
 
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Mvc\Model\AbstractModel;
-use Phalcon\Filter;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\Uniqueness;
+use Phalcon\Filter\Filter;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\Uniqueness;
 
 /**
  * Class Companies
@@ -25,8 +25,10 @@ class Companies extends AbstractModel
 {
     /**
      * Initialize relationships and model properties
+     *
+     * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->setSource('co_companies');
 

@@ -17,6 +17,7 @@ use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Mvc\Model\AbstractModel;
+
 use function array_intersect;
 use function array_keys;
 
@@ -26,10 +27,10 @@ use function array_keys;
 class BaseTransformer extends TransformerAbstract
 {
     /** @var array */
-    private $fields = [];
+    private array $fields = [];
 
     /** @var string */
-    private $resource = '';
+    private string $resource = '';
 
     /**
      * BaseTransformer constructor.
@@ -49,7 +50,7 @@ class BaseTransformer extends TransformerAbstract
      * @return array
      * @throws ModelException
      */
-    public function transform(AbstractModel $model)
+    public function transform(AbstractModel $model): array
     {
         $modelFields     = array_keys($model->getModelFilters());
         $requestedFields = $this->fields[$this->resource] ?? $modelFields;
@@ -70,11 +71,19 @@ class BaseTransformer extends TransformerAbstract
      *
      * @return Collection|Item
      */
-    protected function getRelatedData(string $method, AbstractModel $model, string $transformer, string $resource)
-    {
+    protected function getRelatedData(
+        string $method,
+        AbstractModel $model,
+        string $transformer,
+        string $resource
+    ): Collection|Item {
         /** @var AbstractModel $data */
         $data = $model->getRelated($resource);
 
-        return $this->$method($data, new $transformer($this->fields, $resource), $resource);
+        return $this->$method(
+            $data,
+            new $transformer($this->fields, $resource),
+            $resource
+        );
     }
 }

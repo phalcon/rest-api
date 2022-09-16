@@ -73,3 +73,10 @@ jobs:
           vendor/bin/codecept run integration --coverage-xml=integration-coverage.xml
           vendor/bin/codecept run cli --coverage-xml=cli-coverage.xml
           vendor/bin/codecept run api --coverage-xml=api-coverage.xml
+
+      - name: Upload to codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          file: ./tests/_output/*-coverage.xml
+          name: codecov-umbrella # optional

@@ -25,9 +25,8 @@ class BaseCest
         $actual = ob_get_contents();
         ob_end_clean();
 
-        $actual   = str_replace("\n", "\r\n", $actual);
         $year     = date('Y');
-        $expected = PHP_EOL
+        $expected = ""
             . "******************************************************" . PHP_EOL
             . " Phalcon Team | (C) {$year}" . PHP_EOL
             . "******************************************************" . PHP_EOL

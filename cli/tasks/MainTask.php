@@ -26,7 +26,7 @@ class MainTask extends PhTask
         // 'green' => "\033[0;32m(%s)\033[0m",
         // 'red'   => "\033[0;31m(%s)\033[0m",
         $year   = date('Y');
-        $output = PHP_EOL
+        $output = "" // Here just for readability
             . "******************************************************" . PHP_EOL
             . " Phalcon Team | (C) {$year}" . PHP_EOL
             . "******************************************************" . PHP_EOL

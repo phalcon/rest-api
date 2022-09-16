@@ -23,19 +23,19 @@ use Phalcon\Api\Transformers\ProductsTransformer;
 class GetController extends BaseController
 {
     /** @var string */
-    protected $model       = Products::class;
+    protected string $model = Products::class;
 
     /** @var array */
-    protected $includes    = [
+    protected array $includes = [
         Relationships::COMPANIES,
         Relationships::PRODUCT_TYPES,
     ];
 
     /** @var string */
-    protected $resource    = Relationships::PRODUCTS;
+    protected string $resource = Relationships::PRODUCTS;
 
     /** @var array<string,bool> */
-    protected $sortFields  = [
+    protected array $sortFields = [
         'id'          => true,
         'typeId'      => true,
         'name'        => true,
@@ -45,5 +45,5 @@ class GetController extends BaseController
     ];
 
     /** @var string */
-    protected $transformer = ProductsTransformer::class;
+    protected string $transformer = ProductsTransformer::class;
 }

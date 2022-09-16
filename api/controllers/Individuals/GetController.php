@@ -23,22 +23,22 @@ use Phalcon\Api\Transformers\IndividualsTransformer;
 class GetController extends BaseController
 {
     /** @var string */
-    protected $model       = Individuals::class;
+    protected string $model = Individuals::class;
 
     /** @var array */
-    protected $includes    = [
+    protected array $includes = [
         Relationships::COMPANIES,
         Relationships::INDIVIDUAL_TYPES,
     ];
 
     /** @var string */
-    protected $resource    = Relationships::INDIVIDUALS;
+    protected string $resource = Relationships::INDIVIDUALS;
 
     /** @var string */
-    protected $transformer = IndividualsTransformer::class;
+    protected string $transformer = IndividualsTransformer::class;
 
     /** @var array<string,bool> */
-    protected $sortFields  = [
+    protected array $sortFields = [
         'id'        => true,
         'companyId' => true,
         'typeId'    => true,
@@ -50,5 +50,5 @@ class GetController extends BaseController
     ];
 
     /** @var string */
-    protected $orderBy     = 'last, first';
+    protected string $orderBy = 'last, first';
 }

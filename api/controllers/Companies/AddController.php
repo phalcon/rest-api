@@ -19,8 +19,9 @@ use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Traits\FractalTrait;
 use Phalcon\Api\Transformers\BaseTransformer;
 use Phalcon\Api\Validation\CompaniesValidator;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
+
 use function Phalcon\Api\Core\appUrl;
 
 /**
@@ -57,10 +58,17 @@ class AddController extends Controller
                 ->set('address', $address)
                 ->set('city', $city)
                 ->set('phone', $phone)
-                ->save();
+                ->save()
+            ;
 
             if (false !== $result) {
-                $data = $this->format('item', $company, BaseTransformer::class, 'companies');
+                $data = $this->format(
+                    'item',
+                    $company,
+                    BaseTransformer::class,
+                    'companies'
+                );
+
                 $this
                     ->response
                     ->setHeader('Location', appUrl(Relationships::COMPANIES, $company->get('id')))
@@ -73,7 +81,8 @@ class AddController extends Controller
                  */
                 $this
                     ->response
-                    ->setPayloadErrors($company->getMessages());
+                    ->setPayloadErrors($company->getMessages())
+                ;
             }
         } else {
             /**
@@ -81,7 +90,8 @@ class AddController extends Controller
              */
             $this
                 ->response
-                ->setPayloadErrors($messages);
+                ->setPayloadErrors($messages)
+            ;
         }
     }
 }

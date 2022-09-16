@@ -23,23 +23,23 @@ use Phalcon\Api\Transformers\IndividualTypesTransformer;
 class GetController extends BaseController
 {
     /** @var string */
-    protected $model       = IndividualTypes::class;
+    protected string $model = IndividualTypes::class;
 
     /** @var array */
-    protected $includes    = [
+    protected array $includes = [
         Relationships::INDIVIDUALS,
     ];
 
     /** @var string */
-    protected $resource    = Relationships::INDIVIDUAL_TYPES;
+    protected string $resource = Relationships::INDIVIDUAL_TYPES;
 
     /** @var array<string,bool> */
-    protected $sortFields  = [
+    protected array $sortFields = [
         'id'          => true,
         'name'        => true,
         'description' => false,
     ];
 
     /** @var string */
-    protected $transformer = IndividualTypesTransformer::class;
+    protected string $transformer = IndividualTypesTransformer::class;
 }

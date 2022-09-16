@@ -23,16 +23,16 @@ use Phalcon\Api\Transformers\BaseTransformer;
 class GetController extends BaseController
 {
     /** @var string */
-    protected $model       = Users::class;
+    protected string $model = Users::class;
 
     /** @var string */
-    protected $resource    = Relationships::USERS;
+    protected string $resource = Relationships::USERS;
 
     /** @var string */
-    protected $transformer = BaseTransformer::class;
+    protected string $transformer = BaseTransformer::class;
 
     /** @var array<string,bool> */
-    protected $sortFields  = [
+    protected array $sortFields = [
         'id'            => true,
         'status'        => true,
         'username'      => true,
@@ -43,5 +43,5 @@ class GetController extends BaseController
     ];
 
     /** @var string */
-    protected $orderBy     = 'username';
+    protected string $orderBy = 'username';
 }

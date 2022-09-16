@@ -43,7 +43,7 @@ jobs:
 
       - name: Init Database
         run: |
-          mysql -uroot -h127.0.0.1 -proot -e 'CREATE DATABASE IF NOT EXISTS `phalcon_api`;'
+          mysql -uroot -h127.0.0.1 -psecret -e 'CREATE DATABASE IF NOT EXISTS `phalcon_api`;'
 
       - name: Validate composer.json and composer.lock
         run: composer validate

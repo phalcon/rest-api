@@ -20,9 +20,9 @@ use Phalcon\Api\Models\Users;
 use Phalcon\Cache\Cache;
 use Phalcon\Config\Config;
 use Phalcon\Mvc\Micro;
-use Phalcon5\Encryption\Security\JWT\Exceptions\ValidatorException;
-use Phalcon5\Encryption\Security\JWT\Signer\Hmac;
-use Phalcon5\Encryption\Security\JWT\Validator;
+use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon\Encryption\Security\JWT\Validator;
 
 use function implode;
 

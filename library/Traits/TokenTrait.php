@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Traits;
 
-use Phalcon5\Encryption\Security\JWT\Token\Parser;
-use Phalcon5\Encryption\Security\JWT\Token\Token;
+use Phalcon\Encryption\Security\JWT\Token\Parser;
+use Phalcon\Encryption\Security\JWT\Token\Token;
 
 use function Phalcon\Api\Core\envValue;
 use function time;

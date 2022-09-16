@@ -6,8 +6,8 @@ use ApiTester;
 use Page\Data;
 use Phalcon\Api\Models\Users;
 use Phalcon\Api\Traits\TokenTrait;
-use Phalcon5\Encryption\Security\JWT\Builder;
-use Phalcon5\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon\Encryption\Security\JWT\Builder;
+use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 
 use function explode;
 use function usleep;

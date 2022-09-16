@@ -19,8 +19,8 @@ use Phalcon\Cache\Cache;
 use Phalcon\Config\Config;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon5\Encryption\Security\JWT\Token\Enum;
-use Phalcon5\Encryption\Security\JWT\Token\Token;
+use Phalcon\Encryption\Security\JWT\Token\Enum;
+use Phalcon\Encryption\Security\JWT\Token\Token;
 
 use function json_encode;
 use function sha1;

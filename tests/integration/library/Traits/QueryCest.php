@@ -11,8 +11,8 @@ use Phalcon\Api\Traits\QueryTrait;
 use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Cache\Cache;
 use Phalcon\Config\Config;
-use Phalcon5\Encryption\Security\JWT\Builder;
-use Phalcon5\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon\Encryption\Security\JWT\Builder;
+use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 
 use function Phalcon\Api\Core\appPath;
 

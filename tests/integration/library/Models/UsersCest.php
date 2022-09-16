@@ -9,9 +9,9 @@ use Phalcon\Api\Models\Users;
 use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Filter\Filter;
-use Phalcon5\Encryption\Security\JWT\Builder;
-use Phalcon5\Encryption\Security\JWT\Signer\Hmac;
-use Phalcon5\Encryption\Security\JWT\Validator;
+use Phalcon\Encryption\Security\JWT\Builder;
+use Phalcon\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon\Encryption\Security\JWT\Validator;
 
 class UsersCest
 {

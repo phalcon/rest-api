@@ -10,6 +10,8 @@ use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;
 
+use const PHP_EOL;
+
 class BaseCest
 {
     public function checkOutput(UnitTester $I)
@@ -25,17 +27,16 @@ class BaseCest
 
         $actual   = str_replace("\n", "\r\n", $actual);
         $year     = date('Y');
-        $expected = <<<EOF
-******************************************************
- Phalcon Team | (C) {$year}
-******************************************************
-
-Usage: runCli <command>
-
-  --help         \e[0;32m(safe)\e[0m shows the help screen/available commands
-  --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders
-
-EOF;
+        $expected = PHP_EOL
+            . "******************************************************" . PHP_EOL
+            . " Phalcon Team | (C) {$year}" . PHP_EOL
+            . "******************************************************" . PHP_EOL
+            . "" . PHP_EOL
+            . "Usage: runCli <command>" . PHP_EOL
+            . "" . PHP_EOL
+            . "  --help         \e[0;32m(safe)\e[0m shows the help screen/available commands" . PHP_EOL
+            . "  --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders" . PHP_EOL
+            . PHP_EOL;
 
         $I->assertSame($expected, $actual);
     }

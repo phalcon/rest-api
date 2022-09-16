@@ -55,6 +55,10 @@ jobs:
         if: always()
         run: vendor/bin/phpcs
 
+      - name: Env file
+        if: always()
+        run: cp -c ./storage/config/.env.ci ./.env
+
       - name: Run migrations
         if: always()
         run: |

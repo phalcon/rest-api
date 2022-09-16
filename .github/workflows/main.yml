@@ -89,5 +89,6 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          files: ./tests/_output/*-coverage.xml
+          directory: ./tests/_output/
+          files: unit-coverage.xml, integration-coverage.xml, cli-coverage.xml
           name: codecov-umbrella # optional

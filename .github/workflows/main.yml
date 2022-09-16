@@ -48,6 +48,17 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.php }}-composer-
+
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
@@ -72,7 +83,7 @@ jobs:
           vendor/bin/codecept run unit --coverage-xml=unit-coverage.xml
           vendor/bin/codecept run integration --coverage-xml=integration-coverage.xml
           vendor/bin/codecept run cli --coverage-xml=cli-coverage.xml
-          vendor/bin/codecept run api --coverage-xml=api-coverage.xml
+#          vendor/bin/codecept run api --coverage-xml=api-coverage.xml
 
       - name: Upload to codecov
         uses: codecov/codecov-action@v3

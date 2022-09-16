@@ -92,5 +92,5 @@ jobs:
           directory: ./tests/_output/
           files: unit-coverage.xml,integration-coverage.xml,cli-coverage.xml
           name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
+          fail_ci_if_error: false
           verbose: true # optional (default = false)

@@ -12,6 +12,7 @@ use Phalcon\Api\Providers\RequestProvider;
 use Phalcon\Api\Providers\ResponseProvider;
 use Phalcon\Api\Providers\RouterProvider;
 use UnitTester;
+
 use function Phalcon\Api\Core\appPath;
 
 class ProvidersCest
@@ -20,25 +21,25 @@ class ProvidersCest
     {
         $providers = require(appPath('api/config/providers.php'));
 
-        $I->assertEquals(ConfigProvider::class, $providers[0]);
-        $I->assertEquals(LoggerProvider::class, $providers[1]);
-        $I->assertEquals(ErrorHandlerProvider::class, $providers[2]);
-        $I->assertEquals(DatabaseProvider::class, $providers[3]);
-        $I->assertEquals(ModelsMetadataProvider::class, $providers[4]);
-        $I->assertEquals(RequestProvider::class, $providers[5]);
-        $I->assertEquals(ResponseProvider::class, $providers[6]);
-        $I->assertEquals(RouterProvider::class, $providers[7]);
+        $I->assertSame(ConfigProvider::class, $providers[0]);
+        $I->assertSame(LoggerProvider::class, $providers[1]);
+        $I->assertSame(ErrorHandlerProvider::class, $providers[2]);
+        $I->assertSame(DatabaseProvider::class, $providers[3]);
+        $I->assertSame(ModelsMetadataProvider::class, $providers[4]);
+        $I->assertSame(RequestProvider::class, $providers[5]);
+        $I->assertSame(ResponseProvider::class, $providers[6]);
+        $I->assertSame(RouterProvider::class, $providers[7]);
     }
 
     public function checkCliProviders(UnitTester $I)
     {
         $providers = require(appPath('cli/config/providers.php'));
 
-        $I->assertEquals(ConfigProvider::class, $providers[0]);
-        $I->assertEquals(LoggerProvider::class, $providers[1]);
-        $I->assertEquals(ErrorHandlerProvider::class, $providers[2]);
-        $I->assertEquals(DatabaseProvider::class, $providers[3]);
-        $I->assertEquals(ModelsMetadataProvider::class, $providers[4]);
-        $I->assertEquals(CliDispatcherProvider::class, $providers[5]);
+        $I->assertSame(ConfigProvider::class, $providers[0]);
+        $I->assertSame(LoggerProvider::class, $providers[1]);
+        $I->assertSame(ErrorHandlerProvider::class, $providers[2]);
+        $I->assertSame(DatabaseProvider::class, $providers[3]);
+        $I->assertSame(ModelsMetadataProvider::class, $providers[4]);
+        $I->assertSame(CliDispatcherProvider::class, $providers[5]);
     }
 }

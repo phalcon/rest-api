@@ -36,6 +36,6 @@ class BaseTransformerCest
             'phone'   => $company->get('phone'),
         ];
 
-        $I->assertEquals($expected, $transformer->transform($company));
+        $I->assertSame($expected, $transformer->transform($company));
     }
 }

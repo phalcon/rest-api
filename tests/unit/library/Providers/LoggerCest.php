@@ -2,10 +2,10 @@
 
 namespace Phalcon\Api\Tests\unit\library\Providers;
 
-use Monolog\Logger;
 use Phalcon\Api\Providers\ConfigProvider;
 use Phalcon\Api\Providers\LoggerProvider;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
 class LoggerCest
@@ -25,6 +25,6 @@ class LoggerCest
         /** @var Logger $logger */
         $logger = $diContainer->getShared('logger');
         $I->assertTrue($logger instanceof Logger);
-        $I->assertEquals('api-logger', $logger->getName());
+        $I->assertSame('api', $logger->getName());
     }
 }

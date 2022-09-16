@@ -6,9 +6,9 @@ use Phalcon\Api\ErrorHandler;
 use Phalcon\Api\Logger;
 use Phalcon\Api\Providers\ConfigProvider;
 use Phalcon\Api\Providers\LoggerProvider;
-use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
+
 use function Phalcon\Api\Core\appPath;
 
 class ErrorHandlerCest

@@ -3,7 +3,7 @@
 namespace Phalcon\Api\Tests\unit\library\Providers;
 
 use Phalcon\Api\Providers\ConfigProvider;
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 

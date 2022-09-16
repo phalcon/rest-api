@@ -6,6 +6,7 @@ use IntegrationTester;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
+use Page\Data;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Companies;
@@ -13,8 +14,8 @@ use Phalcon\Api\Models\CompaniesXProducts;
 use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
 use Phalcon\Api\Transformers\ProductsTransformer;
+
 use function Phalcon\Api\Core\envValue;
-use Page\Data;
 
 class ProductsTransformerCest
 {
@@ -71,12 +72,14 @@ class ProductsTransformerCest
         $manager->setSerializer(new JsonApiSerializer($url));
         $manager->parseIncludes([Relationships::COMPANIES, Relationships::PRODUCT_TYPES]);
         $resource = new Collection([$product], new ProductsTransformer(), Relationships::PRODUCTS);
-        $results  = $manager->createData($resource)->toArray();
+        $results  = $manager->createData($resource)
+                            ->toArray()
+        ;
         $expected = [
             'data'     => [
                 [
                     'type'          => Relationships::PRODUCTS,
-                    'id'            => $product->get('id'),
+                    'id'            => (string) $product->get('id'),
                     'attributes'    => [
                         'typeId'      => $productType->get('id'),
                         'name'        => $product->get('name'),
@@ -93,7 +96,7 @@ class ProductsTransformerCest
                         ),
                     ],
                     'relationships' => [
-                        Relationships::COMPANIES => [
+                        Relationships::COMPANIES     => [
                             'links' => [
                                 'self'    => sprintf(
                                     '%s/%s/%s/relationships/%s',
@@ -113,7 +116,7 @@ class ProductsTransformerCest
                             'data'  => [
                                 [
                                     'type' => Relationships::COMPANIES,
-                                    'id'   => $company->get('id'),
+                                    'id'   => (string) $company->get('id'),
                                 ],
                             ],
                         ],
@@ -136,7 +139,7 @@ class ProductsTransformerCest
                             ],
                             'data'  => [
                                 'type' => Relationships::PRODUCT_TYPES,
-                                'id'   => $productType->get('id'),
+                                'id'   => (string) $productType->get('id'),
                             ],
                         ],
                     ],

@@ -3,15 +3,25 @@
 namespace Phalcon\Api\Tests\integration\library\Models;
 
 use IntegrationTester;
-use Lcobucci\JWT\ValidationData;
+use Page\Data;
+use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Users;
 use Phalcon\Api\Traits\TokenTrait;
-use Phalcon\Filter;
+use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Filter\Filter;
+use Phalcon5\Encryption\Security\JWT\Builder;
+use Phalcon5\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon5\Encryption\Security\JWT\Validator;
 
 class UsersCest
 {
     use TokenTrait;
 
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateModel(IntegrationTester $I)
     {
         $I->haveModelDefinition(
@@ -28,6 +38,11 @@ class UsersCest
         );
     }
 
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateFilters(IntegrationTester $I)
     {
         $model    = new Users();
@@ -40,36 +55,55 @@ class UsersCest
             'tokenPassword' => Filter::FILTER_STRING,
             'tokenId'       => Filter::FILTER_STRING,
         ];
-        $I->assertEquals($expected, $model->getModelFilters());
+        $I->assertSame($expected, $model->getModelFilters());
     }
 
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     * @throws ModelException
+     * @throws ValidatorException
+     */
     public function checkValidationData(IntegrationTester $I)
     {
         /** @var Users $user */
         $user = $I->haveRecordWithFields(
             Users::class,
             [
-                'username'      => 'testuser',
-                'password'      => 'testpass',
+                'username'      => Data::$testUsername,
+                'password'      => Data::$testPassword,
                 'status'        => 1,
                 'issuer'        => 'https://niden.net',
-                'tokenPassword' => '12345',
-                'tokenId'       => '110011',
+                'tokenPassword' => Data::$strongPassphrase,
+                'tokenId'       => Data::$testTokenId,
             ]
         );
 
-        $validationData = new ValidationData();
-        $validationData->setIssuer('https://niden.net');
-        $validationData->setAudience($this->getTokenAudience());
-        $validationData->setId('110011');
-        $validationData->setCurrentTime(time() + 10);
+        $signer  = new Hmac();
+        $builder = new Builder($signer);
+        $token   = $builder
+            ->setIssuer('https://niden.net')
+            ->setAudience($this->getTokenAudience())
+            ->setId(Data::$testTokenId)
+            ->setExpirationTime(time() + 10)
+            ->setPassphrase(Data::$strongPassphrase)
+            ->getToken()
+        ;
 
-        $I->assertEquals($validationData, $user->getValidationData());
+        $class  = Validator::class;
+        $actual = $user->getValidationData();
+        $I->assertInstanceOf($class, $actual);
     }
 
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateRelationships(IntegrationTester $I)
     {
         $actual = $I->getModelRelationships(Users::class);
-        $I->assertEquals(0, count($actual));
+        $I->assertSame(0, count($actual));
     }
 }

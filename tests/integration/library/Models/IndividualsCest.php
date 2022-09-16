@@ -7,10 +7,15 @@ use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\Individuals;
 use Phalcon\Api\Models\IndividualTypes;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 class IndividualsCest
 {
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateModel(IntegrationTester $I)
     {
         $I->haveModelDefinition(
@@ -28,6 +33,11 @@ class IndividualsCest
         );
     }
 
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateFilters(IntegrationTester $I)
     {
         $model    = new Individuals();
@@ -41,16 +51,33 @@ class IndividualsCest
             'last'      => Filter::FILTER_STRING,
             'suffix'    => Filter::FILTER_STRING,
         ];
-        $I->assertEquals($expected, $model->getModelFilters());
+        $I->assertSame($expected, $model->getModelFilters());
     }
 
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateRelationships(IntegrationTester $I)
     {
         $actual   = $I->getModelRelationships(Individuals::class);
         $expected = [
-            [0, 'companyId', Companies::class, 'id', ['alias' => Relationships::COMPANIES, 'reusable' => true]],
-            [1, 'typeId', IndividualTypes::class, 'id', ['alias' => Relationships::INDIVIDUAL_TYPES, 'reusable' => true]],
+            [
+                0,
+                'companyId',
+                Companies::class,
+                'id',
+                ['alias' => Relationships::COMPANIES, 'reusable' => true]
+            ],
+            [
+                1,
+                'typeId',
+                IndividualTypes::class,
+                'id',
+                ['alias' => Relationships::INDIVIDUAL_TYPES, 'reusable' => true]
+            ],
         ];
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

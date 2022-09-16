@@ -25,6 +25,6 @@ class DatabaseCest
         /** @var Mysql $db */
         $db = $diContainer->getShared('db');
         $I->assertTrue($db instanceof Mysql);
-        $I->assertEquals('mysql', $db->getType());
+        $I->assertSame('mysql', $db->getType());
     }
 }

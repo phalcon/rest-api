@@ -3,6 +3,7 @@
 namespace Phalcon\Api\Tests\unit\cli;
 
 use CliTester;
+
 use function Phalcon\Api\Core\appPath;
 
 class BootstrapCest
@@ -28,6 +29,6 @@ Usage: runCli <command>
 
 EOF;
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

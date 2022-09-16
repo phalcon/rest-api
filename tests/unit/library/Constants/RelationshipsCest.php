@@ -9,11 +9,11 @@ class RelationshipsCest
 {
     public function checkConstants(CliTester $I)
     {
-        $I->assertEquals('companies', Relationships::COMPANIES);
-        $I->assertEquals('individual-types', Relationships::INDIVIDUAL_TYPES);
-        $I->assertEquals('individuals', Relationships::INDIVIDUALS);
-        $I->assertEquals('product-types', Relationships::PRODUCT_TYPES);
-        $I->assertEquals('products', Relationships::PRODUCTS);
-        $I->assertEquals('users', Relationships::USERS);
+        $I->assertSame('companies', Relationships::COMPANIES);
+        $I->assertSame('individual-types', Relationships::INDIVIDUAL_TYPES);
+        $I->assertSame('individuals', Relationships::INDIVIDUALS);
+        $I->assertSame('product-types', Relationships::PRODUCT_TYPES);
+        $I->assertSame('products', Relationships::PRODUCTS);
+        $I->assertSame('users', Relationships::USERS);
     }
 }

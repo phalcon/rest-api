@@ -1,5 +1,8 @@
 <?php
 
+use Codeception\Actor;
+use Codeception\Lib\Friend;
+
 
 /**
  * Inherited Methods
@@ -12,15 +15,15 @@
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
+ * @method Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
-*/
-class IntegrationTester extends \Codeception\Actor
+ */
+class IntegrationTester extends Actor
 {
     use _generated\IntegrationTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+    /**
+     * Define custom actions here
+     */
 }

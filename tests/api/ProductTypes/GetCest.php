@@ -3,17 +3,19 @@
 namespace Phalcon\Api\Tests\api\ProductTypes;
 
 use ApiTester;
+use Page\Data;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
-use Page\Data;
+
 use function Phalcon\Api\Core\envValue;
 
 class GetCest
 {
     /**
      * @param ApiTester $I
+     *
      * @throws ModelException
      */
     public function getProductTypes(ApiTester $I)

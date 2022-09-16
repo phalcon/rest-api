@@ -55,10 +55,10 @@ class RouterCest
             ['GET', '/product-types/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}'],
         ];
 
-        $I->assertEquals(24, count($routes));
+        $I->assertSame(24, count($routes));
         foreach ($routes as $index => $route) {
-            $I->assertEquals($expected[$index][0], $route->getHttpMethods());
-            $I->assertEquals($expected[$index][1], $route->getPattern());
+            $I->assertSame($expected[$index][0], $route->getHttpMethods());
+            $I->assertSame($expected[$index][1], $route->getPattern());
         }
     }
 }

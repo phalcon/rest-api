@@ -2,10 +2,9 @@
 
 namespace Helper;
 
-use Codeception\Module;
 use Codeception\Exception\TestRuntimeException;
+use Codeception\Module;
 use Codeception\TestInterface;
-
 use Phalcon\Api\Bootstrap\Api;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\CompaniesXProducts;
@@ -14,8 +13,18 @@ use Phalcon\Api\Models\IndividualTypes;
 use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
 use Phalcon\Api\Mvc\Model\AbstractModel;
+use Phalcon\Config\Config as PhConfig;
 use Phalcon\DI\FactoryDefault as PhDI;
-use Phalcon\Config as PhConfig;
+
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function call_user_func;
+use function implode;
+use function is_array;
+use function rtrim;
+use function sprintf;
+use function uniqid;
 
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
@@ -28,7 +37,7 @@ class Integration extends Module
     protected $diContainer  = null;
     protected $savedModels  = [];
     protected $savedRecords = [];
-    protected $config       = ['rollback' => false];
+    protected $options      = ['rollback' => false];
 
     /**
      * Test initializer
@@ -37,12 +46,13 @@ class Integration extends Module
     {
         PhDI::reset();
 
-        $app = new Api();
-        $app->setup();
+        $app               = new Api();
         $this->diContainer = $app->getContainer();
 
-        if ($this->config['rollback']) {
-            $this->diContainer->get('db')->begin();
+        if ($this->options['rollback']) {
+            $this->diContainer->get('db')
+                              ->begin()
+            ;
         }
         $this->savedModels  = [];
         $this->savedRecords = [];
@@ -50,14 +60,18 @@ class Integration extends Module
 
     public function _after(TestInterface $test)
     {
-        if (!$this->config['rollback']) {
+        if (!$this->options['rollback']) {
             foreach ($this->savedRecords as $record) {
                 $record->delete();
             }
         } else {
-            $this->diContainer->get('db')->rollback();
+            $this->diContainer->get('db')
+                              ->rollback()
+            ;
         }
-        $this->diContainer->get('db')->close();
+        $this->diContainer->get('db')
+                          ->close()
+        ;
     }
 
     /**
@@ -312,7 +326,7 @@ class Integration extends Module
             $record->set($key, $val);
         }
 
-        $result = $record->save();
+        $result                        = $record->save();
         $this->savedModels[$modelName] = $fields;
         $this->assertNotSame(false, $result);
 

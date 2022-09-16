@@ -4,8 +4,15 @@ namespace Page;
 
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
+use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Models\Individuals;
+use Phalcon\Api\Models\IndividualTypes;
+use Phalcon\Api\Models\Products;
+use Phalcon\Api\Models\ProductTypes;
 use Phalcon\Api\Mvc\Model\AbstractModel;
+
 use function Phalcon\Api\Core\envValue;
+use function sprintf;
 
 class Data
 {
@@ -29,14 +36,21 @@ class Data
     public static $usersUrl                         = '/users';
     public static $wrongUrl                         = '/sommething';
 
+    public static $strongPassphrase  = 'DR^3*ZwnAHKc9yP$YSpW98dsmHJBax5&';
+    public static $testIssuer        = 'https://niden.net';
+    public static $testPassword      = 'testpass';
+    public static $testTokenId       = '110011';
+    public static $testTokenPassword = 'DR^4*ZwnAHKc0yP$YSpW09dsmHJBax6&';
+    public static $testUsername      = 'testuser';
+
     /**
      * @return array
      */
     public static function loginJson()
     {
         return [
-            'username' => 'testuser',
-            'password' => 'testpassword',
+            'username' => self::$testUsername,
+            'password' => self::$testPassword,
         ];
     }
 
@@ -59,16 +73,16 @@ class Data
     }
 
     /**
-     * @param AbstractModel $record
+     * @param Companies $record
      *
      * @return array
      * @throws ModelException
      */
-    public static function companiesResponse(AbstractModel $record)
+    public static function companiesAddResponse(Companies $record): array
     {
         return [
-            'id'         => $record->get('id'),
             'type'       => Relationships::COMPANIES,
+            'id'         => (string) $record->get('id'),
             'attributes' => [
                 'name'    => $record->get('name'),
                 'address' => $record->get('address'),
@@ -87,16 +101,78 @@ class Data
     }
 
     /**
-     * @param AbstractModel $record
+     * @param Companies $record
      *
      * @return array
      * @throws ModelException
      */
-    public static function individualResponse(AbstractModel $record)
+    public static function companiesResponse(Companies $record): array
     {
         return [
-            'id'         => $record->get('id'),
+            'type'          => Relationships::COMPANIES,
+            'id'            => (string) $record->get('id'),
+            'attributes'    => [
+                'name'    => $record->get('name'),
+                'address' => $record->get('address'),
+                'city'    => $record->get('city'),
+                'phone'   => $record->get('phone'),
+            ],
+            'links'         => [
+                'self' => sprintf(
+                    '%s/%s/%s',
+                    envValue('APP_URL'),
+                    Relationships::COMPANIES,
+                    $record->get('id')
+                ),
+            ],
+            'relationships' => [
+                Relationships::PRODUCTS    => [
+                    'links' => [
+                        'self'    => sprintf(
+                            '%s/%s/%s/relationships/products',
+                            envValue('APP_URL'),
+                            Relationships::COMPANIES,
+                            $record->get('id')
+                        ),
+                        'related' => sprintf(
+                            '%s/%s/%s/products',
+                            envValue('APP_URL'),
+                            Relationships::COMPANIES,
+                            $record->get('id')
+                        ),
+                    ]
+                ],
+                Relationships::INDIVIDUALS => [
+                    "links" => [
+                        'self'    => sprintf(
+                            '%s/%s/%s/relationships/individuals',
+                            envValue('APP_URL'),
+                            Relationships::COMPANIES,
+                            $record->get('id')
+                        ),
+                        'related' => sprintf(
+                            '%s/%s/%s/individuals',
+                            envValue('APP_URL'),
+                            Relationships::COMPANIES,
+                            $record->get('id')
+                        ),
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param Individuals $record
+     *
+     * @return array
+     * @throws ModelException
+     */
+    public static function individualResponse(Individuals $record): array
+    {
+        return [
             'type'       => Relationships::INDIVIDUALS,
+            'id'         => (string) $record->get('id'),
             'attributes' => [
                 'companyId' => $record->get('companyId'),
                 'typeId'    => $record->get('typeId'),
@@ -118,16 +194,16 @@ class Data
     }
 
     /**
-     * @param AbstractModel $record
+     * @param IndividualTypes $record
      *
      * @return array
      * @throws ModelException
      */
-    public static function individualTypeResponse(AbstractModel $record)
+    public static function individualTypeResponse(IndividualTypes $record): array
     {
         return [
-            'id'         => $record->get('id'),
             'type'       => Relationships::INDIVIDUAL_TYPES,
+            'id'         => (string) $record->get('id'),
             'attributes' => [
                 'name'        => $record->get('name'),
                 'description' => $record->get('description'),
@@ -144,16 +220,16 @@ class Data
     }
 
     /**
-     * @param AbstractModel $record
+     * @param Products $record
      *
      * @return array
      * @throws ModelException
      */
-    public static function productResponse(AbstractModel $record)
+    public static function productResponse(Products $record): array
     {
         return [
             'type'       => Relationships::PRODUCTS,
-            'id'         => $record->get('id'),
+            'id'         => (string) $record->get('id'),
             'attributes' => [
                 'typeId'      => $record->get('typeId'),
                 'name'        => $record->get('name'),
@@ -173,19 +249,19 @@ class Data
     }
 
     /**
-     * @param AbstractModel $record
+     * @param Products $record
      *
      * @return array
      * @throws ModelException
      */
-    public static function productFieldsResponse(AbstractModel $record)
+    public static function productFieldsResponse(Products $record): array
     {
         return [
             'type'       => Relationships::PRODUCTS,
-            'id'         => $record->get('id'),
+            'id'         => (string) $record->get('id'),
             'attributes' => [
-                'name'        => $record->get('name'),
-                'price'       => $record->get('price'),
+                'name'  => $record->get('name'),
+                'price' => $record->get('price'),
             ],
             'links'      => [
                 'self' => sprintf(
@@ -199,16 +275,16 @@ class Data
     }
 
     /**
-     * @param AbstractModel $record
+     * @param ProductTypes $record
      *
      * @return array
      * @throws ModelException
      */
-    public static function productTypeResponse(AbstractModel $record)
+    public static function productTypeResponse(ProductTypes $record): array
     {
         return [
-            'id'         => $record->get('id'),
             'type'       => Relationships::PRODUCT_TYPES,
+            'id'         => (string) $record->get('id'),
             'attributes' => [
                 'name'        => $record->get('name'),
                 'description' => $record->get('description'),
@@ -233,8 +309,8 @@ class Data
     public static function userResponse(AbstractModel $record)
     {
         return [
-            'id'         => $record->get('id'),
             'type'       => Relationships::USERS,
+            'id'         => (string) $record->get('id'),
             'attributes' => [
                 'status'        => $record->get('status'),
                 'username'      => $record->get('username'),

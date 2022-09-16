@@ -5,6 +5,7 @@ namespace Phalcon\Api\Tests\unit\cli;
 use Phalcon\Api\Cli\Tasks\MainTask;
 use Phalcon\Di\FactoryDefault\Cli;
 use UnitTester;
+
 use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;
@@ -36,6 +37,6 @@ Usage: runCli <command>
 
 EOF;
 
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

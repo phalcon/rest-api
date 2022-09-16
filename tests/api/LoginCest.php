@@ -3,8 +3,10 @@
 namespace Phalcon\Api\Tests\api;
 
 use ApiTester;
-use Phalcon\Api\Models\Users;
 use Page\Data;
+use Phalcon\Api\Constants\Flags;
+use Phalcon\Api\Models\Users;
+
 use function json_decode;
 
 class LoginCest
@@ -27,11 +29,12 @@ class LoginCest
         $I->haveRecordWithFields(
             Users::class,
             [
-                'status'   => 1,
-                'username' => 'testuser',
-                'password' => 'testpassword',
-                'issuer'   => 'https://phalcon.io',
-                'tokenId'  => '110011',
+                'status'        => Flags::ACTIVE,
+                'username'      => Data::$testUsername,
+                'password'      => Data::$testPassword,
+                'issuer'        => Data::$testIssuer,
+                'tokenPassword' => Data::$strongPassphrase,
+                'tokenId'       => Data::$testTokenId,
             ]
         );
 

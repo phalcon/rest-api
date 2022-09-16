@@ -9,18 +9,28 @@ env:
 jobs:
   run:
     runs-on: ubuntu-latest
-    name: PHPCS - PHP-${{ matrix.php }}
+    name: Workflow - PHP-${{ matrix.php }}
+
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - "3306:3306"
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: phalcon
+          MYSQL_DATABASE: phalcon_api
+          MYSQL_PASSWORD: secret
+      redis:
+        image: redis:5-alpine
+        ports:
+          - "6379:6379"
+
     strategy:
       fail-fast: false
       matrix:
         php: ['8.0', '8.1' ]
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: secret
-      redis:
-        image: redis:5-alpine
+
     steps:
       - uses: actions/checkout@v1
       - name: Setup PHP
@@ -53,6 +63,7 @@ jobs:
       - name: Run tests
         if: always()
         run: |
+          sudo php -S 0.0.0.0 -t ./.htrouter.php &
           vendor/bin/codecept build
           vendor/bin/codecept run unit --coverage-xml=unit-coverage.xml
           vendor/bin/codecept run integration --coverage-xml=integration-coverage.xml

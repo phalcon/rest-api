@@ -95,6 +95,6 @@ class AddIndividualsTable extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('co_employees');
+        $this->table('co_individuals')->drop()->save();
     }
 }

@@ -56,6 +56,6 @@ class AddUsersTable extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('co_users');
+        $this->table('co_users')->drop()->save();
     }
 }

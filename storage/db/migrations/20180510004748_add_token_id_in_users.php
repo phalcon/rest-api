@@ -26,6 +26,7 @@ class AddTokenIdInUsers extends AbstractMigration
     {
         $table = $this->table('co_users');
         $table
+            ->removeIndex('usr_token_id')
             ->removeColumn('usr_token_id')
             ->save();
     }

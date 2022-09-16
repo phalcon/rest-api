@@ -45,6 +45,6 @@ class AddIndividualTypesTable extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('co_individual_types');
+        $this->table('co_individual_types')->drop()->save();
     }
 }

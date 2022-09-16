@@ -45,6 +45,6 @@ class AddProductTypesTable extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('co_product_types');
+        $this->table('co_product_types')->drop()->save();
     }
 }

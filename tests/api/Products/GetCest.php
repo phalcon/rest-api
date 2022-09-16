@@ -238,7 +238,6 @@ class GetCest
                 ];
 
                 $included[] = Data::productTypeResponse($productType);
-
             }
         }
 

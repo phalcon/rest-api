@@ -207,7 +207,6 @@ class GetCest
                 ];
 
                 $included[] = Data::companiesResponse($company);
-
             }
 
             if (Relationships::INDIVIDUAL_TYPES === $include) {

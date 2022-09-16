@@ -107,5 +107,4 @@ class GetSortCest extends GetBase
         $I->deleteHeader('Authorization');
         $I->seeResponseIs400();
     }
-
 }

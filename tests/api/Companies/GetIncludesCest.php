@@ -127,7 +127,6 @@ class GetIncludesCest extends GetBase
 
                 $included[] = Data::individualResponse($indOne);
                 $included[] = Data::individualResponse($indTwo);
-
             }
 
             if (Relationships::PRODUCTS === $include) {

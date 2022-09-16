@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="TEAM">
+<ruleset name="Phalcon">
     <description>Phalcon Coding Standards</description>
     <arg value="-colors"/>
     <arg value="s"/>

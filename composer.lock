@@ -3849,16 +3849,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.0.0-RC1",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "e0dcfc28b324ec3fdfd06f1f3a7a34a7411c520d"
+                "reference": "6009efb3af9300d2c24dfc06c5d0850b9b88f641"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/e0dcfc28b324ec3fdfd06f1f3a7a34a7411c520d",
-                "reference": "e0dcfc28b324ec3fdfd06f1f3a7a34a7411c520d",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/6009efb3af9300d2c24dfc06c5d0850b9b88f641",
+                "reference": "6009efb3af9300d2c24dfc06c5d0850b9b88f641",
                 "shasum": ""
             },
             "require": {
@@ -3912,7 +3912,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-05-31T21:28:02+00:00"
+            "time": "2022-09-23T18:22:45+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -4187,16 +4187,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.5",
+            "version": "1.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "f6598a5ff12ca4499a836815e08b4d77a2ddeb20"
+                "reference": "c386ab2741e64cc9e21729f891b28b2b10fe6618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f6598a5ff12ca4499a836815e08b4d77a2ddeb20",
-                "reference": "f6598a5ff12ca4499a836815e08b4d77a2ddeb20",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c386ab2741e64cc9e21729f891b28b2b10fe6618",
+                "reference": "c386ab2741e64cc9e21729f891b28b2b10fe6618",
                 "shasum": ""
             },
             "require": {
@@ -4226,7 +4226,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.5"
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.6"
             },
             "funding": [
                 {
@@ -4242,7 +4242,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-07T16:05:32+00:00"
+            "time": "2022-09-23T09:54:39+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

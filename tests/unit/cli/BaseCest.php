@@ -5,9 +5,12 @@ namespace Phalcon\Api\Tests\unit\cli;
 use Phalcon\Api\Cli\Tasks\MainTask;
 use Phalcon\Di\FactoryDefault\Cli;
 use UnitTester;
+
 use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;
+
+use const PHP_EOL;
 
 class BaseCest
 {
@@ -22,20 +25,18 @@ class BaseCest
         $actual = ob_get_contents();
         ob_end_clean();
 
-        $actual   = str_replace("\n", "\r\n", $actual);
         $year     = date('Y');
-        $expected = <<<EOF
-******************************************************
- Phalcon Team | (C) {$year}
-******************************************************
+        $expected = ""
+            . "******************************************************" . PHP_EOL
+            . " Phalcon Team | (C) {$year}" . PHP_EOL
+            . "******************************************************" . PHP_EOL
+            . "" . PHP_EOL
+            . "Usage: runCli <command>" . PHP_EOL
+            . "" . PHP_EOL
+            . "  --help         \e[0;32m(safe)\e[0m shows the help screen/available commands" . PHP_EOL
+            . "  --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders" . PHP_EOL
+            . PHP_EOL;
 
-Usage: runCli <command>
-
-  --help         \e[0;32m(safe)\e[0m shows the help screen/available commands
-  --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders
-
-EOF;
-
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

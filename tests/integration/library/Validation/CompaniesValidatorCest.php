@@ -20,7 +20,7 @@ class CompaniesValidatorCest
             'phone'   => '555-999-4444',
         ];
         $messages   = $validation->validate($_POST);
-        $I->assertEquals(1, count($messages));
-        $I->assertEquals('The company name is required', $messages[0]->getMessage());
+        $I->assertSame(1, count($messages));
+        $I->assertSame('The company name is required', $messages[0]->getMessage());
     }
 }

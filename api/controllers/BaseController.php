@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,21 +9,26 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Api\Controllers;
 
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Traits\FractalTrait;
 use Phalcon\Api\Traits\QueryTrait;
 use Phalcon\Api\Traits\ResponseTrait;
-use Phalcon\Cache;
-use Phalcon\Config;
-use Phalcon\Filter;
+use Phalcon\Cache\Cache;
+use Phalcon\Config\Config;
+use Phalcon\Filter\Exception;
+use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Model\MetaData\Libmemcached as ModelsMetadataCache;
+
 use function explode;
 use function implode;
 use function in_array;
+use function str_starts_with;
 use function strtolower;
 use function substr;
 
@@ -44,32 +48,35 @@ class BaseController extends Controller
     use ResponseTrait;
 
     /** @var string */
-    protected $model = '';
+    protected string $model = '';
 
     /** @var array */
-    protected $includes = [];
+    protected array $includes = [];
 
     /** @var string */
-    protected $method = 'collection';
+    protected string $method = 'collection';
 
     /** @var string */
-    protected $orderBy = 'name';
+    protected string $orderBy = 'name';
 
     /** @var string */
-    protected $resource = '';
+    protected string $resource = '';
 
     /** @var array */
-    protected $sortFields = [];
+    protected array $sortFields = [];
 
     /** @var string */
-    protected $transformer = '';
+    protected string $transformer = '';
 
     /**
      * Get the company/companies
      *
-     * @param int $id
+     * @param mixed $id
+     *
+     * @return void
+     * @throws Exception
      */
-    public function callAction($id = 0)
+    public function callAction(mixed $id = 0): void
     {
         $parameters = $this->checkIdParameter($id);
         $fields     = $this->checkFields();
@@ -79,7 +86,14 @@ class BaseController extends Controller
         if (true !== $validSort) {
             $this->sendError($this->response::BAD_REQUEST);
         } else {
-            $results = $this->getRecords($this->config, $this->cache, $this->model, $parameters, $this->orderBy);
+            $results = $this->getRecords(
+                $this->config,
+                $this->cache,
+                $this->model,
+                $parameters,
+                $this->orderBy
+            );
+
             if (count($parameters) > 0 && 0 === count($results)) {
                 $this->sendError($this->response::NOT_FOUND);
             } else {
@@ -93,15 +107,23 @@ class BaseController extends Controller
                 );
                 $this
                     ->response
-                    ->setPayloadSuccess($data);
+                    ->setPayloadSuccess($data)
+                ;
             }
         }
     }
 
+    /**
+     * @return array
+     */
     private function checkFields(): array
     {
         $data      = [];
-        $fieldSent = $this->request->getQuery('fields', [Filter::FILTER_STRING, Filter::FILTER_TRIM], []);
+        $fieldSent = $this->request->getQuery(
+            'fields',
+            [Filter::FILTER_STRING, Filter::FILTER_TRIM],
+            []
+        );
         foreach ($fieldSent as $resource => $fields) {
             $data[$resource] = explode(',', $fields);
         }
@@ -112,11 +134,12 @@ class BaseController extends Controller
     /**
      * Checks the passed id parameter and returns the relevant array back
      *
-     * @param int $recordId
+     * @param mixed $recordId
      *
      * @return array
+     * @throws Exception
      */
-    private function checkIdParameter($recordId = 0): array
+    private function checkIdParameter(mixed $recordId = 0): array
     {
         $parameters = [];
 
@@ -202,7 +225,7 @@ class BaseController extends Controller
         /**
          * Ascending or descending
          */
-        if ('-' === substr($trueField, 0, 1)) {
+        if (true === str_starts_with($trueField, '-')) {
             $trueField = substr($trueField, 1);
             $direction = ' desc';
         }

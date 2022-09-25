@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,11 +9,13 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Models;
 
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Mvc\Model\AbstractModel;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 /**
  * Class ProductTypes
@@ -23,8 +24,10 @@ class ProductTypes extends AbstractModel
 {
     /**
      * Initialize relationships and model properties
+     *
+     * @return void
      */
-    public function initialize()
+    public function initialize(): void
     {
         $this->setSource('co_product_types');
 

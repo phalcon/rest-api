@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,33 +9,38 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Http;
 
 use Phalcon\Http\Response as PhResponse;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Messages\Messages;
+
 use function date;
+use function is_array;
 use function json_decode;
 use function sha1;
+use function sprintf;
 
 class Response extends PhResponse
 {
-    const OK                    = 200;
-    const CREATED               = 201;
-    const ACCEPTED              = 202;
-    const MOVED_PERMANENTLY     = 301;
-    const FOUND                 = 302;
-    const TEMPORARY_REDIRECT    = 307;
-    const PERMANENTLY_REDIRECT  = 308;
-    const BAD_REQUEST           = 400;
-    const UNAUTHORIZED          = 401;
-    const FORBIDDEN             = 403;
-    const NOT_FOUND             = 404;
-    const INTERNAL_SERVER_ERROR = 500;
-    const NOT_IMPLEMENTED       = 501;
-    const BAD_GATEWAY           = 502;
+    public const OK                    = 200;
+    public const CREATED               = 201;
+    public const ACCEPTED              = 202;
+    public const MOVED_PERMANENTLY     = 301;
+    public const FOUND                 = 302;
+    public const TEMPORARY_REDIRECT    = 307;
+    public const PERMANENTLY_REDIRECT  = 308;
+    public const BAD_REQUEST           = 400;
+    public const UNAUTHORIZED          = 401;
+    public const FORBIDDEN             = 403;
+    public const NOT_FOUND             = 404;
+    public const INTERNAL_SERVER_ERROR = 500;
+    public const NOT_IMPLEMENTED       = 501;
+    public const BAD_GATEWAY           = 502;
 
-    private $codes = [
+    private array $codes = [
         200 => 'OK',
         301 => 'Moved Permanently',
         302 => 'Found',
@@ -53,17 +57,18 @@ class Response extends PhResponse
 
     /**
      * Returns the http code description or if not found the code itself
+     *
      * @param int $code
      *
-     * @return int|string
+     * @return string
      */
-    public function getHttpCodeDescription(int $code)
+    public function getHttpCodeDescription(int $code): string
     {
         if (true === isset($this->codes[$code])) {
             return sprintf('%d (%s)', $code, $this->codes[$code]);
+        } else {
+            return sprintf('%d (Undefined code)', $code);
         }
-
-        return $code;
     }
 
     /**
@@ -98,7 +103,8 @@ class Response extends PhResponse
         $data = $jsonapi + $content + $meta;
         $this
             ->setHeader('E-Tag', $eTag)
-            ->setJsonContent($data);
+            ->setJsonContent($data)
+        ;
 
 
         return parent::send();
@@ -147,7 +153,7 @@ class Response extends PhResponse
     public function setPayloadSuccess($content = []): Response
     {
         $data = (true === is_array($content)) ? $content : ['data' => $content];
-        $data = (true === isset($data['data'])) ? $data  : ['data' => $data];
+        $data = (true === isset($data['data'])) ? $data : ['data' => $data];
 
         $this->setJsonContent($data);
 

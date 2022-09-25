@@ -3,8 +3,9 @@
 namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
-use Phalcon\Api\Constants\Relationships;
 use Page\Data;
+use Phalcon\Api\Constants\Relationships;
+
 use function Phalcon\Api\Core\envValue;
 
 class GetFieldsCest extends GetBase
@@ -33,8 +34,8 @@ class GetFieldsCest extends GetBase
                 $com->get('id'),
                 Relationships::PRODUCTS
             ) .
-            '&fields['. Relationships::COMPANIES . ']=id,name,city' .
-            '&fields['. Relationships::PRODUCTS . ']=id,name,price' . $fields
+            '&fields[' . Relationships::COMPANIES . ']=id,name,city' .
+            '&fields[' . Relationships::PRODUCTS . ']=id,name,price' . $fields
         );
 
         $I->deleteHeader('Authorization');
@@ -43,13 +44,13 @@ class GetFieldsCest extends GetBase
 
         $included = [];
         $element  = [
-            'type'          => Relationships::COMPANIES,
-            'id'            => $com->get('id'),
-            'attributes'    => [
-                'name'    => $com->get('name'),
-                'city'    => $com->get('city'),
+            'type'       => Relationships::COMPANIES,
+            'id'         => $com->get('id'),
+            'attributes' => [
+                'name' => $com->get('name'),
+                'city' => $com->get('city'),
             ],
-            'links'         => [
+            'links'      => [
                 'self' => sprintf(
                     '%s/%s/%s',
                     envValue('APP_URL', 'localhost'),

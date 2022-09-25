@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,11 +9,13 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Providers;
 
-use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Config;
+use Phalcon\Cache\Cache;
+use Phalcon\Config\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Storage\SerializerFactory;
@@ -32,13 +33,15 @@ class CacheDataProvider implements ServiceProviderInterface
         $container->setShared(
             'cache',
             function () use ($config) {
-                $cache = $config->get('cache')->toArray();
+                $cache   = $config->get('cache')
+                                  ->toArray()
+                ;
                 $adapter = $cache['adapter'];
-                $options = $cache['options'][$adapter] ?? [];
+                $options = $cache['options'] ?? [];
 
                 $serializerFactory = new SerializerFactory();
-                $adapterFactory = new AdapterFactory($serializerFactory);
-                $adapter = $adapterFactory->newInstance($adapter, $options);
+                $adapterFactory    = new AdapterFactory($serializerFactory);
+                $adapter           = $adapterFactory->newInstance($adapter, $options);
 
                 return new Cache($adapter);
             }

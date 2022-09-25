@@ -3,12 +3,13 @@
 namespace Phalcon\Api\Tests\api\Individuals;
 
 use ApiTester;
+use Page\Data;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\Individuals;
 use Phalcon\Api\Models\IndividualTypes;
-use Page\Data;
+
 use function Phalcon\Api\Core\envValue;
 
 class GetCest
@@ -24,11 +25,11 @@ class GetCest
         $token = $I->apiLogin();
 
         /** @var Companies $company */
-        $company        = $I->addCompanyRecord('com-a-');
+        $company = $I->addCompanyRecord('com-a-');
         /** @var IndividualTypes $individualType */
         $individualType = $I->addIndividualTypeRecord('prt-a-');
         /** @var Individuals $individual */
-        $individual     = $I->addIndividualRecord('prd-a-', $company->get('id'), $individualType->get('id'));
+        $individual = $I->addIndividualRecord('prd-a-', $company->get('id'), $individualType->get('id'));
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(sprintf(Data::$individualsRecordUrl, $individual->get('id')));
         $I->deleteHeader('Authorization');
@@ -66,13 +67,13 @@ class GetCest
         $token = $I->apiLogin();
 
         /** @var Companies $company */
-        $company        = $I->addCompanyRecord('com-a-');
+        $company = $I->addCompanyRecord('com-a-');
         /** @var IndividualTypes $individualType */
         $individualType = $I->addIndividualTypeRecord('prt-a-');
         /** @var Individuals $individualOne */
-        $individualOne  = $I->addIndividualRecord('ind-a-', $company->get('id'), $individualType->get('id'));
+        $individualOne = $I->addIndividualRecord('ind-a-', $company->get('id'), $individualType->get('id'));
         /** @var Individuals $individualTwo */
-        $individualTwo  = $I->addIndividualRecord('ind-b-', $company->get('id'), $individualType->get('id'));
+        $individualTwo = $I->addIndividualRecord('ind-b-', $company->get('id'), $individualType->get('id'));
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$individualsUrl);
@@ -129,11 +130,11 @@ class GetCest
     private function addRecords(ApiTester $I): array
     {
         /** @var Companies $company */
-        $company        = $I->addCompanyRecord('com-a');
+        $company = $I->addCompanyRecord('com-a');
         /** @var IndividualTypes $individualType */
         $individualType = $I->addIndividualTypeRecord('prt-a-');
         /** @var Individuals $individual */
-        $individual     = $I->addIndividualRecord('ind-a-', $company->get('id'),  $individualType->get('id'));
+        $individual = $I->addIndividualRecord('ind-a-', $company->get('id'), $individualType->get('id'));
 
 
         return [$individual, $individualType, $company];
@@ -158,9 +159,9 @@ class GetCest
         $I->seeResponseIsSuccessful();
 
         $element = [
-            'type'          => Relationships::INDIVIDUALS,
-            'id'            => $individual->get('id'),
-            'attributes'    => [
+            'type'       => Relationships::INDIVIDUALS,
+            'id'         => $individual->get('id'),
+            'attributes' => [
                 'companyId' => $individual->get('companyId'),
                 'typeId'    => $individual->get('typeId'),
                 'prefix'    => $individual->get('prefix'),
@@ -169,7 +170,7 @@ class GetCest
                 'last'      => $individual->get('last'),
                 'suffix'    => $individual->get('suffix'),
             ],
-            'links'         => [
+            'links'      => [
                 'self' => sprintf(
                     '%s/%s/%s',
                     envValue('APP_URL', 'localhost'),
@@ -206,7 +207,6 @@ class GetCest
                 ];
 
                 $included[] = Data::companiesResponse($company);
-
             }
 
             if (Relationships::INDIVIDUAL_TYPES === $include) {

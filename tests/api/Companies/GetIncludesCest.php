@@ -3,8 +3,9 @@
 namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
-use Phalcon\Api\Constants\Relationships;
 use Page\Data;
+use Phalcon\Api\Constants\Relationships;
+
 use function Phalcon\Api\Core\envValue;
 
 class GetIncludesCest extends GetBase
@@ -74,15 +75,15 @@ class GetIncludesCest extends GetBase
         $I->seeResponseIsSuccessful();
 
         $element = [
-            'type'          => Relationships::COMPANIES,
-            'id'            => $com->get('id'),
-            'attributes'    => [
+            'type'       => Relationships::COMPANIES,
+            'id'         => $com->get('id'),
+            'attributes' => [
                 'name'    => $com->get('name'),
                 'address' => $com->get('address'),
                 'city'    => $com->get('city'),
                 'phone'   => $com->get('phone'),
             ],
-            'links'         => [
+            'links'      => [
                 'self' => sprintf(
                     '%s/%s/%s',
                     envValue('APP_URL', 'localhost'),
@@ -126,7 +127,6 @@ class GetIncludesCest extends GetBase
 
                 $included[] = Data::individualResponse($indOne);
                 $included[] = Data::individualResponse($indTwo);
-
             }
 
             if (Relationships::PRODUCTS === $include) {

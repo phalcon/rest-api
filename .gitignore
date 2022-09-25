@@ -6,6 +6,5 @@
 # https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
 
 .env
-phinx.php
 tests/_output/
 vendor/

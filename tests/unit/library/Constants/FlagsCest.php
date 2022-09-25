@@ -9,7 +9,7 @@ class FlagsCest
 {
     public function checkConstants(CliTester $I)
     {
-        $I->assertEquals(1, Flags::ACTIVE);
-        $I->assertEquals(2, Flags::INACTIVE);
+        $I->assertSame(1, Flags::ACTIVE);
+        $I->assertSame(2, Flags::INACTIVE);
     }
 }

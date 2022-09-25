@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Api\Transformers;
 
@@ -22,7 +23,7 @@ use Phalcon\Api\Models\Products;
  */
 class ProductsTransformer extends BaseTransformer
 {
-    protected $availableIncludes = [
+    protected array $availableIncludes = [
         Relationships::COMPANIES,
         Relationships::PRODUCT_TYPES,
     ];
@@ -34,7 +35,7 @@ class ProductsTransformer extends BaseTransformer
      *
      * @return Collection
      */
-    public function includeCompanies(Products $product)
+    public function includeCompanies(Products $product): Collection
     {
         return $this->getRelatedData(
             'collection',
@@ -51,7 +52,7 @@ class ProductsTransformer extends BaseTransformer
      *
      * @return Item
      */
-    public function includeProductTypes(Products $product)
+    public function includeProductTypes(Products $product): Item
     {
         return $this->getRelatedData(
             'item',

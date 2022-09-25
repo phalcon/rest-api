@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,11 +9,14 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Providers;
 
-use Phalcon\Config;
+use Phalcon\Config\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
+
 use function Phalcon\Api\Core\appPath;
 
 class ConfigProvider implements ServiceProviderInterface

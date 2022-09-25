@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Api\Providers;
 
@@ -43,7 +44,7 @@ class RouterProvider implements ServiceProviderInterface
     public function register(DiInterface $container): void
     {
         /** @var Micro $application */
-        $application   = $container->getShared('application');
+        $application = $container->getShared('application');
         /** @var Manager $eventsManager */
         $eventsManager = $container->getShared('eventsManager');
 
@@ -58,9 +59,13 @@ class RouterProvider implements ServiceProviderInterface
      *
      * @param Micro   $application
      * @param Manager $eventsManager
+     *
+     * @return void
      */
-    private function attachMiddleware(Micro $application, Manager $eventsManager)
-    {
+    private function attachMiddleware(
+        Micro $application,
+        Manager $eventsManager
+    ): void {
         $middleware = $this->getMiddleware();
 
         /**
@@ -76,8 +81,10 @@ class RouterProvider implements ServiceProviderInterface
      * Attaches the routes to the application; lazy loaded
      *
      * @param Micro $application
+     *
+     * @return void
      */
-    private function attachRoutes(Micro $application)
+    private function attachRoutes(Micro $application): void
     {
         $routes = $this->getRoutes();
 
@@ -86,7 +93,8 @@ class RouterProvider implements ServiceProviderInterface
             $collection
                 ->setHandler($route[0], true)
                 ->setPrefix($route[1])
-                ->{$route[2]}($route[3], 'callAction');
+                ->{$route[2]}($route[3], 'callAction')
+            ;
 
             $application->mount($collection);
         }
@@ -118,17 +126,37 @@ class RouterProvider implements ServiceProviderInterface
     {
         $routes = [
             // Class, Method, Route, Handler
-            [LoginController::class,        '/login',     'post', '/'],
+            [LoginController::class, '/login', 'post', '/'],
             [CompaniesAddController::class, '/companies', 'post', '/'],
-            [UsersGetController::class,     '/users',     'get',  '/'],
-            [UsersGetController::class,     '/users',     'get',  '/{recordId:[0-9]+}'],
+            [UsersGetController::class, '/users', 'get', '/'],
+            [UsersGetController::class, '/users', 'get', '/{recordId:[0-9]+}'],
         ];
 
-        $routes = $this->getMultiRoutes($routes, CompaniesGetController::class, Rel::COMPANIES);
-        $routes = $this->getMultiRoutes($routes, IndividualsGetController::class, Rel::INDIVIDUALS);
-        $routes = $this->getMultiRoutes($routes, IndividualTypesGetController::class, Rel::INDIVIDUAL_TYPES);
-        $routes = $this->getMultiRoutes($routes, ProductsGetController::class, Rel::PRODUCTS);
-        $routes = $this->getMultiRoutes($routes, ProductTypesGetController::class, Rel::PRODUCT_TYPES);
+        $routes = $this->getMultiRoutes(
+            $routes,
+            CompaniesGetController::class,
+            Rel::COMPANIES
+        );
+        $routes = $this->getMultiRoutes(
+            $routes,
+            IndividualsGetController::class,
+            Rel::INDIVIDUALS
+        );
+        $routes = $this->getMultiRoutes(
+            $routes,
+            IndividualTypesGetController::class,
+            Rel::INDIVIDUAL_TYPES
+        );
+        $routes = $this->getMultiRoutes(
+            $routes,
+            ProductsGetController::class,
+            Rel::PRODUCTS
+        );
+        $routes = $this->getMultiRoutes(
+            $routes,
+            ProductTypesGetController::class,
+            Rel::PRODUCT_TYPES
+        );
 
         return $routes;
     }
@@ -142,8 +170,11 @@ class RouterProvider implements ServiceProviderInterface
      *
      * @return array
      */
-    private function getMultiRoutes(array $routes, string $class, string $relationship): array
-    {
+    private function getMultiRoutes(
+        array $routes,
+        string $class,
+        string $relationship
+    ): array {
         $routes[] = [$class, '/' . $relationship, 'get', '/'];
         $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}'];
         $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'];

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,14 +9,16 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Constants;
 
 class Relationships
 {
-    const COMPANIES        = 'companies';
-    const INDIVIDUAL_TYPES = 'individual-types';
-    const INDIVIDUALS      = 'individuals';
-    const PRODUCT_TYPES    = 'product-types';
-    const PRODUCTS         = 'products';
-    const USERS            = 'users';
+    public const COMPANIES        = 'companies';
+    public const INDIVIDUAL_TYPES = 'individual-types';
+    public const INDIVIDUALS      = 'individuals';
+    public const PRODUCT_TYPES    = 'product-types';
+    public const PRODUCTS         = 'products';
+    public const USERS            = 'users';
 }

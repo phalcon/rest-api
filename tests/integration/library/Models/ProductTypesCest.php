@@ -6,10 +6,15 @@ use IntegrationTester;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
-use Phalcon\Filter;
+use Phalcon\Filter\Filter;
 
 class ProductTypesCest
 {
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateModel(IntegrationTester $I)
     {
         $I->haveModelDefinition(
@@ -22,6 +27,11 @@ class ProductTypesCest
         );
     }
 
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateFilters(IntegrationTester $I)
     {
         $model    = new ProductTypes();
@@ -30,15 +40,26 @@ class ProductTypesCest
             'name'        => Filter::FILTER_STRING,
             'description' => Filter::FILTER_STRING,
         ];
-        $I->assertEquals($expected, $model->getModelFilters());
+        $I->assertSame($expected, $model->getModelFilters());
     }
 
+    /**
+     * @param IntegrationTester $I
+     *
+     * @return void
+     */
     public function validateRelationships(IntegrationTester $I)
     {
         $actual   = $I->getModelRelationships(ProductTypes::class);
         $expected = [
-            [2, 'id', Products::class, 'typeId', ['alias' => Relationships::PRODUCTS, 'reusable' => true]],
+            [
+                2,
+                'id',
+                Products::class,
+                'typeId',
+                ['alias' => Relationships::PRODUCTS, 'reusable' => true]
+            ],
         ];
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

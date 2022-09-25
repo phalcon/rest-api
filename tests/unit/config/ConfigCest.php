@@ -3,6 +3,7 @@
 namespace Phalcon\Api\Tests\unit\config;
 
 use UnitTester;
+
 use function is_array;
 use function Phalcon\Api\Core\appPath;
 

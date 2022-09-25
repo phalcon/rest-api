@@ -13,7 +13,6 @@ class BootstrapCest
     public function checkBootstrap(UnitTester $I)
     {
         $bootstrap = new Api();
-        $bootstrap->setup();
 
         $I->assertTrue($bootstrap->getContainer() instanceof FactoryDefault);
         $I->assertTrue($bootstrap->getResponse() instanceof Response);

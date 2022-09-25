@@ -26,7 +26,7 @@ class RemoveTokenFieldsFromUsers extends AbstractMigration
                     'limit'   => 256,
                     'null'    => false,
                     'default' => '',
-                    'after'   => 'usr_domain_name',
+                    'after'   => 'usr_password',
                 ]
             )
             ->addColumn(

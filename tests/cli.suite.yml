@@ -5,7 +5,3 @@ modules:
     - Helper\Cli
     - Filesystem
     - Cli
-    - Phalcon:
-        bootstrap: "tests/_ci/bootstrap-cli.php"
-        cleanup: false
-        savepoints: false

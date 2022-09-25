@@ -51,6 +51,6 @@ class AddCompaniesToProductsTable extends AbstractMigration
 
     public function down()
     {
-        $this->dropTable('co_companies_x_products');
+        $this->table('co_companies_x_products')->drop()->save();
     }
 }

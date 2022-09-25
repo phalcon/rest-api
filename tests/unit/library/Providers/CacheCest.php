@@ -4,7 +4,7 @@ namespace Phalcon\Api\Tests\unit\library\Providers;
 
 use Phalcon\Api\Providers\CacheDataProvider;
 use Phalcon\Api\Providers\ConfigProvider;
-use Phalcon\Cache;
+use Phalcon\Cache\Cache;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
 
@@ -18,7 +18,7 @@ class CacheCest
         $diContainer = new FactoryDefault();
         $config      = new ConfigProvider();
         $config->register($diContainer);
-        $provider    = new CacheDataProvider();
+        $provider = new CacheDataProvider();
         $provider->register($diContainer);
 
         $I->assertTrue($diContainer->has('cache'));

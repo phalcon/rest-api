@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,9 +9,12 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Http;
 
 use Phalcon\Http\Request as PhRequest;
+
 use function str_replace;
 
 class Request extends PhRequest

@@ -3,11 +3,14 @@
 namespace Phalcon\Api\Tests\api\Users;
 
 use ApiTester;
-use Lcobucci\JWT\Builder;
-use Lcobucci\JWT\Signer\Hmac\Sha512;
+use Page\Data;
 use Phalcon\Api\Models\Users;
 use Phalcon\Api\Traits\TokenTrait;
-use Page\Data;
+use Phalcon\Encryption\Security\JWT\Builder;
+use Phalcon\Encryption\Security\JWT\Signer\Hmac;
+
+use function explode;
+use function usleep;
 
 class GetCest
 {
@@ -45,26 +48,28 @@ class GetCest
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
 
-        $signer  = new Sha512();
-        $builder = new Builder();
+        $signer  = new Hmac();
+        $builder = new Builder($signer);
 
         $token = $builder
-            ->setIssuer('https://niden.net')
+            ->setIssuer(Data::$testIssuer)
             ->setAudience($this->getTokenAudience())
-            ->setId('110011', true)
+            ->setId(Data::$testTokenId)
             ->setIssuedAt(time() - 3600)
             ->setNotBefore(time() - 3590)
-            ->setExpiration(time() - 3000)
-            ->sign($signer, '123456')
+            ->setExpirationTime(time() + 3000)
+            ->setPassphrase(Data::$strongPassphrase)
             ->getToken()
         ;
 
-        $wrongToken = $token->__toString();
+        $wrongToken = $token->getToken();
+        $parts      = explode('.', $wrongToken);
+        $wrongToken = $parts[0] . '.' . $parts[1] . '.';
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $wrongToken);
         $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('Invalid Token');
+        $I->seeErrorJsonResponse('Invalid Token (verification)');
     }
 
     public function loginKnownUserExpiredToken(ApiTester $I)
@@ -74,26 +79,27 @@ class GetCest
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
 
-        $signer  = new Sha512();
-        $builder = new Builder();
+        $signer  = new Hmac();
+        $builder = new Builder($signer);
 
         $token = $builder
-            ->setIssuer('https://niden.net')
+            ->setIssuer(Data::$testIssuer)
             ->setAudience($this->getTokenAudience())
-            ->setId('110011', true)
+            ->setId(Data::$testTokenId)
             ->setIssuedAt(time() - 3600)
             ->setNotBefore(time() - 3590)
-            ->setExpiration(time() - 3000)
-            ->sign($signer, '12345')
+            ->setExpirationTime(time())
+            ->setPassphrase(Data::$strongPassphrase)
             ->getToken()
         ;
 
-        $expiredToken = $token->__toString();
+        usleep(1000000);
+        $expiredToken = $token->getToken();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $expiredToken);
         $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('Invalid Token');
+        $I->seeErrorJsonResponse('Invalid Token (verification)');
     }
 
     public function loginKnownUserInvalidToken(ApiTester $I)
@@ -103,26 +109,26 @@ class GetCest
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
 
-        $signer  = new Sha512();
-        $builder = new Builder();
+        $signer  = new Hmac();
+        $builder = new Builder($signer);
 
         $token = $builder
-            ->setIssuer('https://niden.net')
+            ->setIssuer(Data::$testIssuer)
             ->setAudience($this->getTokenAudience())
-            ->setId('110011', true)
-            ->setIssuedAt(time() - 3600)
-            ->setNotBefore(time() - 3590)
-            ->setExpiration(time() - 3000)
-            ->sign($signer, '12345')
+            ->setId(Data::$testTokenId)
+            ->setIssuedAt(time())
+            ->setNotBefore(time())
+            ->setExpirationTime(time() + 3000)
+            ->setPassphrase(Data::$strongPassphrase)
             ->getToken()
         ;
 
-        $invalidToken = $token->__toString();
+        $invalidToken = $token->getToken() . 'xx';
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
         $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('Invalid Token');
+        $I->seeErrorJsonResponse('Invalid Token (verification)');
     }
 
     public function loginKnownUserInvalidUserInToken(ApiTester $I)
@@ -132,26 +138,26 @@ class GetCest
         $I->sendPOST(Data::$loginUrl, Data::loginJson());
         $I->seeResponseIsSuccessful();
 
-        $signer  = new Sha512();
-        $builder = new Builder();
+        $signer  = new Hmac();
+        $builder = new Builder($signer);
 
         $token = $builder
-            ->setIssuer('https://niden.com')
+            ->setIssuer(Data::$testIssuer)
             ->setAudience($this->getTokenAudience())
-            ->setId('110011', true)
+            ->setId(Data::$testTokenId)
             ->setIssuedAt(time() - 3600)
             ->setNotBefore(time() - 3590)
-            ->setExpiration(time() - 3000)
-            ->sign($signer, '12345')
+            ->setExpirationTime(time() + 3000)
+            ->setPassphrase(Data::$strongPassphrase)
             ->getToken()
         ;
 
-        $invalidToken = $token->__toString();
+        $invalidToken = $token->getToken();
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $invalidToken);
         $I->sendGET(Data::$usersUrl . '/' . $record->get('id'));
         $I->seeResponseIsSuccessful();
-        $I->seeErrorJsonResponse('Invalid Token');
+        $I->seeErrorJsonResponse('Invalid Token (verification)');
     }
 
     public function loginKnownUserCorrectToken(ApiTester $I)
@@ -183,11 +189,11 @@ class GetCest
             Users::class,
             [
                 'status'        => 1,
-                'username'      => 'testuser',
-                'password'      => 'testpassword',
-                'issuer'        => 'https://niden.net',
-                'tokenPassword' => '12345',
-                'tokenId'       => '110011',
+                'username'      => Data::$testUsername,
+                'password'      => Data::$testPassword,
+                'issuer'        => Data::$testIssuer,
+                'tokenPassword' => Data::$strongPassphrase,
+                'tokenId'       => Data::$testTokenId,
             ]
         );
 
@@ -195,11 +201,11 @@ class GetCest
             Users::class,
             [
                 'status'        => 1,
-                'username'      => 'testuser1',
-                'password'      => 'testpassword1',
-                'issuer'        => 'https://niden.net',
-                'tokenPassword' => '789789',
-                'tokenId'       => '001100',
+                'username'      => Data::$testUsername . '1',
+                'password'      => Data::$testPassword . '1',
+                'issuer'        => Data::$testIssuer . '1',
+                'tokenPassword' => Data::$strongPassphrase . '1',
+                'tokenId'       => Data::$testTokenId . '1',
             ]
         );
 

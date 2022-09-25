@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Api\Middleware;
 
@@ -34,15 +35,17 @@ class AuthenticationMiddleware implements MiddlewareInterface
      *
      * @return bool
      */
-    public function call(Micro $api)
+    public function call(Micro $api): bool
     {
         /** @var Request $request */
-        $request  = $api->getService('request');
+        $request = $api->getService('request');
         /** @var Response $response */
         $response = $api->getService('response');
 
-        if (true !== $request->isLoginPage() &&
-            true === $request->isEmptyBearerToken()) {
+        if (
+            true !== $request->isLoginPage() &&
+            true === $request->isEmptyBearerToken()
+        ) {
             $this->halt(
                 $api,
                 $response::OK,

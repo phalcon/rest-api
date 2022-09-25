@@ -6,13 +6,14 @@ use IntegrationTester;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
+use Page\Data;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\Individuals;
 use Phalcon\Api\Models\IndividualTypes;
 use Phalcon\Api\Transformers\IndividualsTransformer;
-use Page\Data;
+
 use function Phalcon\Api\Core\envValue;
 use function uniqid;
 
@@ -64,12 +65,14 @@ class IndividualsTransformerCest
         $manager->setSerializer(new JsonApiSerializer($url));
         $manager->parseIncludes([Relationships::COMPANIES, Relationships::INDIVIDUAL_TYPES]);
         $resource = new Collection([$individual], new IndividualsTransformer(), Relationships::INDIVIDUALS);
-        $results  = $manager->createData($resource)->toArray();
+        $results  = $manager->createData($resource)
+                            ->toArray()
+        ;
         $expected = [
             'data'     => [
                 [
                     'type'          => Relationships::INDIVIDUALS,
-                    'id'            => $individual->get('id'),
+                    'id'            => (string) $individual->get('id'),
                     'attributes'    => [
                         'companyId' => $individual->get('companyId'),
                         'typeId'    => $individual->get('typeId'),
@@ -88,7 +91,7 @@ class IndividualsTransformerCest
                         ),
                     ],
                     'relationships' => [
-                        Relationships::COMPANIES     => [
+                        Relationships::COMPANIES        => [
                             'links' => [
                                 'self'    => sprintf(
                                     '%s/%s/%s/relationships/%s',
@@ -107,7 +110,7 @@ class IndividualsTransformerCest
                             ],
                             'data'  => [
                                 'type' => Relationships::COMPANIES,
-                                'id'   => $company->get('id'),
+                                'id'   => (string) $company->get('id'),
                             ],
                         ],
                         Relationships::INDIVIDUAL_TYPES => [
@@ -129,7 +132,7 @@ class IndividualsTransformerCest
                             ],
                             'data'  => [
                                 'type' => Relationships::INDIVIDUAL_TYPES,
-                                'id'   => $individualType->get('id'),
+                                'id'   => (string) $individualType->get('id'),
                             ],
                         ],
                     ],
@@ -141,6 +144,6 @@ class IndividualsTransformerCest
             ],
         ];
 
-        $I->assertEquals($expected, $results);
+        $I->assertSame($expected, $results);
     }
 }

@@ -7,6 +7,7 @@ use Phalcon\Api\Providers\ErrorHandlerProvider;
 use Phalcon\Api\Providers\LoggerProvider;
 use Phalcon\Di\FactoryDefault;
 use UnitTester;
+
 use function date_default_timezone_get;
 
 class ErrorHandlerCest
@@ -26,8 +27,8 @@ class ErrorHandlerCest
 
         $config = $diContainer->getShared('config');
 
-        $I->assertEquals(date_default_timezone_get(), $config->path('app.timezone'));
-        $I->assertEquals(ini_get('display_errors'), 'Off');
-        $I->assertEquals(E_ALL, ini_get('error_reporting'));
+        $I->assertSame(date_default_timezone_get(), $config->path('app.timezone'));
+        $I->assertSame(ini_get('display_errors'), 'Off');
+        $I->assertSame(E_ALL, (int) ini_get('error_reporting'));
     }
 }

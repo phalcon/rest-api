@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Api\Middleware;
 
@@ -30,8 +31,10 @@ class NotFoundMiddleware extends Injectable implements MiddlewareInterface
 
     /**
      * Checks if the resource was found
+     *
+     * @return bool
      */
-    public function beforeNotFound()
+    public function beforeNotFound(): bool
     {
         $this->halt(
             $this->application,
@@ -49,7 +52,7 @@ class NotFoundMiddleware extends Injectable implements MiddlewareInterface
      *
      * @return bool
      */
-    public function call(Micro $api)
+    public function call(Micro $api): bool
     {
         return true;
     }

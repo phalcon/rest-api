@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,13 +9,17 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api;
 
-use Monolog\Logger;
-use Phalcon\Config;
+use Phalcon\Config\Config;
+use Phalcon\Logger\Exception;
+use Phalcon\Logger\Logger;
+
 use function memory_get_usage;
-use function microtime;
 use function number_format;
+use function sprintf;
 
 /**
  * Class ErrorHandler
@@ -48,9 +51,16 @@ class ErrorHandler
      * @param string $message
      * @param string $file
      * @param int    $line
+     *
+     * @return void
+     * @throws Exception
      */
-    public function handle(int $number, string $message, string $file = '', int $line = 0)
-    {
+    public function handle(
+        int $number,
+        string $message,
+        string $file = '',
+        int $line = 0
+    ): void {
         $this
             ->logger
             ->error(
@@ -61,18 +71,22 @@ class ErrorHandler
                     $message,
                     $file
                 )
-            );
+            )
+        ;
     }
 
     /**
      * Application shutdown - logs metrics in devMode
+     *
+     * @return void
+     * @throws Exception
      */
-    public function shutdown()
+    public function shutdown(): void
     {
         if (true === $this->config->path('app.devMode')) {
             $memory    = number_format(memory_get_usage() / 1000000, 2);
             $execution = number_format(
-                microtime(true) -  $this->config->path('app.time'),
+                (hrtime(true) - $this->config->path('app.time')) / 1000000,
                 4
             );
 
@@ -80,11 +94,12 @@ class ErrorHandler
                 ->logger
                 ->info(
                     sprintf(
-                        'Shutdown completed [%s]s - [%s]MB',
+                        'Shutdown completed [%s]ms - [%s]MB',
                         $execution,
                         $memory
                     )
-                );
+                )
+            ;
         }
     }
 }

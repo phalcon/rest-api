@@ -3,7 +3,10 @@
 namespace Phalcon\Api\Tests\unit\cli;
 
 use CliTester;
+
 use function Phalcon\Api\Core\appPath;
+
+use const PHP_EOL;
 
 class BootstrapCest
 {
@@ -14,20 +17,18 @@ class BootstrapCest
         $actual = ob_get_contents();
         ob_end_clean();
 
-        $actual   = str_replace("\r\n", "\n", $actual);
         $year     = date('Y');
-        $expected = <<<EOF
-******************************************************
- Phalcon Team | (C) {$year}
-******************************************************
+        $expected = "" // Here just for readability
+            . "******************************************************" . PHP_EOL
+            . " Phalcon Team | (C) {$year}" . PHP_EOL
+            . "******************************************************" . PHP_EOL
+            . "" . PHP_EOL
+            . "Usage: runCli <command>" . PHP_EOL
+            . "" . PHP_EOL
+            . "  --help         \e[0;32m(safe)\e[0m shows the help screen/available commands" . PHP_EOL
+            . "  --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders" . PHP_EOL
+            . PHP_EOL;
 
-Usage: runCli <command>
-
-  --help         \e[0;32m(safe)\e[0m shows the help screen/available commands
-  --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders
-
-EOF;
-
-        $I->assertEquals($expected, $actual);
+        $I->assertSame($expected, $actual);
     }
 }

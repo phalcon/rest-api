@@ -5,10 +5,11 @@ namespace Phalcon\Api\Tests\integration\library;
 use Codeception\Stub;
 use Exception;
 use IntegrationTester;
-use Monolog\Logger;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Users;
+use Phalcon\Logger\Logger;
 use Phalcon\Messages\Message;
+
 use function Phalcon\Api\Core\appPath;
 
 /**
@@ -107,11 +108,11 @@ class ModelCest
              ->save()
         ;
 
-        $I->assertEquals($user->get('username'), 'testusername');
-        $I->assertEquals($user->get('password'), 'testpass');
-        $I->assertEquals($user->get('issuer'), 'phalcon.io');
-        $I->assertEquals($user->get('tokenPassword'), '12345');
-        $I->assertEquals($user->get('tokenId'), '00110011');
+        $I->assertSame($user->get('username'), 'testusername');
+        $I->assertSame($user->get('password'), 'testpass');
+        $I->assertSame($user->get('issuer'), 'phalcon.io');
+        $I->assertSame($user->get('tokenPassword'), '12345');
+        $I->assertSame($user->get('tokenId'), '00110011');
     }
 
     /**
@@ -136,13 +137,13 @@ class ModelCest
         $user->set('password', 'abcde\nfg')
              ->save()
         ;
-        $I->assertEquals($user->get('password'), 'abcde\nfg');
+        $I->assertSame($user->get('password'), 'abcde\nfg');
 
         /** Not sanitized */
         $user->set('password', 'abcde\nfg', false)
              ->save()
         ;
-        $I->assertEquals($user->get('password'), 'abcde\nfg');
+        $I->assertSame($user->get('password'), 'abcde\nfg');
     }
 
     /**
@@ -168,11 +169,12 @@ class ModelCest
         ;
         $I->assertFalse($result);
 
-        $I->assertEquals('error 1<br />error 2<br />', $user->getModelMessages());
+        $I->assertSame('error 1<br />error 2<br />', $user->getModelMessages());
     }
 
     /**
      * @param IntegrationTester $I
+     *
      * @throws Exception
      */
     public function checkModelMessagesWithLogger(IntegrationTester $I)
@@ -197,7 +199,7 @@ class ModelCest
             ->save()
         ;
         $I->assertFalse($result);
-        $I->assertEquals('error 1<br />error 2<br />', $user->getModelMessages());
+        $I->assertSame('error 1<br />error 2<br />', $user->getModelMessages());
 
         $user->getModelMessages($logger);
 

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Bootstrap;
 
 use Phalcon\Api\Http\Response;
@@ -18,34 +19,56 @@ use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as PhCli;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Mvc\Micro;
-use function microtime;
+
+use function Phalcon\Api\Core\appPath;
 
 abstract class AbstractBootstrap
 {
-    /** @var Micro|Console */
-    protected $application;
+    /**
+     * @var Console|Micro|null
+     */
+    protected Console|Micro|null $application = null;
 
-    /** @var FactoryDefault|PhCli */
-    protected $container;
+    /** @var FactoryDefault|PhCli|null */
+    protected FactoryDefault|PhCli|null $container = null;
 
     /** @var array */
-    protected $options = [];
+    protected array $options = [];
 
     /** @var array */
-    protected $providers = [];
+    protected array $providers = [];
 
     /**
-     * @return Console|Micro
+     * Constructor
      */
-    public function getApplication()
+    public function __construct()
+    {
+        if (null === $this->container) {
+            $this->container = new FactoryDefault();
+        }
+
+        if ([] === $this->providers) {
+            $this->providers = require appPath('api/config/providers.php');
+        }
+
+        $this
+            ->setupApplication()
+            ->registerServices()
+        ;
+    }
+
+    /**
+     * @return Console|Micro|null
+     */
+    public function getApplication(): Console|Micro|null
     {
         return $this->application;
     }
 
     /**
-     * @return FactoryDefault|PhCli
+     * @return FactoryDefault|PhCli|null
      */
-    public function getContainer()
+    public function getContainer(): FactoryDefault|PhCli|null
     {
         return $this->container;
     }
@@ -53,7 +76,7 @@ abstract class AbstractBootstrap
     /**
      * @return Response
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->container->getShared('response');
     }
@@ -64,24 +87,16 @@ abstract class AbstractBootstrap
     abstract public function run();
 
     /**
-     * Runs the application
-     */
-    public function setup()
-    {
-        $this->container->set('metrics', microtime(true));
-        $this->setupApplication();
-        $this->registerServices();
-    }
-
-    /**
-     * Setup the application object in the container
+     * Set up the application object in the container
      *
-     * @return void
+     * @return AbstractBootstrap
      */
-    protected function setupApplication()
+    protected function setupApplication(): AbstractBootstrap
     {
         $this->application = new Micro($this->container);
         $this->container->setShared('application', $this->application);
+
+        return $this;
     }
 
     /**

@@ -3,12 +3,13 @@
 namespace Phalcon\Api\Tests\api\Products;
 
 use ApiTester;
+use Page\Data;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
-use Page\Data;
+
 use function Phalcon\Api\Core\envValue;
 
 class GetCest
@@ -26,7 +27,7 @@ class GetCest
         /** @var ProductTypes $productType */
         $productType = $I->addProductTypeRecord('prt-a-');
         /** @var Products $product */
-        $product     = $I->addProductRecord('prd-a-', $productType->get('id'));
+        $product = $I->addProductRecord('prd-a-', $productType->get('id'));
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(sprintf(Data::$productsRecordUrl, $product->get('id')));
         $I->deleteHeader('Authorization');
@@ -66,9 +67,9 @@ class GetCest
         /** @var ProductTypes $productType */
         $productType = $I->addProductTypeRecord('prt-a-');
         /** @var Products $productOne */
-        $productOne  = $I->addProductRecord('prd-a-', $productType->get('id'));
+        $productOne = $I->addProductRecord('prd-a-', $productType->get('id'));
         /** @var Products $productTwo */
-        $productTwo  = $I->addProductRecord('prd-b-', $productType->get('id'));
+        $productTwo = $I->addProductRecord('prd-b-', $productType->get('id'));
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(Data::$productsUrl);
@@ -125,13 +126,13 @@ class GetCest
     private function addRecords(ApiTester $I): array
     {
         /** @var Companies $comOne */
-        $comOne      = $I->addCompanyRecord('com-a');
+        $comOne = $I->addCompanyRecord('com-a');
         /** @var Companies $comTwo */
-        $comTwo      = $I->addCompanyRecord('com-b');
+        $comTwo = $I->addCompanyRecord('com-b');
         /** @var ProductTypes $productType */
         $productType = $I->addProductTypeRecord('prt-a-');
         /** @var Products $product */
-        $product     = $I->addProductRecord('prd-a-', $productType->get('id'));
+        $product = $I->addProductRecord('prd-a-', $productType->get('id'));
         $I->addCompanyXProduct($comOne->get('id'), $product->get('id'));
         $I->addCompanyXProduct($comTwo->get('id'), $product->get('id'));
 
@@ -157,16 +158,16 @@ class GetCest
         $I->seeResponseIsSuccessful();
 
         $element = [
-            'type'          => Relationships::PRODUCTS,
-            'id'            => $product->get('id'),
-            'attributes'    => [
+            'type'       => Relationships::PRODUCTS,
+            'id'         => $product->get('id'),
+            'attributes' => [
                 'typeId'      => $productType->get('id'),
                 'name'        => $product->get('name'),
                 'description' => $product->get('description'),
                 'quantity'    => $product->get('quantity'),
                 'price'       => $product->get('price'),
             ],
-            'links'         => [
+            'links'      => [
                 'self' => sprintf(
                     '%s/%s/%s',
                     envValue('APP_URL', 'localhost'),
@@ -237,7 +238,6 @@ class GetCest
                 ];
 
                 $included[] = Data::productTypeResponse($productType);
-
             }
         }
 

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,16 +9,17 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Core;
 
 use function function_exists;
-use function getenv;
 
 if (true !== function_exists('Phalcon\Api\Core\appPath')) {
     /**
      * Get the application path.
      *
-     * @param  string $path
+     * @param string $path
      *
      * @return string
      */
@@ -39,21 +39,16 @@ if (true !== function_exists('Phalcon\Api\Core\envValue')) {
      *
      * @return mixed
      */
-    function envValue(string $variable, $default = null)
+    function envValue(string $variable, mixed $default = null): mixed
     {
-        $return = $default;
-        $value  = getenv($variable);
+        $value  = $_ENV[$variable] ?? $default;
         $values = [
             'false' => false,
             'true'  => true,
             'null'  => null,
         ];
 
-        if (false !== $value) {
-            $return = $values[$value] ?? $value;
-        }
-
-        return $return;
+        return $values[$value] ?? $value;
     }
 }
 

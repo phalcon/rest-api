@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view
  * the LICENSE file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Api\Api\Controllers\Products;
 
@@ -23,19 +24,19 @@ use Phalcon\Api\Transformers\ProductsTransformer;
 class GetController extends BaseController
 {
     /** @var string */
-    protected $model       = Products::class;
+    protected string $model = Products::class;
 
     /** @var array */
-    protected $includes    = [
+    protected array $includes = [
         Relationships::COMPANIES,
         Relationships::PRODUCT_TYPES,
     ];
 
     /** @var string */
-    protected $resource    = Relationships::PRODUCTS;
+    protected string $resource = Relationships::PRODUCTS;
 
     /** @var array<string,bool> */
-    protected $sortFields  = [
+    protected array $sortFields = [
         'id'          => true,
         'typeId'      => true,
         'name'        => true,
@@ -45,5 +46,5 @@ class GetController extends BaseController
     ];
 
     /** @var string */
-    protected $transformer = ProductsTransformer::class;
+    protected string $transformer = ProductsTransformer::class;
 }

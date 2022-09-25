@@ -3,9 +3,9 @@
 namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
+use Page\Data;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Companies;
-use Page\Data;
 
 class GetSortCest extends GetBase
 {
@@ -20,9 +20,9 @@ class GetSortCest extends GetBase
         $token = $I->apiLogin();
 
         /** @var Companies $comOne */
-        $comOne  = $I->addCompanyRecord('com-a-');
+        $comOne = $I->addCompanyRecord('com-a-');
         /** @var Companies $comTwo */
-        $comTwo  = $I->addCompanyRecord('com-b-');
+        $comTwo = $I->addCompanyRecord('com-b-');
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(sprintf(Data::$companiesSortUrl, 'name'));
@@ -60,9 +60,9 @@ class GetSortCest extends GetBase
         $token = $I->apiLogin();
 
         /** @var Companies $comOne */
-        $comOne  = $I->addCompanyRecord('com-a-', '', 'city-b');
+        $comOne = $I->addCompanyRecord('com-a-', '', 'city-b');
         /** @var Companies $comTwo */
-        $comTwo  = $I->addCompanyRecord('com-b-', '', 'city-b');
+        $comTwo = $I->addCompanyRecord('com-b-', '', 'city-b');
 
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(sprintf(Data::$companiesSortUrl, 'city,name'));
@@ -107,5 +107,4 @@ class GetSortCest extends GetBase
         $I->deleteHeader('Authorization');
         $I->seeResponseIs400();
     }
-
 }

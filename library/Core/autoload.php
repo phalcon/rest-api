@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,11 +9,14 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 use Dotenv\Dotenv;
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
+
 use function Phalcon\Api\Core\appPath;
 
-// Register the auto loader
+// Register the autoloader
 require __DIR__ . '/functions.php';
 
 $loader     = new Loader();
@@ -25,7 +27,7 @@ $namespaces = [
     'Phalcon\Api\Tests'           => appPath('/tests'),
 ];
 
-$loader->registerNamespaces($namespaces);
+$loader->setNamespaces($namespaces);
 $loader->register();
 
 /**
@@ -34,4 +36,4 @@ $loader->register();
 require appPath('/vendor/autoload.php');
 
 // Load environment
-(new Dotenv(appPath()))->overload();
+(Dotenv::createImmutable(appPath()))->load();

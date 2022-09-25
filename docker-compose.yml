@@ -1,0 +1,95 @@
+version: '3'
+services:
+  
+  # Application - REST API 8.0
+  application-8.0:
+    build: docker/8.0
+    container_name: rest-api-app-8.0
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
+    depends_on:
+      - nginx-8.0
+      - redis
+      - mysql
+    volumes:
+      - ./:/var/www
+      - ./storage/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
+    networks:
+      - rest-api-network
+
+  # Application - REST API 8.1
+  application-8.1:
+    build: docker/8.1
+    container_name: rest-api-app-8.1
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
+    depends_on:
+      - nginx-8.1
+      - redis
+      - mysql
+    volumes:
+      - ./:/var/www
+      - ./storage/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
+    networks:
+      - rest-api-network
+
+  # Webserver - nginX 8.0
+  nginx-8.0:
+    image: nginx:alpine
+    container_name: rest-api-nginx-8.0
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./:/var/www
+      - ./storage/config/nginx/8.0/:/etc/nginx/conf.d/
+    networks:
+      - rest-api-network
+
+  # Webserver - nginX 8.0
+  nginx-8.1:
+    image: nginx:alpine
+    container_name: rest-api-nginx-8.1
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./:/var/www
+      - ./storage/config/nginx/8.1/:/etc/nginx/conf.d/
+    networks:
+      - rest-api-network
+
+  # Database - Mysql
+  mysql:
+    image: mysql:5.7.22
+    container_name: rest-api-mysql
+    restart: unless-stopped
+    tty: true
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=phalcon
+      - MYSQL_DATABASE=phalcon_api
+      - MYSQL_PASSWORD=secret
+    volumes:
+      - rest-api-volume:/var/lib/mysql/
+      - ./storage/config/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - rest-api-network
+
+  # Cache - Redis
+  redis:
+    container_name: rest-api-cache
+    image: redis:5-alpine
+    restart: "always"
+    networks:
+      - rest-api-network
+
+# Network
+networks:
+  rest-api-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  rest-api-volume:
+    driver: local

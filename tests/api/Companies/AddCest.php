@@ -3,11 +3,12 @@
 namespace Phalcon\Api\Tests\api\Companies;
 
 use ApiTester;
+use Page\Data;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Companies;
-use Page\Data;
+
 use function Phalcon\Api\Core\appUrl;
 use function uniqid;
 
@@ -48,7 +49,7 @@ class AddCest
         $I->seeHttpHeader('Location', appUrl(Relationships::COMPANIES, $company->get('id')));
         $I->seeSuccessJsonResponse(
             'data',
-            Data::companiesResponse($company)
+            Data::companiesAddResponse($company)
         );
 
         $I->assertNotEquals(false, $company->delete());

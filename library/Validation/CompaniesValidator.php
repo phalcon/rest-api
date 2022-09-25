@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,15 +9,20 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Validation;
 
-use Phalcon\Filter;
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Filter\Filter;
+use Phalcon\Filter\Validation;
+use Phalcon\Filter\Validation\Validator\PresenceOf;
 
 class CompaniesValidator extends Validation
 {
-    public function initialize()
+    /**
+     * @return void
+     */
+    public function initialize(): void
     {
         $presenceOf = new PresenceOf(
             [

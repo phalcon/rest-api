@@ -3,11 +3,12 @@
 namespace Phalcon\Api\Tests\api\IndividualTypes;
 
 use ApiTester;
+use Page\Data;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Individuals;
 use Phalcon\Api\Models\IndividualTypes;
-use Page\Data;
+
 use function Phalcon\Api\Core\envValue;
 
 class GetCest
@@ -62,13 +63,13 @@ class GetCest
         $token = $I->apiLogin();
 
         /** @var  $company */
-        $company        = $I->addCompanyRecord('com-a');
+        $company = $I->addCompanyRecord('com-a');
         /** @var IndividualTypes $individualType */
         $individualType = $I->addIndividualTypeRecord('type-a-');
         /** @var Individuals $individualOne */
-        $individualOne  = $I->addIndividualRecord('prd-a-', $company->get('id'), $individualType->get('id'));
+        $individualOne = $I->addIndividualRecord('prd-a-', $company->get('id'), $individualType->get('id'));
         /** @var Individuals $individualTwo */
-        $individualTwo  = $I->addIndividualRecord('prd-b-', $company->get('id'), $individualType->get('id'));
+        $individualTwo = $I->addIndividualRecord('prd-b-', $company->get('id'), $individualType->get('id'));
         $I->haveHttpHeader('Authorization', 'Bearer ' . $token);
         $I->sendGET(
             sprintf(

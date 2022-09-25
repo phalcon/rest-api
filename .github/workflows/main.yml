@@ -1,0 +1,96 @@
+name: Testing Suite
+
+on: [push, pull_request]
+
+env:
+  DATA_API_MYSQL_HOST: '127.0.0.1'
+  DATA_API_REDIS_HOST: '127.0.0.1'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    name: Workflow - PHP-${{ matrix.php }}
+
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - "3306:3306"
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: phalcon
+          MYSQL_DATABASE: phalcon_api
+          MYSQL_PASSWORD: secret
+      redis:
+        image: redis:5-alpine
+        ports:
+          - "6379:6379"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.0', '8.1' ]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: pecl
+          extensions: mbstring, intl, json, phalcon-5.0.0RC4
+          coverage: xdebug
+
+      - name: Init Database
+        run: |
+          mysql -uroot -h127.0.0.1 -psecret -e 'CREATE DATABASE IF NOT EXISTS `phalcon_api`;'
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ matrix.php }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ matrix.php }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHPCS
+        if: always()
+        run: vendor/bin/phpcs
+
+      - name: Env file
+        if: always()
+        run: cp -v ./storage/config/.env.ci ./.env
+
+      - name: Run migrations
+        if: always()
+        run: |
+          vendor/bin/phinx migrate
+
+      - name: Run tests
+        if: always()
+        run: |
+          sudo php -S 0.0.0.0 -t ./.htrouter.php &
+          vendor/bin/codecept build
+          vendor/bin/codecept run unit --coverage-xml=unit-coverage.xml
+          vendor/bin/codecept run integration --coverage-xml=integration-coverage.xml
+          vendor/bin/codecept run cli --coverage-xml=cli-coverage.xml
+#          vendor/bin/codecept run api --coverage-xml=api-coverage.xml
+
+      - name: Upload to codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          directory: ./tests/_output/
+          files: unit-coverage.xml,integration-coverage.xml,cli-coverage.xml
+          name: codecov-umbrella # optional
+          fail_ci_if_error: false
+          verbose: true # optional (default = false)

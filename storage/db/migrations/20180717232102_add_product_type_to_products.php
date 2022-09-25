@@ -28,6 +28,6 @@ class AddProductTypeToProducts extends AbstractMigration
     public function down()
     {
         $table = $this->table('co_products');
-        $table->removeColumn('prd_prt_id');
+        $table->removeColumn('prd_prt_id')->save();
     }
 }

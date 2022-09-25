@@ -3,8 +3,9 @@
 use Codeception\Actor;
 use Codeception\Lib\Friend;
 use Codeception\Util\HttpCode;
-use Phalcon\Api\Models\Users;
 use Page\Data as DataPage;
+use Phalcon\Api\Constants\Flags;
+use Phalcon\Api\Models\Users;
 
 /**
  * Inherited Methods
@@ -20,15 +21,19 @@ use Page\Data as DataPage;
  * @method Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class ApiTester extends Actor
 {
     use _generated\ApiTesterActions;
 
     /**
      * Checks if the response was successful
+     *
+     * @param int $code
+     *
+     * @return void
      */
-    public function seeResponseIsSuccessful($code = HttpCode::OK)
+    public function seeResponseIsSuccessful(int $code = HttpCode::OK): void
     {
         $this->seeResponseIsJson();
         $this->seeResponseCodeIs($code);
@@ -37,8 +42,8 @@ class ApiTester extends Actor
                 'jsonapi' => [
                     'version' => 'string'
                 ],
-//                'data'    => 'array',
-//                'errors'  => 'array',
+                //                'data'    => 'array',
+                //                'errors'  => 'array',
                 'meta'    => [
                     'timestamp' => 'string:date',
                     'hash'      => 'string',
@@ -51,20 +56,29 @@ class ApiTester extends Actor
 
     /**
      * Checks if the response was successful
+     *
+     * @return void
      */
-    public function seeResponseIs400()
+    public function seeResponseIs400(): void
     {
         $this->checkErrorResponse(HttpCode::BAD_REQUEST);
     }
 
     /**
      * Checks if the response was successful
+     *
+     * @return void
      */
-    public function seeResponseIs404()
+    public function seeResponseIs404(): void
     {
         $this->checkErrorResponse(HttpCode::NOT_FOUND);
     }
 
+    /**
+     * @param string $message
+     *
+     * @return void
+     */
     public function seeErrorJsonResponse(string $message)
     {
         $this->seeResponseContainsJson(
@@ -72,18 +86,27 @@ class ApiTester extends Actor
                 'jsonapi' => [
                     'version' => '1.0',
                 ],
-                'errors' => [
+                'errors'  => [
                     $message,
                 ],
             ]
         );
     }
 
+    /**
+     * @param string $key
+     * @param array  $data
+     *
+     * @return void
+     */
     public function seeSuccessJsonResponse(string $key = 'data', array $data = [])
     {
         $this->seeResponseContainsJson([$key => $data]);
     }
 
+    /**
+     * @return mixed|string
+     */
     public function apiLogin()
     {
         $this->deleteHeader('Authorization');
@@ -91,39 +114,52 @@ class ApiTester extends Actor
         $this->seeResponseIsSuccessful();
 
         $response = $this->grabResponse();
-        $response  = json_decode($response, true);
-        $data      = $response['data'];
-        $token     = $data['token'];
+        $response = json_decode($response, true);
+        $data     = $response['data'] ?? [];
+        $token    = $data['token'] ?? '';
 
         return $token;
     }
 
+    /**
+     * @return mixed
+     */
     public function addApiUserRecord()
     {
         return $this->haveRecordWithFields(
             Users::class,
             [
-                'status'        => 1,
-                'username'      => 'testuser',
-                'password'      => 'testpassword',
-                'issuer'        => 'https://niden.net',
-                'tokenPassword' => '12345',
-                'tokenId'       => '110011',
+                'status'        => Flags::ACTIVE,
+                'username'      => DataPage::$testUsername,
+                'password'      => DataPage::$testPassword,
+                'issuer'        => DataPage::$testIssuer,
+                'tokenPassword' => DataPage::$testTokenPassword,
+                'tokenId'       => DataPage::$testTokenId,
             ]
         );
     }
 
-    private function checkHash()
+    /**
+     * @return void
+     */
+    private function checkHash(): void
     {
         $response  = $this->grabResponse();
         $response  = json_decode($response, true);
         $timestamp = $response['meta']['timestamp'];
         $hash      = $response['meta']['hash'];
         unset($response['meta'], $response['jsonapi']);
-        $this->assertEquals($hash, sha1($timestamp . json_encode($response)));
+
+        $actual = sha1($timestamp . json_encode($response));
+        $this->assertEquals($hash, $actual);
     }
 
-    private function checkErrorResponse(int $code)
+    /**
+     * @param int $code
+     *
+     * @return void
+     */
+    private function checkErrorResponse(int $code): void
     {
         $this->seeResponseMatchesJsonType(
             [

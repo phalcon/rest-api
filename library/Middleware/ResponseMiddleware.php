@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Middleware;
 
 use Phalcon\Api\Http\Response;
@@ -17,11 +18,6 @@ use Phalcon\Api\Traits\ResponseTrait;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 
-/**
- * Class ResponseMiddleware
- *
- * @property Response $response
- */
 class ResponseMiddleware implements MiddlewareInterface
 {
     use ResponseTrait;
@@ -33,7 +29,7 @@ class ResponseMiddleware implements MiddlewareInterface
      *
      * @return bool
      */
-    public function call(Micro $api)
+    public function call(Micro $api): bool
     {
         /** @var Response $response */
         $response = $api->getService('response');

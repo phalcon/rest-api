@@ -39,7 +39,22 @@
         "pds/composer-script-names": "^1.0",
         "pds/skeleton": "^1.0",
         "phalcon/ide-stubs": "^5.16",
+        "phalcon/phalcon": "^6.0@alpha",
         "phpstan/phpstan": "^2.2",
         "squizlabs/php_codesniffer": "^4.0"
+    },
+    "scripts": {
+        "analyze": "phpstan analyse -c resources/phpstan.neon --memory-limit 1024M",
+        "cs": "phpcs --standard=resources/phpcs.xml",
+        "cs-fix": "phpcbf --standard=resources/phpcs.xml",
+        "test": "talon run",
+        "test-coverage": "talon run unit -- --coverage-clover tests/_output/coverage.xml",
+        "test-coverage-html": "talon run unit -- --coverage-html tests/_output/coverage",
+        "migrate": "phinx migrate -c phinx.php",
+        "seed": "phinx seed:run -c phinx.php",
+        "post-create-project-cmd": [
+            "@php -r \"file_exists('.env') || copy('resources/.env.example', '.env');\"",
+            "@php -r \"echo PHP_EOL . 'The Phalcon REST API is ready (.env created from resources/.env.example). Next steps:' . PHP_EOL . '  docker: docker compose up -d --build, then composer install && composer migrate' . PHP_EOL . '  tests:  vendor/bin/talon run' . PHP_EOL;\""
+        ]
     }
 }

@@ -12,7 +12,8 @@
     <exclude-pattern>*/public/*</exclude-pattern>
     <exclude-pattern>*/_output/*</exclude-pattern>
     <exclude-pattern>*/_support/*</exclude-pattern>
-    <file>./api</file>
-    <file>./library</file>
-    <file>./tests</file>
+    <file>../api</file>
+    <file>../cli</file>
+    <file>../library</file>
+    <file>../tests</file>
 </ruleset>

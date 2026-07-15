@@ -42,6 +42,7 @@
         "phalcon/phalcon": "^6.0@alpha",
         "phalcon/talon": "^0.7.0",
         "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5",
         "squizlabs/php_codesniffer": "^4.0"
     },
     "scripts": {

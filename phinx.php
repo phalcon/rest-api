@@ -3,8 +3,8 @@
 use function Phalcon\Api\Core\appPath;
 use function Phalcon\Api\Core\envValue;
 
-// This file will end up in the root of the project
-require_once './library/Core/autoload.php';
+// This file lives in the root of the project
+require_once dirname(__FILE__) . '/library/Core/autoload.php';
 
 return [
     'paths'         => [

@@ -12,6 +12,6 @@ declare(strict_types=1);
 
 use Phalcon\Api\Bootstrap\Api;
 
-require_once dirname(__DIR__) . '/library/Core/autoload.php';
+require_once dirname(__FILE__, 2) . '/library/Core/autoload.php';
 
 (new Api())->run();

@@ -12,7 +12,7 @@ class BootstrapCest
     public function checkBootstrap(CliTester $I)
     {
         ob_start();
-        require appPath('api/public/index.php');
+        require appPath('public/index.php');
         $actual = ob_get_contents();
         ob_end_clean();
 

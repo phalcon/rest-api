@@ -1,7 +1,7 @@
 {
     "name": "phalcon/rest-api",
-    "type": "library",
-    "description": "This is a sample API REST application for the Phalcon PHP Framework",
+    "type": "project",
+    "description": "This is a sample REST API application for the Phalcon PHP Framework",
     "keywords": [
         "phalcon",
         "framework",
@@ -19,33 +19,17 @@
         }
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-json": "*",
-        "ext-openssl": "*",
-        "ext-phalcon": "^5.0.0RC4",
-        "league/fractal": "^0.20.1",
-        "robmorgan/phinx": "^0.12.12",
-        "vlucas/phpdotenv": "^5.4"
+        "ext-openssl": "*"
     },
-    "require-dev": {
-        "codeception/codeception": "^5.0",
-        "codeception/module-asserts": "^3.0",
-        "codeception/module-cli": "^2.0",
-        "codeception/module-filesystem": "^3.0",
-        "codeception/module-phalcon5": "^2.0",
-        "codeception/module-phpbrowser": "^3.0",
-        "codeception/module-rest": "^3.3",
-        "phalcon/ide-stubs": "^v5.0.0-RC1",
-        "phpstan/phpstan": "^1.8",
-        "squizlabs/php_codesniffer": "^3.7",
-        "vimeo/psalm": "^4.27"
+    "suggest": {
+        "ext-phalcon": "Install the Phalcon v5 C extension to run on v5 (the default); alternatively run on v6 via the phalcon/phalcon package - see the Dockerfile PHALCON_VARIANT build arg and the README."
     },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
-    },
-    "scripts": {
-        "phpcs": "phpcs --standard=PSR12"
+        "optimize-autoloader": true,
+        "allow-plugins": {}
     }
 }

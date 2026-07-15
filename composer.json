@@ -21,7 +21,10 @@
     "require": {
         "php": ">=8.1",
         "ext-json": "*",
-        "ext-openssl": "*"
+        "ext-openssl": "*",
+        "league/fractal": "^0.21.0",
+        "robmorgan/phinx": "^0.16.12",
+        "vlucas/phpdotenv": "^5.6"
     },
     "suggest": {
         "ext-phalcon": "Install the Phalcon v5 C extension to run on v5 (the default); alternatively run on v6 via the phalcon/phalcon package - see the Dockerfile PHALCON_VARIANT build arg and the README."

@@ -34,5 +34,12 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "allow-plugins": {}
+    },
+    "require-dev": {
+        "pds/composer-script-names": "^1.0",
+        "pds/skeleton": "^1.0",
+        "phalcon/ide-stubs": "^5.16",
+        "phpstan/phpstan": "^2.2",
+        "squizlabs/php_codesniffer": "^4.0"
     }
 }

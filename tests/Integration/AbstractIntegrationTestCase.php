@@ -39,21 +39,37 @@ use function uniqid;
 
 /**
  * Ported from the Codeception `Helper\Integration` module. Boots the application
- * container for each test and tracks the records a test creates so they can be
- * removed afterwards.
+ * container for each test.
+ *
+ * No transactions, no rollback, no bookkeeping of created records. A test that
+ * writes to the database owns what it wrote and removes it itself. Wrapping each
+ * test in a transaction the harness controlled made it impossible to ever assert
+ * a real commit or rollback, and deleting through the models under test fell
+ * apart the moment mutation testing broke those models.
  */
 abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
 {
-    protected ?DiInterface $diContainer = null;
+    /**
+     * Every table a test may write to. tearDown() empties them all, which is
+     * what keeps the suite idempotent now that nothing is rolled back. Order is
+     * irrelevant: the foreign keys are switched off around the truncation.
+     *
+     * @var array<int, string>
+     */
+    private const TABLES = [
+        'co_companies',
+        'co_companies_x_products',
+        'co_individual_types',
+        'co_individuals',
+        'co_product_types',
+        'co_products',
+        'co_users',
+    ];
 
-    /** @var array<string, bool> */
-    protected array $options = ['rollback' => false];
+    protected ?DiInterface $diContainer = null;
 
     /** @var array<string, array<string, mixed>> */
     protected array $savedModels = [];
-
-    /** @var array<int, AbstractModel> */
-    protected array $savedRecords = [];
 
     protected function setUp(): void
     {
@@ -62,24 +78,20 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
         $app               = new Api();
         $this->diContainer = $app->getContainer();
 
-        if ($this->options['rollback']) {
-            $this->diContainer->get('db')->begin();
-        }
+        $this->savedModels = [];
 
-        $this->savedModels  = [];
-        $this->savedRecords = [];
+        /**
+         * The data cache is Redis, shared with the running server the api suite
+         * drives over HTTP. A record cached under one test would still answer a
+         * later test that expects it gone, so each test starts from an empty
+         * cache as well as an empty database.
+         */
+        $this->diContainer->get('cache')->clear();
     }
 
     protected function tearDown(): void
     {
-        if (!$this->options['rollback']) {
-            foreach ($this->savedRecords as $record) {
-                $record->delete();
-            }
-        } else {
-            $this->diContainer->get('db')->rollback();
-        }
-
+        $this->truncateTables();
         $this->diContainer->get('db')->close();
 
         parent::tearDown();
@@ -294,8 +306,6 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
         $this->savedModels[$modelName] = $fields;
         $this->assertNotSame(false, $result);
 
-        $this->savedRecords[] = $record;
-
         return $record;
     }
 
@@ -393,12 +403,27 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
     {
         $this->savedModels[$model] = array_merge($by, $fields);
 
-        $record = $this->seeRecordFieldsValid(
+        $this->seeRecordFieldsValid(
             $model,
             array_keys($by),
             array_keys($by)
         );
+    }
 
-        $this->savedRecords[] = $record;
+    /**
+     * Empties every table a test may have written to, at the database level so
+     * a broken model cannot get in the way. Foreign keys are switched off for
+     * the duration: with them on a plain TRUNCATE refuses on any table another
+     * one references, and the point is precisely to clear all of them.
+     */
+    private function truncateTables(): void
+    {
+        $db = $this->diContainer->get('db');
+
+        $db->execute('SET FOREIGN_KEY_CHECKS = 0');
+        foreach (self::TABLES as $table) {
+            $db->execute('TRUNCATE TABLE ' . $table);
+        }
+        $db->execute('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

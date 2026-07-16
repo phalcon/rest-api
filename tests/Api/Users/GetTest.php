@@ -136,7 +136,7 @@ final class GetTest extends AbstractApiTestCase
 
     public function testLoginKnownUserGetUnknownUser(): void
     {
-        $this->addApiUserRecord();
+        $record = $this->addApiUserRecord();
         $this->unsetHttpHeader('Authorization');
         $this->sendPost(Data::$loginUrl, Data::loginJson());
         $this->assertResponseIsSuccessful();
@@ -145,7 +145,13 @@ final class GetTest extends AbstractApiTestCase
         $token    = $response['data']['token'];
 
         $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$usersUrl . '/1');
+        /**
+         * This test creates a single user, which owns the lowest id, so the
+         * next id up cannot exist. Asking for a fixed `1` only ever worked
+         * while ids ran into the thousands; now that tearDown truncates and
+         * they restart from one, `1` is the user we just made.
+         */
+        $this->sendGet(Data::$usersUrl . '/' . ($record->get('id') + 1));
         $this->assertResponseIs404();
     }
 

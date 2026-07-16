@@ -90,7 +90,11 @@ abstract class AbstractModel extends PhModel
     }
 
     /**
-     * Sets a field in the model sanitized
+     * Sets a field in the model.
+     *
+     * The value is stored as it was given. Sanitising is get()'s job - doing it
+     * here as well escaped everything twice, so a stored '&' came back out as
+     * '&amp;amp;'.
      *
      * @param string $field The name of the field
      * @param mixed  $value The value of the field
@@ -106,7 +110,12 @@ abstract class AbstractModel extends PhModel
     }
 
     /**
-     * Gets or sets a field and sanitizes it if necessary
+     * Gets or sets a field, sanitising on the way out only.
+     *
+     * Both directions used to sanitise, which escaped every value twice: set()
+     * turned '&' into '&amp;' and get() then turned that into '&amp;amp;'. The
+     * filter map is still consulted for both, so an unknown field is rejected
+     * either way.
      *
      * @param string $type
      * @param string $field
@@ -133,7 +142,7 @@ abstract class AbstractModel extends PhModel
         if ('get' === $type) {
             $return = $this->sanitize($this->$field, $filter);
         } else {
-            $this->$field = $this->sanitize($value, $filter);
+            $this->$field = $value;
         }
 
         return $return;

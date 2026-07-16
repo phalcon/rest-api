@@ -19,6 +19,7 @@ use Phalcon\Api\Tests\Support\Data;
 use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Validator;
 use Phalcon\Filter\Filter;
 
@@ -58,6 +59,77 @@ final class UsersTest extends AbstractIntegrationTestCase
         $class  = Validator::class;
         $actual = $user->getValidationData($token);
         $this->assertInstanceOf($class, $actual);
+    }
+
+    /**
+     * Guards the field whitelist at the model, where it is declared. The api
+     * suite asserts JSON subsets, so it cannot prove absence on its own.
+     */
+    public function testGetPublicFields(): void
+    {
+        $expected = [
+            'id',
+            'status',
+            'username',
+            'issuer',
+            'tokenId',
+        ];
+
+        $actual = (new Users())->getPublicFields();
+
+        $this->assertSame($expected, $actual);
+        $this->assertNotContains('password', $actual);
+        $this->assertNotContains('tokenPassword', $actual);
+    }
+
+    /**
+     * getToken() builds and signs the token from the record, which is what the
+     * login endpoint hands back.
+     */
+    public function testGetToken(): void
+    {
+        /** @var Users $user */
+        $user = $this->haveRecordWithFields(
+            Users::class,
+            [
+                'status'        => 1,
+                'username'      => Data::$testUsername,
+                'password'      => Data::$testPasswordHash,
+                'issuer'        => Data::$testIssuer,
+                'tokenPassword' => Data::$strongPassphrase,
+                'tokenId'       => Data::$testTokenId,
+            ]
+        );
+
+        $token  = $user->getToken();
+        $parsed = $this->getToken($token);
+        $claims = $parsed->getClaims();
+
+        $this->assertSame(Data::$testIssuer, $claims->get(Enum::ISSUER));
+        $this->assertSame(Data::$testTokenId, $claims->get(Enum::ID));
+        $this->assertSame([$this->getTokenAudience()], $claims->get(Enum::AUDIENCE));
+
+        /**
+         * The signature must verify against the record's passphrase - that is
+         * the whole point of the token.
+         *
+         * Asserted against get('tokenPassword') rather than the raw constant:
+         * get() sanitises, so a passphrase containing '&' comes back as
+         * '&amp;'. Signing and verification both read through get(), so the key
+         * in use is the sanitised form, not the string handed to set().
+         */
+        $passphrase = $user->get('tokenPassword');
+
+        $this->assertTrue($parsed->verify(new Hmac(), $passphrase));
+        $this->assertFalse($parsed->verify(new Hmac(), 'not-the-passphrase'));
+
+        /**
+         * Issued in the past, expiring in the future.
+         */
+        $now = time();
+        $this->assertLessThanOrEqual($now, $claims->get(Enum::ISSUED_AT));
+        $this->assertLessThanOrEqual($now, $claims->get(Enum::NOT_BEFORE));
+        $this->assertGreaterThan($now, $claims->get(Enum::EXPIRATION_TIME));
     }
 
     public function testValidateFilters(): void

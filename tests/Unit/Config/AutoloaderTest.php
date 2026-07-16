@@ -49,7 +49,7 @@ final class AutoloaderTest extends AbstractUnitTestCase
 
         $this->assertSame('true', $_ENV['APP_DEBUG']);
         $this->assertSame('development', $_ENV['APP_ENV']);
-        $this->assertSame('http://api.phalcon.ld', $_ENV['APP_URL']);
+        $this->assertSame('http://localhost:8080', $_ENV['APP_URL']);
         $this->assertSame('/', $_ENV['APP_BASE_URI']);
         $this->assertSame('team@phalcon.io', $_ENV['APP_SUPPORT_EMAIL']);
         $this->assertSame('UTC', $_ENV['APP_TIMEZONE']);

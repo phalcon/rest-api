@@ -40,7 +40,7 @@ final class ErrorHandlerTest extends AbstractUnitTestCase
 
         $handler->handle(1, 'test error', 'file.php', 4);
         $fileName = appPath('storage/logs/api.log');
-        $expected = '[ERROR] [#:1]-[L: 4] : test error (file.php)';
+        $expected = '[error] [#:1]-[L: 4] : test error (file.php)';
 
         $this->assertFileContentsContains($fileName, $expected);
     }
@@ -61,7 +61,7 @@ final class ErrorHandlerTest extends AbstractUnitTestCase
 
         $handler->shutdown();
         $fileName = appPath('storage/logs/api.log');
-        $expected = '[INFO] Shutdown completed';
+        $expected = '[info] Shutdown completed';
 
         $this->assertFileContentsContains($fileName, $expected);
     }

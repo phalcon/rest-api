@@ -55,7 +55,7 @@ final class FunctionsTest extends AbstractUnitTestCase
     public function testAppUrlWithUrl(): void
     {
         $this->assertSame(
-            'http://api.phalcon.ld/companies/1',
+            'http://localhost:8080/companies/1',
             appUrl(Relationships::COMPANIES, 1)
         );
     }

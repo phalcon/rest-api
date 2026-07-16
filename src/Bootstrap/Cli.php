@@ -33,8 +33,6 @@ class Cli extends AbstractBootstrap
         $this->processArguments();
 
         parent::__construct();
-
-        return $this;
     }
 
     /**

@@ -21,8 +21,10 @@ class MainTask extends PhTask
 {
     /**
      * Executes the main action of the cli mapping passed parameters to tasks
+     *
+     * @return void
      */
-    public function mainAction()
+    public function mainAction(): void
     {
         // 'green' => "\033[0;32m(%s)\033[0m",
         // 'red'   => "\033[0;31m(%s)\033[0m",

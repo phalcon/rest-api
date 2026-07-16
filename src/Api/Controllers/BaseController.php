@@ -17,6 +17,7 @@ use Phalcon\Api\Http\Response;
 use Phalcon\Api\Services\QueryService;
 use Phalcon\Api\Traits\FractalTrait;
 use Phalcon\Api\Traits\ResponseTrait;
+use Phalcon\Api\Transformers\BaseTransformer;
 use Phalcon\Filter\Exception;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
@@ -59,8 +60,13 @@ class BaseController extends Controller
     /** @var array<string, bool> */
     protected array $sortFields = [];
 
-    /** @var class-string<BaseTransformer>|string */
-    protected string $transformer = '';
+    /**
+     * Defaults to the base transformer rather than an empty string: every
+     * concrete controller names its own, and '' was never a usable value.
+     *
+     * @var class-string<BaseTransformer>
+     */
+    protected string $transformer = BaseTransformer::class;
 
     /**
      * Get the company/companies

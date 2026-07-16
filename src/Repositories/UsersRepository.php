@@ -60,9 +60,17 @@ class UsersRepository
             'status'  => Flags::ACTIVE,
         ];
 
-        $result = $this->queryService->getRecords(Users::class, $parameters);
+        /**
+         * getFirst() rather than [0]: ResultsetInterface declares the former,
+         * and answers null on an empty set.
+         *
+         * @var Users|null $user
+         */
+        $user = $this->queryService->getRecords(Users::class, $parameters)
+                                   ->getFirst()
+        ;
 
-        return $result[0] ?? null;
+        return $user;
     }
 
     /**
@@ -100,7 +108,7 @@ class UsersRepository
             false
         );
         /** @var Users|null $user */
-        $user = $result[0] ?? null;
+        $user = $result->getFirst();
 
         if (null === $user) {
             $this->security->checkHash($password, self::DUMMY_HASH);

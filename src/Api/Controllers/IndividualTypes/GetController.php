@@ -16,6 +16,7 @@ namespace Phalcon\Api\Api\Controllers\IndividualTypes;
 use Phalcon\Api\Api\Controllers\BaseController;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\IndividualTypes;
+use Phalcon\Api\Transformers\BaseTransformer;
 use Phalcon\Api\Transformers\IndividualTypesTransformer;
 
 /**
@@ -40,6 +41,6 @@ class GetController extends BaseController
         'description' => false,
     ];
 
-    /** @var string */
+    /** @var class-string<BaseTransformer> */
     protected string $transformer = IndividualTypesTransformer::class;
 }

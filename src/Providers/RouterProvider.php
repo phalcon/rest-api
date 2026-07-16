@@ -104,7 +104,7 @@ class RouterProvider implements ServiceProviderInterface
     /**
      * Returns the array for the middleware with the action to attach
      *
-     * @return array
+     * @return array<class-string, string> Middleware class => the Micro hook it attaches to
      */
     private function getMiddleware(): array
     {
@@ -118,11 +118,11 @@ class RouterProvider implements ServiceProviderInterface
     /**
      * Adds multiple routes for the same handler abiding by the JSONAPI standard
      *
-     * @param array  $routes
-     * @param string $class
-     * @param string $relationship
+     * @param array<int, array{0: class-string, 1: string, 2: string, 3: string}> $routes
+     * @param class-string                                                        $class
+     * @param string                                                              $relationship
      *
-     * @return array
+     * @return array<int, array{0: class-string, 1: string, 2: string, 3: string}>
      */
     private function getMultiRoutes(
         array $routes,
@@ -145,7 +145,7 @@ class RouterProvider implements ServiceProviderInterface
     /**
      * Returns the array for the routes
      *
-     * @return array
+     * @return array<int, array{0: class-string, 1: string, 2: string, 3: string}> Handler, prefix, verb, route
      */
     private function getRoutes(): array
     {

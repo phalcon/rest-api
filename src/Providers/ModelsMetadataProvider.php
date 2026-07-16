@@ -50,7 +50,8 @@ class ModelsMetadataProvider implements ServiceProviderInterface
                 $options = $entry['options'] ?? [];
 
                 if ($adapter === Memory::class) {
-                    return new $adapter($options);
+                    // Memory declares no constructor; it takes no options.
+                    return new Memory();
                 }
 
                 $serializer     = new SerializerFactory();

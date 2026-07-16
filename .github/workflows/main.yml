@@ -65,11 +65,8 @@ jobs:
       - name: "PHP CS Fixer (dry-run)"
         run: composer cs-fixer
 
-      # PHPStan is deliberately not gated yet: `composer analyze` reports 154
-      # errors at level max. Uncomment once those are cleared - that work is
-      # tracked separately and is the next task after this workflow lands.
-      # - name: "PHPStan"
-      #   run: composer analyze
+      - name: "PHPStan"
+        run: composer analyze
 
   tests:
     name: "Tests (PHP ${{ matrix.php }}, Phalcon ${{ matrix.variant }})"

@@ -12,3 +12,12 @@ parameters:
     # from Composer only; the analysed paths above cover the application's classes.
     bootstrapFiles:
         - ../vendor/autoload.php
+    ignoreErrors:
+        # Phalcon\Mvc\Model is generic (@template T) in the v6 source; the v5 C
+        # extension's model is not, so AbstractModel cannot parametrize it and
+        # still run on both variants.
+        - '#extends generic class Phalcon\\Mvc\\Model but does not specify its types#'
+        # Loader::setNamespaces() is typed array<string, array<string, string>>,
+        # but it documents and accepts a plain directory string per namespace -
+        # which is what src/Core/autoload.php passes, on both variants.
+        - '#Parameter \#1 \$namespaces of method Phalcon\\Autoload\\Loader::setNamespaces\(\) expects#'

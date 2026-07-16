@@ -16,6 +16,7 @@ namespace Phalcon\Api\Api\Controllers\Companies;
 use Phalcon\Api\Api\Controllers\BaseController;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Transformers\BaseTransformer;
 use Phalcon\Api\Transformers\CompaniesTransformer;
 
 /**
@@ -43,6 +44,6 @@ class GetController extends BaseController
         'phone'   => true,
     ];
 
-    /** @var string */
+    /** @var class-string<BaseTransformer> */
     protected string $transformer = CompaniesTransformer::class;
 }

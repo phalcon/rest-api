@@ -38,7 +38,7 @@ class ErrorHandlerProvider implements ServiceProviderInterface
     {
         /** @var Logger $logger */
         $logger = $container->getShared('logger');
-        /** @var Config $registry */
+        /** @var Config $config */
         $config = $container->getShared('config');
 
         date_default_timezone_set($config->path('app.timezone'));

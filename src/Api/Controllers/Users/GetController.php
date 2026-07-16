@@ -43,6 +43,6 @@ class GetController extends BaseController
         'tokenId'       => false,
     ];
 
-    /** @var string */
+    /** @var class-string<BaseTransformer> */
     protected string $transformer = BaseTransformer::class;
 }

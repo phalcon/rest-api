@@ -16,6 +16,7 @@ namespace Phalcon\Api\Api\Controllers\ProductTypes;
 use Phalcon\Api\Api\Controllers\BaseController;
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\ProductTypes;
+use Phalcon\Api\Transformers\BaseTransformer;
 use Phalcon\Api\Transformers\ProductTypesTransformer;
 
 /**
@@ -40,6 +41,6 @@ class GetController extends BaseController
         'description' => false,
     ];
 
-    /** @var string */
+    /** @var class-string<BaseTransformer> */
     protected string $transformer = ProductTypesTransformer::class;
 }

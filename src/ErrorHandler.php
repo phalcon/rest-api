@@ -52,7 +52,7 @@ class ErrorHandler
      * @param string $file
      * @param int    $line
      *
-     * @return void
+     * @return bool
      * @throws Exception
      */
     public function handle(
@@ -60,7 +60,7 @@ class ErrorHandler
         string $message,
         string $file = '',
         int $line = 0
-    ): void {
+    ): bool {
         $this
             ->logger
             ->error(
@@ -73,6 +73,13 @@ class ErrorHandler
                 )
             )
         ;
+
+        /**
+         * The error is handled: it has been logged. Returning nothing would
+         * hand it on to PHP's internal handler as well, which is the contract
+         * set_error_handler() documents for a falsy return.
+         */
+        return true;
     }
 
     /**

@@ -111,7 +111,7 @@ class Users extends AbstractModel
     }
 
     /**
-     * @return Builder
+     * @return Token
      * @throws ModelException
      * @throws ValidatorException
      */

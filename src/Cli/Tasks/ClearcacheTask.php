@@ -21,6 +21,7 @@ use RecursiveIteratorIterator;
 use Redis;
 
 use function in_array;
+use function is_array;
 use function Phalcon\Api\Core\appPath;
 
 use const PHP_EOL;
@@ -35,8 +36,10 @@ class ClearcacheTask extends PhTask
 {
     /**
      * Clears the data cache from the application
+     *
+     * @return void
      */
-    public function mainAction()
+    public function mainAction(): void
     {
         $this->clearFileCache();
         $this->clearRedis();
@@ -44,8 +47,10 @@ class ClearcacheTask extends PhTask
 
     /**
      * Clears file based cache
+     *
+     * @return void
      */
-    private function clearFileCache()
+    private function clearFileCache(): void
     {
         echo 'Clearing Cache folders' . PHP_EOL;
 
@@ -78,8 +83,10 @@ class ClearcacheTask extends PhTask
 
     /**
      * Clears redis data cache
+     *
+     * @return void
      */
-    private function clearRedis()
+    private function clearRedis(): void
     {
         echo 'Clearing data cache' . PHP_EOL;
 
@@ -92,8 +99,12 @@ class ClearcacheTask extends PhTask
             $options['options']['port']
         );
 
-        $keys = $redis->keys("*");
-        $keys = $keys ?: [];
+        /**
+         * keys() is typed array|Redis because phpredis answers itself when the
+         * connection is in pipeline mode. It is not, here.
+         */
+        $keys = $redis->keys('*');
+        $keys = is_array($keys) ? $keys : [];
         echo sprintf('Found %s keys', count($keys)) . PHP_EOL;
         foreach ($keys as $key) {
             if ('api-data' === substr($key, 0, 8)) {

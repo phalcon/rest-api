@@ -40,6 +40,6 @@ class Request extends PhRequest
      */
     public function isLoginPage(): bool
     {
-        return ('/login' === $this->getURI());
+        return '/login' === $this->getURI();
     }
 }

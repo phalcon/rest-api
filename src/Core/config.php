@@ -45,15 +45,7 @@ return [
     ],
     'cache'    => [
         'adapter' => 'redis',
-        'options' => [
-            'host'     => envValue('DATA_API_REDIS_HOST', '127.0.0.1'),
-            'port'     => envValue('DATA_API_REDIS_PORT', 6379),
-            'index'    => envValue('DATA_API_REDIS_WEIGHT', 0),
-            // Cast: env values arrive as strings, and AbstractAdapter::getTtl()
-            // is typed to return int.
-            'lifetime' => (int) envValue('CACHE_LIFETIME', 86400),
-            'prefix'   => 'data-',
-        ],
+        'options' => $redisOptions('data-'),
     ],
     'metadata' => [
         'dev'  => [
@@ -62,15 +54,7 @@ return [
         ],
         'prod' => [
             'adapter' => Redis::class,
-            'options' => [
-                'host'     => envValue('DATA_API_REDIS_HOST', '127.0.0.1'),
-                'port'     => envValue('DATA_API_REDIS_PORT', 6379),
-                'index'    => envValue('DATA_API_REDIS_WEIGHT', 0),
-                // Cast: env values arrive as strings, and AbstractAdapter::getTtl()
-                // is typed to return int.
-                'lifetime' => (int) envValue('CACHE_LIFETIME', 86400),
-                'prefix'   => 'metadata-',
-            ],
+            'options' => $redisOptions('metadata-'),
         ],
     ],
 ];

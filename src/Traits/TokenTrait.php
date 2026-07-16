@@ -56,7 +56,7 @@ trait TokenTrait
      */
     protected function getTokenTimeExpiration(): int
     {
-        return (time() + envValue('TOKEN_EXPIRATION', 86400));
+        return time() + envValue('TOKEN_EXPIRATION', 86400);
     }
 
     /**
@@ -76,6 +76,6 @@ trait TokenTrait
      */
     protected function getTokenTimeNotBefore(): int
     {
-        return (time() + envValue('TOKEN_NOT_BEFORE', 0));
+        return time() + envValue('TOKEN_NOT_BEFORE', 0);
     }
 }

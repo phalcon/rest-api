@@ -194,7 +194,7 @@ class BaseController extends Controller
         /**
          * Check the results. If we have something update the $orderBy
          */
-        if (count($sortArray) > 0) {
+        if (true !== empty($sortArray)) {
             $this->orderBy = implode(',', $sortArray);
         }
 

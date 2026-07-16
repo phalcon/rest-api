@@ -52,7 +52,7 @@ trait FractalTrait
         /**
          * Process relationships
          */
-        if (count($relationships) > 0) {
+        if (true !== empty($relationships)) {
             $manager->parseIncludes($relationships);
         }
 

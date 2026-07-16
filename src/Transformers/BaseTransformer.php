@@ -26,7 +26,7 @@ use function array_intersect;
  */
 class BaseTransformer extends TransformerAbstract
 {
-    /** @var array */
+    /** @var array<string, array<int, string>> */
     private array $fields = [];
 
     /** @var string */
@@ -35,8 +35,8 @@ class BaseTransformer extends TransformerAbstract
     /**
      * BaseTransformer constructor.
      *
-     * @param array  $fields
-     * @param string $resource
+     * @param array<string, array<int, string>> $fields
+     * @param string                            $resource
      */
     public function __construct(array $fields = [], string $resource = '')
     {
@@ -47,7 +47,7 @@ class BaseTransformer extends TransformerAbstract
     /**
      * @param AbstractModel $model
      *
-     * @return array
+     * @return array<string, mixed>
      * @throws ModelException
      */
     public function transform(AbstractModel $model): array
@@ -70,24 +70,46 @@ class BaseTransformer extends TransformerAbstract
     }
 
     /**
-     * @param string        $method
-     * @param AbstractModel $model
-     * @param string        $transformer
-     * @param string        $resource
+     * A related resource holding many records.
      *
-     * @return Collection|Item
+     * Split from getRelatedItem() rather than switched on a method-name string:
+     * one method returning Collection|Item cannot tell a caller which it got,
+     * so every includeXxx() declaring `: Collection` was lying by half.
+     *
+     * @param AbstractModel                 $model
+     * @param class-string<BaseTransformer> $transformer
+     * @param string                        $resource
+     *
+     * @return Collection
      */
-    protected function getRelatedData(
-        string $method,
+    protected function getRelatedCollection(
         AbstractModel $model,
         string $transformer,
         string $resource
-    ): Collection|Item {
-        /** @var AbstractModel $data */
-        $data = $model->getRelated($resource);
+    ): Collection {
+        return $this->collection(
+            $model->getRelated($resource),
+            new $transformer($this->fields, $resource),
+            $resource
+        );
+    }
 
-        return $this->$method(
-            $data,
+    /**
+     * A related resource holding a single record.
+     *
+     * @param AbstractModel                 $model
+     * @param class-string<BaseTransformer> $transformer
+     * @param string                        $resource
+     *
+     * @return Item
+     */
+    protected function getRelatedItem(
+        AbstractModel $model,
+        string $transformer,
+        string $resource
+    ): Item {
+        return $this->item(
+            $model->getRelated($resource),
             new $transformer($this->fields, $resource),
             $resource
         );

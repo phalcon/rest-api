@@ -15,7 +15,7 @@ namespace Phalcon\Api\Http;
 
 use Phalcon\Http\Response as PhResponse;
 use Phalcon\Http\ResponseInterface;
-use Phalcon\Messages\Messages;
+use Phalcon\Messages\MessageInterface;
 
 use function date;
 use function is_array;
@@ -40,6 +40,7 @@ class Response extends PhResponse
     public const TEMPORARY_REDIRECT    = 307;
     public const UNAUTHORIZED          = 401;
 
+    /** @var array<int, string> */
     private array $codes = [
         200 => 'OK',
         301 => 'Moved Permanently',
@@ -83,7 +84,7 @@ class Response extends PhResponse
         $hash      = sha1($timestamp . $content);
         $eTag      = sha1($content);
 
-        /** @var array $content */
+        /** @var array<string, mixed> $content */
         $content = json_decode($this->getContent(), true);
         $jsonapi = [
             'jsonapi' => [
@@ -125,9 +126,13 @@ class Response extends PhResponse
     }
 
     /**
-     * Traverses the errors collection and sets the errors in the payload
+     * Traverses the errors collection and sets the errors in the payload.
      *
-     * @param Messages $errors
+     * Documented as Messages for years while every caller passed something
+     * else: Model::getMessages() answers a plain array. All this needs is
+     * something iterable whose items carry getMessage().
+     *
+     * @param iterable<MessageInterface> $errors
      *
      * @return Response
      */
@@ -146,7 +151,7 @@ class Response extends PhResponse
     /**
      * Sets the payload code as Success
      *
-     * @param null|string|array $content The content
+     * @param array<string, mixed>|string|null $content The content
      *
      * @return Response
      */

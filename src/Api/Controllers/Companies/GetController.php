@@ -23,7 +23,7 @@ use Phalcon\Api\Transformers\CompaniesTransformer;
  */
 class GetController extends BaseController
 {
-    /** @var array */
+    /** @var array<int, string> */
     protected array $includes = [
         Relationships::INDIVIDUALS,
         Relationships::PRODUCTS,
@@ -34,7 +34,7 @@ class GetController extends BaseController
     /** @var string */
     protected string $resource = Relationships::COMPANIES;
 
-    /** @var array<string|boolean> */
+    /** @var array<string, bool> */
     protected array $sortFields = [
         'id'      => true,
         'name'    => true,

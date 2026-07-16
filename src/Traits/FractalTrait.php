@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Api\Traits;
 
 use League\Fractal\Manager;
+use League\Fractal\Resource\ResourceInterface;
 use League\Fractal\Serializer\JsonApiSerializer;
+use Phalcon\Api\Transformers\BaseTransformer;
 
 use function Phalcon\Api\Core\envValue;
 use function sprintf;
@@ -28,14 +30,14 @@ trait FractalTrait
     /**
      * Format results based on a transformer
      *
-     * @param string $method
-     * @param mixed  $results
-     * @param string $transformer
-     * @param string $resource
-     * @param array  $relationships
-     * @param array  $fields
+     * @param string                            $method        'collection' or 'item'
+     * @param mixed                             $results
+     * @param class-string<BaseTransformer>     $transformer
+     * @param string                            $resource
+     * @param array<int, string>                $relationships
+     * @param array<string, array<int, string>> $fields
      *
-     * @return array
+     * @return array<string, mixed>
      */
     protected function format(
         string $method,
@@ -56,12 +58,12 @@ trait FractalTrait
             $manager->parseIncludes($relationships);
         }
 
-        $class    = sprintf('League\Fractal\Resource\%s', ucfirst($method));
-        $resource = new $class($results, new $transformer($fields, $resource), $resource);
-        $results  = $manager->createData($resource)
-                            ->toArray()
-        ;
+        /** @var class-string<ResourceInterface> $class */
+        $class = sprintf('League\Fractal\Resource\%s', ucfirst($method));
 
-        return $results;
+        return $manager
+            ->createData(new $class($results, new $transformer($fields, $resource), $resource))
+            ->toArray()
+        ;
     }
 }

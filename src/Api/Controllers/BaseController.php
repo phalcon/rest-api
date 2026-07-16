@@ -41,7 +41,7 @@ class BaseController extends Controller
     use FractalTrait;
     use ResponseTrait;
 
-    /** @var array */
+    /** @var array<int, string> */
     protected array $includes = [];
 
     /** @var string */
@@ -56,10 +56,10 @@ class BaseController extends Controller
     /** @var string */
     protected string $resource = '';
 
-    /** @var array */
+    /** @var array<string, bool> */
     protected array $sortFields = [];
 
-    /** @var string */
+    /** @var class-string<BaseTransformer>|string */
     protected string $transformer = '';
 
     /**
@@ -86,7 +86,12 @@ class BaseController extends Controller
                 $this->orderBy
             );
 
-            if (count($parameters) > 0 && 0 === count($results)) {
+            /**
+             * A record was asked for by id and nothing came back. `getFirst()`
+             * rather than `count()`: ResultsetInterface declares the former and
+             * not the latter, however countable the concrete Resultset is.
+             */
+            if (true !== empty($parameters) && null === $results->getFirst()) {
                 $this->sendError($this->response::NOT_FOUND);
             } else {
                 $data = $this->format(
@@ -106,7 +111,7 @@ class BaseController extends Controller
     }
 
     /**
-     * @return array
+     * @return array<string, array<int, string>>
      */
     private function checkFields(): array
     {
@@ -128,7 +133,7 @@ class BaseController extends Controller
      *
      * @param mixed $recordId
      *
-     * @return array
+     * @return array<string, int>
      * @throws Exception
      */
     private function checkIdParameter(mixed $recordId = 0): array
@@ -148,7 +153,7 @@ class BaseController extends Controller
     /**
      * Processes the includes requested; Unknown includes are ignored
      *
-     * @return array
+     * @return array<int, string>
      */
     private function checkIncludes(): array
     {
@@ -207,7 +212,7 @@ class BaseController extends Controller
      *
      * @param string $field
      *
-     * @return array
+     * @return array{0: string, 1: string} The field name and its direction
      */
     private function getFieldAndDirection(string $field): array
     {
@@ -229,8 +234,10 @@ class BaseController extends Controller
      * Sets the response with an error code
      *
      * @param int $code
+     *
+     * @return void
      */
-    private function sendError(int $code)
+    private function sendError(int $code): void
     {
         $this
             ->response

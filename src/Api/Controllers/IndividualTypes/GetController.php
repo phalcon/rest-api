@@ -23,7 +23,7 @@ use Phalcon\Api\Transformers\IndividualTypesTransformer;
  */
 class GetController extends BaseController
 {
-    /** @var array */
+    /** @var array<int, string> */
     protected array $includes = [
         Relationships::INDIVIDUALS,
     ];

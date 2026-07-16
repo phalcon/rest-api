@@ -37,62 +37,77 @@ class AddController extends Controller
     /**
      * Adds a record in the database
      *
+     * @return void
      * @throws ModelException
      */
-    public function callAction()
+    public function callAction(): void
     {
         $validator = new CompaniesValidator();
         $messages  = $validator->validate($this->request->getPost());
 
         /**
-         * If no messages are returned, go ahead with the query
+         * validate() answers false when a beforeValidation handler cancels the
+         * run, which is not the same as "nothing was wrong" - so it must not
+         * fall through to the insert. CompaniesValidator installs no such
+         * handler today, but the signature allows it and the old
+         * `count($messages)` would have been fatal on false rather than caught.
          */
-        if (0 === count($messages)) {
-            $name    = $this->request->getPost('name', Filter::FILTER_STRING);
-            $address = $this->request->getPost('address', Filter::FILTER_STRING, '');
-            $city    = $this->request->getPost('city', Filter::FILTER_STRING, '');
-            $phone   = $this->request->getPost('phone', Filter::FILTER_STRING, '');
-
-            $company = new Companies();
-            $result  = $company
-                ->set('name', $name)
-                ->set('address', $address)
-                ->set('city', $city)
-                ->set('phone', $phone)
-                ->save()
+        if (false === $messages) {
+            $this
+                ->response
+                ->setPayloadError('The company could not be validated')
             ;
 
-            if (false !== $result) {
-                $data = $this->format(
-                    'item',
-                    $company,
-                    BaseTransformer::class,
-                    'companies'
-                );
+            return;
+        }
 
-                $this
-                    ->response
-                    ->setHeader('Location', appUrl(Relationships::COMPANIES, $company->get('id')))
-                    ->setJsonContent($data)
-                    ->setStatusCode($this->response::CREATED)
-                ;
-            } else {
-                /**
-                 * Errors happened store them
-                 */
-                $this
-                    ->response
-                    ->setPayloadErrors($company->getMessages())
-                ;
-            }
-        } else {
-            /**
-             * Set the errors in the payload
-             */
+        if (0 !== $messages->count()) {
             $this
                 ->response
                 ->setPayloadErrors($messages)
             ;
+
+            return;
         }
+
+        $name    = $this->request->getPost('name', Filter::FILTER_STRING);
+        $address = $this->request->getPost('address', Filter::FILTER_STRING, '');
+        $city    = $this->request->getPost('city', Filter::FILTER_STRING, '');
+        $phone   = $this->request->getPost('phone', Filter::FILTER_STRING, '');
+
+        $company = new Companies();
+        $result  = $company
+            ->set('name', $name)
+            ->set('address', $address)
+            ->set('city', $city)
+            ->set('phone', $phone)
+            ->save()
+        ;
+
+        if (false === $result) {
+            /**
+             * Errors happened store them
+             */
+            $this
+                ->response
+                ->setPayloadErrors($company->getMessages())
+            ;
+
+            return;
+        }
+
+        $data = $this->format(
+            'item',
+            $company,
+            BaseTransformer::class,
+            'companies'
+        );
+
+        $this
+            ->response
+            ->setHeader('Location', appUrl(Relationships::COMPANIES, $company->get('id')))
+            ->setJsonContent($data)
+            ->setStatusCode($this->response::CREATED)
+        ;
     }
 }

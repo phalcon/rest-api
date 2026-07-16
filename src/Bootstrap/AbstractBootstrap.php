@@ -32,10 +32,10 @@ abstract class AbstractBootstrap
     /** @var FactoryDefault|PhCli|null */
     protected FactoryDefault|PhCli|null $container = null;
 
-    /** @var array */
+    /** @var array<string, string> */
     protected array $options = [];
 
-    /** @var array */
+    /** @var array<int, class-string<ServiceProviderInterface>> */
     protected array $providers = [];
 
     /**

@@ -23,6 +23,7 @@ use Phalcon\Api\Models\Products;
  */
 class ProductsTransformer extends BaseTransformer
 {
+    /** @var array<int, string> */
     protected array $availableIncludes = [
         Relationships::COMPANIES,
         Relationships::PRODUCT_TYPES,
@@ -37,8 +38,7 @@ class ProductsTransformer extends BaseTransformer
      */
     public function includeCompanies(Products $product): Collection
     {
-        return $this->getRelatedData(
-            'collection',
+        return $this->getRelatedCollection(
             $product,
             CompaniesTransformer::class,
             Relationships::COMPANIES
@@ -54,8 +54,7 @@ class ProductsTransformer extends BaseTransformer
      */
     public function includeProductTypes(Products $product): Item
     {
-        return $this->getRelatedData(
-            'item',
+        return $this->getRelatedItem(
             $product,
             ProductTypesTransformer::class,
             Relationships::PRODUCT_TYPES

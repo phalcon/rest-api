@@ -22,7 +22,7 @@ use Phalcon\Api\Models\Individuals;
  */
 class IndividualsTransformer extends BaseTransformer
 {
-    /** @var array */
+    /** @var array<int, string> */
     protected array $availableIncludes = [
         Relationships::COMPANIES,
         Relationships::INDIVIDUAL_TYPES,
@@ -37,8 +37,7 @@ class IndividualsTransformer extends BaseTransformer
      */
     public function includeCompanies(Individuals $individual): Item
     {
-        return $this->getRelatedData(
-            'item',
+        return $this->getRelatedItem(
             $individual,
             CompaniesTransformer::class,
             Relationships::COMPANIES
@@ -54,8 +53,7 @@ class IndividualsTransformer extends BaseTransformer
      */
     public function includeIndividualTypes(Individuals $individual): Item
     {
-        return $this->getRelatedData(
-            'item',
+        return $this->getRelatedItem(
             $individual,
             IndividualTypesTransformer::class,
             Relationships::INDIVIDUAL_TYPES

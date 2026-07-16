@@ -58,7 +58,7 @@ class TokenValidationMiddleware extends TokenBase
 
             /** @var Users $user */
             $user   = $this->getUserByToken($config, $cache, $token);
-            $errors = $token->validate($user->getValidationData());
+            $errors = $token->validate($user->getValidationData($token));
 
             if (true !== empty($errors)) {
                 $this->halt(

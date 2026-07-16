@@ -20,6 +20,7 @@ use Phalcon\Filter\Filter;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
+use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Token;
 use Phalcon\Encryption\Security\JWT\Validator;
 
@@ -72,16 +73,23 @@ class Users extends AbstractModel
     }
 
     /**
-     * Returns the Validator object for this record (JWT)
+     * Returns the Validator for the token that was sent to us, carrying the
+     * values this record and the environment expect that token to hold.
+     *
+     * @param Token $token The token from the request - it is the one validated
      *
      * @return Validator
      * @throws ModelException
      */
-    public function getValidationData(): Validator
+    public function getValidationData(Token $token): Validator
     {
-        $token = $this->getBuilderToken();
+        $validator = new Validator($token, 10);
 
-        return new Validator($token, 10);
+        return $validator
+            ->set(Enum::AUDIENCE, $this->getTokenAudience())
+            ->set(Enum::ISSUER, $this->get('issuer'))
+            ->set(Enum::ID, $this->get('tokenId'))
+        ;
     }
 
     /**

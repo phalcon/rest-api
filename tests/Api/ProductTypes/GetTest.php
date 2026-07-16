@@ -79,7 +79,7 @@ final class GetTest extends AbstractApiTestCase
             [
                 [
                     'type'          => Relationships::PRODUCT_TYPES,
-                    'id'            => $productType->get('id'),
+                    'id'            => (string) $productType->get('id'),
                     'attributes'    => [
                         'name'        => $productType->get('name'),
                         'description' => $productType->get('description'),
@@ -113,11 +113,11 @@ final class GetTest extends AbstractApiTestCase
                             'data'  => [
                                 [
                                     'type' => Relationships::PRODUCTS,
-                                    'id'   => $productOne->get('id'),
+                                    'id'   => (string) $productOne->get('id'),
                                 ],
                                 [
                                     'type' => Relationships::PRODUCTS,
-                                    'id'   => $productTwo->get('id'),
+                                    'id'   => (string) $productTwo->get('id'),
                                 ],
                             ],
                         ],

@@ -54,7 +54,7 @@ final class GetFieldsTest extends AbstractGetTestCase
 
         $element = [
             'type'       => Relationships::COMPANIES,
-            'id'         => $com->get('id'),
+            'id'         => (string) $com->get('id'),
             'attributes' => [
                 'name' => $com->get('name'),
                 'city' => $com->get('city'),
@@ -89,11 +89,11 @@ final class GetFieldsTest extends AbstractGetTestCase
             'data'  => [
                 [
                     'type' => Relationships::PRODUCTS,
-                    'id'   => $prdOne->get('id'),
+                    'id'   => (string) $prdOne->get('id'),
                 ],
                 [
                     'type' => Relationships::PRODUCTS,
-                    'id'   => $prdTwo->get('id'),
+                    'id'   => (string) $prdTwo->get('id'),
                 ],
             ],
         ];

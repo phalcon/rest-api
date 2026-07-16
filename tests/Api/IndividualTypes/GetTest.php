@@ -80,7 +80,7 @@ final class GetTest extends AbstractApiTestCase
             [
                 [
                     'type'          => Relationships::INDIVIDUAL_TYPES,
-                    'id'            => $individualType->get('id'),
+                    'id'            => (string) $individualType->get('id'),
                     'attributes'    => [
                         'name'        => $individualType->get('name'),
                         'description' => $individualType->get('description'),
@@ -114,11 +114,11 @@ final class GetTest extends AbstractApiTestCase
                             'data'  => [
                                 [
                                     'type' => Relationships::INDIVIDUALS,
-                                    'id'   => $individualOne->get('id'),
+                                    'id'   => (string) $individualOne->get('id'),
                                 ],
                                 [
                                     'type' => Relationships::INDIVIDUALS,
-                                    'id'   => $individualTwo->get('id'),
+                                    'id'   => (string) $individualTwo->get('id'),
                                 ],
                             ],
                         ],

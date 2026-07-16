@@ -80,7 +80,7 @@ final class GetIncludesTest extends AbstractGetTestCase
 
         $element = [
             'type'       => Relationships::COMPANIES,
-            'id'         => $com->get('id'),
+            'id'         => (string) $com->get('id'),
             'attributes' => [
                 'name'    => $com->get('name'),
                 'address' => $com->get('address'),
@@ -120,11 +120,11 @@ final class GetIncludesTest extends AbstractGetTestCase
                     'data'  => [
                         [
                             'type' => Relationships::INDIVIDUALS,
-                            'id'   => $indOne->get('id'),
+                            'id'   => (string) $indOne->get('id'),
                         ],
                         [
                             'type' => Relationships::INDIVIDUALS,
-                            'id'   => $indTwo->get('id'),
+                            'id'   => (string) $indTwo->get('id'),
                         ],
                     ],
                 ];
@@ -154,11 +154,11 @@ final class GetIncludesTest extends AbstractGetTestCase
                     'data'  => [
                         [
                             'type' => Relationships::PRODUCTS,
-                            'id'   => $prdOne->get('id'),
+                            'id'   => (string) $prdOne->get('id'),
                         ],
                         [
                             'type' => Relationships::PRODUCTS,
-                            'id'   => $prdTwo->get('id'),
+                            'id'   => (string) $prdTwo->get('id'),
                         ],
                     ],
                 ];

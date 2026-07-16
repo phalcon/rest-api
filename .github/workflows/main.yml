@@ -12,19 +12,13 @@ env:
   # Phalcon v5 C extension constraint (installed from source via PIE)
   PHALCON_CONSTRAINT: "^5.0"
   EXTENSIONS: "mbstring, intl, json, openssl, redis, pdo_mysql"
-  # Talon's own settings. Settings::fromEnv() reads getenv() before $_ENV, so
-  # these beat tests/.env.test, which points at the compose service names.
+  # The application reads DATA_API_*; Talon reads DATA_* for its own settings.
+  # Both resolve getenv() before $_ENV, so these beat the files that point at
+  # the compose service names (.env for the app, tests/.env.test for Talon).
+  DATA_API_MYSQL_HOST: "127.0.0.1"
+  DATA_API_REDIS_HOST: "127.0.0.1"
   DATA_MYSQL_HOST: "127.0.0.1"
   DATA_REDIS_HOST: "127.0.0.1"
-  #
-  # The application's DATA_API_* are deliberately NOT set here. envValue() reads
-  # $_ENV only - never getenv() - and phpdotenv is immutable: if a real
-  # environment variable already exists it declines to write it into $_ENV. So
-  # exporting DATA_API_MYSQL_HOST here does not configure the application, it
-  # SILENCES the .env value and envValue() falls back to its default
-  # ('localhost' in DatabaseProvider, i.e. a unix socket, i.e. SQLSTATE[HY000]
-  # [2002]). The sed below sets them in .env instead, which is the only channel
-  # the application actually reads.
   # The api suite crosses a real HTTP boundary; this is the built-in server
   # started below. APP_URL stays http://localhost:8080 - it is what the app
   # echoes back in `links`, and the expectations must match the app.

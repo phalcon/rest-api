@@ -32,7 +32,16 @@ if (true !== function_exists('Phalcon\Api\Core\appPath')) {
 if (true !== function_exists('Phalcon\Api\Core\envValue')) {
     /**
      * Gets a variable from the environment, returns it properly formatted or the
-     * default if it does not exist
+     * default if it does not exist.
+     *
+     * The real environment is consulted first, then $_ENV, then the default.
+     * Reading $_ENV alone is not enough: $_ENV is only populated from the
+     * environment when php's `variables_order` contains `E` (the container sets
+     * EGPCS; a stock CI runner does not), and phpdotenv is immutable - when a
+     * variable already exists in the environment it declines to copy it into
+     * $_ENV. Between the two, an exported variable would otherwise be invisible
+     * here AND suppress the .env entry of the same name, leaving only the
+     * default.
      *
      * @param string     $variable
      * @param mixed|null $default
@@ -41,7 +50,12 @@ if (true !== function_exists('Phalcon\Api\Core\envValue')) {
      */
     function envValue(string $variable, mixed $default = null): mixed
     {
-        $value  = $_ENV[$variable] ?? $default;
+        $value = getenv($variable);
+
+        if (false === $value) {
+            $value = $_ENV[$variable] ?? $default;
+        }
+
         $values = [
             'false' => false,
             'true'  => true,

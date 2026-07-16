@@ -16,11 +16,9 @@ namespace Phalcon\Api\Middleware;
 use Phalcon\Api\Http\Request;
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Users;
-use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Repositories\UsersRepository;
 use Phalcon\Api\Traits\ResponseTrait;
 use Phalcon\Api\Traits\TokenTrait;
-use Phalcon\Cache\Cache;
-use Phalcon\Config\Config;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
@@ -41,7 +39,6 @@ use function implode;
  */
 class AuthenticationMiddleware implements MiddlewareInterface
 {
-    use QueryTrait;
     use ResponseTrait;
     use TokenTrait;
 
@@ -54,14 +51,12 @@ class AuthenticationMiddleware implements MiddlewareInterface
      */
     public function call(Micro $api): bool
     {
-        /** @var Cache $cache */
-        $cache = $api->getService('cache');
-        /** @var Config $config */
-        $config = $api->getService('config');
         /** @var Request $request */
         $request = $api->getService('request');
         /** @var Response $response */
         $response = $api->getService('response');
+        /** @var UsersRepository $usersRepository */
+        $usersRepository = $api->getService('usersRepository');
 
         if (true === $request->isLoginPage()) {
             return true;
@@ -79,7 +74,7 @@ class AuthenticationMiddleware implements MiddlewareInterface
          * Phase 1 - is the user attached to this token in the database?
          */
         /** @var Users|null $user */
-        $user = $this->getUserByToken($config, $cache, $token);
+        $user = $usersRepository->getByToken($token);
         if (null === $user) {
             $this->halt($api, $response::OK, 'Invalid token (user)');
 

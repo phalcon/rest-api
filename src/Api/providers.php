@@ -17,9 +17,11 @@ use Phalcon\Api\Providers\DatabaseProvider;
 use Phalcon\Api\Providers\ErrorHandlerProvider;
 use Phalcon\Api\Providers\LoggerProvider;
 use Phalcon\Api\Providers\ModelsMetadataProvider;
+use Phalcon\Api\Providers\QueryServiceProvider;
 use Phalcon\Api\Providers\RequestProvider;
 use Phalcon\Api\Providers\ResponseProvider;
 use Phalcon\Api\Providers\RouterProvider;
+use Phalcon\Api\Providers\UsersRepositoryProvider;
 
 /**
  * Enabled providers. Order does matter
@@ -34,4 +36,6 @@ return [
     ResponseProvider::class,
     RouterProvider::class,
     CacheDataProvider::class,
+    QueryServiceProvider::class,
+    UsersRepositoryProvider::class,
 ];

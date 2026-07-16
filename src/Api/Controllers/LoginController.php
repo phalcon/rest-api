@@ -17,24 +17,20 @@ use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Http\Request;
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Users;
-use Phalcon\Api\Traits\QueryTrait;
+use Phalcon\Api\Repositories\UsersRepository;
 use Phalcon\Api\Traits\TokenTrait;
-use Phalcon\Cache\Cache;
-use Phalcon\Config\Config;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
 
 /**
  * Class LoginController
  *
- * @property Cache    $cache
- * @property Config   $config
- * @property Request  $request
- * @property Response $response
+ * @property Request         $request
+ * @property Response        $response
+ * @property UsersRepository $usersRepository
  */
 class LoginController extends Controller
 {
-    use QueryTrait;
     use TokenTrait;
 
     /**
@@ -49,9 +45,7 @@ class LoginController extends Controller
         $password = $this->request->getPost('password', Filter::FILTER_STRING);
 
         /** @var Users|null $user */
-        $user = $this->getUserByUsernameAndPassword(
-            $this->config,
-            $this->cache,
+        $user = $this->usersRepository->getByUsernameAndPassword(
             $username,
             $password
         );

@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Api\Api\Controllers;
 
 use Phalcon\Api\Http\Response;
+use Phalcon\Api\Services\QueryService;
 use Phalcon\Api\Traits\FractalTrait;
-use Phalcon\Api\Traits\QueryTrait;
 use Phalcon\Api\Traits\ResponseTrait;
-use Phalcon\Cache\Cache;
-use Phalcon\Config\Config;
 use Phalcon\Filter\Exception;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
@@ -36,15 +34,13 @@ use function substr;
  * Class BaseController
  *
  * @property Micro               $application
- * @property Cache               $cache
- * @property Config              $config
  * @property ModelsMetadataCache $modelsMetadata
+ * @property QueryService        $queryService
  * @property Response            $response
  */
 class BaseController extends Controller
 {
     use FractalTrait;
-    use QueryTrait;
     use ResponseTrait;
 
     /** @var array */
@@ -86,9 +82,7 @@ class BaseController extends Controller
         if (true !== $validSort) {
             $this->sendError($this->response::BAD_REQUEST);
         } else {
-            $results = $this->getRecords(
-                $this->config,
-                $this->cache,
+            $results = $this->queryService->getRecords(
                 $this->model,
                 $parameters,
                 $this->orderBy

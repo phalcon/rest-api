@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11d8b2f30c0ab9dab5f6f0f3ae4c1354",
+    "content-hash": "1af45bf0ac93076694409e074fe499ac",
     "packages": [
         {
             "name": "cakephp/chronos",
@@ -3073,6 +3073,83 @@
                 }
             ],
             "time": "2026-07-15T23:27:22+00:00"
+        },
+        {
+            "name": "phalcon/phql",
+            "version": "1.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phalcon/phql.git",
+                "reference": "eb0500b5ca39245576ce6608cf6efcc2ca6df058"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phalcon/phql/zipball/eb0500b5ca39245576ce6608cf6efcc2ca6df058",
+                "reference": "eb0500b5ca39245576ce6608cf6efcc2ca6df058",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=8.1 <9.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "pds/composer-script-names": "^1.0",
+                "pds/skeleton": "^1.0",
+                "phalcon/talon": "^0.6.0 || ^0.7.0",
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^10.5",
+                "squizlabs/php_codesniffer": "^4.0"
+            },
+            "suggest": {
+                "phalcon/phalcon": "The Phalcon framework this module integrates with"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "resources/files/parser.php"
+                ],
+                "psr-4": {
+                    "Phalcon\\Phql\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Phalcon Team",
+                    "email": "team@phalcon.io",
+                    "homepage": "https://phalcon.io"
+                }
+            ],
+            "description": "Phalcon Query Language (PHQL)",
+            "homepage": "https://phalcon.io",
+            "keywords": [
+                "framework",
+                "phalcon",
+                "php",
+                "phql",
+                "query",
+                "sql"
+            ],
+            "support": {
+                "issues": "https://github.com/phalcon/phql/issues",
+                "source": "https://github.com/phalcon/phql"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/phalcon",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/phalcon",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2026-07-12T21:11:02+00:00"
         },
         {
             "name": "phalcon/talon",
@@ -6664,7 +6741,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phalcon/phalcon": 20
+        "phalcon/phalcon": 20,
+        "phalcon/phql": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

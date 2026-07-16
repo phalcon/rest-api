@@ -16,8 +16,17 @@ use Phalcon\Autoload\Loader;
 
 use function Phalcon\Api\Core\appPath;
 
-// Register the autoloader
+// appPath() and friends; needed before anything can be located
 require __DIR__ . '/functions.php';
+
+/**
+ * Composer first. On the v5 variant Phalcon is a C extension and its classes
+ * exist unconditionally, but on v6 the framework IS a Composer package - so
+ * `new Loader()` below cannot be reached without Composer's autoloader already
+ * registered. Loading it second worked only because the extension happened to
+ * be there.
+ */
+require appPath('/vendor/autoload.php');
 
 /**
  * The loader resolves by namespace prefix, so a single entry covers the whole
@@ -32,11 +41,6 @@ $namespaces = [
 
 $loader->setNamespaces($namespaces);
 $loader->register();
-
-/**
- * Composer Autoloader
- */
-require appPath('/vendor/autoload.php');
 
 // Load environment
 (Dotenv::createImmutable(appPath()))->load();

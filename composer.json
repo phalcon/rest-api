@@ -41,6 +41,7 @@
         "pds/skeleton": "^1.0",
         "phalcon/ide-stubs": "^5.16",
         "phalcon/phalcon": "v6.0.x-dev",
+        "phalcon/phql": "1.0.x-dev",
         "phalcon/talon": "^0.8.0",
         "phpstan/phpstan": "^2.2",
         "phpunit/phpunit": "^10.5",

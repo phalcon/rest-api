@@ -31,7 +31,7 @@ class Cli extends AbstractBootstrap
     public function __construct()
     {
         $this->container = new PhCli();
-        $this->providers = require appPath('cli/config/providers.php');
+        $this->providers = require appPath('src/Cli/providers.php');
 
         $this->processArguments();
 

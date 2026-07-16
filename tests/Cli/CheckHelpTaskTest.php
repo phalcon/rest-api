@@ -34,7 +34,7 @@ final class CheckHelpTaskTest extends AbstractUnitTestCase
         $output   = [];
         $exitCode = 1;
 
-        exec(dirname(__FILE__, 3) . '/runCli 2>&1', $output, $exitCode);
+        exec(dirname(__FILE__, 3) . '/bin/cli 2>&1', $output, $exitCode);
 
         $shellOutput = implode(PHP_EOL, $output);
 

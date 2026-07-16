@@ -23,7 +23,7 @@ final class AutoloaderTest extends AbstractUnitTestCase
 {
     public function testAutoloader(): void
     {
-        require appPath('library/Core/autoload.php');
+        require appPath('src/Core/autoload.php');
 
         $class = new Response();
         $this->assertTrue($class instanceof Response);
@@ -32,7 +32,7 @@ final class AutoloaderTest extends AbstractUnitTestCase
 
     public function testDotenvVariables(): void
     {
-        require appPath('library/Core/autoload.php');
+        require appPath('src/Core/autoload.php');
 
         $this->assertNotEquals(false, $_ENV['APP_DEBUG']);
         $this->assertNotEquals(false, $_ENV['APP_ENV']);

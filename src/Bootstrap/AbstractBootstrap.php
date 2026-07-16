@@ -48,7 +48,7 @@ abstract class AbstractBootstrap
         }
 
         if ([] === $this->providers) {
-            $this->providers = require appPath('api/config/providers.php');
+            $this->providers = require appPath('src/Api/providers.php');
         }
 
         $this

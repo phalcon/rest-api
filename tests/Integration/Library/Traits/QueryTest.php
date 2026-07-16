@@ -128,7 +128,7 @@ final class QueryTest extends AbstractIntegrationTestCase
 
     public function testGetCompaniesCachedData(): void
     {
-        $configData = require appPath('./library/Core/config.php');
+        $configData = require appPath('./src/Core/config.php');
         $this->assertTrue($configData['app']['devMode']);
 
         $configData['app']['devMode'] = false;

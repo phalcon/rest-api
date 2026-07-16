@@ -53,8 +53,8 @@
         "test": "talon run",
         "test-coverage": "talon run unit -- --coverage-clover tests/_output/coverage.xml",
         "test-coverage-html": "talon run unit -- --coverage-html tests/_output/coverage",
-        "migrate": "phinx migrate -c phinx.php",
-        "seed": "phinx seed:run -c phinx.php",
+        "migrate": "phinx migrate -c resources/phinx.php",
+        "seed": "phinx seed:run -c resources/phinx.php",
         "post-create-project-cmd": [
             "@php -r \"file_exists('.env') || copy('resources/.env.example', '.env');\"",
             "@php -r \"echo PHP_EOL . 'The Phalcon REST API is ready (.env created from resources/.env.example). Next steps:' . PHP_EOL . '  docker: docker compose up -d --build, then composer install && composer migrate' . PHP_EOL . '  tests:  vendor/bin/talon run' . PHP_EOL;\""

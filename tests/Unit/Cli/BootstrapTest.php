@@ -24,7 +24,7 @@ final class BootstrapTest extends AbstractUnitTestCase
     public function testBootstrap(): void
     {
         ob_start();
-        require appPath('cli/cli.php');
+        require appPath('bin/cli');
         $actual = ob_get_contents();
         ob_end_clean();
 
@@ -34,7 +34,7 @@ final class BootstrapTest extends AbstractUnitTestCase
             . " Phalcon Team | (C) {$year}" . PHP_EOL
             . "******************************************************" . PHP_EOL
             . "" . PHP_EOL
-            . "Usage: runCli <command>" . PHP_EOL
+            . "Usage: bin/cli <command>" . PHP_EOL
             . "" . PHP_EOL
             . "  --help         \e[0;32m(safe)\e[0m shows the help screen/available commands" . PHP_EOL
             . "  --clear-cache  \e[0;32m(safe)\e[0m clears the cache folders" . PHP_EOL

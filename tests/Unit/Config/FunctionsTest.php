@@ -47,9 +47,9 @@ final class FunctionsTest extends AbstractUnitTestCase
 
     public function testAppPathWithParameter(): void
     {
-        $path = dirname(__FILE__, 4) . '/library/Core/config.php';
+        $path = dirname(__FILE__, 4) . '/src/Core/config.php';
 
-        $this->assertSame($path, appPath('library/Core/config.php'));
+        $this->assertSame($path, appPath('src/Core/config.php'));
     }
 
     public function testEnvValueAsFalse(): void

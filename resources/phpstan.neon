@@ -1,8 +1,6 @@
 parameters:
     paths:
-        - ../api
-        - ../cli
-        - ../library
+        - ../src
         - ../public/index.php
     level: max
     reportUnmatchedIgnoredErrors: false

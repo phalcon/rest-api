@@ -26,7 +26,7 @@ $_SERVER['REQUEST_URI'] = '/';
  * Registers the application namespaces, pulls in the Composer autoloader and
  * loads the root .env.
  */
-require_once dirname(__FILE__, 2) . '/library/Core/autoload.php';
+require_once dirname(__FILE__, 2) . '/src/Core/autoload.php';
 
 /**
  * Talon reads DATA_MYSQL_* / DATA_REDIS_*, while the application reads

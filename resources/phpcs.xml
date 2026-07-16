@@ -11,8 +11,7 @@
     </rule>
     <exclude-pattern>*/public/*</exclude-pattern>
     <exclude-pattern>*/_output/*</exclude-pattern>
-    <file>../api</file>
-    <file>../cli</file>
-    <file>../library</file>
+    <file>../bin</file>
+    <file>../src</file>
     <file>../tests</file>
 </ruleset>

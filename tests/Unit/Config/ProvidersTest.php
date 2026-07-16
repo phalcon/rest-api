@@ -30,7 +30,7 @@ final class ProvidersTest extends AbstractUnitTestCase
 {
     public function testApiProviders(): void
     {
-        $providers = require(appPath('api/config/providers.php'));
+        $providers = require(appPath('src/Api/providers.php'));
 
         $this->assertSame(ConfigProvider::class, $providers[0]);
         $this->assertSame(LoggerProvider::class, $providers[1]);
@@ -44,7 +44,7 @@ final class ProvidersTest extends AbstractUnitTestCase
 
     public function testCliProviders(): void
     {
-        $providers = require(appPath('cli/config/providers.php'));
+        $providers = require(appPath('src/Cli/providers.php'));
 
         $this->assertSame(ConfigProvider::class, $providers[0]);
         $this->assertSame(LoggerProvider::class, $providers[1]);

@@ -19,12 +19,15 @@ use function Phalcon\Api\Core\appPath;
 // Register the autoloader
 require __DIR__ . '/functions.php';
 
+/**
+ * The loader resolves by namespace prefix, so a single entry covers the whole
+ * source tree: Phalcon\Api\Models\Users -> src/Models/Users.php, and
+ * Phalcon\Api\Api\Controllers\LoginController -> src/Api/Controllers/LoginController.php.
+ */
 $loader     = new Loader();
 $namespaces = [
-    'Phalcon\Api'                 => appPath('/library'),
-    'Phalcon\Api\Api\Controllers' => appPath('/api/controllers'),
-    'Phalcon\Api\Cli\Tasks'       => appPath('/cli/tasks'),
-    'Phalcon\Api\Tests'           => appPath('/tests'),
+    'Phalcon\Api'       => appPath('/src'),
+    'Phalcon\Api\Tests' => appPath('/tests'),
 ];
 
 $loader->setNamespaces($namespaces);

@@ -22,7 +22,7 @@ final class ConfigTest extends AbstractUnitTestCase
 {
     public function testConfig(): void
     {
-        $config = require(appPath('library/Core/config.php'));
+        $config = require(appPath('src/Core/config.php'));
 
         $this->assertTrue(is_array($config));
         $this->assertTrue(isset($config['app']));

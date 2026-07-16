@@ -23,6 +23,22 @@ use Phalcon\Filter\Filter;
 class Products extends AbstractModel
 {
     /**
+     * Model filters
+     *
+     * @return array<string,string>
+     */
+    public function getModelFilters(): array
+    {
+        return [
+            'id'          => Filter::FILTER_ABSINT,
+            'typeId'      => Filter::FILTER_ABSINT,
+            'name'        => Filter::FILTER_STRING,
+            'description' => Filter::FILTER_STRING,
+            'quantity'    => Filter::FILTER_ABSINT,
+            'price'       => Filter::FILTER_FLOAT,
+        ];
+    }
+    /**
      * Initialize relationships and model properties
      *
      * @return void
@@ -55,22 +71,5 @@ class Products extends AbstractModel
         );
 
         parent::initialize();
-    }
-
-    /**
-     * Model filters
-     *
-     * @return array<string,string>
-     */
-    public function getModelFilters(): array
-    {
-        return [
-            'id'          => Filter::FILTER_ABSINT,
-            'typeId'      => Filter::FILTER_ABSINT,
-            'name'        => Filter::FILTER_STRING,
-            'description' => Filter::FILTER_STRING,
-            'quantity'    => Filter::FILTER_ABSINT,
-            'price'       => Filter::FILTER_FLOAT,
-        ];
     }
 }

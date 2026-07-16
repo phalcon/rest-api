@@ -52,6 +52,14 @@ final class FunctionsTest extends AbstractUnitTestCase
         $this->assertSame($path, appPath('src/Core/config.php'));
     }
 
+    public function testAppUrlWithUrl(): void
+    {
+        $this->assertSame(
+            'http://api.phalcon.ld/companies/1',
+            appUrl(Relationships::COMPANIES, 1)
+        );
+    }
+
     public function testEnvValueAsFalse(): void
     {
         $_ENV['SOMEVAL'] = false;
@@ -71,13 +79,5 @@ final class FunctionsTest extends AbstractUnitTestCase
         $_ENV['SOMEVAL'] = 'someval';
 
         $this->assertSame('someval', envValue('SOMEVAL'));
-    }
-
-    public function testAppUrlWithUrl(): void
-    {
-        $this->assertSame(
-            'http://api.phalcon.ld/companies/1',
-            appUrl(Relationships::COMPANIES, 1)
-        );
     }
 }

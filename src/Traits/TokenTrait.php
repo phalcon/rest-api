@@ -50,6 +50,16 @@ trait TokenTrait
     }
 
     /**
+     * Returns the expiry time for the token
+     *
+     * @return int
+     */
+    protected function getTokenTimeExpiration(): int
+    {
+        return (time() + envValue('TOKEN_EXPIRATION', 86400));
+    }
+
+    /**
      * Returns the time the token is issued at
      *
      * @return int
@@ -67,15 +77,5 @@ trait TokenTrait
     protected function getTokenTimeNotBefore(): int
     {
         return (time() + envValue('TOKEN_NOT_BEFORE', 0));
-    }
-
-    /**
-     * Returns the expiry time for the token
-     *
-     * @return int
-     */
-    protected function getTokenTimeExpiration(): int
-    {
-        return (time() + envValue('TOKEN_EXPIRATION', 86400));
     }
 }

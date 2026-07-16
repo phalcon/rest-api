@@ -34,8 +34,8 @@ use Phalcon\Mvc\Controller;
  */
 class LoginController extends Controller
 {
-    use TokenTrait;
     use QueryTrait;
+    use TokenTrait;
 
     /**
      * Default action logging in

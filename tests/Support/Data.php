@@ -27,25 +27,23 @@ use function sprintf;
 
 class Data
 {
+    public static $companiesRecordIncludesUrl       = '/companies/%s?includes=%s';
+    public static $companiesRecordUrl               = '/companies/%s';
     public static $companiesSortUrl                 = '/companies?sort=%s';
     public static $companiesUrl                     = '/companies';
-    public static $companiesRecordUrl               = '/companies/%s';
-    public static $companiesRecordIncludesUrl       = '/companies/%s?includes=%s';
-    public static $loginUrl                         = '/login';
-    public static $individualsUrl                   = '/individuals';
-    public static $individualsRecordUrl             = '/individuals/%s';
     public static $individualsRecordIncludesUrl     = '/individuals/%s?includes=%s';
-    public static $individualTypesUrl               = '/individual-types';
-    public static $individualTypesRecordUrl         = '/individual-types/%s';
+    public static $individualsRecordUrl             = '/individuals/%s';
+    public static $individualsUrl                   = '/individuals';
     public static $individualTypesRecordIncludesUrl = '/individual-types/%s?includes=%s';
-    public static $productsUrl                      = '/products';
-    public static $productsRecordUrl                = '/products/%s';
+    public static $individualTypesRecordUrl         = '/individual-types/%s';
+    public static $individualTypesUrl               = '/individual-types';
+    public static $loginUrl                         = '/login';
     public static $productsRecordIncludesUrl        = '/products/%s?includes=%s';
-    public static $productTypesUrl                  = '/product-types';
-    public static $productTypesRecordUrl            = '/product-types/%s';
+    public static $productsRecordUrl                = '/products/%s';
+    public static $productsUrl                      = '/products';
     public static $productTypesRecordIncludesUrl    = '/product-types/%s?includes=%s';
-    public static $usersUrl                         = '/users';
-    public static $wrongUrl                         = '/sommething';
+    public static $productTypesRecordUrl            = '/product-types/%s';
+    public static $productTypesUrl                  = '/product-types';
 
     public static $strongPassphrase  = 'DR^3*ZwnAHKc9yP$YSpW98dsmHJBax5&';
     public static $testIssuer        = 'https://niden.net';
@@ -53,35 +51,8 @@ class Data
     public static $testTokenId       = '110011';
     public static $testTokenPassword = 'DR^4*ZwnAHKc0yP$YSpW09dsmHJBax6&';
     public static $testUsername      = 'testuser';
-
-    /**
-     * @return array
-     */
-    public static function loginJson()
-    {
-        return [
-            'username' => self::$testUsername,
-            'password' => self::$testPassword,
-        ];
-    }
-
-    /**
-     * @param        $name
-     * @param string $address
-     * @param string $city
-     * @param string $phone
-     *
-     * @return array
-     */
-    public static function companyAddJson($name, $address = '', $city = '', $phone = '')
-    {
-        return [
-            'name'    => $name,
-            'address' => $address,
-            'city'    => $city,
-            'phone'   => $phone,
-        ];
-    }
+    public static $usersUrl                         = '/users';
+    public static $wrongUrl                         = '/sommething';
 
     /**
      * @param Companies $record
@@ -174,6 +145,24 @@ class Data
     }
 
     /**
+     * @param        $name
+     * @param string $address
+     * @param string $city
+     * @param string $phone
+     *
+     * @return array
+     */
+    public static function companyAddJson($name, $address = '', $city = '', $phone = '')
+    {
+        return [
+            'name'    => $name,
+            'address' => $address,
+            'city'    => $city,
+            'phone'   => $phone,
+        ];
+    }
+
+    /**
      * @param Individuals $record
      *
      * @return array
@@ -231,22 +220,30 @@ class Data
     }
 
     /**
+     * @return array
+     */
+    public static function loginJson()
+    {
+        return [
+            'username' => self::$testUsername,
+            'password' => self::$testPassword,
+        ];
+    }
+
+    /**
      * @param Products $record
      *
      * @return array
      * @throws ModelException
      */
-    public static function productResponse(Products $record): array
+    public static function productFieldsResponse(Products $record): array
     {
         return [
             'type'       => Relationships::PRODUCTS,
             'id'         => (string) $record->get('id'),
             'attributes' => [
-                'typeId'      => $record->get('typeId'),
-                'name'        => $record->get('name'),
-                'description' => $record->get('description'),
-                'quantity'    => $record->get('quantity'),
-                'price'       => $record->get('price'),
+                'name'  => $record->get('name'),
+                'price' => $record->get('price'),
             ],
             'links'      => [
                 'self' => sprintf(
@@ -265,14 +262,17 @@ class Data
      * @return array
      * @throws ModelException
      */
-    public static function productFieldsResponse(Products $record): array
+    public static function productResponse(Products $record): array
     {
         return [
             'type'       => Relationships::PRODUCTS,
             'id'         => (string) $record->get('id'),
             'attributes' => [
-                'name'  => $record->get('name'),
-                'price' => $record->get('price'),
+                'typeId'      => $record->get('typeId'),
+                'name'        => $record->get('name'),
+                'description' => $record->get('description'),
+                'quantity'    => $record->get('quantity'),
+                'price'       => $record->get('price'),
             ],
             'links'      => [
                 'self' => sprintf(

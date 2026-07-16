@@ -27,10 +27,10 @@ class GetController extends BaseController
     protected string $model = Users::class;
 
     /** @var string */
-    protected string $resource = Relationships::USERS;
+    protected string $orderBy = 'username';
 
     /** @var string */
-    protected string $transformer = BaseTransformer::class;
+    protected string $resource = Relationships::USERS;
 
     /** @var array<string,bool> */
     protected array $sortFields = [
@@ -44,5 +44,5 @@ class GetController extends BaseController
     ];
 
     /** @var string */
-    protected string $orderBy = 'username';
+    protected string $transformer = BaseTransformer::class;
 }

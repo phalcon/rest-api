@@ -19,9 +19,8 @@ use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Users;
 use Phalcon\Cache\Cache;
 use Phalcon\Config\Config;
-use Phalcon\Mvc\Micro;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
-use Phalcon\Encryption\Security\JWT\Validator;
+use Phalcon\Mvc\Micro;
 
 /**
  * Class AuthenticationMiddleware

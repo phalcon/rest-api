@@ -22,6 +22,21 @@ use Phalcon\Filter\Filter;
 
 final class IndividualsTest extends AbstractIntegrationTestCase
 {
+    public function testValidateFilters(): void
+    {
+        $model    = new Individuals();
+        $expected = [
+            'id'        => Filter::FILTER_ABSINT,
+            'companyId' => Filter::FILTER_ABSINT,
+            'typeId'    => Filter::FILTER_ABSINT,
+            'prefix'    => Filter::FILTER_STRING,
+            'first'     => Filter::FILTER_STRING,
+            'middle'    => Filter::FILTER_STRING,
+            'last'      => Filter::FILTER_STRING,
+            'suffix'    => Filter::FILTER_STRING,
+        ];
+        $this->assertSame($expected, $model->getModelFilters());
+    }
     public function testValidateModel(): void
     {
         $this->haveModelDefinition(
@@ -37,22 +52,6 @@ final class IndividualsTest extends AbstractIntegrationTestCase
                 'suffix',
             ]
         );
-    }
-
-    public function testValidateFilters(): void
-    {
-        $model    = new Individuals();
-        $expected = [
-            'id'        => Filter::FILTER_ABSINT,
-            'companyId' => Filter::FILTER_ABSINT,
-            'typeId'    => Filter::FILTER_ABSINT,
-            'prefix'    => Filter::FILTER_STRING,
-            'first'     => Filter::FILTER_STRING,
-            'middle'    => Filter::FILTER_STRING,
-            'last'      => Filter::FILTER_STRING,
-            'suffix'    => Filter::FILTER_STRING,
-        ];
-        $this->assertSame($expected, $model->getModelFilters());
     }
 
     public function testValidateRelationships(): void

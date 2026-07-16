@@ -23,13 +23,12 @@ use Phalcon\Api\Transformers\IndividualTypesTransformer;
  */
 class GetController extends BaseController
 {
-    /** @var string */
-    protected string $model = IndividualTypes::class;
-
     /** @var array */
     protected array $includes = [
         Relationships::INDIVIDUALS,
     ];
+    /** @var string */
+    protected string $model = IndividualTypes::class;
 
     /** @var string */
     protected string $resource = Relationships::INDIVIDUAL_TYPES;

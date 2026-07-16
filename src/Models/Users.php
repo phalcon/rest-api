@@ -16,13 +16,13 @@ namespace Phalcon\Api\Models;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\Api\Traits\TokenTrait;
-use Phalcon\Filter\Filter;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Token;
 use Phalcon\Encryption\Security\JWT\Validator;
+use Phalcon\Filter\Filter;
 
 /**
  * Class Users
@@ -30,16 +30,6 @@ use Phalcon\Encryption\Security\JWT\Validator;
 class Users extends AbstractModel
 {
     use TokenTrait;
-
-    /**
-     * Returns the source table from the database
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        $this->setSource('co_users');
-    }
 
     /**
      * Model filters
@@ -90,6 +80,16 @@ class Users extends AbstractModel
             ->set(Enum::ISSUER, $this->get('issuer'))
             ->set(Enum::ID, $this->get('tokenId'))
         ;
+    }
+
+    /**
+     * Returns the source table from the database
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        $this->setSource('co_users');
     }
 
     /**

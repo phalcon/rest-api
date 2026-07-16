@@ -23,6 +23,18 @@ use Phalcon\Filter\Filter;
 class CompaniesXProducts extends AbstractModel
 {
     /**
+     * Model filters
+     *
+     * @return array<string,string>
+     */
+    public function getModelFilters(): array
+    {
+        return [
+            'companyId' => Filter::FILTER_ABSINT,
+            'productId' => Filter::FILTER_ABSINT,
+        ];
+    }
+    /**
      * Initialize relationships and model properties
      *
      * @return void
@@ -52,18 +64,5 @@ class CompaniesXProducts extends AbstractModel
         );
 
         parent::initialize();
-    }
-
-    /**
-     * Model filters
-     *
-     * @return array<string,string>
-     */
-    public function getModelFilters(): array
-    {
-        return [
-            'companyId' => Filter::FILTER_ABSINT,
-            'productId' => Filter::FILTER_ABSINT,
-        ];
     }
 }

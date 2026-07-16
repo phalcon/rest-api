@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon API.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Api\Cli\Tasks;
 
 use Phalcon\Cache\Cache;
@@ -17,7 +18,6 @@ use Phalcon\Cli\Task as PhTask;
 use Phalcon\Config\Config;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-
 use Redis;
 
 use function in_array;

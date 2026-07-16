@@ -31,100 +31,8 @@ use function uniqid;
 
 final class QueryTest extends AbstractIntegrationTestCase
 {
-    use TokenTrait;
     use QueryTrait;
-
-    public function testGetUserByUsernameAndPassword(): void
-    {
-        /** @var Users $result */
-        $this->haveRecordWithFields(
-            Users::class,
-            [
-                'username' => Data::$testUsername,
-                'password' => Data::$testPassword,
-                'status'   => 1,
-                'issuer'   => 'phalcon.io',
-                'tokenId'  => Data::$testTokenId,
-            ]
-        );
-
-        /** @var Cache $cache */
-        $cache = $this->grabFromDi('cache');
-        /** @var Config $config */
-        $config = $this->grabFromDi('config');
-        $dbUser = $this->getUserByUsernameAndPassword(
-            $config,
-            $cache,
-            Data::$testUsername,
-            Data::$testPassword
-        );
-
-        $this->assertNotNull($dbUser);
-    }
-
-    public function testGetUserByWrongUsernameAndPasswordReturnsNull(): void
-    {
-        /** @var Users $result */
-        $this->haveRecordWithFields(
-            Users::class,
-            [
-                'username' => Data::$testUsername,
-                'password' => Data::$testPassword,
-                'status'   => 1,
-                'issuer'   => 'phalcon.io',
-                'tokenId'  => Data::$testTokenId,
-            ]
-        );
-
-        /** @var Cache $cache */
-        $cache = $this->grabFromDi('cache');
-        /** @var Config $config */
-        $config = $this->grabFromDi('config');
-        $dbUser = $this->getUserByUsernameAndPassword(
-            $config,
-            $cache,
-            Data::$testUsername,
-            'nothing'
-        );
-
-        $this->assertNull($dbUser);
-    }
-
-    /**
-     * @throws ModelException
-     */
-    public function testGetUserByWrongTokenReturnsNull(): void
-    {
-        /** @var Users $result */
-        $this->haveRecordWithFields(
-            Users::class,
-            [
-                'username' => Data::$testUsername,
-                'password' => Data::$testPassword,
-                'status'   => 1,
-                'issuer'   => 'phalcon.io',
-                'tokenId'  => Data::$testTokenId,
-            ]
-        );
-
-        $signer  = new Hmac();
-        $builder = new Builder($signer);
-        $token   = $builder
-            ->setIssuer('https://somedomain.com')
-            ->setAudience($this->getTokenAudience())
-            ->setId(Data::$testTokenId)
-            ->setPassphrase(Data::$strongPassphrase)
-            ->getToken()
-        ;
-
-        /** @var Cache $cache */
-        $cache = $this->grabFromDi('cache');
-        /** @var Config $config */
-        $config = $this->grabFromDi('config');
-        $actual = $this->getUserByToken($config, $cache, $token);
-
-        $this->assertNull($actual);
-    }
+    use TokenTrait;
 
     public function testGetCompaniesCachedData(): void
     {
@@ -183,5 +91,97 @@ final class QueryTest extends AbstractIntegrationTestCase
         $this->assertSame($comOne->get('address'), $results[0]->get('address'));
         $this->assertSame($comOne->get('city'), $results[0]->get('city'));
         $this->assertSame($comOne->get('phone'), $results[0]->get('phone'));
+    }
+
+    public function testGetUserByUsernameAndPassword(): void
+    {
+        /** @var Users $result */
+        $this->haveRecordWithFields(
+            Users::class,
+            [
+                'username' => Data::$testUsername,
+                'password' => Data::$testPassword,
+                'status'   => 1,
+                'issuer'   => 'phalcon.io',
+                'tokenId'  => Data::$testTokenId,
+            ]
+        );
+
+        /** @var Cache $cache */
+        $cache = $this->grabFromDi('cache');
+        /** @var Config $config */
+        $config = $this->grabFromDi('config');
+        $dbUser = $this->getUserByUsernameAndPassword(
+            $config,
+            $cache,
+            Data::$testUsername,
+            Data::$testPassword
+        );
+
+        $this->assertNotNull($dbUser);
+    }
+
+    /**
+     * @throws ModelException
+     */
+    public function testGetUserByWrongTokenReturnsNull(): void
+    {
+        /** @var Users $result */
+        $this->haveRecordWithFields(
+            Users::class,
+            [
+                'username' => Data::$testUsername,
+                'password' => Data::$testPassword,
+                'status'   => 1,
+                'issuer'   => 'phalcon.io',
+                'tokenId'  => Data::$testTokenId,
+            ]
+        );
+
+        $signer  = new Hmac();
+        $builder = new Builder($signer);
+        $token   = $builder
+            ->setIssuer('https://somedomain.com')
+            ->setAudience($this->getTokenAudience())
+            ->setId(Data::$testTokenId)
+            ->setPassphrase(Data::$strongPassphrase)
+            ->getToken()
+        ;
+
+        /** @var Cache $cache */
+        $cache = $this->grabFromDi('cache');
+        /** @var Config $config */
+        $config = $this->grabFromDi('config');
+        $actual = $this->getUserByToken($config, $cache, $token);
+
+        $this->assertNull($actual);
+    }
+
+    public function testGetUserByWrongUsernameAndPasswordReturnsNull(): void
+    {
+        /** @var Users $result */
+        $this->haveRecordWithFields(
+            Users::class,
+            [
+                'username' => Data::$testUsername,
+                'password' => Data::$testPassword,
+                'status'   => 1,
+                'issuer'   => 'phalcon.io',
+                'tokenId'  => Data::$testTokenId,
+            ]
+        );
+
+        /** @var Cache $cache */
+        $cache = $this->grabFromDi('cache');
+        /** @var Config $config */
+        $config = $this->grabFromDi('config');
+        $dbUser = $this->getUserByUsernameAndPassword(
+            $config,
+            $cache,
+            Data::$testUsername,
+            'nothing'
+        );
+
+        $this->assertNull($dbUser);
     }
 }

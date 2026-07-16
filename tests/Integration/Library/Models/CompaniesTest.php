@@ -24,6 +24,18 @@ use function count;
 
 final class CompaniesTest extends AbstractIntegrationTestCase
 {
+    public function testValidateFilters(): void
+    {
+        $model    = new Companies();
+        $expected = [
+            'id'      => Filter::FILTER_ABSINT,
+            'name'    => Filter::FILTER_STRING,
+            'address' => Filter::FILTER_STRING,
+            'city'    => Filter::FILTER_STRING,
+            'phone'   => Filter::FILTER_STRING,
+        ];
+        $this->assertSame($expected, $model->getModelFilters());
+    }
     public function testValidateModel(): void
     {
         $this->haveModelDefinition(
@@ -36,19 +48,6 @@ final class CompaniesTest extends AbstractIntegrationTestCase
                 'phone',
             ]
         );
-    }
-
-    public function testValidateFilters(): void
-    {
-        $model    = new Companies();
-        $expected = [
-            'id'      => Filter::FILTER_ABSINT,
-            'name'    => Filter::FILTER_STRING,
-            'address' => Filter::FILTER_STRING,
-            'city'    => Filter::FILTER_STRING,
-            'phone'   => Filter::FILTER_STRING,
-        ];
-        $this->assertSame($expected, $model->getModelFilters());
     }
 
     public function testValidateRelationships(): void

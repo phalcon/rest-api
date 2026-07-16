@@ -17,10 +17,10 @@ use Phalcon\Api\Constants\Flags;
 use Phalcon\Api\Models\Users;
 use Phalcon\Cache\Cache;
 use Phalcon\Config\Config;
-use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Token;
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 use function json_encode;
 use function sha1;
@@ -31,6 +31,40 @@ use function sprintf;
  */
 trait QueryTrait
 {
+    /**
+     * Runs a query using the builder
+     *
+     * @param Config $config
+     * @param Cache  $cache
+     * @param string $class
+     * @param array  $where
+     * @param string $orderBy
+     *
+     * @return ResultsetInterface
+     */
+    protected function getRecords(
+        Config $config,
+        Cache $cache,
+        string $class,
+        array $where = [],
+        string $orderBy = ''
+    ): ResultsetInterface {
+        $builder = new Builder();
+        $builder->addFrom($class, 't1');
+
+        foreach ($where as $field => $value) {
+            $builder->andWhere(
+                sprintf('%s = :%s:', $field, $field),
+                [$field => $value]
+            );
+        }
+
+        if (true !== empty($orderBy)) {
+            $builder->orderBy($orderBy);
+        }
+
+        return $this->getResults($config, $cache, $builder, $where);
+    }
     /**
      * Gets a user from the database based on the JWT token
      *
@@ -83,41 +117,6 @@ trait QueryTrait
         $result = $this->getRecords($config, $cache, Users::class, $parameters);
 
         return $result[0] ?? null;
-    }
-
-    /**
-     * Runs a query using the builder
-     *
-     * @param Config $config
-     * @param Cache  $cache
-     * @param string $class
-     * @param array  $where
-     * @param string $orderBy
-     *
-     * @return ResultsetInterface
-     */
-    protected function getRecords(
-        Config $config,
-        Cache $cache,
-        string $class,
-        array $where = [],
-        string $orderBy = ''
-    ): ResultsetInterface {
-        $builder = new Builder();
-        $builder->addFrom($class, 't1');
-
-        foreach ($where as $field => $value) {
-            $builder->andWhere(
-                sprintf('%s = :%s:', $field, $field),
-                [$field => $value]
-            );
-        }
-
-        if (true !== empty($orderBy)) {
-            $builder->orderBy($orderBy);
-        }
-
-        return $this->getResults($config, $cache, $builder, $where);
     }
 
     /**

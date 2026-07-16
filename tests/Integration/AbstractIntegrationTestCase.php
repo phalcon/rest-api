@@ -46,14 +46,14 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
 {
     protected ?DiInterface $diContainer = null;
 
+    /** @var array<string, bool> */
+    protected array $options = ['rollback' => false];
+
     /** @var array<string, array<string, mixed>> */
     protected array $savedModels = [];
 
     /** @var array<int, AbstractModel> */
     protected array $savedRecords = [];
-
-    /** @var array<string, bool> */
-    protected array $options = ['rollback' => false];
 
     protected function setUp(): void
     {
@@ -113,17 +113,6 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
         );
     }
 
-    protected function addIndividualTypeRecord(string $namePrefix = ''): IndividualTypes
-    {
-        return $this->haveRecordWithFields(
-            IndividualTypes::class,
-            [
-                'name'        => uniqid($namePrefix),
-                'description' => uniqid(),
-            ]
-        );
-    }
-
     protected function addIndividualRecord(string $namePrefix = '', int $comId = 0, int $typeId = 0): Individuals
     {
         return $this->haveRecordWithFields(
@@ -136,6 +125,17 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
                 'middle'    => uniqid(),
                 'last'      => uniqid(),
                 'suffix'    => uniqid(),
+            ]
+        );
+    }
+
+    protected function addIndividualTypeRecord(string $namePrefix = ''): IndividualTypes
+    {
+        return $this->haveRecordWithFields(
+            IndividualTypes::class,
+            [
+                'name'        => uniqid($namePrefix),
+                'description' => uniqid(),
             ]
         );
     }
@@ -163,19 +163,6 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
                 'description' => uniqid(),
             ]
         );
-    }
-
-    protected function grabDi(): ?DiInterface
-    {
-        return $this->diContainer;
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function grabFromDi(string $name)
-    {
-        return $this->diContainer->get($name);
     }
 
     /**
@@ -238,6 +225,19 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
         }
 
         return $record;
+    }
+
+    protected function grabDi(): ?DiInterface
+    {
+        return $this->diContainer;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function grabFromDi(string $name)
+    {
+        return $this->diContainer->get($name);
     }
 
     /**

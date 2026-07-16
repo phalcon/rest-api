@@ -118,6 +118,33 @@ class RouterProvider implements ServiceProviderInterface
     }
 
     /**
+     * Adds multiple routes for the same handler abiding by the JSONAPI standard
+     *
+     * @param array  $routes
+     * @param string $class
+     * @param string $relationship
+     *
+     * @return array
+     */
+    private function getMultiRoutes(
+        array $routes,
+        string $class,
+        string $relationship
+    ): array {
+        $routes[] = [$class, '/' . $relationship, 'get', '/'];
+        $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}'];
+        $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'];
+        $routes[] = [
+            $class,
+            '/' . $relationship,
+            'get',
+            '/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}',
+        ];
+
+        return $routes;
+    }
+
+    /**
      * Returns the array for the routes
      *
      * @return array
@@ -157,33 +184,6 @@ class RouterProvider implements ServiceProviderInterface
             ProductTypesGetController::class,
             Rel::PRODUCT_TYPES
         );
-
-        return $routes;
-    }
-
-    /**
-     * Adds multiple routes for the same handler abiding by the JSONAPI standard
-     *
-     * @param array  $routes
-     * @param string $class
-     * @param string $relationship
-     *
-     * @return array
-     */
-    private function getMultiRoutes(
-        array $routes,
-        string $class,
-        string $relationship
-    ): array {
-        $routes[] = [$class, '/' . $relationship, 'get', '/'];
-        $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}'];
-        $routes[] = [$class, '/' . $relationship, 'get', '/{recordId:[0-9]+}/{relationships:[a-zA-Z-,.]+}'];
-        $routes[] = [
-            $class,
-            '/' . $relationship,
-            'get',
-            '/{recordId:[0-9]+}/relationships/{relationships:[a-zA-Z-,.]+}',
-        ];
 
         return $routes;
     }

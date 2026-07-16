@@ -24,9 +24,9 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
  */
 abstract class TokenBase implements MiddlewareInterface
 {
+    use QueryTrait;
     use ResponseTrait;
     use TokenTrait;
-    use QueryTrait;
 
     /**
      * @param Request $request

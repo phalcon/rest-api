@@ -23,14 +23,13 @@ use Phalcon\Api\Transformers\ProductsTransformer;
  */
 class GetController extends BaseController
 {
-    /** @var string */
-    protected string $model = Products::class;
-
     /** @var array */
     protected array $includes = [
         Relationships::COMPANIES,
         Relationships::PRODUCT_TYPES,
     ];
+    /** @var string */
+    protected string $model = Products::class;
 
     /** @var string */
     protected string $resource = Relationships::PRODUCTS;

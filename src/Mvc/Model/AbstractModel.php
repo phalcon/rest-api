@@ -23,21 +23,6 @@ use function sprintf;
 abstract class AbstractModel extends PhModel
 {
     /**
-     * Master initializer
-     *
-     * @return void
-     */
-    public function initialize(): void
-    {
-        $this->setup(
-            [
-                'phqlLiterals'       => false,
-                'notNullValidations' => false,
-            ]
-        );
-    }
-
-    /**
      * Gets a field from this model
      *
      * @param string $field The name of the field
@@ -75,6 +60,20 @@ abstract class AbstractModel extends PhModel
         }
 
         return $error;
+    }
+    /**
+     * Master initializer
+     *
+     * @return void
+     */
+    public function initialize(): void
+    {
+        $this->setup(
+            [
+                'phqlLiterals'       => false,
+                'notNullValidations' => false,
+            ]
+        );
     }
 
     /**

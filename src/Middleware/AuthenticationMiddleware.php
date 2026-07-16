@@ -25,8 +25,8 @@ use Phalcon\Mvc\Micro\MiddlewareInterface;
  */
 class AuthenticationMiddleware implements MiddlewareInterface
 {
-    use ResponseTrait;
     use QueryTrait;
+    use ResponseTrait;
 
     /**
      * Call me

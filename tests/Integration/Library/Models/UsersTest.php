@@ -29,37 +29,6 @@ final class UsersTest extends AbstractIntegrationTestCase
 {
     use TokenTrait;
 
-    public function testValidateModel(): void
-    {
-        $this->haveModelDefinition(
-            Users::class,
-            [
-                'id',
-                'status',
-                'username',
-                'password',
-                'issuer',
-                'tokenPassword',
-                'tokenId',
-            ]
-        );
-    }
-
-    public function testValidateFilters(): void
-    {
-        $model    = new Users();
-        $expected = [
-            'id'            => Filter::FILTER_ABSINT,
-            'status'        => Filter::FILTER_ABSINT,
-            'username'      => Filter::FILTER_STRING,
-            'password'      => Filter::FILTER_STRING,
-            'issuer'        => Filter::FILTER_STRING,
-            'tokenPassword' => Filter::FILTER_STRING,
-            'tokenId'       => Filter::FILTER_STRING,
-        ];
-        $this->assertSame($expected, $model->getModelFilters());
-    }
-
     public function testCheckValidationData(): void
     {
         /** @var Users $user */
@@ -89,6 +58,37 @@ final class UsersTest extends AbstractIntegrationTestCase
         $class  = Validator::class;
         $actual = $user->getValidationData($token);
         $this->assertInstanceOf($class, $actual);
+    }
+
+    public function testValidateFilters(): void
+    {
+        $model    = new Users();
+        $expected = [
+            'id'            => Filter::FILTER_ABSINT,
+            'status'        => Filter::FILTER_ABSINT,
+            'username'      => Filter::FILTER_STRING,
+            'password'      => Filter::FILTER_STRING,
+            'issuer'        => Filter::FILTER_STRING,
+            'tokenPassword' => Filter::FILTER_STRING,
+            'tokenId'       => Filter::FILTER_STRING,
+        ];
+        $this->assertSame($expected, $model->getModelFilters());
+    }
+
+    public function testValidateModel(): void
+    {
+        $this->haveModelDefinition(
+            Users::class,
+            [
+                'id',
+                'status',
+                'username',
+                'password',
+                'issuer',
+                'tokenPassword',
+                'tokenId',
+            ]
+        );
     }
 
     public function testValidateRelationships(): void

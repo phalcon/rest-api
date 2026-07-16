@@ -22,6 +22,19 @@ use Phalcon\Filter\Filter;
 
 final class ProductsTest extends AbstractIntegrationTestCase
 {
+    public function testValidateFilters(): void
+    {
+        $model    = new Products();
+        $expected = [
+            'id'          => Filter::FILTER_ABSINT,
+            'typeId'      => Filter::FILTER_ABSINT,
+            'name'        => Filter::FILTER_STRING,
+            'description' => Filter::FILTER_STRING,
+            'quantity'    => Filter::FILTER_ABSINT,
+            'price'       => Filter::FILTER_FLOAT,
+        ];
+        $this->assertSame($expected, $model->getModelFilters());
+    }
     public function testValidateModel(): void
     {
         $this->haveModelDefinition(
@@ -35,20 +48,6 @@ final class ProductsTest extends AbstractIntegrationTestCase
                 'price',
             ]
         );
-    }
-
-    public function testValidateFilters(): void
-    {
-        $model    = new Products();
-        $expected = [
-            'id'          => Filter::FILTER_ABSINT,
-            'typeId'      => Filter::FILTER_ABSINT,
-            'name'        => Filter::FILTER_STRING,
-            'description' => Filter::FILTER_STRING,
-            'quantity'    => Filter::FILTER_ABSINT,
-            'price'       => Filter::FILTER_FLOAT,
-        ];
-        $this->assertSame($expected, $model->getModelFilters());
     }
 
     public function testValidateRelationships(): void

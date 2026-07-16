@@ -47,14 +47,14 @@ class BaseController extends Controller
     use QueryTrait;
     use ResponseTrait;
 
-    /** @var string */
-    protected string $model = '';
-
     /** @var array */
     protected array $includes = [];
 
     /** @var string */
     protected string $method = 'collection';
+
+    /** @var string */
+    protected string $model = '';
 
     /** @var string */
     protected string $orderBy = 'name';

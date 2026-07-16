@@ -37,19 +37,26 @@ class ModelsMetadataProvider implements ServiceProviderInterface
                 $metadata = $config->get('metadata');
                 $devMode  = $config->path('app.devMode');
                 $key      = (true === $devMode) ? 'dev' : 'prod';
-                $options  = $metadata->get($key, [])
+                $entry    = $metadata->get($key, [])
                                      ->toArray()
                 ;
-                $adapter  = $options['adapter'] ?? Redis::class;
+
+                /**
+                 * The entry is ['adapter' => ..., 'options' => [...]]; the
+                 * adapter wants the inner array. Handing it the outer one costs
+                 * it the host and sends it to 127.0.0.1.
+                 */
+                $adapter = $entry['adapter'] ?? Redis::class;
+                $options = $entry['options'] ?? [];
 
                 if ($adapter === Memory::class) {
                     return new $adapter($options);
-                } else {
-                    $serializer     = new SerializerFactory();
-                    $adapterFactory = new AdapterFactory($serializer);
-
-                    return new $adapter($adapterFactory, $options);
                 }
+
+                $serializer     = new SerializerFactory();
+                $adapterFactory = new AdapterFactory($serializer);
+
+                return new $adapter($adapterFactory, $options);
             }
         );
     }

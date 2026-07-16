@@ -21,7 +21,6 @@ use Phalcon\Filter\Exception;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
 use Phalcon\Mvc\Micro;
-use Phalcon\Mvc\Model\MetaData\Libmemcached as ModelsMetadataCache;
 
 use function explode;
 use function implode;
@@ -33,10 +32,9 @@ use function substr;
 /**
  * Class BaseController
  *
- * @property Micro               $application
- * @property ModelsMetadataCache $modelsMetadata
- * @property QueryService        $queryService
- * @property Response            $response
+ * @property Micro        $application
+ * @property QueryService $queryService
+ * @property Response     $response
  */
 class BaseController extends Controller
 {

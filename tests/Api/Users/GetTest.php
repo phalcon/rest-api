@@ -70,12 +70,26 @@ final class GetTest extends AbstractApiTestCase
         );
     }
 
+    public function testGetManyUsersWithNoData(): void
+    {
+        $this->addApiUserRecord();
+        $token = $this->apiLogin();
+
+        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $this->sendGet(Data::$usersUrl);
+        $this->unsetHttpHeader('Authorization');
+        $this->assertResponseIsSuccessful();
+    }
+
     /**
      * The suite asserts JSON subsets, so extra attributes in a response pass
      * silently - which is how `password` and `tokenPassword` were published for
      * as long as they were. This asserts their absence explicitly.
+     *
+     * The stored password is a hash, so it is the hash that would leak - not
+     * the plain password, which never reaches the database.
      */
-    public function testGetManyUsersDoesNotPublishSecrets(): void
+    public function testGetUserDoesNotPublishSecrets(): void
     {
         $record = $this->addApiUserRecord();
         $token  = $this->apiLogin();
@@ -86,19 +100,8 @@ final class GetTest extends AbstractApiTestCase
         $this->assertResponseIsSuccessful();
 
         $this->assertResponseNotContains('password');
-        $this->assertResponseNotContains(Data::$testPassword);
+        $this->assertResponseNotContains(Data::$testPasswordHash);
         $this->assertResponseNotContains(Data::$testTokenPassword);
-    }
-
-    public function testGetManyUsersWithNoData(): void
-    {
-        $this->addApiUserRecord();
-        $token = $this->apiLogin();
-
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$usersUrl);
-        $this->unsetHttpHeader('Authorization');
-        $this->assertResponseIsSuccessful();
     }
 
     public function testLoginKnownUserCorrectToken(): void

@@ -18,7 +18,6 @@ use Phalcon\Api\Http\Request;
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Users;
 use Phalcon\Api\Repositories\UsersRepository;
-use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
 
@@ -31,8 +30,6 @@ use Phalcon\Mvc\Controller;
  */
 class LoginController extends Controller
 {
-    use TokenTrait;
-
     /**
      * Default action logging in
      *

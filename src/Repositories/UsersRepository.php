@@ -27,6 +27,13 @@ use Phalcon\Encryption\Security\JWT\Token\Token;
 class UsersRepository
 {
     /**
+     * A valid bcrypt hash of a value nobody knows. Checked against when no user
+     * matches, so that a miss costs the same bcrypt round as a hit and the
+     * response time stops telling an attacker which usernames exist.
+     */
+    private const DUMMY_HASH = '$2y$10$jG0Drp7/ZBXXPPsW1zzG6uCNpNMMwTOucqTCnX5ikNmicIJ0kqcEq';
+
+    /**
      * @param QueryService $queryService
      * @param Security     $security
      */
@@ -67,6 +74,11 @@ class UsersRepository
      * password checked against the stored hash afterwards - which also keeps
      * the plain password out of the query cache key.
      *
+     * The cache is bypassed: with the password out of the query, the entry is
+     * keyed on the username alone, so a cached row would keep answering with a
+     * stale hash - rejecting the new password and accepting the old one for as
+     * long as the entry lived.
+     *
      * @param string $username
      * @param string $password
      *
@@ -81,11 +93,18 @@ class UsersRepository
             'status'   => Flags::ACTIVE,
         ];
 
-        $result = $this->queryService->getRecords(Users::class, $parameters);
+        $result = $this->queryService->getRecords(
+            Users::class,
+            $parameters,
+            '',
+            false
+        );
         /** @var Users|null $user */
         $user = $result[0] ?? null;
 
         if (null === $user) {
+            $this->security->checkHash($password, self::DUMMY_HASH);
+
             return null;
         }
 

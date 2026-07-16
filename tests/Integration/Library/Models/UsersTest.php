@@ -1,30 +1,37 @@
 <?php
 
-namespace Phalcon\Api\Tests\integration\library\Models;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use IntegrationTester;
-use Page\Data;
-use Phalcon\Api\Exception\ModelException;
+declare(strict_types=1);
+
+namespace Phalcon\Api\Tests\Integration\Library\Models;
+
 use Phalcon\Api\Models\Users;
+use Phalcon\Api\Tests\Integration\AbstractIntegrationTestCase;
+use Phalcon\Api\Tests\Support\Data;
 use Phalcon\Api\Traits\TokenTrait;
-use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
-use Phalcon\Filter\Filter;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 use Phalcon\Encryption\Security\JWT\Validator;
+use Phalcon\Filter\Filter;
 
-class UsersCest
+use function count;
+use function time;
+
+final class UsersTest extends AbstractIntegrationTestCase
 {
     use TokenTrait;
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateModel(IntegrationTester $I)
+    public function testValidateModel(): void
     {
-        $I->haveModelDefinition(
+        $this->haveModelDefinition(
             Users::class,
             [
                 'id',
@@ -38,12 +45,7 @@ class UsersCest
         );
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateFilters(IntegrationTester $I)
+    public function testValidateFilters(): void
     {
         $model    = new Users();
         $expected = [
@@ -55,20 +57,13 @@ class UsersCest
             'tokenPassword' => Filter::FILTER_STRING,
             'tokenId'       => Filter::FILTER_STRING,
         ];
-        $I->assertSame($expected, $model->getModelFilters());
+        $this->assertSame($expected, $model->getModelFilters());
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     * @throws ModelException
-     * @throws ValidatorException
-     */
-    public function checkValidationData(IntegrationTester $I)
+    public function testCheckValidationData(): void
     {
         /** @var Users $user */
-        $user = $I->haveRecordWithFields(
+        $user = $this->haveRecordWithFields(
             Users::class,
             [
                 'username'      => Data::$testUsername,
@@ -92,18 +87,13 @@ class UsersCest
         ;
 
         $class  = Validator::class;
-        $actual = $user->getValidationData();
-        $I->assertInstanceOf($class, $actual);
+        $actual = $user->getValidationData($token);
+        $this->assertInstanceOf($class, $actual);
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateRelationships(IntegrationTester $I)
+    public function testValidateRelationships(): void
     {
-        $actual = $I->getModelRelationships(Users::class);
-        $I->assertSame(0, count($actual));
+        $actual = $this->getModelRelationships(Users::class);
+        $this->assertSame(0, count($actual));
     }
 }

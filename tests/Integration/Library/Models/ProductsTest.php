@@ -1,24 +1,30 @@
 <?php
 
-namespace Phalcon\Api\Tests\integration\library\Models;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use IntegrationTester;
+declare(strict_types=1);
+
+namespace Phalcon\Api\Tests\Integration\Library\Models;
+
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
+use Phalcon\Api\Tests\Integration\AbstractIntegrationTestCase;
 use Phalcon\Filter\Filter;
 
-class ProductsCest
+final class ProductsTest extends AbstractIntegrationTestCase
 {
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateModel(IntegrationTester $I)
+    public function testValidateModel(): void
     {
-        $I->haveModelDefinition(
+        $this->haveModelDefinition(
             Products::class,
             [
                 'id',
@@ -31,12 +37,7 @@ class ProductsCest
         );
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateFilters(IntegrationTester $I)
+    public function testValidateFilters(): void
     {
         $model    = new Products();
         $expected = [
@@ -47,34 +48,29 @@ class ProductsCest
             'quantity'    => Filter::FILTER_ABSINT,
             'price'       => Filter::FILTER_FLOAT,
         ];
-        $I->assertSame($expected, $model->getModelFilters());
+        $this->assertSame($expected, $model->getModelFilters());
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateRelationships(IntegrationTester $I)
+    public function testValidateRelationships(): void
     {
-        $actual   = $I->getModelRelationships(Products::class);
+        $actual   = $this->getModelRelationships(Products::class);
         $expected = [
             [
                 0,
                 'typeId',
                 ProductTypes::class,
                 'id',
-                ['alias' => Relationships::PRODUCT_TYPES, 'reusable' => true]
+                ['alias' => Relationships::PRODUCT_TYPES, 'reusable' => true],
             ],
             [
                 4,
                 'id',
                 Companies::class,
                 'id',
-                ['alias' => Relationships::COMPANIES, 'reusable' => true]
+                ['alias' => Relationships::COMPANIES, 'reusable' => true],
             ],
         ];
 
-        $I->assertSame($expected, $actual);
+        $this->assertSame($expected, $actual);
     }
 }

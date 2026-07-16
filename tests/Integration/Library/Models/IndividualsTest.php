@@ -1,24 +1,30 @@
 <?php
 
-namespace Phalcon\Api\Tests\integration\library\Models;
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
 
-use IntegrationTester;
+declare(strict_types=1);
+
+namespace Phalcon\Api\Tests\Integration\Library\Models;
+
 use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Models\Companies;
 use Phalcon\Api\Models\Individuals;
 use Phalcon\Api\Models\IndividualTypes;
+use Phalcon\Api\Tests\Integration\AbstractIntegrationTestCase;
 use Phalcon\Filter\Filter;
 
-class IndividualsCest
+final class IndividualsTest extends AbstractIntegrationTestCase
 {
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateModel(IntegrationTester $I)
+    public function testValidateModel(): void
     {
-        $I->haveModelDefinition(
+        $this->haveModelDefinition(
             Individuals::class,
             [
                 'id',
@@ -33,12 +39,7 @@ class IndividualsCest
         );
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateFilters(IntegrationTester $I)
+    public function testValidateFilters(): void
     {
         $model    = new Individuals();
         $expected = [
@@ -51,33 +52,28 @@ class IndividualsCest
             'last'      => Filter::FILTER_STRING,
             'suffix'    => Filter::FILTER_STRING,
         ];
-        $I->assertSame($expected, $model->getModelFilters());
+        $this->assertSame($expected, $model->getModelFilters());
     }
 
-    /**
-     * @param IntegrationTester $I
-     *
-     * @return void
-     */
-    public function validateRelationships(IntegrationTester $I)
+    public function testValidateRelationships(): void
     {
-        $actual   = $I->getModelRelationships(Individuals::class);
+        $actual   = $this->getModelRelationships(Individuals::class);
         $expected = [
             [
                 0,
                 'companyId',
                 Companies::class,
                 'id',
-                ['alias' => Relationships::COMPANIES, 'reusable' => true]
+                ['alias' => Relationships::COMPANIES, 'reusable' => true],
             ],
             [
                 1,
                 'typeId',
                 IndividualTypes::class,
                 'id',
-                ['alias' => Relationships::INDIVIDUAL_TYPES, 'reusable' => true]
+                ['alias' => Relationships::INDIVIDUAL_TYPES, 'reusable' => true],
             ],
         ];
-        $I->assertSame($expected, $actual);
+        $this->assertSame($expected, $actual);
     }
 }

@@ -150,7 +150,23 @@ final class IndividualsTransformerTest extends AbstractIntegrationTestCase
             ],
             'included' => [
                 Data::companiesResponse($company),
-                Data::individualTypeResponse($individualType),
+                /**
+                 * The included type carries its own relationships now that the
+                 * include uses IndividualTypesTransformer rather than the base
+                 * one - which is what makes `?includes=individual-types.individuals`
+                 * resolvable.
+                 */
+                Data::individualTypeResponse($individualType) + [
+                    'relationships' => [
+                        Relationships::INDIVIDUALS => [
+                            'links' => Data::relationshipLinks(
+                                Relationships::INDIVIDUAL_TYPES,
+                                $individualType->get('id'),
+                                Relationships::INDIVIDUALS
+                            ),
+                        ],
+                    ],
+                ],
             ],
         ];
 

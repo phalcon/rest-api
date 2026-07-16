@@ -27,9 +27,6 @@ class IndividualTypesTransformer extends BaseTransformer
         Relationships::INDIVIDUALS,
     ];
 
-    /** @var string */
-    protected string $resource = Relationships::INDIVIDUAL_TYPES;
-
     /**
      * @param IndividualTypes $type
      *

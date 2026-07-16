@@ -48,7 +48,7 @@ abstract class AbstractBootstrap
         }
 
         if ([] === $this->providers) {
-            $this->providers = require appPath('src/Api/providers.php');
+            $this->providers = require appPath($this->providersPath());
         }
 
         $this
@@ -87,13 +87,30 @@ abstract class AbstractBootstrap
     abstract public function run();
 
     /**
+     * The application class this bootstrap builds - a Micro for HTTP, a Console
+     * for the command line.
+     *
+     * @return class-string<Console|Micro>
+     */
+    abstract protected function applicationClass(): string;
+
+    /**
+     * The provider list this application registers, relative to the app root.
+     *
+     * @return string
+     */
+    abstract protected function providersPath(): string;
+
+    /**
      * Set up the application object in the container
      *
      * @return AbstractBootstrap
      */
     protected function setupApplication(): AbstractBootstrap
     {
-        $this->application = new Micro($this->container);
+        $class             = $this->applicationClass();
+        $this->application = new $class($this->container);
+
         $this->container->setShared('application', $this->application);
 
         return $this;

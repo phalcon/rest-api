@@ -27,9 +27,7 @@ final class GetSortTest extends AbstractGetTestCase
         $this->addCompanyRecord('com-a-', '', 'city-b');
         $this->addCompanyRecord('com-b-', '', 'city-b');
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$companiesSortUrl, 'unknown'));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$companiesSortUrl, 'unknown'));
         $this->assertResponseIs400();
     }
 
@@ -41,9 +39,7 @@ final class GetSortTest extends AbstractGetTestCase
         $comOne = $this->addCompanyRecord('com-a-', '', 'city-b');
         $comTwo = $this->addCompanyRecord('com-b-', '', 'city-b');
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$companiesSortUrl, 'city,name'));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$companiesSortUrl, 'city,name'));
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -53,9 +49,7 @@ final class GetSortTest extends AbstractGetTestCase
             ]
         );
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$companiesSortUrl, 'city,-name'));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$companiesSortUrl, 'city,-name'));
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -74,9 +68,7 @@ final class GetSortTest extends AbstractGetTestCase
         $comOne = $this->addCompanyRecord('com-a-');
         $comTwo = $this->addCompanyRecord('com-b-');
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$companiesSortUrl, 'name'));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$companiesSortUrl, 'name'));
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -86,9 +78,7 @@ final class GetSortTest extends AbstractGetTestCase
             ]
         );
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$companiesSortUrl, '-name'));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$companiesSortUrl, '-name'));
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',

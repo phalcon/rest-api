@@ -30,9 +30,7 @@ final class GetTest extends AbstractApiTestCase
         $typeOne = $this->addProductTypeRecord('type-a-');
         $typeTwo = $this->addProductTypeRecord('type-b-');
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$productTypesUrl);
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$productTypesUrl);
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -48,9 +46,7 @@ final class GetTest extends AbstractApiTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$productTypesUrl);
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$productTypesUrl);
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse();
     }
@@ -64,15 +60,14 @@ final class GetTest extends AbstractApiTestCase
         $productOne  = $this->addProductRecord('prd-a-', $productType->get('id'));
         $productTwo  = $this->addProductRecord('prd-b-', $productType->get('id'));
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(
+        $this->sendGetAs(
+            $token,
             sprintf(
                 Data::$productTypesRecordIncludesUrl,
                 $productType->get('id'),
                 Relationships::PRODUCTS
             )
         );
-        $this->unsetHttpHeader('Authorization');
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -140,9 +135,7 @@ final class GetTest extends AbstractApiTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$productTypesRecordUrl, 1));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$productTypesRecordUrl, 1));
         $this->assertResponseIs404();
     }
 }

@@ -27,9 +27,7 @@ final class GetTest extends AbstractGetTestCase
         $comOne = $this->addCompanyRecord('com-a-');
         $comTwo = $this->addCompanyRecord('com-b-');
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$companiesUrl);
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$companiesUrl);
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -45,9 +43,7 @@ final class GetTest extends AbstractGetTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$companiesUrl);
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$companiesUrl);
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse();
     }
@@ -59,9 +55,7 @@ final class GetTest extends AbstractGetTestCase
 
         $company = $this->addCompanyRecord('com-a-');
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$companiesRecordUrl, $company->get('id')));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$companiesRecordUrl, $company->get('id')));
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -76,9 +70,7 @@ final class GetTest extends AbstractGetTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$companiesRecordUrl, 1));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$companiesRecordUrl, 1));
         $this->assertResponseIs404();
     }
 }

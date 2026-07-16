@@ -33,4 +33,20 @@ class Api extends AbstractBootstrap
 
         return $this->application->handle($uri);
     }
+
+    /**
+     * @return class-string<Micro>
+     */
+    protected function applicationClass(): string
+    {
+        return Micro::class;
+    }
+
+    /**
+     * @return string
+     */
+    protected function providersPath(): string
+    {
+        return 'src/Api/providers.php';
+    }
 }

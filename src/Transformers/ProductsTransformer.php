@@ -57,7 +57,7 @@ class ProductsTransformer extends BaseTransformer
         return $this->getRelatedData(
             'item',
             $product,
-            BaseTransformer::class,
+            ProductTypesTransformer::class,
             Relationships::PRODUCT_TYPES
         );
     }

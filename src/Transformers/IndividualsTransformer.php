@@ -28,9 +28,6 @@ class IndividualsTransformer extends BaseTransformer
         Relationships::INDIVIDUAL_TYPES,
     ];
 
-    /** @var string */
-    protected string $resource = Relationships::INDIVIDUALS;
-
     /**
      * Includes the companies
      *
@@ -60,7 +57,7 @@ class IndividualsTransformer extends BaseTransformer
         return $this->getRelatedData(
             'item',
             $individual,
-            BaseTransformer::class,
+            IndividualTypesTransformer::class,
             Relationships::INDIVIDUAL_TYPES
         );
     }

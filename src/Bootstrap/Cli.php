@@ -16,8 +16,6 @@ namespace Phalcon\Api\Bootstrap;
 use Phalcon\Cli\Console;
 use Phalcon\Di\FactoryDefault\Cli as PhCli;
 
-use function Phalcon\Api\Core\appPath;
-
 /**
  * Class Cli
  *
@@ -31,7 +29,6 @@ class Cli extends AbstractBootstrap
     public function __construct()
     {
         $this->container = new PhCli();
-        $this->providers = require appPath('src/Cli/providers.php');
 
         $this->processArguments();
 
@@ -51,16 +48,19 @@ class Cli extends AbstractBootstrap
     }
 
     /**
-     * Set up the application object in the container
-     *
-     * @return Cli
+     * @return class-string<Console>
      */
-    protected function setupApplication(): Cli
+    protected function applicationClass(): string
     {
-        $this->application = new Console($this->container);
-        $this->container->setShared('application', $this->application);
+        return Console::class;
+    }
 
-        return $this;
+    /**
+     * @return string
+     */
+    protected function providersPath(): string
+    {
+        return 'src/Cli/providers.php';
     }
 
     /**

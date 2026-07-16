@@ -45,9 +45,7 @@ final class GetIncludesTest extends AbstractGetTestCase
 
         $company = $this->addCompanyRecord('com-a-');
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$companiesRecordIncludesUrl, $company->get('id'), 'unknown'));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$companiesRecordIncludesUrl, $company->get('id'), 'unknown'));
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -67,15 +65,14 @@ final class GetIncludesTest extends AbstractGetTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(
+        $this->sendGetAs(
+            $token,
             sprintf(
                 Data::$companiesRecordIncludesUrl,
                 $com->get('id'),
                 implode(',', $includes)
             )
         );
-        $this->unsetHttpHeader('Authorization');
         $this->assertResponseIsSuccessful();
 
         $element = [

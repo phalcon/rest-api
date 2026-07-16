@@ -33,9 +33,7 @@ final class GetTest extends AbstractApiTestCase
         $individualType = $this->addIndividualTypeRecord('prt-a-');
         $individual     = $this->addIndividualRecord('prd-a-', $company->get('id'), $individualType->get('id'));
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$individualsRecordUrl, $individual->get('id')));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$individualsRecordUrl, $individual->get('id')));
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -55,9 +53,7 @@ final class GetTest extends AbstractApiTestCase
         $individualOne  = $this->addIndividualRecord('ind-a-', $company->get('id'), $individualType->get('id'));
         $individualTwo  = $this->addIndividualRecord('ind-b-', $company->get('id'), $individualType->get('id'));
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$individualsUrl);
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$individualsUrl);
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -73,9 +69,7 @@ final class GetTest extends AbstractApiTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$individualsUrl);
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$individualsUrl);
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse();
     }
@@ -100,9 +94,7 @@ final class GetTest extends AbstractApiTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(sprintf(Data::$individualsRecordUrl, 1));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, sprintf(Data::$individualsRecordUrl, 1));
         $this->assertResponseIs404();
     }
 
@@ -130,15 +122,14 @@ final class GetTest extends AbstractApiTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(
+        $this->sendGetAs(
+            $token,
             sprintf(
                 Data::$individualsRecordIncludesUrl,
                 $individual->get('id'),
                 implode(',', $includes)
             )
         );
-        $this->unsetHttpHeader('Authorization');
         $this->assertResponseIsSuccessful();
 
         $element = [

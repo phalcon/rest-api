@@ -57,9 +57,7 @@ final class GetTest extends AbstractApiTestCase
 
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$usersUrl);
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$usersUrl);
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',
@@ -75,9 +73,7 @@ final class GetTest extends AbstractApiTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$usersUrl);
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$usersUrl);
         $this->assertResponseIsSuccessful();
     }
 
@@ -94,9 +90,7 @@ final class GetTest extends AbstractApiTestCase
         $record = $this->addApiUserRecord();
         $token  = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$usersUrl . '/' . $record->get('id'));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$usersUrl . '/' . $record->get('id'));
         $this->assertResponseIsSuccessful();
 
         $this->assertResponseNotContains('password');
@@ -257,9 +251,7 @@ final class GetTest extends AbstractApiTestCase
         $record = $this->addApiUserRecord();
         $token  = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(Data::$usersUrl . '/' . $record->get('id'));
-        $this->unsetHttpHeader('Authorization');
+        $this->sendGetAs($token, Data::$usersUrl . '/' . $record->get('id'));
         $this->assertResponseIsSuccessful();
         $this->assertSuccessJsonResponse(
             'data',

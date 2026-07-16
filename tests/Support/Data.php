@@ -68,24 +68,16 @@ class Data
      */
     public static function companiesAddResponse(Companies $record): array
     {
-        return [
-            'type'       => Relationships::COMPANIES,
-            'id'         => (string) $record->get('id'),
-            'attributes' => [
+        return self::resource(
+            Relationships::COMPANIES,
+            $record,
+            [
                 'name'    => $record->get('name'),
                 'address' => $record->get('address'),
                 'city'    => $record->get('city'),
                 'phone'   => $record->get('phone'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL'),
-                    Relationships::COMPANIES,
-                    $record->get('id')
-                ),
-            ],
-        ];
+            ]
+        );
     }
 
     /**
@@ -96,55 +88,32 @@ class Data
      */
     public static function companiesResponse(Companies $record): array
     {
-        return [
-            'type'          => Relationships::COMPANIES,
-            'id'            => (string) $record->get('id'),
-            'attributes'    => [
+        $recordId = $record->get('id');
+
+        return self::resource(
+            Relationships::COMPANIES,
+            $record,
+            [
                 'name'    => $record->get('name'),
                 'address' => $record->get('address'),
                 'city'    => $record->get('city'),
                 'phone'   => $record->get('phone'),
-            ],
-            'links'         => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL'),
-                    Relationships::COMPANIES,
-                    $record->get('id')
-                ),
-            ],
+            ]
+        ) + [
             'relationships' => [
                 Relationships::PRODUCTS    => [
-                    'links' => [
-                        'self'    => sprintf(
-                            '%s/%s/%s/relationships/products',
-                            envValue('APP_URL'),
-                            Relationships::COMPANIES,
-                            $record->get('id')
-                        ),
-                        'related' => sprintf(
-                            '%s/%s/%s/products',
-                            envValue('APP_URL'),
-                            Relationships::COMPANIES,
-                            $record->get('id')
-                        ),
-                    ]
+                    'links' => self::relationshipLinks(
+                        Relationships::COMPANIES,
+                        $recordId,
+                        Relationships::PRODUCTS
+                    ),
                 ],
                 Relationships::INDIVIDUALS => [
-                    "links" => [
-                        'self'    => sprintf(
-                            '%s/%s/%s/relationships/individuals',
-                            envValue('APP_URL'),
-                            Relationships::COMPANIES,
-                            $record->get('id')
-                        ),
-                        'related' => sprintf(
-                            '%s/%s/%s/individuals',
-                            envValue('APP_URL'),
-                            Relationships::COMPANIES,
-                            $record->get('id')
-                        ),
-                    ],
+                    'links' => self::relationshipLinks(
+                        Relationships::COMPANIES,
+                        $recordId,
+                        Relationships::INDIVIDUALS
+                    ),
                 ],
             ],
         ];
@@ -176,10 +145,10 @@ class Data
      */
     public static function individualResponse(Individuals $record): array
     {
-        return [
-            'type'       => Relationships::INDIVIDUALS,
-            'id'         => (string) $record->get('id'),
-            'attributes' => [
+        return self::resource(
+            Relationships::INDIVIDUALS,
+            $record,
+            [
                 'companyId' => $record->get('companyId'),
                 'typeId'    => $record->get('typeId'),
                 'prefix'    => $record->get('prefix'),
@@ -187,16 +156,8 @@ class Data
                 'middle'    => $record->get('middle'),
                 'last'      => $record->get('last'),
                 'suffix'    => $record->get('suffix'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL'),
-                    Relationships::INDIVIDUALS,
-                    $record->get('id')
-                ),
-            ],
-        ];
+            ]
+        );
     }
 
     /**
@@ -207,22 +168,14 @@ class Data
      */
     public static function individualTypeResponse(IndividualTypes $record): array
     {
-        return [
-            'type'       => Relationships::INDIVIDUAL_TYPES,
-            'id'         => (string) $record->get('id'),
-            'attributes' => [
+        return self::resource(
+            Relationships::INDIVIDUAL_TYPES,
+            $record,
+            [
                 'name'        => $record->get('name'),
                 'description' => $record->get('description'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL'),
-                    Relationships::INDIVIDUAL_TYPES,
-                    $record->get('id')
-                ),
-            ],
-        ];
+            ]
+        );
     }
 
     /**
@@ -244,22 +197,14 @@ class Data
      */
     public static function productFieldsResponse(Products $record): array
     {
-        return [
-            'type'       => Relationships::PRODUCTS,
-            'id'         => (string) $record->get('id'),
-            'attributes' => [
+        return self::resource(
+            Relationships::PRODUCTS,
+            $record,
+            [
                 'name'  => $record->get('name'),
                 'price' => $record->get('price'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL'),
-                    Relationships::PRODUCTS,
-                    $record->get('id')
-                ),
-            ],
-        ];
+            ]
+        );
     }
 
     /**
@@ -270,25 +215,17 @@ class Data
      */
     public static function productResponse(Products $record): array
     {
-        return [
-            'type'       => Relationships::PRODUCTS,
-            'id'         => (string) $record->get('id'),
-            'attributes' => [
+        return self::resource(
+            Relationships::PRODUCTS,
+            $record,
+            [
                 'typeId'      => $record->get('typeId'),
                 'name'        => $record->get('name'),
                 'description' => $record->get('description'),
                 'quantity'    => $record->get('quantity'),
                 'price'       => $record->get('price'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL'),
-                    Relationships::PRODUCTS,
-                    $record->get('id')
-                ),
-            ],
-        ];
+            ]
+        );
     }
 
     /**
@@ -299,18 +236,64 @@ class Data
      */
     public static function productTypeResponse(ProductTypes $record): array
     {
-        return [
-            'type'       => Relationships::PRODUCT_TYPES,
-            'id'         => (string) $record->get('id'),
-            'attributes' => [
+        return self::resource(
+            Relationships::PRODUCT_TYPES,
+            $record,
+            [
                 'name'        => $record->get('name'),
                 'description' => $record->get('description'),
-            ],
+            ]
+        );
+    }
+
+    /**
+     * The self/related pair a relationship carries.
+     *
+     * @param string $type
+     * @param mixed  $recordId
+     * @param string $relationship
+     *
+     * @return array
+     */
+    public static function relationshipLinks(
+        string $type,
+        $recordId,
+        string $relationship
+    ): array {
+        $base = sprintf('%s/%s/%s', envValue('APP_URL'), $type, $recordId);
+
+        return [
+            'self'    => $base . '/relationships/' . $relationship,
+            'related' => $base . '/' . $relationship,
+        ];
+    }
+
+    /**
+     * The JSON:API envelope every resource shares - type, id, attributes and a
+     * self link. Only the attributes differ between resources, so only the
+     * attributes are worth stating at each call site.
+     *
+     * @param string        $type
+     * @param AbstractModel $record
+     * @param array         $attributes
+     *
+     * @return array
+     * @throws ModelException
+     */
+    public static function resource(
+        string $type,
+        AbstractModel $record,
+        array $attributes
+    ): array {
+        return [
+            'type'       => $type,
+            'id'         => (string) $record->get('id'),
+            'attributes' => $attributes,
             'links'      => [
                 'self' => sprintf(
                     '%s/%s/%s',
                     envValue('APP_URL'),
-                    Relationships::PRODUCT_TYPES,
+                    $type,
                     $record->get('id')
                 ),
             ],
@@ -325,23 +308,15 @@ class Data
      */
     public static function userResponse(AbstractModel $record)
     {
-        return [
-            'type'       => Relationships::USERS,
-            'id'         => (string) $record->get('id'),
-            'attributes' => [
+        return self::resource(
+            Relationships::USERS,
+            $record,
+            [
                 'status'   => $record->get('status'),
                 'username' => $record->get('username'),
                 'issuer'   => $record->get('issuer'),
                 'tokenId'  => $record->get('tokenId'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL'),
-                    Relationships::USERS,
-                    $record->get('id')
-                ),
-            ],
-        ];
+            ]
+        );
     }
 }

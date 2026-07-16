@@ -39,8 +39,8 @@ final class GetFieldsTest extends AbstractGetTestCase
         $this->addApiUserRecord();
         $token = $this->apiLogin();
 
-        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
-        $this->sendGet(
+        $this->sendGetAs(
+            $token,
             sprintf(
                 Data::$companiesRecordIncludesUrl,
                 $com->get('id'),
@@ -49,7 +49,6 @@ final class GetFieldsTest extends AbstractGetTestCase
             '&fields[' . Relationships::COMPANIES . ']=id,name,city' .
             '&fields[' . Relationships::PRODUCTS . ']=id,name,price' . $fields
         );
-        $this->unsetHttpHeader('Authorization');
         $this->assertResponseIsSuccessful();
 
         $element = [

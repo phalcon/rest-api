@@ -158,7 +158,23 @@ final class ProductsTransformerTest extends AbstractIntegrationTestCase
             ],
             'included' => [
                 Data::companiesResponse($company),
-                Data::productTypeResponse($productType),
+                /**
+                 * The included type carries its own relationships now that the
+                 * include uses ProductTypesTransformer rather than the base one
+                 * - which is what makes `?includes=product-types.products`
+                 * resolvable.
+                 */
+                Data::productTypeResponse($productType) + [
+                    'relationships' => [
+                        Relationships::PRODUCTS => [
+                            'links' => Data::relationshipLinks(
+                                Relationships::PRODUCT_TYPES,
+                                $productType->get('id'),
+                                Relationships::PRODUCTS
+                            ),
+                        ],
+                    ],
+                ],
             ],
         ];
 

@@ -32,16 +32,7 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
 
     public function testGetByUsernameAndPassword(): void
     {
-        $this->haveRecordWithFields(
-            Users::class,
-            [
-                'username' => Data::$testUsername,
-                'password' => Data::$testPasswordHash,
-                'status'   => 1,
-                'issuer'   => 'phalcon.io',
-                'tokenId'  => Data::$testTokenId,
-            ]
-        );
+        $this->addUserRecord();
 
         $dbUser = $this->getRepository()->getByUsernameAndPassword(
             Data::$testUsername,
@@ -56,16 +47,7 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
      */
     public function testGetByWrongTokenReturnsNull(): void
     {
-        $this->haveRecordWithFields(
-            Users::class,
-            [
-                'username' => Data::$testUsername,
-                'password' => Data::$testPasswordHash,
-                'status'   => 1,
-                'issuer'   => 'phalcon.io',
-                'tokenId'  => Data::$testTokenId,
-            ]
-        );
+        $this->addUserRecord();
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -84,7 +66,19 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
 
     public function testGetByWrongUsernameAndPasswordReturnsNull(): void
     {
-        $this->haveRecordWithFields(
+        $this->addUserRecord();
+
+        $dbUser = $this->getRepository()->getByUsernameAndPassword(
+            Data::$testUsername,
+            'nothing'
+        );
+
+        $this->assertNull($dbUser);
+    }
+
+    private function addUserRecord(): Users
+    {
+        return $this->haveRecordWithFields(
             Users::class,
             [
                 'username' => Data::$testUsername,
@@ -94,13 +88,6 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
                 'tokenId'  => Data::$testTokenId,
             ]
         );
-
-        $dbUser = $this->getRepository()->getByUsernameAndPassword(
-            Data::$testUsername,
-            'nothing'
-        );
-
-        $this->assertNull($dbUser);
     }
 
     private function getRepository(): UsersRepository

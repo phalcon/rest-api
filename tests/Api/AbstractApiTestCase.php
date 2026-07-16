@@ -118,6 +118,22 @@ abstract class AbstractApiTestCase extends AbstractIntegrationTestCase
         $this->assertResponseContainsJson([$key => $data]);
     }
 
+    /**
+     * Sends a GET carrying the bearer token, then drops the header again.
+     *
+     * The header is per-test rather than per-request state, so leaving it set
+     * would leak into whatever the test does next.
+     *
+     * @param string $token
+     * @param string $url
+     */
+    protected function sendGetAs(string $token, string $url): void
+    {
+        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $this->sendGet($url);
+        $this->unsetHttpHeader('Authorization');
+    }
+
     private function assertErrorResponse(int $code): void
     {
         $this->assertResponseIsJson();

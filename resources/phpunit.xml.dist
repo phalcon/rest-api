@@ -6,6 +6,15 @@
         <testsuite name="unit">
             <directory>../tests/Unit</directory>
         </testsuite>
+        <testsuite name="integration">
+            <directory>../tests/Integration</directory>
+        </testsuite>
+        <testsuite name="api">
+            <directory>../tests/Api</directory>
+        </testsuite>
+        <testsuite name="cli">
+            <directory>../tests/Cli</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>

@@ -36,6 +36,7 @@
         "allow-plugins": {}
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3",
         "pds/composer-script-names": "^1.0",
         "pds/skeleton": "^1.0",
         "phalcon/ide-stubs": "^5.16",

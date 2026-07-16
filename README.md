@@ -1,300 +1,190 @@
-# phalcon-api
-Sample API using Phalcon
+# Phalcon REST API
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/phalcon/phalcon-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/phalcon/phalcon-api/build-status/master)
+[![Latest Version][packagist-version-badge]][packagist-version-link]
+[![PHP Version][php-version-badge]][packagist-version-link]
+[![Total Downloads][packagist-downloads-badge]][packagist-downloads-link]
+[![License][license-badge]][license-link]
 
+[![REST API CI][ci-badge]][ci-link]
+[![Quality Gate Status][sonar-quality-badge]][sonar-link]
+[![Coverage][sonar-coverage-badge]][sonar-link]
+[![PDS Skeleton][pds-skeleton-badge]][pds-skeleton-link]
 
-Implementation of an API application using the Phalcon Framework [https://phalcon.io](https://phalcon.io)
+[![Discord][discord-badge]][discord-link]
+[![Contributors][contributors-badge]][contributors-link]
+[![OpenCollective Backers][oc-backers-badge]][oc-backers-link]
+[![OpenCollective Sponsors][oc-sponsors-badge]][oc-sponsors-link]
 
-### Installation
+A sample REST API for the [Phalcon Framework](https://github.com/phalcon/cphalcon).
+It showcases JWT authentication, a [JSON:API](https://jsonapi.org) response layer
+(sparse fieldsets, includes, sorting), a lazy middleware chain, and the model /
+repository / transformer split behind it.
 
-Requires [Docker](https://docs.docker.com/get-docker/) with the Compose plugin.
+It runs on **Phalcon v5** (the C extension, default) and on **Phalcon v6**
+(the `phalcon/phalcon` package) from the same source.
 
-- Clone the project
-- Copy the environment template: `cp resources/.env.example .env`
-- If your host user is not `1000:1000`, set `UID` and `GID` in `.env` to match the output of `id -u` and `id -g`
-- Start the stack: `docker compose up -d --build`
-- Install the dependencies: `docker compose exec app composer install`
-- Hit `http://localhost:8080` with postman
+## Requirements
 
-The project directory is mounted at `/srv` inside the container, which masks the
-`vendor/` directory baked into the image — hence the `composer install` step
-above. It only needs repeating when `composer.lock` changes.
+* PHP 8.1 or newer
+* MySQL 8.0 and Redis (both provided by the Docker stack)
+* Docker + Docker Compose (recommended), or a local PHP with the Phalcon extension
+  (see [docs/installation.md](docs/installation.md))
 
-The host port is configurable via `APP_PORT` in `.env`, so this app can run
-alongside the other Phalcon sample applications. `PHP_VERSION` (8.1 minimum) and
-`PHALCON_VARIANT` select the PHP and Phalcon versions the image is built with.
+## Quick start (Docker)
 
-### Features
-##### JWT Tokens
-As part of the security of the API, [JWT](https://jwt.io) are used. JSON Web Tokens offer an easy way for a consumer of the API to send requests without the need to authenticate all the time. The expiry of each token depends on the setup of the API. An admin can easily keep the expiry very short, thus consumers will always have to log in first and then access a resource, or they can increase the "life" of each token, thus having less calls to the API.
+```bash
+cp resources/.env.example .env
+docker compose up -d --build
 
-##### Middleware
-- Lazy loading to save resources per request
-- Stop execution as early as possible when an error occurs
-- Execution
-    - NotFound          - 404 when the resource requested is not found
-    - Authentication    - After a `/login` checks the `Authentication` header
-    - TokenUser         - When a token is supplied, check if it corresponds to a user in the database
-    - TokenVerification - When a token is supplied, check if it is correctly signed
-    - TokenValidation   - When a token is supplied, check if it is valid (`issuedAt`, `notBefore`, `expires`) 
-
-##### JSONAPI
-This implementation follows the [JSON API](https://jsonapi.org) standard. All responses are formatted according to the standard, which offers a uniformed way of presenting data, simple or compound documents, includes (related data), sparse fieldsets, sorting, patination and filtering.
-
-### Usage
-
-#### Requests
-The routes available are:
-
-| Method | Route              | Parameters                         | Action                                                   | 
-|--------|--------------------|------------------------------------|----------------------------------------------------------|
-| `POST` | `login`            | `username`, `password`             | Login - get Token                                        |
-| `POST` | `companies`        | `name`, `address`, `city`, `phone` | Add a company record in the database                     |
-| `GET`  | `companies`        |                                    | Get companies. Empty resultset if no data present        |
-| `GET`  | `companies`        | Numeric Id                         | Get company by id. 404 if record does not exist          |
-| `GET`  | `individuals`      |                                    | Get individuals. Empty resultset if no data present      |
-| `GET`  | `individuals`      | Numeric Id                         | Get individual by id. 404 if record does not exist       |
-| `GET`  | `individual-types` |                                    | Get individual types. Empty resultset if no data present |
-| `GET`  | `individual-types` | Numeric Id                         | Get individual type by id. 404 if record does not exist  |
-| `GET`  | `products`         |                                    | Get products. Empty resultset if no data present         |
-| `GET`  | `products`         | Numeric Id                         | Get product by id. 404 if record does not exist          |
-| `GET`  | `product-types`    |                                    | Get product types. Empty resultset if no data present    |
-| `GET`  | `product-types`    | Numeric Id                         | Get product type by id. 404 if record does not exist     |
-| `GET`  | `users`            |                                    | Get users. Empty resultset if no data present            |
-| `GET`  | `users`            | Numeric Id                         | Get user by id. 404 if record does not exist             |
-                                             
-#### Relationships
-
-`/companies/<number>?included=<individuals>,<products>`
-
-`individuals/<number>?included=<companies>,<individual-types>`
-
-`individual-types/<number>?included=<individuals>`
-
-`products/<number>?included=<companies>,<product-types>`
-
-`product-types/<number>?included=<products>`                                             
-                                             
-#### Fields
-
-`/companies?fields[<relationship>]=<field>,<field>&fields[<relationship>]=<field>,<field>`
-
-#### Sorting
-
-`/companies?sort=<[-]id>,<[-]status>,<[-]username>,<[-]issuer>`
-
-`individuals?sort=<[-]id',<[-]companyId>,<[-]typeId>,<[-]prefix>,<[-]first>,<[-]middle>,<[-]last>,<[-]suffix'>,`
-
-`individual-types?sort=<[-]id>,<[-]name>`
-
-`products?sort=<[-]id',<[-]typeId>,<[-]name>,<[-]quantity>,<[-]price>`
-
-`product-types?sort=<[-]id>,<[-]name>`                                             
-
-#### Responses
-##### Structure
-**Top Elements**
-- `jsonapi` Contains the `version` of the API as a sub element
-- `data` Data returned. Is not present if the `errors` is present
-- `errors` Collection of errors that occurred in this request. Is not present if the `data` is present
-- `meta` Contains `timestamp` and `hash` of the `json_encode($data)` or `json_encode($errors)` 
-
-After a `GET` the API will always return a collection of records, even if there is only one returned. If no data is found, an empty resultset will be returned.
-
-Each endpoint returns records that follow this structure:
-```json
-{
-  "id": 1051,
-  "type": "users",
-  "attributes": {
-    "status": 1,
-    "username": "niden",
-    "issuer": "https:\/\/niden.net",
-    "tokenPassword": "11110000",
-    "tokenId": "11001100"
-  }
-}
+# Create the database schema (migrations are not run on boot)
+docker compose exec app composer install
+docker compose exec app composer migrate
 ```
 
-The record always has `id` and `type` present at the top level. `id` is the unique id of the record in the database. `type` is a string representation of what the object is. In the above example it is a `users` record. Additional data from each record are under the `attributes` node.
+The API is then served at <http://localhost:8080>. There are no bundled fixtures, so
+every collection starts empty; see [docs/usage.md](docs/usage.md) for the request and
+response format and how authentication works.
 
-#### Samples
-**404**
-```json
-{
-  "jsonapi": {
-    "version": "1.0"
-  },
-  "errors": {
-    "404 not found"
-  },
-  "meta": {
-    "timestamp": "2018-06-08T15:04:34+00:00",
-    "hash": "e6d4d57162ae0f220c8649ae50a2b79fd1cb2c60"
-  }
-}
+> **Note:** `app` is the Compose *service* name, used as-is by `docker compose exec`.
+> The running container is named `${PROJECT_PREFIX}-app` (`rest-api-app` by default,
+> set via `PROJECT_PREFIX` in `.env`). If you address it with plain `docker exec`, use
+> the container name, e.g. `docker exec rest-api-app composer migrate`.
+
+### Choosing the Phalcon and PHP versions
+
+```bash
+docker compose up -d --build                      # v5 (C extension, default)
+PHALCON_VARIANT=v6 docker compose up -d --build   # v6 (phalcon/phalcon)
+
+PHP_VERSION=8.1 docker compose up -d --build       # pick a PHP version (8.1+)
 ```
 
-**Error**
+The two Phalcon variants are mutually exclusive: the v5 image installs the C extension,
+the v6 image installs the pure-PHP package instead. `APP_PORT` in `.env` changes the host
+port, so this app can run alongside the other Phalcon sample applications.
+[docs/installation.md](docs/installation.md) covers running several versions side by side.
 
-```json
-{
-  "jsonapi": {
-    "version": "1.0"
-  },
-  "errors": {
-    "Description of the error no 1",
-    "Description of the error no 2"
-  },
-  "meta": {
-    "timestamp": "2018-06-08T15:04:34+00:00",
-    "hash": "e6d4d57162ae0f220c8649ae50a2b79fd1cb2c60"
-  }
-}
+## Quick start (Composer)
+
+Prefer a local PHP over Docker? Bootstrap a fresh copy straight from Packagist:
+
+```bash
+composer create-project phalcon/rest-api rest-api
+cd rest-api
 ```
 
-##### Success
-```json
-{
-  "jsonapi": {
-    "version": "1.0"
-  },
-  "data": [
-  ],
-  "meta": {
-    "timestamp": "2018-06-08T15:04:34+00:00",
-    "hash": "e6d4d57162ae0f220c8649ae50a2b79fd1cb2c60"
-  }
-}
+The post-create hook copies `resources/.env.example` to `.env` and prints the next steps.
+[docs/installation.md](docs/installation.md) has the full local walkthrough (installing the
+Phalcon extension with [PIE](https://github.com/php/pie), the database, and serving).
+
+## Composer scripts
+
+Run them inside the container, e.g. `docker compose exec app composer cs`:
+
+| Script | Description |
+| --- | --- |
+| `composer cs` | PHP_CodeSniffer (PSR-12) |
+| `composer cs-fix` | Auto-fix coding standard issues (phpcbf) |
+| `composer cs-fixer` | PHP CS Fixer (dry-run) |
+| `composer cs-fixer-fix` | Apply PHP CS Fixer |
+| `composer analyze` | PHPStan static analysis (level 8) |
+| `composer test` | The default (unit) PHPUnit suite via `vendor/bin/talon` |
+| `composer test-coverage` | PHPUnit + Clover coverage (`tests/_output/coverage.xml`) |
+| `composer test-mutation` | Infection mutation testing (see below) |
+| `composer migrate` | Run database migrations (Phinx) |
+
+> `composer analyze` resolves Phalcon classes from the `phalcon/phalcon` (v6) source, so
+> run it where the v5 C extension is **not** loaded (the CI `quality` job, or a plain host).
+> The coding-standard and test scripts are unaffected.
+
+## Features
+
+* **JWT authentication** — [JSON Web Tokens](https://jwt.io) let a client authenticate once
+  at `/login` and then carry a bearer token; the token lifetime is configurable in `.env`.
+* **JSON:API responses** — every response follows the [JSON:API](https://jsonapi.org)
+  standard: a uniform envelope, compound documents, includes (related data), sparse
+  fieldsets, and sorting.
+* **A lazy middleware chain** — `NotFound`, `Authentication`, and `Response`, each attached to
+  the Micro application and resolved only when a request reaches it.
+* **Public fields are opt-in per model** — a model declares exactly which columns the API may
+  publish, so adding a column never exposes it by accident (`Users`, for instance, never
+  returns its password or token secrets).
+
+See [docs/usage.md](docs/usage.md) for the endpoints, query parameters, and response format.
+
+## Running the tests
+
+The suite is split into four PHPUnit testsuites — `unit`, `integration`, `api`, and `cli` —
+orchestrated by [`phalcon/talon`](https://github.com/phalcon/talon). The `api` suite drives
+the running application over real HTTP, so it needs the web server up (nginx in the Docker
+stack, reached via `TALON_REST_URL` in `tests/.env.test`).
+
+```bash
+docker compose exec app composer migrate    # once - create the schema
+docker compose exec app composer test       # the default (unit) suite
+docker compose exec app vendor/bin/talon run all   # every suite, one process each
 ```
 
-`/products/1134?includes=companies,product-types`
+### Mutation testing
 
-```json
-{
-  "jsonapi": {
-    "version": "1.0"
-  },
-  "data": [
-    {
-      "type": "products",
-      "id": "1134",
-      "attributes": {
-        "typeId": 890,
-        "name": "prd-a-5b64af7e70741",
-        "description": "5b64af7e7074a",
-        "quantity": 25,
-        "price": "19.99"
-      },
-      "links": {
-        "self": "http:\/\/api.phalcon.ld\/products\/1134"
-      },
-      "relationships": {
-        "companies": {
-          "links": {
-            "self": "http:\/\/api.phalcon.ld\/products\/1134\/relationships\/companies",
-            "related": "http:\/\/api.phalcon.ld\/products\/1134\/companies"
-          },
-          "data": [
-            {
-              "type": "companies",
-              "id": "1430"
-            },
-            {
-              "type": "companies",
-              "id": "1431"
-            }
-          ]
-        },
-        "product-types": {
-          "links": {
-            "self": "http:\/\/api.phalcon.ld\/products\/1134\/relationships\/product-types",
-            "related": "http:\/\/api.phalcon.ld\/products\/1134\/product-types"
-          },
-          "data": {
-            "type": "product-types",
-            "id": "890"
-          }
-        }
-      }
-    }
-  ],
-  "included": [
-    {
-      "type": "companies",
-      "id": "1430",
-      "attributes": {
-        "name": "com-a5b64af7e6c846",
-        "address": "5b64af7e6c84f",
-        "city": "5b64af7e6c855",
-        "phone": "5b64af7e6c85c"
-      },
-      "links": {
-        "self": "http:\/\/api.phalcon.ld\/companies\/1430"
-      }
-    },
-    {
-      "type": "companies",
-      "id": "1431",
-      "attributes": {
-        "name": "com-b5b64af7e6e3d3",
-        "address": "5b64af7e6e3dc",
-        "city": "5b64af7e6e3e2",
-        "phone": "5b64af7e6e3e9"
-      },
-      "links": {
-        "self": "http:\/\/api.phalcon.ld\/companies\/1431"
-      }
-    },
-    {
-      "type": "product-types",
-      "id": "890",
-      "attributes": {
-        "name": "prt-a-5b64af7e6f638",
-        "description": "5b64af7e6f641"
-      },
-      "links": {
-        "self": "http:\/\/api.phalcon.ld\/product-types\/890"
-      }
-    }
-  ],
-  "meta": {
-    "timestamp": "2018-08-03T19:39:42+00:00",
-    "hash": "384c6b3772727b1a9532865d2ae2d51c095c0fd9"
-  }
-}
+`composer test-mutation` runs [Infection](https://infection.github.io/). The dependency is
+**not** shipped — it pulls `thecodingmachine/safe` at `dev-master`, which deprecation-warns on
+newer PHP — so install it on demand:
+
+```bash
+docker compose exec app composer require --dev infection/infection
+docker compose exec app composer test-mutation
+docker compose exec app composer remove --dev infection/infection
 ```
 
-For more information regarding responses, please check [JSON API](https://jsonapi.org)
-                                                    
-### TODO
-- ~~Work on companies GET~~
-- ~~Work on included data~~
-- ~~Work on sorting~~
-- Write examples of code to send to the client
-- Create docs endpoint
-- Work on relationships
-- Work on pagination
-- Work on filters
-- Sorting on related resources
-- Perhaps add a new claim to the token tied to the device? `setClaim('deviceId', 'Web-Server')`. This will allow the client application to invalidate access to a device that has already been logged in.
+The configuration in `resources/infection.json5` stays in the repository. Runs are
+single-threaded on purpose: the suite shares one MySQL database, so parallel mutants would
+corrupt each other's data.
 
-## Sponsors
+## Project layout
 
-Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/phalcon#sponsor)]
+Follows the [PDS skeleton](https://github.com/php-pds/skeleton):
 
-<a href="https://opencollective.com/phalcon/#contributors">
-<img src="https://opencollective.com/phalcon/tiers/sponsors.svg?avatarHeight=48&width=800">
-</a>
+```
+bin/        command-line entry point (bin/cli)
+public/     web server root (index.php)
+resources/  tooling configs, docker, phinx, migrations
+src/        application source
+tests/      PHPUnit suites (unit, integration, api, cli)
+storage/    runtime cache and logs
+```
 
-## Backers
+## Documentation
 
-Support us with a monthly donation and help us continue our activities. [[Become a backer](https://opencollective.com/phalcon#backer)]
+* [docs/installation.md](docs/installation.md) — Docker and local (non-Docker) setup
+* [docs/usage.md](docs/usage.md) — endpoints, includes, sparse fields, sorting, and the
+  response format
 
-<a href="https://opencollective.com/phalcon/#contributors">
-<img src="https://opencollective.com/phalcon/tiers/backers.svg?avatarHeight=48&width=800&height=200">
-</a>
+## License
 
+Phalcon REST API is open-sourced software licensed under the New BSD License.
+See [LICENSE](LICENSE).
+
+<!-- Badges -->
+[packagist-version-badge]:   https://img.shields.io/packagist/v/phalcon/rest-api?include_prereleases&style=flat-square&logo=packagist&logoColor=white
+[packagist-version-link]:    https://packagist.org/packages/phalcon/rest-api
+[packagist-downloads-badge]: https://img.shields.io/packagist/dt/phalcon/rest-api?style=flat-square&logo=packagist&logoColor=white
+[packagist-downloads-link]:  https://packagist.org/packages/phalcon/rest-api/stats
+[php-version-badge]:         https://img.shields.io/packagist/php-v/phalcon/rest-api?style=flat-square&logo=php&logoColor=white
+[license-badge]:             https://img.shields.io/github/license/phalcon/rest-api?style=flat-square&logo=opensourceinitiative&logoColor=white
+[license-link]:              https://github.com/phalcon/rest-api/blob/master/LICENSE
+[ci-badge]:                  https://github.com/phalcon/rest-api/actions/workflows/main.yml/badge.svg?branch=master
+[ci-link]:                   https://github.com/phalcon/rest-api/actions/workflows/main.yml
+[sonar-quality-badge]:       https://sonarcloud.io/api/project_badges/measure?project=phalcon_rest-api&metric=alert_status
+[sonar-coverage-badge]:      https://sonarcloud.io/api/project_badges/measure?project=phalcon_rest-api&metric=coverage
+[sonar-link]:                https://sonarcloud.io/summary/new_code?id=phalcon_rest-api
+[pds-skeleton-badge]:        https://img.shields.io/badge/pds-skeleton-blue.svg?style=flat-square
+[pds-skeleton-link]:         https://github.com/php-pds/skeleton
+[discord-badge]:             https://img.shields.io/discord/310910488152375297?label=Discord&logo=discord&style=flat-square
+[discord-link]:              https://phalcon.io/discord
+[contributors-badge]:        https://img.shields.io/github/contributors/phalcon/rest-api?style=flat-square&logo=github&logoColor=white
+[contributors-link]:         https://github.com/phalcon/rest-api/graphs/contributors
+[oc-backers-badge]:          https://img.shields.io/opencollective/backers/phalcon?style=flat-square&logo=opencollective&logoColor=white
+[oc-backers-link]:           https://opencollective.com/phalcon
+[oc-sponsors-badge]:         https://img.shields.io/opencollective/sponsors/phalcon?style=flat-square&logo=opencollective&logoColor=white
+[oc-sponsors-link]:          https://opencollective.com/phalcon

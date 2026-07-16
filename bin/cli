@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * This file is part of the Phalcon API.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+use Phalcon\Api\Bootstrap\Cli;
+
+require_once dirname(__FILE__, 2) . '/src/Core/autoload.php';
+
+(new Cli())->run();

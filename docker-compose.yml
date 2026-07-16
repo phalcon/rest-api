@@ -1,95 +1,59 @@
-version: '3'
 services:
-  
-  # Application - REST API 8.0
-  application-8.0:
-    build: docker/8.0
-    container_name: rest-api-app-8.0
-    restart: unless-stopped
-    tty: true
-    working_dir: /var/www
+  app:
+    build:
+      context: .
+      dockerfile: resources/docker/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.4}
+        PHALCON_VARIANT: ${PHALCON_VARIANT:-v5}
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: ${PROJECT_PREFIX:-rest-api}-app
+    hostname: ${PROJECT_PREFIX:-rest-api}-app
+    volumes:
+      - .:/srv
+    env_file: .env
     depends_on:
-      - nginx-8.0
-      - redis
-      - mysql
-    volumes:
-      - ./:/var/www
-      - ./storage/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
-    networks:
-      - rest-api-network
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
-  # Application - REST API 8.1
-  application-8.1:
-    build: docker/8.1
-    container_name: rest-api-app-8.1
-    restart: unless-stopped
-    tty: true
-    working_dir: /var/www
+  nginx:
+    image: nginx:alpine
+    container_name: ${PROJECT_PREFIX:-rest-api}-nginx
+    hostname: ${PROJECT_PREFIX:-rest-api}-nginx
+    ports:
+      # Host port is configurable (APP_PORT) so multiple apps can coexist;
+      # the container always listens on 80.
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - .:/srv
+      - ./resources/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - nginx-8.1
-      - redis
-      - mysql
-    volumes:
-      - ./:/var/www
-      - ./storage/config/extra.ini:/usr/local/etc/php/conf.d/extra.ini
-    networks:
-      - rest-api-network
+      - app
 
-  # Webserver - nginX 8.0
-  nginx-8.0:
-    image: nginx:alpine
-    container_name: rest-api-nginx-8.0
-    restart: unless-stopped
-    tty: true
-    volumes:
-      - ./:/var/www
-      - ./storage/config/nginx/8.0/:/etc/nginx/conf.d/
-    networks:
-      - rest-api-network
-
-  # Webserver - nginX 8.0
-  nginx-8.1:
-    image: nginx:alpine
-    container_name: rest-api-nginx-8.1
-    restart: unless-stopped
-    tty: true
-    volumes:
-      - ./:/var/www
-      - ./storage/config/nginx/8.1/:/etc/nginx/conf.d/
-    networks:
-      - rest-api-network
-
-  # Database - Mysql
   mysql:
-    image: mysql:5.7.22
-    container_name: rest-api-mysql
-    restart: unless-stopped
-    tty: true
+    image: mysql:8.0
+    container_name: ${PROJECT_PREFIX:-rest-api}-mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_USER=phalcon
-      - MYSQL_DATABASE=phalcon_api
-      - MYSQL_PASSWORD=secret
-    volumes:
-      - rest-api-volume:/var/lib/mysql/
-      - ./storage/config/my.cnf:/etc/mysql/my.cnf
-    networks:
-      - rest-api-network
+      MYSQL_ROOT_PASSWORD: ${DATA_API_MYSQL_PASS:-secret}
+      MYSQL_DATABASE: ${DATA_API_MYSQL_NAME:-phalcon_api}
+    # No host port published: the app reaches the DB over the internal compose
+    # network as mysql:3306. Not exposed to the host by design.
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DATA_API_MYSQL_PASS:-secret}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
 
-  # Cache - Redis
   redis:
-    container_name: rest-api-cache
-    image: redis:5-alpine
-    restart: "always"
-    networks:
-      - rest-api-network
-
-# Network
-networks:
-  rest-api-network:
-    driver: bridge
-
-# Volumes
-volumes:
-  rest-api-volume:
-    driver: local
+    image: redis:alpine
+    container_name: ${PROJECT_PREFIX:-rest-api}-redis
+    # No host port published: the app reaches the cache over the internal
+    # compose network as redis:6379. Not exposed to the host by design.
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 12

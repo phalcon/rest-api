@@ -1,0 +1,155 @@
+{
+    "$schema": "../vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "../tests/_output/infection/infection.log",
+        "summary": "../tests/_output/infection/summary.log"
+    },
+    "tmpDir": "../tests/_output/infection/tmp",
+    // Bootstrap and provider code is covered by every integration test, since
+    // each one boots the whole application; a mutant there re-runs the entire
+    // suite, and each test now truncates its tables and clears the cache. The
+    // default 10s is not enough for that, and the shortfall shows up as false
+    // timeouts rather than real verdicts.
+    "timeout": 30,
+    "phpUnit": {
+        "configDir": "."
+    },
+    "mutators": {
+        "@default": true,
+
+        // Visibility mutators are equivalent across this codebase. protected ->
+        // private never shows without a subclass leaning on the wider access,
+        // and there is none. The public -> protected cases that remain are all
+        // framework hooks the framework still reaches (Model::initialize and
+        // validation, Validation::initialize) or transformer include methods
+        // that League Fractal calls through $this-> from the parent class,
+        // where protected reads exactly like public.
+        "ProtectedVisibility": false,
+        "PublicVisibility": false,
+
+        // memory_get_usage()/1_000_000 and hrtime()/1_000_000: at the two and
+        // four decimals number_format() keeps, +/-1 on the divisor is below the
+        // rounding for any real measurement. TokenTrait and the Users token
+        // leeway carry the same shape - an integer literal whose +/-1 neighbour
+        // is indistinguishable from a moving clock.
+        "IncrementInteger": {
+            "ignore": [
+                "Phalcon\\Api\\ErrorHandler::shutdown",
+                "Phalcon\\Api\\Models\\Users::getValidationData",
+                "Phalcon\\Api\\Traits\\TokenTrait::getTokenTimeExpiration",
+                "Phalcon\\Api\\Traits\\TokenTrait::getTokenTimeNotBefore"
+            ]
+        },
+        "DecrementInteger": {
+            "ignore": [
+                "Phalcon\\Api\\ErrorHandler::shutdown",
+                "Phalcon\\Api\\Models\\Users::getValidationData",
+                "Phalcon\\Api\\Traits\\TokenTrait::getTokenTimeExpiration",
+                "Phalcon\\Api\\Traits\\TokenTrait::getTokenTimeNotBefore"
+            ]
+        },
+        // time() + 0 and time() - 0 are the same instant.
+        "Plus": {
+            "ignore": [
+                "Phalcon\\Api\\Traits\\TokenTrait::getTokenTimeNotBefore"
+            ]
+        },
+
+        // The help banner is built from empty-string and PHP_EOL fragments;
+        // every reshuffle of those produces byte-identical output. BaseTest
+        // asserts the whole banner and still cannot tell the mutants apart.
+        "Concat": {
+            "ignore": [
+                "Phalcon\\Api\\Cli\\Tasks\\MainTask::mainAction"
+            ]
+        },
+        "ConcatOperandRemoval": {
+            "ignore": [
+                "Phalcon\\Api\\Cli\\Tasks\\MainTask::mainAction"
+            ]
+        },
+
+        // getopt() reads the real process arguments, which phpunit cannot set.
+        // With no arguments every branch of processArguments leaves the task as
+        // Main, so mutating the option map or its loop changes nothing the suite
+        // can observe.
+        "UnwrapArrayKeys": {
+            "ignore": [
+                "Phalcon\\Api\\Bootstrap\\Cli::processArguments"
+            ]
+        },
+        "Foreach_": {
+            "ignore": [
+                "Phalcon\\Api\\Bootstrap\\Cli::processArguments"
+            ]
+        },
+
+        // The '.' entry is redundant with the isDir() guard right below, which
+        // already skips the current directory, and del() never returns 0 for a
+        // key keys('*') just handed back, so > 0 and >= 0 cannot differ.
+        "GreaterThan": {
+            "ignore": [
+                "Phalcon\\Api\\Cli\\Tasks\\ClearcacheTask::clearRedis"
+            ]
+        },
+
+        // setup() only tunes phql literals and not-null validation; the suite
+        // sets every field it saves, so neither flag - nor the call itself, nor
+        // the parent::initialize() that carries it - changes an observable
+        // outcome. Model::initialize keeps its setSource/relationship calls
+        // regardless, which the model tests do assert.
+        // setFilters applies the string filter, which only escapes markup - it
+        // never empties a value, so it cannot change the presence check's
+        // outcome and is invisible to validate()'s messages.
+        "MethodCallRemoval": {
+            "ignore": [
+                "Phalcon\\Api\\Models\\Companies::initialize",
+                "Phalcon\\Api\\Models\\CompaniesXProducts::initialize",
+                "Phalcon\\Api\\Models\\Individuals::initialize",
+                "Phalcon\\Api\\Models\\IndividualTypes::initialize",
+                "Phalcon\\Api\\Models\\ProductTypes::initialize",
+                "Phalcon\\Api\\Models\\Products::initialize",
+                "Phalcon\\Api\\Mvc\\Model\\AbstractModel::initialize",
+                "Phalcon\\Api\\Repositories\\UsersRepository::getByUsernameAndPassword",
+                "Phalcon\\Api\\Validation\\CompaniesValidator::initialize"
+            ]
+        },
+        "ArrayItemRemoval": {
+            "ignore": [
+                "Phalcon\\Api\\Bootstrap\\Cli::processArguments",
+                "Phalcon\\Api\\Cli\\Tasks\\ClearcacheTask::clearFileCache",
+                "Phalcon\\Api\\Mvc\\Model\\AbstractModel::initialize"
+            ]
+        },
+        "FalseValue": {
+            "ignore": [
+                "Phalcon\\Api\\Mvc\\Model\\AbstractModel::initialize",
+                "Phalcon\\Api\\Repositories\\UsersRepository::getByUsernameAndPassword"
+            ]
+        },
+        "TrueValue": {
+            "ignore": [
+                "Phalcon\\Api\\Bootstrap\\Cli::processArguments"
+            ]
+        },
+        "Identical": {
+            "ignore": [
+                "Phalcon\\Api\\Bootstrap\\Cli::processArguments"
+            ]
+        },
+
+        // getByToken looks up by issuer AND tokenId AND status. Turning one
+        // '=>' into '>' drops a key but the surviving keys still resolve the
+        // same single row either way, so the lookup is unchanged.
+        "ArrayItem": {
+            "ignore": [
+                "Phalcon\\Api\\Repositories\\UsersRepository::getByToken"
+            ]
+        }
+    }
+}

@@ -9,11 +9,23 @@ Sample API using Phalcon
 Implementation of an API application using the Phalcon Framework [https://phalcon.io](https://phalcon.io)
 
 ### Installation
-- Clone the project
-- In the project folder run `nanobox run php-server`
-- Hit the IP address with postman
 
-**NOTE** This requires [nanobox](https://nanobox.io) to be present in your system. Visit their site for installation instructions.
+Requires [Docker](https://docs.docker.com/get-docker/) with the Compose plugin.
+
+- Clone the project
+- Copy the environment template: `cp resources/.env.example .env`
+- If your host user is not `1000:1000`, set `UID` and `GID` in `.env` to match the output of `id -u` and `id -g`
+- Start the stack: `docker compose up -d --build`
+- Install the dependencies: `docker compose exec app composer install`
+- Hit `http://localhost:8080` with postman
+
+The project directory is mounted at `/srv` inside the container, which masks the
+`vendor/` directory baked into the image — hence the `composer install` step
+above. It only needs repeating when `composer.lock` changes.
+
+The host port is configurable via `APP_PORT` in `.env`, so this app can run
+alongside the other Phalcon sample applications. `PHP_VERSION` (8.1 minimum) and
+`PHALCON_VARIANT` select the PHP and Phalcon versions the image is built with.
 
 ### Features
 ##### JWT Tokens

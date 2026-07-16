@@ -28,7 +28,7 @@ final class LoginTest extends AbstractApiTestCase
             [
                 'status'        => Flags::ACTIVE,
                 'username'      => Data::$testUsername,
-                'password'      => Data::$testPassword,
+                'password'      => Data::$testPasswordHash,
                 'issuer'        => Data::$testIssuer,
                 'tokenPassword' => Data::$strongPassphrase,
                 'tokenId'       => Data::$testTokenId,

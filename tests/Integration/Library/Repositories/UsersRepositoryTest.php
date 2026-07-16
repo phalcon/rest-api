@@ -22,6 +22,7 @@ use Phalcon\Api\Tests\Support\Data;
 use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Cache\Cache;
 use Phalcon\Config\Config;
+use Phalcon\Encryption\Security;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 
@@ -35,7 +36,7 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
             Users::class,
             [
                 'username' => Data::$testUsername,
-                'password' => Data::$testPassword,
+                'password' => Data::$testPasswordHash,
                 'status'   => 1,
                 'issuer'   => 'phalcon.io',
                 'tokenId'  => Data::$testTokenId,
@@ -59,7 +60,7 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
             Users::class,
             [
                 'username' => Data::$testUsername,
-                'password' => Data::$testPassword,
+                'password' => Data::$testPasswordHash,
                 'status'   => 1,
                 'issuer'   => 'phalcon.io',
                 'tokenId'  => Data::$testTokenId,
@@ -87,7 +88,7 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
             Users::class,
             [
                 'username' => Data::$testUsername,
-                'password' => Data::$testPassword,
+                'password' => Data::$testPasswordHash,
                 'status'   => 1,
                 'issuer'   => 'phalcon.io',
                 'tokenId'  => Data::$testTokenId,
@@ -108,7 +109,9 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
         $cache = $this->grabFromDi('cache');
         /** @var Config $config */
         $config = $this->grabFromDi('config');
+        /** @var Security $security */
+        $security = $this->grabFromDi('security');
 
-        return new UsersRepository(new QueryService($config, $cache));
+        return new UsersRepository(new QueryService($config, $cache), $security);
     }
 }

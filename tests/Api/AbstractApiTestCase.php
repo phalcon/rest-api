@@ -47,7 +47,7 @@ abstract class AbstractApiTestCase extends AbstractIntegrationTestCase
             [
                 'status'        => Flags::ACTIVE,
                 'username'      => Data::$testUsername,
-                'password'      => Data::$testPassword,
+                'password'      => Data::$testPasswordHash,
                 'issuer'        => Data::$testIssuer,
                 'tokenPassword' => Data::$testTokenPassword,
                 'tokenId'       => Data::$testTokenId,

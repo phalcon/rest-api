@@ -36,7 +36,7 @@ final class GetTest extends AbstractApiTestCase
             [
                 'status'        => 1,
                 'username'      => Data::$testUsername,
-                'password'      => Data::$testPassword,
+                'password'      => Data::$testPasswordHash,
                 'issuer'        => Data::$testIssuer,
                 'tokenPassword' => Data::$strongPassphrase,
                 'tokenId'       => Data::$testTokenId,

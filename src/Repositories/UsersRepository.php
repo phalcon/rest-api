@@ -16,6 +16,7 @@ namespace Phalcon\Api\Repositories;
 use Phalcon\Api\Constants\Flags;
 use Phalcon\Api\Models\Users;
 use Phalcon\Api\Services\QueryService;
+use Phalcon\Encryption\Security;
 use Phalcon\Encryption\Security\JWT\Token\Enum;
 use Phalcon\Encryption\Security\JWT\Token\Token;
 
@@ -27,9 +28,12 @@ class UsersRepository
 {
     /**
      * @param QueryService $queryService
+     * @param Security     $security
      */
-    public function __construct(private readonly QueryService $queryService)
-    {
+    public function __construct(
+        private readonly QueryService $queryService,
+        private readonly Security $security
+    ) {
     }
 
     /**
@@ -55,7 +59,13 @@ class UsersRepository
     }
 
     /**
-     * Gets a user from the database based on the username and password
+     * Gets a user from the database based on the username and password.
+     *
+     * The password is not part of the query: hashes are salted, so the same
+     * password hashes differently every time and no `password = :password:`
+     * comparison could ever match. The record is fetched by username and the
+     * password checked against the stored hash afterwards - which also keeps
+     * the plain password out of the query cache key.
      *
      * @param string $username
      * @param string $password
@@ -68,12 +78,19 @@ class UsersRepository
     ): ?Users {
         $parameters = [
             'username' => $username,
-            'password' => $password,
             'status'   => Flags::ACTIVE,
         ];
 
         $result = $this->queryService->getRecords(Users::class, $parameters);
+        /** @var Users|null $user */
+        $user = $result[0] ?? null;
 
-        return $result[0] ?? null;
+        if (null === $user) {
+            return null;
+        }
+
+        return true === $this->security->checkHash($password, $user->get('password'))
+            ? $user
+            : null;
     }
 }

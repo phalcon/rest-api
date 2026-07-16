@@ -29,7 +29,10 @@ class UsersRepositoryProvider implements ServiceProviderInterface
         $container->setShared(
             'usersRepository',
             function () use ($container) {
-                return new UsersRepository($container->getShared('queryService'));
+                return new UsersRepository(
+                    $container->getShared('queryService'),
+                    $container->getShared('security')
+                );
             }
         );
     }

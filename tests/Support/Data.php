@@ -45,12 +45,18 @@ class Data
     public static $productTypesRecordUrl            = '/product-types/%s';
     public static $productTypesUrl                  = '/product-types';
 
-    public static $strongPassphrase  = 'DR^3*ZwnAHKc9yP$YSpW98dsmHJBax5&';
-    public static $testIssuer        = 'https://niden.net';
-    public static $testPassword      = 'testpass';
-    public static $testTokenId       = '110011';
-    public static $testTokenPassword = 'DR^4*ZwnAHKc0yP$YSpW09dsmHJBax6&';
-    public static $testUsername      = 'testuser';
+    public static $strongPassphrase = 'DR^3*ZwnAHKc9yP$YSpW98dsmHJBax5&';
+    public static $testIssuer       = 'https://niden.net';
+    public static $testPassword     = 'testpass';
+    /**
+     * The bcrypt hash of $testPassword. Hardcoded on purpose: fixtures store
+     * the hash, requests send the plain password, and hashing on every insert
+     * would cost a bcrypt round per fixture for no benefit.
+     */
+    public static $testPasswordHash    = '$2y$10$DSCDlw9tZtmQikTY8cwbGuUZSMcPo64YfRYCTREygVUMJTDqjTHFu';
+    public static $testTokenId         = '110011';
+    public static $testTokenPassword   = 'DR^4*ZwnAHKc0yP$YSpW09dsmHJBax6&';
+    public static $testUsername        = 'testuser';
     public static $usersUrl                         = '/users';
     public static $wrongUrl                         = '/sommething';
 

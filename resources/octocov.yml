@@ -1,0 +1,39 @@
+# octocov configuration - https://github.com/k1LoW/octocov
+#
+# Default config: used on pushes (including the default branch).
+# The gate here is a stable FLOOR only, so a coverage measurement blip on the
+# default branch never red-Xs the build. Pull requests use octocov.pr.yml,
+# which adds the no-regression (diff >= 0) ratchet on top of this floor.
+# (octocov's `acceptable` cannot branch on is_pull_request, so the two gates
+# live in separate files selected by the workflow.)
+#
+# The floor is 75% rather than vokuro's 97% because the api suite drives a real
+# HTTP server in a separate process, which pcov cannot instrument: every
+# controller reads as 0% covered even though 52 api tests exercise it. Raising
+# this means either measuring the server process or moving those tests
+# in-process - a deliberate open question, not an oversight.
+coverage:
+  paths:
+    - tests/_output/coverage.xml
+  acceptable: "current >= 75%"
+  badge:
+    path: tests/_output/coverage.svg
+codeToTestRatio:
+  code:
+    - src/**/*.php
+  test:
+    - tests/**/*.php
+testExecutionTime:
+  steps:
+    - Tests with coverage
+comment:
+  if: is_pull_request
+summary:
+  if: true
+diff:
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}
+report:
+  if: is_default_branch
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}

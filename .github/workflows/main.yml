@@ -158,14 +158,20 @@ jobs:
       - name: "Start the application"
         run: |
           php -S 127.0.0.1:8080 .htrouter.php > storage/logs/server.log 2>&1 &
+          # Any HTTP status means the application answered - /sommething is
+          # expected to 404. curl reports "000" when it could not connect at
+          # all, which is the only case worth waiting on.
           for i in $(seq 1 30); do
-            if curl -fsS -o /dev/null "${TALON_REST_URL}/sommething" 2>/dev/null; then break; fi
-            # A 404 is a healthy answer here - the route does not exist, but the
-            # app answered. Only a connection failure means it is not up yet.
-            if curl -sS -o /dev/null -w '%{http_code}' "${TALON_REST_URL}/sommething" 2>/dev/null | grep -q '^[0-9]'; then break; fi
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "${TALON_REST_URL}/sommething" 2>/dev/null || true)
+            if [ "$code" != "000" ]; then
+              echo "application answered with HTTP ${code} after ${i}s"
+              exit 0
+            fi
             sleep 1
           done
-          curl -sS -o /dev/null -w 'application answered with HTTP %{http_code}\n' "${TALON_REST_URL}/sommething"
+          echo "the application did not answer within 30s"
+          cat storage/logs/server.log || true
+          exit 1
 
       - name: "Tests"
         run: vendor/bin/talon run all
@@ -247,10 +253,16 @@ jobs:
         run: |
           php -S 127.0.0.1:8080 .htrouter.php > storage/logs/server.log 2>&1 &
           for i in $(seq 1 30); do
-            if curl -sS -o /dev/null -w '%{http_code}' "${TALON_REST_URL}/sommething" 2>/dev/null | grep -q '^[0-9]'; then break; fi
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "${TALON_REST_URL}/sommething" 2>/dev/null || true)
+            if [ "$code" != "000" ]; then
+              echo "application answered with HTTP ${code} after ${i}s"
+              exit 0
+            fi
             sleep 1
           done
-          curl -sS -o /dev/null -w 'application answered with HTTP %{http_code}\n' "${TALON_REST_URL}/sommething"
+          echo "the application did not answer within 30s"
+          cat storage/logs/server.log || true
+          exit 1
 
       # Runs phpunit over resources/phpunit.xml.dist directly rather than
       # through talon: `talon run all` starts one process per suite, and each

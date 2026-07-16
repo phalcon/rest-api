@@ -16,10 +16,12 @@ namespace Phalcon\Api\Tests\Integration\Library;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Models\Users;
 use Phalcon\Api\Tests\Integration\AbstractIntegrationTestCase;
+use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Logger;
 use Phalcon\Messages\Message;
 
 use function Phalcon\Api\Core\appPath;
+use function uniqid;
 
 final class ModelTest extends AbstractIntegrationTestCase
 {
@@ -48,9 +50,7 @@ final class ModelTest extends AbstractIntegrationTestCase
 
     public function testCheckModelMessagesWithLogger(): void
     {
-        /** @var Logger $logger */
-        $logger = $this->grabFromDi('logger');
-        $user   = $this->mockWithConstructor(
+        $user = $this->mockWithConstructor(
             Users::class,
             [],
             [
@@ -62,18 +62,28 @@ final class ModelTest extends AbstractIntegrationTestCase
             ]
         );
 
-        $fileName = appPath('storage/logs/api.log');
-        $result   = $user
+        $result = $user
             ->set('username', 'test')
             ->save()
         ;
         $this->assertFalse($result);
         $this->assertSame('error 1<br />error 2<br />', $user->getModelMessages());
 
+        /**
+         * A fresh, empty log file. The shared api.log is only ever appended to,
+         * so asserting against it passed even with the logging removed - the
+         * lines were left over from an earlier test. This one holds only what
+         * this call writes.
+         */
+        $logFile = appPath('storage/logs/') . uniqid('model-test-') . '.log';
+        $logger  = new Logger('test', ['main' => new Stream($logFile)]);
+
         $user->getModelMessages($logger);
 
-        $this->assertFileContentsContains($fileName, "error 1\n");
-        $this->assertFileContentsContains($fileName, "error 2\n");
+        $this->assertFileContentsContains($logFile, 'error 1');
+        $this->assertFileContentsContains($logFile, 'error 2');
+
+        $this->safeDeleteFile($logFile);
     }
 
     public function testModelGetNonExistingFields(): void

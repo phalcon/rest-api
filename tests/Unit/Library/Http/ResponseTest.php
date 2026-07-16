@@ -20,6 +20,9 @@ use Phalcon\Talon\PHPUnit\AbstractUnitTestCase;
 
 use function is_string;
 use function json_decode;
+use function ob_end_clean;
+use function ob_start;
+use function sha1;
 
 final class ResponseTest extends AbstractUnitTestCase
 {
@@ -127,6 +130,59 @@ final class ResponseTest extends AbstractUnitTestCase
         $this->assertSame(2, count($payload['errors']));
         $this->assertSame('hello', $payload['errors'][0]);
         $this->assertSame('goodbye', $payload['errors'][1]);
+    }
+
+    public function testSendWrapsPayloadWithMetaAndHash(): void
+    {
+        $response = new Response();
+        $response->setPayloadSuccess(['a' => 'b']);
+
+        $original = $response->getContent();
+
+        ob_start();
+        $response->send();
+        ob_end_clean();
+
+        $payload = json_decode($response->getContent(), true);
+
+        /**
+         * The meta envelope and both of its members have to survive - dropping
+         * either leaves clients without the timestamp or the integrity hash.
+         */
+        $this->assertArrayHasKey('meta', $payload);
+        $this->assertArrayHasKey('timestamp', $payload['meta']);
+        $this->assertArrayHasKey('hash', $payload['meta']);
+
+        /**
+         * The hash is sha1 over the timestamp followed by the original body, in
+         * that order. Reversing the operands or dropping either one produces a
+         * different digest, which is what the recomputation here pins down.
+         */
+        $this->assertSame(
+            sha1($payload['meta']['timestamp'] . $original),
+            $payload['meta']['hash']
+        );
+
+        $this->assertSame(sha1($original), $response->getHeaders()->get('E-Tag'));
+
+        $this->assertSame('1.0', $payload['jsonapi']['version']);
+        $this->assertSame(['a' => 'b'], $payload['data']);
+    }
+
+    /**
+     * An input that already carries a `data` key must be sent as-is, not nested
+     * under a second `data`. The two branches of setPayloadSuccess only diverge
+     * for this shape, so it is what nails the is_array test down; a plain array
+     * takes the same path either way.
+     */
+    public function testSetPayloadSuccessDoesNotDoubleWrapDataKey(): void
+    {
+        $response = new Response();
+        $response->setPayloadSuccess(['data' => 'value']);
+
+        $payload = $this->checkPayload($response);
+
+        $this->assertSame('value', $payload['data']);
     }
 
     private function checkPayload(Response $response, bool $error = false): array

@@ -47,4 +47,38 @@ final class BaseTransformerTest extends AbstractIntegrationTestCase
 
         $this->assertSame($expected, $transformer->transform($company));
     }
+
+    /**
+     * Field selection is intersected against the model's public set: a request
+     * is never widened to the full set, and never trusted as given. Asking for
+     * one public field alongside one that is not public returns only the public
+     * one - which pins the coalesce and the intersection down at once, since
+     * dropping either would hand back every field or reach for a column the
+     * model does not publish.
+     *
+     * @throws ModelException
+     */
+    public function testTransformerReturnsOnlyTheRequestedPublicFields(): void
+    {
+        /** @var Companies $company */
+        $company = $this->haveRecordWithFields(
+            Companies::class,
+            [
+                'name'    => 'acme',
+                'address' => '123 Phalcon way',
+                'city'    => 'World',
+                'phone'   => '555-999-4444',
+            ]
+        );
+
+        $transformer = new BaseTransformer(
+            ['companies' => ['name', 'secret']],
+            'companies'
+        );
+
+        $this->assertSame(
+            ['name' => $company->get('name')],
+            $transformer->transform($company)
+        );
+    }
 }

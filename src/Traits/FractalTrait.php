@@ -61,9 +61,13 @@ trait FractalTrait
         /** @var class-string<ResourceInterface> $class */
         $class = sprintf('League\Fractal\Resource\%s', ucfirst($method));
 
+        /**
+         * Scope::toArray() is typed nullable; an empty document is an empty
+         * array here rather than null.
+         */
         return $manager
             ->createData(new $class($results, new $transformer($fields, $resource), $resource))
-            ->toArray()
+            ->toArray() ?? []
         ;
     }
 }

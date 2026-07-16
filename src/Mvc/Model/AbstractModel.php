@@ -151,17 +151,24 @@ abstract class AbstractModel extends PhModel
     /**
      * Uses the Phalcon Filter to sanitize the variable passed
      *
-     * @param mixed                    $value  The value to sanitize
-     * @param string|array<int, string> $filter The filter, or a chain of them
+     * @param mixed                     $value  The value to sanitize
+     * @param string|array<int, string>  $filter The filter, or a chain of them
      *
      * @return mixed
+     * @throws ModelException
      */
     private function sanitize($value, $filter): mixed
     {
+        $container = $this->getDI();
+
+        if (null === $container) {
+            throw new ModelException(
+                'A model cannot sanitize its fields without a container'
+            );
+        }
+
         /** @var Filter $filterService */
-        $filterService = $this->getDI()
-                              ->get('filter')
-        ;
+        $filterService = $container->get('filter');
 
         return $filterService->sanitize($value, $filter);
     }

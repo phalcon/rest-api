@@ -25,12 +25,17 @@ use function Phalcon\Api\Core\appPath;
 abstract class AbstractBootstrap
 {
     /**
-     * @var Console|Micro|null
+     * Both are set by the time the constructor returns - the container either
+     * by a subclass before parent::__construct() or by it, the application by
+     * setupApplication(). Declared without a null default so that is the type
+     * rather than a promise.
+     *
+     * @var Console|Micro
      */
-    protected Console|Micro|null $application = null;
+    protected Console|Micro $application;
 
-    /** @var FactoryDefault|PhCli|null */
-    protected FactoryDefault|PhCli|null $container = null;
+    /** @var FactoryDefault|PhCli */
+    protected FactoryDefault|PhCli $container;
 
     /** @var array<string, string> */
     protected array $options = [];
@@ -43,7 +48,7 @@ abstract class AbstractBootstrap
      */
     public function __construct()
     {
-        if (null === $this->container) {
+        if (false === isset($this->container)) {
             $this->container = new FactoryDefault();
         }
 
@@ -58,17 +63,17 @@ abstract class AbstractBootstrap
     }
 
     /**
-     * @return Console|Micro|null
+     * @return Console|Micro
      */
-    public function getApplication(): Console|Micro|null
+    public function getApplication(): Console|Micro
     {
         return $this->application;
     }
 
     /**
-     * @return FactoryDefault|PhCli|null
+     * @return FactoryDefault|PhCli
      */
-    public function getContainer(): FactoryDefault|PhCli|null
+    public function getContainer(): FactoryDefault|PhCli
     {
         return $this->container;
     }

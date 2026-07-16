@@ -4,7 +4,7 @@ parameters:
         - ../public/index.php
     # Climbing towards max. Raise one level at a time, clearing the errors each
     # step introduces before moving up.
-    level: 7
+    level: 8
     reportUnmatchedIgnoredErrors: false
     tmpDir: ../tests/_output
     # The application registers its own namespaces via library/Core/autoload.php,

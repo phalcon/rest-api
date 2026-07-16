@@ -38,6 +38,22 @@ class Products extends AbstractModel
             'price'       => Filter::FILTER_FLOAT,
         ];
     }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getPublicFields(): array
+    {
+        return [
+            'id',
+            'typeId',
+            'name',
+            'description',
+            'quantity',
+            'price',
+        ];
+    }
+
     /**
      * Initialize relationships and model properties
      *

@@ -70,6 +70,26 @@ final class GetTest extends AbstractApiTestCase
         );
     }
 
+    /**
+     * The suite asserts JSON subsets, so extra attributes in a response pass
+     * silently - which is how `password` and `tokenPassword` were published for
+     * as long as they were. This asserts their absence explicitly.
+     */
+    public function testGetManyUsersDoesNotPublishSecrets(): void
+    {
+        $record = $this->addApiUserRecord();
+        $token  = $this->apiLogin();
+
+        $this->haveHttpHeader('Authorization', 'Bearer ' . $token);
+        $this->sendGet(Data::$usersUrl . '/' . $record->get('id'));
+        $this->unsetHttpHeader('Authorization');
+        $this->assertResponseIsSuccessful();
+
+        $this->assertResponseNotContains('password');
+        $this->assertResponseNotContains(Data::$testPassword);
+        $this->assertResponseNotContains(Data::$testTokenPassword);
+    }
+
     public function testGetManyUsersWithNoData(): void
     {
         $this->addApiUserRecord();

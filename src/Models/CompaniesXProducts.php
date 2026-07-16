@@ -34,6 +34,18 @@ class CompaniesXProducts extends AbstractModel
             'productId' => Filter::FILTER_ABSINT,
         ];
     }
+
+    /**
+     * Nothing. This is the companies/products junction; it is not an API
+     * resource and has no route, controller or transformer of its own.
+     *
+     * @return array<int, string>
+     */
+    public function getPublicFields(): array
+    {
+        return [];
+    }
+
     /**
      * Initialize relationships and model properties
      *

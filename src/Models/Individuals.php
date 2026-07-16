@@ -40,6 +40,24 @@ class Individuals extends AbstractModel
             'suffix'    => Filter::FILTER_STRING,
         ];
     }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getPublicFields(): array
+    {
+        return [
+            'id',
+            'companyId',
+            'typeId',
+            'prefix',
+            'first',
+            'middle',
+            'last',
+            'suffix',
+        ];
+    }
+
     /**
      * Initialize relationships and model properties
      *

@@ -50,6 +50,24 @@ class Users extends AbstractModel
     }
 
     /**
+     * `password` and `tokenPassword` are deliberately absent. `tokenPassword`
+     * is the passphrase the token signature is verified against - publishing it
+     * would let any caller forge a token for this user.
+     *
+     * @return array<int, string>
+     */
+    public function getPublicFields(): array
+    {
+        return [
+            'id',
+            'status',
+            'username',
+            'issuer',
+            'tokenId',
+        ];
+    }
+
+    /**
      * Returns the string token
      *
      * @return string

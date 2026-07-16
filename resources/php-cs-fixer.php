@@ -15,8 +15,6 @@ use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
-use function dirname;
-
 $root = dirname(__FILE__, 2);
 
 $finder = Finder::create()

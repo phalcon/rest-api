@@ -35,6 +35,19 @@ class ProductTypes extends AbstractModel
             'description' => Filter::FILTER_STRING,
         ];
     }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getPublicFields(): array
+    {
+        return [
+            'id',
+            'name',
+            'description',
+        ];
+    }
+
     /**
      * Initialize relationships and model properties
      *

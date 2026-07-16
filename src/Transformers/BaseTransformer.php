@@ -20,7 +20,6 @@ use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Mvc\Model\AbstractModel;
 
 use function array_intersect;
-use function array_keys;
 
 /**
  * Class BaseTransformer
@@ -53,9 +52,15 @@ class BaseTransformer extends TransformerAbstract
      */
     public function transform(AbstractModel $model): array
     {
-        $modelFields     = array_keys($model->getModelFilters());
-        $requestedFields = $this->fields[$this->resource] ?? $modelFields;
-        $fields          = array_intersect($modelFields, $requestedFields);
+        /**
+         * The model decides what may be published. A caller asking for a field
+         * outside that set - `?fields[users]=password` - gets nothing back for
+         * it, because the intersection is taken against the public set and not
+         * against every column the model happens to have.
+         */
+        $publicFields    = $model->getPublicFields();
+        $requestedFields = $this->fields[$this->resource] ?? $publicFields;
+        $fields          = array_intersect($publicFields, $requestedFields);
         $data            = [];
         foreach ($fields as $field) {
             $data[$field] = $model->get($field);

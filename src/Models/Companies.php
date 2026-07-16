@@ -40,6 +40,20 @@ class Companies extends AbstractModel
         ];
     }
     /**
+     * @return array<int, string>
+     */
+    public function getPublicFields(): array
+    {
+        return [
+            'id',
+            'name',
+            'address',
+            'city',
+            'phone',
+        ];
+    }
+
+    /**
      * Initialize relationships and model properties
      *
      * @return void

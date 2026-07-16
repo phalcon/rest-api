@@ -61,6 +61,19 @@ abstract class AbstractModel extends PhModel
 
         return $error;
     }
+
+    /**
+     * The fields this model is willing to publish through the API.
+     *
+     * Deliberately separate from getModelFilters(): that map answers how a
+     * field is sanitised, which is not the same question as whether the world
+     * may see it. Every model must answer this one for itself, so that adding
+     * a column never publishes it by accident.
+     *
+     * @return array<int, string>
+     */
+    abstract public function getPublicFields(): array;
+
     /**
      * Master initializer
      *

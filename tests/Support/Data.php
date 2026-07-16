@@ -323,11 +323,10 @@ class Data
             'type'       => Relationships::USERS,
             'id'         => (string) $record->get('id'),
             'attributes' => [
-                'status'        => $record->get('status'),
-                'username'      => $record->get('username'),
-                'issuer'        => $record->get('issuer'),
-                'tokenPassword' => $record->get('tokenPassword'),
-                'tokenId'       => $record->get('tokenId'),
+                'status'   => $record->get('status'),
+                'username' => $record->get('username'),
+                'issuer'   => $record->get('issuer'),
+                'tokenId'  => $record->get('tokenId'),
             ],
             'links'      => [
                 'self' => sprintf(

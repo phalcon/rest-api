@@ -25,9 +25,6 @@ use Phalcon\Api\Constants\Relationships as Rel;
 use Phalcon\Api\Middleware\AuthenticationMiddleware;
 use Phalcon\Api\Middleware\NotFoundMiddleware;
 use Phalcon\Api\Middleware\ResponseMiddleware;
-use Phalcon\Api\Middleware\TokenUserMiddleware;
-use Phalcon\Api\Middleware\TokenValidationMiddleware;
-use Phalcon\Api\Middleware\TokenVerificationMiddleware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Events\Manager;
@@ -69,11 +66,15 @@ class RouterProvider implements ServiceProviderInterface
         $middleware = $this->getMiddleware();
 
         /**
-         * Get the events manager and attach the middleware to it
+         * Get the events manager and attach the middleware to it. One instance
+         * per middleware, shared by the events manager and the application -
+         * two instances would give each its own state.
          */
         foreach ($middleware as $class => $function) {
-            $eventsManager->attach('micro', new $class());
-            $application->{$function}(new $class());
+            $object = new $class();
+
+            $eventsManager->attach('micro', $object);
+            $application->{$function}($object);
         }
     }
 
@@ -108,12 +109,9 @@ class RouterProvider implements ServiceProviderInterface
     private function getMiddleware(): array
     {
         return [
-            NotFoundMiddleware::class          => 'before',
-            AuthenticationMiddleware::class    => 'before',
-            TokenUserMiddleware::class         => 'before',
-            TokenVerificationMiddleware::class => 'before',
-            TokenValidationMiddleware::class   => 'before',
-            ResponseMiddleware::class          => 'after',
+            NotFoundMiddleware::class       => 'before',
+            AuthenticationMiddleware::class => 'before',
+            ResponseMiddleware::class       => 'after',
         ];
     }
 

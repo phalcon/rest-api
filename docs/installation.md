@@ -2,7 +2,7 @@
 
 ## Quick start (Docker)
 
-Everything runs in Docker — you need **nothing** on your host except Docker itself
+Everything runs in Docker - you need **nothing** on your host except Docker itself
 (no PHP, no extensions, no database). From the project root:
 
 ```bash
@@ -15,12 +15,12 @@ docker compose exec app composer migrate
 ```
 
 The API is served at <http://localhost:8080>. There are no bundled fixtures, so every
-collection starts empty — see [usage.md](usage.md) for the request/response format and
+collection starts empty - see [usage.md](usage.md) for the request/response format and
 the authentication flow.
 
 The stack is four services: `app` (PHP-FPM), `nginx` (the web server, published on the
 host port), `mysql`, and `redis` (the data and metadata cache). The project directory is
-mounted at `/srv` inside the container, which masks the `vendor/` baked into the image —
+mounted at `/srv` inside the container, which masks the `vendor/` baked into the image -
 hence the `composer install` step. It only needs repeating when `composer.lock` changes.
 
 To run on a specific PHP version (default is set in `.env`, supported `8.1`+):
@@ -73,7 +73,7 @@ sudo php pie.phar install phalcon/cphalcon:^5.0
 php -m | grep -i phalcon
 ```
 
-> To run on **v6** instead, skip this step — `composer install` pulls the
+> To run on **v6** instead, skip this step - `composer install` pulls the
 > `phalcon/phalcon` package, which the application uses when the extension is absent.
 
 ### 2. Install dependencies

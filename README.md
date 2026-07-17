@@ -99,14 +99,14 @@ Run them inside the container, e.g. `docker compose exec app composer cs`:
 
 ## Features
 
-* **JWT authentication** — [JSON Web Tokens](https://jwt.io) let a client authenticate once
+* **JWT authentication** - [JSON Web Tokens](https://jwt.io) let a client authenticate once
   at `/login` and then carry a bearer token; the token lifetime is configurable in `.env`.
-* **JSON:API responses** — every response follows the [JSON:API](https://jsonapi.org)
+* **JSON:API responses** - every response follows the [JSON:API](https://jsonapi.org)
   standard: a uniform envelope, compound documents, includes (related data), sparse
   fieldsets, and sorting.
-* **A lazy middleware chain** — `NotFound`, `Authentication`, and `Response`, each attached to
+* **A lazy middleware chain** - `NotFound`, `Authentication`, and `Response`, each attached to
   the Micro application and resolved only when a request reaches it.
-* **Public fields are opt-in per model** — a model declares exactly which columns the API may
+* **Public fields are opt-in per model** - a model declares exactly which columns the API may
   publish, so adding a column never exposes it by accident (`Users`, for instance, never
   returns its password or token secrets).
 
@@ -114,7 +114,7 @@ See [docs/usage.md](docs/usage.md) for the endpoints, query parameters, and resp
 
 ## Running the tests
 
-The suite is split into four PHPUnit testsuites — `unit`, `integration`, `api`, and `cli` —
+The suite is split into four PHPUnit testsuites - `unit`, `integration`, `api`, and `cli` -
 orchestrated by [`phalcon/talon`](https://github.com/phalcon/talon). The `api` suite drives
 the running application over real HTTP, so it needs the web server up (nginx in the Docker
 stack, reached via `TALON_REST_URL` in `tests/.env.test`).
@@ -128,8 +128,8 @@ docker compose exec app vendor/bin/talon run all   # every suite, one process ea
 ### Mutation testing
 
 `composer test-mutation` runs [Infection](https://infection.github.io/). The dependency is
-**not** shipped — it pulls `thecodingmachine/safe` at `dev-master`, which deprecation-warns on
-newer PHP — so install it on demand:
+**not** shipped - it pulls `thecodingmachine/safe` at `dev-master`, which deprecation-warns on
+newer PHP - so install it on demand:
 
 ```bash
 docker compose exec app composer require --dev infection/infection
@@ -156,8 +156,8 @@ storage/    runtime cache and logs
 
 ## Documentation
 
-* [docs/installation.md](docs/installation.md) — Docker and local (non-Docker) setup
-* [docs/usage.md](docs/usage.md) — endpoints, includes, sparse fields, sorting, and the
+* [docs/installation.md](docs/installation.md) - Docker and local (non-Docker) setup
+* [docs/usage.md](docs/usage.md) - endpoints, includes, sparse fields, sorting, and the
   response format
 
 ## License

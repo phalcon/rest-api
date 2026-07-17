@@ -1,7 +1,7 @@
 # Usage
 
 The API follows the [JSON:API](https://jsonapi.org) standard. Every response carries the
-same envelope, and reads always return a **collection** — even a single record comes back
+same envelope, and reads always return a **collection** - even a single record comes back
 as a one-element `data` array. Requests and responses are JSON; send `Content-Type:
 application/json`.
 
@@ -71,7 +71,7 @@ GET /product-types/1?includes=products
 ### Sparse fieldsets
 
 Limit the attributes returned per resource type with `fields[type]`. A field outside the
-model's published set is silently ignored — the API never exposes a column a model does not
+model's published set is silently ignored - the API never exposes a column a model does not
 declare public:
 
 ```
@@ -100,10 +100,10 @@ GET /products?sort=-price,name
 
 Every response is wrapped in this envelope:
 
-* `jsonapi` — the API `version`.
-* `data` — the returned records. Absent when `errors` is present.
-* `errors` — an array of error messages. Absent when `data` is present.
-* `meta` — a `timestamp` and a `hash` (sha1 of the timestamp and the body), for integrity.
+* `jsonapi` - the API `version`.
+* `data` - the returned records. Absent when `errors` is present.
+* `errors` - an array of error messages. Absent when `data` is present.
+* `meta` - a `timestamp` and a `hash` (sha1 of the timestamp and the body), for integrity.
 
 Each record carries `id` and `type` at the top level; its columns live under `attributes`,
 and its related resources under `relationships`. `id` is the database id, `type` the

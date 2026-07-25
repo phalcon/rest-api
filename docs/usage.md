@@ -50,8 +50,28 @@ malformed, expired, or unverifiable token is answered with `Invalid Token`.
 | `GET` | `/product-types` | | List product types |
 | `GET` | `/product-types/{id}` | numeric id | A product type by id (`404` if absent) |
 
-A `GET` on a collection returns an empty `data` array when nothing matches. Each `GET {id}`
-resource also exposes its relationships at `/{resource}/{id}/relationships/{relationship}`.
+A `GET` on a collection returns an empty `data` array when nothing matches.
+
+### Relationship paths
+
+Each `GET {id}` resource also reaches its relationships by path, in both the forms the
+responses advertise under `links`:
+
+```
+GET /companies/1/products
+GET /companies/1/relationships/products
+GET /companies/1/individuals,products
+```
+
+Both forms return the record with that relationship in the top-level `included` array -
+the same document as `?includes=` below, which is what they are resolved against. A
+relationship the resource does not have is a `404`, unlike `?includes=`, where an unknown
+name is ignored.
+
+> These paths are convenience routes over the include machinery. Strict JSON:API defines
+> `/relationships/{name}` as returning resource *identifiers* and `/{name}` as returning the
+> related resources as primary data; this application returns the record with the
+> relationship included in both cases.
 
 ## Query parameters
 
@@ -228,3 +248,22 @@ resource name (e.g. `users`).
 ```
 
 For the full specification, see [JSON:API](https://jsonapi.org).
+
+## A note on names
+
+The names in this API are the names in the database. `?sort=name`,
+`?fields[companies]=name,city` and `?includes=individuals` each name a model property or a
+model relationship alias directly - there is no translation layer in between, and
+`Phalcon\Api\Constants\Relationships` is the single place all of them are declared.
+
+That keeps the wiring short and legible, which is what a reference application is for. It
+also means **renaming a model property, a relationship alias or a table is a breaking change
+for clients**, since a client is the one part of the system that is not redeployed alongside
+the code. An API with real consumers would want a map between the published names and the
+stored ones; this one deliberately does without.
+
+Two decisions the models own, rather than the HTTP layer:
+
+* `getPublicFields()` - the columns the API may publish. A sparse fieldset asking for
+  anything outside it gets nothing back for it.
+* `getSortableFields()` - the columns `?sort=` accepts, a subset of the above.

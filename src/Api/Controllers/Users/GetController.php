@@ -32,17 +32,6 @@ class GetController extends BaseController
     /** @var string */
     protected string $resource = Relationships::USERS;
 
-    /** @var array<string,bool> */
-    protected array $sortFields = [
-        'id'            => true,
-        'status'        => true,
-        'username'      => true,
-        'password'      => false,
-        'issuer'        => true,
-        'tokenPassword' => false,
-        'tokenId'       => false,
-    ];
-
     /** @var class-string<BaseTransformer> */
     protected string $transformer = BaseTransformer::class;
 }

@@ -13,21 +13,19 @@ declare(strict_types=1);
 
 use Phalcon\Api\Providers\CacheDataProvider;
 use Phalcon\Api\Providers\CliDispatcherProvider;
-use Phalcon\Api\Providers\ConfigProvider;
-use Phalcon\Api\Providers\DatabaseProvider;
-use Phalcon\Api\Providers\ErrorHandlerProvider;
-use Phalcon\Api\Providers\LoggerProvider;
-use Phalcon\Api\Providers\ModelsMetadataProvider;
+
+use function Phalcon\Api\Core\appPath;
 
 /**
- * Enabled providers. Order does matter
+ * Enabled providers. Order does matter.
+ *
+ * The shared prefix - config, logger, error handler, database, metadata - is in
+ * src/Core/providers.php, which the API requires as well.
  */
-return [
-    ConfigProvider::class,
-    LoggerProvider::class,
-    ErrorHandlerProvider::class,
-    DatabaseProvider::class,
-    ModelsMetadataProvider::class,
-    CliDispatcherProvider::class,
-    CacheDataProvider::class,
-];
+return array_merge(
+    require appPath('src/Core/providers.php'),
+    [
+        CliDispatcherProvider::class,
+        CacheDataProvider::class,
+    ]
+);

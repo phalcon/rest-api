@@ -38,18 +38,6 @@ class GetController extends BaseController
     /** @var string */
     protected string $resource = Relationships::INDIVIDUALS;
 
-    /** @var array<string,bool> */
-    protected array $sortFields = [
-        'id'        => true,
-        'companyId' => true,
-        'typeId'    => true,
-        'prefix'    => true,
-        'first'     => true,
-        'middle'    => true,
-        'last'      => true,
-        'suffix'    => true,
-    ];
-
     /** @var class-string<BaseTransformer> */
     protected string $transformer = IndividualsTransformer::class;
 }

@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Providers;
 
+use Phalcon\Config\Config;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
-
-use function Phalcon\Api\Core\envValue;
 
 class DatabaseProvider implements ServiceProviderInterface
 {
@@ -26,15 +25,16 @@ class DatabaseProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container): void
     {
+        /** @var Config $config */
+        $config = $container->getShared('config');
+
         $container->setShared(
             'db',
-            function () {
-                $options = [
-                    'host'     => envValue('DATA_API_MYSQL_HOST', 'localhost'),
-                    'username' => envValue('DATA_API_MYSQL_USER', 'phalcon'),
-                    'password' => envValue('DATA_API_MYSQL_PASS', ''),
-                    'dbname'   => envValue('DATA_API_MYSQL_NAME', 'phalcon_api'),
-                ];
+            function () use ($config) {
+                /** @var array<string, string> $options */
+                $options = $config->path('database')
+                                  ->toArray()
+                ;
 
                 $connection = new Mysql($options);
                 // Set everything to UTF8

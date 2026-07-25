@@ -75,6 +75,22 @@ abstract class AbstractModel extends PhModel
     abstract public function getPublicFields(): array;
 
     /**
+     * The fields the API may be asked to sort by.
+     *
+     * Answered here rather than in the controller: the controller used to keep
+     * its own copy of the column list, which drifted - three models published
+     * `description` while their controller refused to sort by it, and the
+     * users controller named `password` and `tokenPassword`, columns
+     * getPublicFields() already withholds.
+     *
+     * A subset of getPublicFields() by definition: sorting by a field the API
+     * will not return tells a caller about it anyway.
+     *
+     * @return array<int, string>
+     */
+    abstract public function getSortableFields(): array;
+
+    /**
      * Master initializer
      *
      * @return void
@@ -87,6 +103,23 @@ abstract class AbstractModel extends PhModel
                 'notNullValidations' => false,
             ]
         );
+    }
+
+    /**
+     * Whether rows of this model may be held in the data cache.
+     *
+     * Answered by the model rather than by each caller. It used to be a
+     * `$useCache` argument on QueryService, which meant the rule "do not put
+     * this table in Redis" was only as good as every caller remembering it -
+     * and one did not: the credential lookup opted out, while the token lookup
+     * on the same table did not, so password hashes reached the cache on every
+     * authenticated request anyway.
+     *
+     * @return bool
+     */
+    public function isCacheable(): bool
+    {
+        return true;
     }
 
     /**

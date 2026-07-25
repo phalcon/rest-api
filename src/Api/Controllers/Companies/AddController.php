@@ -17,6 +17,7 @@ use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Companies;
+use Phalcon\Api\Traits\BaseUrlTrait;
 use Phalcon\Api\Traits\FractalTrait;
 use Phalcon\Api\Transformers\BaseTransformer;
 use Phalcon\Api\Validation\CompaniesValidator;
@@ -32,6 +33,7 @@ use function Phalcon\Api\Core\appUrl;
  */
 class AddController extends Controller
 {
+    use BaseUrlTrait;
     use FractalTrait;
 
     /**

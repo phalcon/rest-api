@@ -23,6 +23,11 @@ use Phalcon\Encryption\Security\JWT\Token\Token;
 /**
  * Looks users up. The knowledge of how a user is identified - by token claims
  * or by credentials - lives here rather than in a general purpose query helper.
+ *
+ * The only repository in the application, and deliberately so: every other
+ * model is read straight through QueryService by its controller, because none
+ * of them needs a lookup that means anything beyond "by id". Six more
+ * pass-through classes would say less than this paragraph does.
  */
 class UsersRepository
 {
@@ -82,10 +87,8 @@ class UsersRepository
      * password checked against the stored hash afterwards - which also keeps
      * the plain password out of the query cache key.
      *
-     * The cache is bypassed: with the password out of the query, the entry is
-     * keyed on the username alone, so a cached row would keep answering with a
-     * stale hash - rejecting the new password and accepting the old one for as
-     * long as the entry lived.
+     * This read is uncached, as every read of this table is: Users declares
+     * itself uncacheable rather than each caller passing a flag.
      *
      * @param string $username
      * @param string $password
@@ -101,12 +104,7 @@ class UsersRepository
             'status'   => Flags::ACTIVE,
         ];
 
-        $result = $this->queryService->getRecords(
-            Users::class,
-            $parameters,
-            '',
-            false
-        );
+        $result = $this->queryService->getRecords(Users::class, $parameters);
         /** @var Users|null $user */
         $user = $result->getFirst();
 

@@ -47,6 +47,16 @@ class CompaniesXProducts extends AbstractModel
     }
 
     /**
+     * Nothing, for the same reason as getPublicFields().
+     *
+     * @return array<int, string>
+     */
+    public function getSortableFields(): array
+    {
+        return [];
+    }
+
+    /**
      * Initialize relationships and model properties
      *
      * @return void

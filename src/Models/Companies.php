@@ -54,6 +54,20 @@ class Companies extends AbstractModel
     }
 
     /**
+     * @return array<int, string>
+     */
+    public function getSortableFields(): array
+    {
+        return [
+            'id',
+            'name',
+            'address',
+            'city',
+            'phone',
+        ];
+    }
+
+    /**
      * Initialize relationships and model properties
      *
      * @return void
@@ -89,7 +103,15 @@ class Companies extends AbstractModel
     }
 
     /**
-     * Validates the company name
+     * The database invariant: no two companies share a name.
+     *
+     * Deliberately here and not in CompaniesValidator. This one needs the
+     * database to answer, and it has to hold for every write - a record saved
+     * from a CLI task or a future endpoint never passes through the request
+     * validator, but it does pass through here.
+     *
+     * The two are a pair, not a duplicate: the validator rejects a bad request,
+     * this rejects a bad row. See Validation\CompaniesValidator.
      *
      * @return bool
      */

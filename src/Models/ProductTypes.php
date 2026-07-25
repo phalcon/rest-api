@@ -49,6 +49,20 @@ class ProductTypes extends AbstractModel
     }
 
     /**
+     * `description` is published but not sortable - it is free text, so
+     * ordering by it is noise rather than a useful view of the collection.
+     *
+     * @return array<int, string>
+     */
+    public function getSortableFields(): array
+    {
+        return [
+            'id',
+            'name',
+        ];
+    }
+
+    /**
      * Initialize relationships and model properties
      *
      * @return void

@@ -32,6 +32,12 @@ $redisOptions = static fn (string $prefix): array => [
     'prefix'   => $prefix,
 ];
 
+/**
+ * Everything the application reads from the environment is read here. Above
+ * this file, components ask the `config` service - they used to reach for
+ * envValue() themselves, which meant this file described only some of the
+ * configuration and nothing described the rest.
+ */
 return [
     'app'      => [
         'version'      => envValue('VERSION', time()),
@@ -40,12 +46,23 @@ return [
         'env'          => envValue('APP_ENV', 'development'),
         'devMode'      => 'development' === envValue('APP_ENV', 'development'),
         'baseUri'      => envValue('APP_BASE_URI'),
+        'url'          => envValue('APP_URL', 'http://localhost'),
         'supportEmail' => envValue('APP_SUPPORT_EMAIL'),
         'time'         => hrtime(true),
     ],
     'cache'    => [
         'adapter' => 'redis',
         'options' => $redisOptions('data-'),
+    ],
+    'database' => [
+        'host'     => envValue('DATA_API_MYSQL_HOST', 'localhost'),
+        'username' => envValue('DATA_API_MYSQL_USER', 'phalcon'),
+        'password' => envValue('DATA_API_MYSQL_PASS', ''),
+        'dbname'   => envValue('DATA_API_MYSQL_NAME', 'phalcon_api'),
+    ],
+    'logger'   => [
+        'filename' => envValue('LOGGER_DEFAULT_FILENAME', 'api.log'),
+        'path'     => envValue('LOGGER_DEFAULT_PATH', 'storage/logs'),
     ],
     'metadata' => [
         'dev'  => [
@@ -56,5 +73,11 @@ return [
             'adapter' => Redis::class,
             'options' => $redisOptions('metadata-'),
         ],
+    ],
+    'token'    => [
+        // Env values arrive as strings; these are used in arithmetic.
+        'audience'   => envValue('TOKEN_AUDIENCE', 'https://phalcon.io'),
+        'expiration' => (int) envValue('TOKEN_EXPIRATION', 86400),
+        'notBefore'  => (int) envValue('TOKEN_NOT_BEFORE', 0),
     ],
 ];

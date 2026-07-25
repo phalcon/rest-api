@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Providers;
 
+use Phalcon\Config\Config;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\ServiceProviderInterface;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Logger;
 
 use function Phalcon\Api\Core\appPath;
-use function Phalcon\Api\Core\envValue;
 
 class LoggerProvider implements ServiceProviderInterface
 {
@@ -30,13 +30,16 @@ class LoggerProvider implements ServiceProviderInterface
      */
     public function register(DiInterface $container): void
     {
+        /** @var Config $config */
+        $config = $container->getShared('config');
+
         $container->setShared(
             'logger',
-            function () {
+            function () use ($config) {
                 /** @var string $logName */
-                $logName = envValue('LOGGER_DEFAULT_FILENAME', 'api.log');
+                $logName = $config->path('logger.filename', 'api.log');
                 /** @var string $logPath */
-                $logPath = envValue('LOGGER_DEFAULT_PATH', 'storage/logs');
+                $logPath = $config->path('logger.path', 'storage/logs');
                 $logFile = appPath($logPath) . '/' . $logName . '.log';
                 $adapter = new Stream($logFile);
                 $logger  = new Logger(

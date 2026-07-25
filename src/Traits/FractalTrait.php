@@ -18,7 +18,6 @@ use League\Fractal\Resource\ResourceInterface;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Phalcon\Api\Transformers\BaseTransformer;
 
-use function Phalcon\Api\Core\envValue;
 use function sprintf;
 use function ucfirst;
 
@@ -47,7 +46,7 @@ trait FractalTrait
         array $relationships = [],
         array $fields = []
     ): array {
-        $url     = envValue('APP_URL', 'http://localhost');
+        $url     = $this->getBaseUrl();
         $manager = new Manager();
         $manager->setSerializer(new JsonApiSerializer($url));
 
@@ -66,8 +65,29 @@ trait FractalTrait
          * array here rather than null.
          */
         return $manager
-            ->createData(new $class($results, new $transformer($fields, $resource), $resource))
+            ->createData(
+                new $class(
+                    $results,
+                    new $transformer($fields, $resource),
+                    $resource
+                )
+            )
             ->toArray() ?? []
         ;
     }
+
+    /**
+     * The URL the serializer builds every `self` and `related` link from.
+     *
+     * Declared rather than resolved. `app.url` is application configuration,
+     * so it belongs to the `config` service - but a trait has no constructor
+     * to inject into, and its users do not share a base class to inherit one
+     * from. Requiring them to answer keeps the dependency explicit and checked
+     * at compile time, where reaching for the default container would have
+     * hidden it and reading the environment here would have gone around
+     * config.php entirely.
+     *
+     * @return string
+     */
+    abstract protected function getBaseUrl(): string;
 }

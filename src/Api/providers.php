@@ -12,30 +12,30 @@
 declare(strict_types=1);
 
 use Phalcon\Api\Providers\CacheDataProvider;
-use Phalcon\Api\Providers\ConfigProvider;
-use Phalcon\Api\Providers\DatabaseProvider;
-use Phalcon\Api\Providers\ErrorHandlerProvider;
-use Phalcon\Api\Providers\LoggerProvider;
-use Phalcon\Api\Providers\ModelsMetadataProvider;
 use Phalcon\Api\Providers\QueryServiceProvider;
 use Phalcon\Api\Providers\RequestProvider;
 use Phalcon\Api\Providers\ResponseProvider;
 use Phalcon\Api\Providers\RouterProvider;
+use Phalcon\Api\Providers\TokenServiceProvider;
 use Phalcon\Api\Providers\UsersRepositoryProvider;
 
+use function Phalcon\Api\Core\appPath;
+
 /**
- * Enabled providers. Order does matter
+ * Enabled providers. Order does matter.
+ *
+ * The shared prefix - config, logger, error handler, database, metadata - is in
+ * src/Core/providers.php, which the CLI requires as well.
  */
-return [
-    ConfigProvider::class,
-    LoggerProvider::class,
-    ErrorHandlerProvider::class,
-    DatabaseProvider::class,
-    ModelsMetadataProvider::class,
-    RequestProvider::class,
-    ResponseProvider::class,
-    RouterProvider::class,
-    CacheDataProvider::class,
-    QueryServiceProvider::class,
-    UsersRepositoryProvider::class,
-];
+return array_merge(
+    require appPath('src/Core/providers.php'),
+    [
+        RequestProvider::class,
+        ResponseProvider::class,
+        RouterProvider::class,
+        CacheDataProvider::class,
+        QueryServiceProvider::class,
+        UsersRepositoryProvider::class,
+        TokenServiceProvider::class,
+    ]
+);

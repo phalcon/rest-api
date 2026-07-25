@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Services;
 
+use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\Cache\Cache;
 use Phalcon\Config\Config;
 use Phalcon\Mvc\Model\Query\Builder;
@@ -47,17 +48,13 @@ class QueryService
      * @param string               $class
      * @param array<string, mixed> $where
      * @param string               $orderBy
-     * @param bool                 $useCache Pass false for anything that must
-     *                                       read the current row - see
-     *                                       getResults()
      *
      * @return ResultsetInterface
      */
     public function getRecords(
         string $class,
         array $where = [],
-        string $orderBy = '',
-        bool $useCache = true
+        string $orderBy = ''
     ): ResultsetInterface {
         $builder = new Builder();
         $builder->addFrom($class, 't1');
@@ -73,7 +70,7 @@ class QueryService
             $builder->orderBy($orderBy);
         }
 
-        return $this->getResults($builder, $where, $useCache);
+        return $this->getResults($builder, $class, $where);
     }
 
     /**
@@ -81,19 +78,20 @@ class QueryService
      *
      * The cache key is derived from the query and its bound values, so a row
      * whose other columns changed is still served from the entry keyed on the
-     * columns that did not. That is fine for the read endpoints and wrong for a
-     * credential check, which is why the caller can opt out.
+     * columns that did not. Whether a model can live with that is the model's
+     * question, not this service's and not the caller's - see
+     * AbstractModel::isCacheable().
      *
      * @param Builder              $builder
+     * @param string               $class
      * @param array<string, mixed> $where
-     * @param bool                 $useCache
      *
      * @return ResultsetInterface
      */
     private function getResults(
         Builder $builder,
-        array $where = [],
-        bool $useCache = true
+        string $class,
+        array $where = []
     ): ResultsetInterface {
         /**
          * Calculate the cache key
@@ -102,13 +100,16 @@ class QueryService
         $params   = json_encode($where);
         $cacheKey = sha1(sprintf('%s-%s.cache', $phql, $params));
 
+        /** @var AbstractModel $model */
+        $model = new $class();
+
         /**
          * One decision, used for both the read and the write. A query that is
          * never read back is not written either: dev mode means no caching
-         * rather than write-only caching, and an opted-out query keeps the
-         * users' hashes out of the cache entirely.
+         * rather than write-only caching, and a model that refuses the cache
+         * keeps its rows out of it entirely.
          */
-        $isCacheable = true === $useCache &&
+        $isCacheable = true === $model->isCacheable() &&
             true !== $this->config->path('app.devMode');
 
         if (true === $isCacheable && true === $this->cache->has($cacheKey)) {

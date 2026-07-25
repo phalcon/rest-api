@@ -59,6 +59,23 @@ class Individuals extends AbstractModel
     }
 
     /**
+     * @return array<int, string>
+     */
+    public function getSortableFields(): array
+    {
+        return [
+            'id',
+            'companyId',
+            'typeId',
+            'prefix',
+            'first',
+            'middle',
+            'last',
+            'suffix',
+        ];
+    }
+
+    /**
      * Initialize relationships and model properties
      *
      * @return void

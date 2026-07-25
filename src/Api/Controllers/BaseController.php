@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Api\Api\Controllers;
 
 use Phalcon\Api\Http\Response;
+use Phalcon\Api\Mvc\Model\AbstractModel;
 use Phalcon\Api\Services\QueryService;
+use Phalcon\Api\Traits\BaseUrlTrait;
 use Phalcon\Api\Traits\FractalTrait;
 use Phalcon\Api\Traits\ResponseTrait;
 use Phalcon\Api\Transformers\BaseTransformer;
@@ -39,6 +41,7 @@ use function substr;
  */
 class BaseController extends Controller
 {
+    use BaseUrlTrait;
     use FractalTrait;
     use ResponseTrait;
 
@@ -57,9 +60,6 @@ class BaseController extends Controller
     /** @var string */
     protected string $resource = '';
 
-    /** @var array<string, bool> */
-    protected array $sortFields = [];
-
     /**
      * Defaults to the base transformer rather than an empty string: every
      * concrete controller names its own, and '' was never a usable value.
@@ -69,19 +69,43 @@ class BaseController extends Controller
     protected string $transformer = BaseTransformer::class;
 
     /**
-     * Get the company/companies
+     * Get the record or the collection.
      *
-     * @param mixed $id
+     * The second parameter arrives from the two relationship routes -
+     * `/companies/1/products` and `/companies/1/relationships/products`. It
+     * used to be declared nowhere, so the segment was parsed by the router,
+     * discarded by this method, and both routes quietly answered with the
+     * plain record - while every response went on advertising those same URLs
+     * in its `links`.
+     *
+     * @param mixed  $id
+     * @param string $relationships Comma separated, from the route
      *
      * @return void
      * @throws Exception
      */
-    public function callAction(mixed $id = 0): void
+    public function callAction(mixed $id = 0, string $relationships = ''): void
     {
         $parameters = $this->checkIdParameter($id);
         $fields     = $this->checkFields();
-        $related    = $this->checkIncludes();
         $validSort  = $this->checkSort();
+
+        /**
+         * Named in the path, a relationship this resource does not have is a
+         * URL that does not exist - unlike `?includes=`, where an unknown name
+         * is a request for something extra that simply is not there.
+         */
+        if ('' !== $relationships) {
+            $related = $this->filterRelationships($relationships);
+
+            if ([] === $related) {
+                $this->sendError($this->response::NOT_FOUND);
+
+                return;
+            }
+        } else {
+            $related = $this->checkIncludes();
+        }
 
         if (true !== $validSort) {
             $this->sendError($this->response::BAD_REQUEST);
@@ -163,11 +187,27 @@ class BaseController extends Controller
      */
     private function checkIncludes(): array
     {
-        $related  = [];
         $includes = $this->request->getQuery('includes', [Filter::FILTER_STRING, Filter::FILTER_TRIM], '');
-        if (true !== empty($includes)) {
-            $requestedIncludes = explode(',', $includes);
-            foreach ($requestedIncludes as $include) {
+
+        return $this->filterRelationships($includes);
+    }
+
+    /**
+     * Keeps the names this resource actually publishes, in the vocabulary the
+     * transformer and the model relationships share. Shared by `?includes=`
+     * and by the relationship routes so the two cannot answer differently
+     * about what exists.
+     *
+     * @param string $requested Comma separated relationship names
+     *
+     * @return array<int, string>
+     */
+    private function filterRelationships(string $requested): array
+    {
+        $related = [];
+
+        if (true !== empty($requested)) {
+            foreach (explode(',', $requested) as $include) {
                 if (true === in_array($include, $this->includes)) {
                     $related[] = strtolower($include);
                 }
@@ -181,6 +221,10 @@ class BaseController extends Controller
      * Process the sort. If supplied change the `orderBy` of the builder. If a
      * field that is not supported has been supplied return false
      *
+     * The sortable set comes from the model rather than a copy kept here: two
+     * lists of the same columns drifted apart, and the model is what knows
+     * which of them it owns.
+     *
      * @return bool
      */
     private function checkSort(): bool
@@ -188,13 +232,17 @@ class BaseController extends Controller
         $sortArray  = [];
         $sortFields = $this->request->getQuery('sort', [Filter::FILTER_STRING, Filter::FILTER_TRIM], '');
         if (true !== empty($sortFields)) {
+            /** @var AbstractModel $model */
+            $model     = new $this->model();
+            $sortable  = $model->getSortableFields();
+
             $requestedSort = explode(',', $sortFields);
             foreach ($requestedSort as $field) {
                 list($trueField, $direction) = $this->getFieldAndDirection($field);
                 /**
                  * Is this a valid field and is it sortable? If yes, process it
                  */
-                if (true === ($this->sortFields[$trueField] ?? false)) {
+                if (true === in_array($trueField, $sortable)) {
                     $sortArray[] = $trueField . $direction;
                 } else {
                     return false;

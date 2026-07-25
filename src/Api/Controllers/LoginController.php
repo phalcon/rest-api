@@ -18,6 +18,7 @@ use Phalcon\Api\Http\Request;
 use Phalcon\Api\Http\Response;
 use Phalcon\Api\Models\Users;
 use Phalcon\Api\Repositories\UsersRepository;
+use Phalcon\Api\Services\TokenService;
 use Phalcon\Filter\Filter;
 use Phalcon\Mvc\Controller;
 
@@ -26,6 +27,7 @@ use Phalcon\Mvc\Controller;
  *
  * @property Request         $request
  * @property Response        $response
+ * @property TokenService    $tokenService
  * @property UsersRepository $usersRepository
  */
 class LoginController extends Controller
@@ -50,7 +52,7 @@ class LoginController extends Controller
         if (null !== $user) {
             $this
                 ->response
-                ->setPayloadSuccess(['token' => $user->getToken()])
+                ->setPayloadSuccess(['token' => $this->tokenService->issue($user)])
             ;
         } else {
             $this

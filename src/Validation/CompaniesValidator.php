@@ -17,6 +17,15 @@ use Phalcon\Filter\Filter;
 use Phalcon\Filter\Validation;
 use Phalcon\Filter\Validation\Validator\PresenceOf;
 
+/**
+ * What the request has to carry before a company can be built from it.
+ *
+ * Runs on the posted payload in AddController, before any record exists, and
+ * answers with the message the caller sees. Uniqueness is not here: that one
+ * needs the database and has to hold for writes that never see a request, so
+ * it lives on the model - see Companies::validation(). Between them, a bad
+ * request is rejected early and a bad row is rejected always.
+ */
 class CompaniesValidator extends Validation
 {
     /**

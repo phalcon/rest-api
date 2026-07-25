@@ -13,24 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Api\Models;
 
-use Phalcon\Api\Exception\ModelException;
 use Phalcon\Api\Mvc\Model\AbstractModel;
-use Phalcon\Api\Traits\TokenTrait;
-use Phalcon\Encryption\Security\JWT\Builder;
-use Phalcon\Encryption\Security\JWT\Exceptions\ValidatorException;
-use Phalcon\Encryption\Security\JWT\Signer\Hmac;
-use Phalcon\Encryption\Security\JWT\Token\Enum;
-use Phalcon\Encryption\Security\JWT\Token\Token;
-use Phalcon\Encryption\Security\JWT\Validator;
 use Phalcon\Filter\Filter;
 
 /**
- * Class Users
+ * The user record, and nothing about tokens.
+ *
+ * Issuing a token and validating one are TokenService's, which reads the
+ * fields below rather than the record building and checking its own
+ * credentials.
  */
 class Users extends AbstractModel
 {
-    use TokenTrait;
-
     /**
      * Model filters
      *
@@ -68,36 +62,20 @@ class Users extends AbstractModel
     }
 
     /**
-     * Returns the string token
+     * `tokenId` is published but not sortable: it is an opaque identifier, so
+     * ordering by it says nothing, and every field that leaves this list stops
+     * being a way to probe the table.
      *
-     * @return string
-     * @throws ModelException
+     * @return array<int, string>
      */
-    public function getToken(): string
+    public function getSortableFields(): array
     {
-        $token = $this->getBuilderToken();
-
-        return $token->getToken();
-    }
-
-    /**
-     * Returns the Validator for the token that was sent to us, carrying the
-     * values this record and the environment expect that token to hold.
-     *
-     * @param Token $token The token from the request - it is the one validated
-     *
-     * @return Validator
-     * @throws ModelException
-     */
-    public function getValidationData(Token $token): Validator
-    {
-        $validator = new Validator($token, 10);
-
-        return $validator
-            ->set(Enum::AUDIENCE, $this->getTokenAudience())
-            ->set(Enum::ISSUER, $this->get('issuer'))
-            ->set(Enum::ID, $this->get('tokenId'))
-        ;
+        return [
+            'id',
+            'status',
+            'username',
+            'issuer',
+        ];
     }
 
     /**
@@ -111,24 +89,18 @@ class Users extends AbstractModel
     }
 
     /**
-     * @return Token
-     * @throws ModelException
-     * @throws ValidatorException
+     * Never. A row of this table carries the password hash and the token
+     * passphrase, and the cache is a shared Redis that outlives the process.
+     * It is also keyed on the query, so a cached row would keep answering with
+     * a stale hash - rejecting a new password and accepting the old one for as
+     * long as the entry lived.
+     *
+     * The cost is one indexed lookup per authenticated request.
+     *
+     * @return bool
      */
-    private function getBuilderToken(): Token
+    public function isCacheable(): bool
     {
-        $signer  = new Hmac();
-        $builder = new Builder($signer);
-
-        return $builder
-            ->setIssuer($this->get('issuer'))
-            ->setAudience($this->getTokenAudience())
-            ->setId($this->get('tokenId'))
-            ->setIssuedAt($this->getTokenTimeIssuedAt())
-            ->setNotBefore($this->getTokenTimeNotBefore())
-            ->setExpirationTime($this->getTokenTimeExpiration())
-            ->setPassphrase($this->get('tokenPassword'))
-            ->getToken()
-        ;
+        return false;
     }
 }

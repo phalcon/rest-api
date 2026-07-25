@@ -17,7 +17,6 @@ use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Tests\Api\AbstractApiTestCase;
 use Phalcon\Api\Tests\Support\Data;
 
-use function Phalcon\Api\Core\envValue;
 use function sprintf;
 
 final class GetTest extends AbstractApiTestCase
@@ -72,39 +71,14 @@ final class GetTest extends AbstractApiTestCase
         $this->assertSuccessJsonResponse(
             'data',
             [
-                [
-                    'type'          => Relationships::PRODUCT_TYPES,
-                    'id'            => (string) $productType->get('id'),
-                    'attributes'    => [
-                        'name'        => $productType->get('name'),
-                        'description' => $productType->get('description'),
-                    ],
-                    'links'         => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            envValue('APP_URL'),
-                            Relationships::PRODUCT_TYPES,
-                            $productType->get('id')
-                        ),
-                    ],
+                Data::productTypeResponse($productType) + [
                     'relationships' => [
                         Relationships::PRODUCTS => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    envValue('APP_URL'),
-                                    Relationships::PRODUCT_TYPES,
-                                    $productType->get('id'),
-                                    Relationships::PRODUCTS
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    envValue('APP_URL'),
-                                    Relationships::PRODUCT_TYPES,
-                                    $productType->get('id'),
-                                    Relationships::PRODUCTS
-                                ),
-                            ],
+                            'links' => Data::relationshipLinks(
+                                Relationships::PRODUCT_TYPES,
+                                $productType->get('id'),
+                                Relationships::PRODUCTS
+                            ),
                             'data'  => [
                                 [
                                     'type' => Relationships::PRODUCTS,

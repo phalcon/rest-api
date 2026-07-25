@@ -17,7 +17,6 @@ use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Tests\Support\Data;
 
 use function count;
-use function Phalcon\Api\Core\envValue;
 use function sprintf;
 
 final class GetFieldsTest extends AbstractGetTestCase
@@ -51,40 +50,21 @@ final class GetFieldsTest extends AbstractGetTestCase
         );
         $this->assertResponseIsSuccessful();
 
-        $element = [
-            'type'       => Relationships::COMPANIES,
-            'id'         => (string) $com->get('id'),
-            'attributes' => [
+        $element = Data::resource(
+            Relationships::COMPANIES,
+            $com,
+            [
                 'name' => $com->get('name'),
                 'city' => $com->get('city'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL', 'localhost'),
-                    Relationships::COMPANIES,
-                    $com->get('id')
-                ),
-            ],
-        ];
+            ]
+        );
 
         $element['relationships'][Relationships::PRODUCTS] = [
-            'links' => [
-                'self'    => sprintf(
-                    '%s/%s/%s/relationships/%s',
-                    envValue('APP_URL', 'localhost'),
-                    Relationships::COMPANIES,
-                    $com->get('id'),
-                    Relationships::PRODUCTS
-                ),
-                'related' => sprintf(
-                    '%s/%s/%s/%s',
-                    envValue('APP_URL', 'localhost'),
-                    Relationships::COMPANIES,
-                    $com->get('id'),
-                    Relationships::PRODUCTS
-                ),
-            ],
+            'links' => Data::relationshipLinks(
+                Relationships::COMPANIES,
+                $com->get('id'),
+                Relationships::PRODUCTS
+            ),
             'data'  => [
                 [
                     'type' => Relationships::PRODUCTS,

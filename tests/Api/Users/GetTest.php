@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Api\Tests\Api\Users;
 
 use Phalcon\Api\Models\Users;
+use Phalcon\Api\Services\TokenService;
 use Phalcon\Api\Tests\Api\AbstractApiTestCase;
 use Phalcon\Api\Tests\Support\Data;
-use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Encryption\Security\JWT\Builder;
 use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 
@@ -27,8 +27,6 @@ use function usleep;
 
 final class GetTest extends AbstractApiTestCase
 {
-    use TokenTrait;
-
     public function testGetManyUsers(): void
     {
         $userOne = $this->haveRecordWithFields(
@@ -265,5 +263,13 @@ final class GetTest extends AbstractApiTestCase
                 Data::userResponse($record),
             ]
         );
+    }
+
+    private function getTokenAudience(): string
+    {
+        /** @var TokenService $service */
+        $service = $this->grabFromDi('tokenService');
+
+        return $service->getAudience();
     }
 }

@@ -22,8 +22,7 @@ use Phalcon\Api\Models\Products;
 use Phalcon\Api\Models\ProductTypes;
 use Phalcon\Api\Mvc\Model\AbstractModel;
 
-use function Phalcon\Api\Core\envValue;
-use function sprintf;
+use function Phalcon\Api\Core\appUrl;
 
 class Data
 {
@@ -260,7 +259,7 @@ class Data
         $recordId,
         string $relationship
     ): array {
-        $base = sprintf('%s/%s/%s', envValue('APP_URL'), $type, $recordId);
+        $base = appUrl($type, (int) $recordId);
 
         return [
             'self'    => $base . '/relationships/' . $relationship,
@@ -290,12 +289,7 @@ class Data
             'id'         => (string) $record->get('id'),
             'attributes' => $attributes,
             'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL'),
-                    $type,
-                    $record->get('id')
-                ),
+                'self' => appUrl($type, (int) $record->get('id')),
             ],
         ];
     }

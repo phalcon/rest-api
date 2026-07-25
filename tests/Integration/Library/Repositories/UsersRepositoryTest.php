@@ -18,8 +18,8 @@ use Phalcon\Api\Models\Users;
 use Phalcon\Api\Repositories\UsersRepository;
 use Phalcon\Api\Services\QueryService;
 use Phalcon\Api\Tests\Integration\AbstractIntegrationTestCase;
+use Phalcon\Api\Services\TokenService;
 use Phalcon\Api\Tests\Support\Data;
-use Phalcon\Api\Traits\TokenTrait;
 use Phalcon\Cache\Cache;
 use Phalcon\Config\Config;
 use Phalcon\Encryption\Security;
@@ -28,8 +28,6 @@ use Phalcon\Encryption\Security\JWT\Signer\Hmac;
 
 final class UsersRepositoryTest extends AbstractIntegrationTestCase
 {
-    use TokenTrait;
-
     public function testGetByTokenReturnsUser(): void
     {
         $this->addUserRecord();
@@ -152,5 +150,13 @@ final class UsersRepositoryTest extends AbstractIntegrationTestCase
         $security = $this->grabFromDi('security');
 
         return new UsersRepository(new QueryService($config, $cache), $security);
+    }
+
+    private function getTokenAudience(): string
+    {
+        /** @var TokenService $service */
+        $service = $this->grabFromDi('tokenService');
+
+        return $service->getAudience();
     }
 }

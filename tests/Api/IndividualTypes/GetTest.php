@@ -17,7 +17,6 @@ use Phalcon\Api\Constants\Relationships;
 use Phalcon\Api\Tests\Api\AbstractApiTestCase;
 use Phalcon\Api\Tests\Support\Data;
 
-use function Phalcon\Api\Core\envValue;
 use function sprintf;
 
 final class GetTest extends AbstractApiTestCase
@@ -73,39 +72,14 @@ final class GetTest extends AbstractApiTestCase
         $this->assertSuccessJsonResponse(
             'data',
             [
-                [
-                    'type'          => Relationships::INDIVIDUAL_TYPES,
-                    'id'            => (string) $individualType->get('id'),
-                    'attributes'    => [
-                        'name'        => $individualType->get('name'),
-                        'description' => $individualType->get('description'),
-                    ],
-                    'links'         => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            envValue('APP_URL'),
-                            Relationships::INDIVIDUAL_TYPES,
-                            $individualType->get('id')
-                        ),
-                    ],
+                Data::individualTypeResponse($individualType) + [
                     'relationships' => [
                         Relationships::INDIVIDUALS => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    envValue('APP_URL'),
-                                    Relationships::INDIVIDUAL_TYPES,
-                                    $individualType->get('id'),
-                                    Relationships::INDIVIDUALS
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    envValue('APP_URL'),
-                                    Relationships::INDIVIDUAL_TYPES,
-                                    $individualType->get('id'),
-                                    Relationships::INDIVIDUALS
-                                ),
-                            ],
+                            'links' => Data::relationshipLinks(
+                                Relationships::INDIVIDUAL_TYPES,
+                                $individualType->get('id'),
+                                Relationships::INDIVIDUALS
+                            ),
                             'data'  => [
                                 [
                                     'type' => Relationships::INDIVIDUALS,

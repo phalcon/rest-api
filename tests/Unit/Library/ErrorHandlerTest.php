@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Api\Tests\Unit\Library;
 
 use Phalcon\Api\ErrorHandler;
+use Phalcon\Api\Providers\ConfigProvider;
 use Phalcon\Api\Providers\LoggerProvider;
 use Phalcon\Config\Config;
 use Phalcon\Di\FactoryDefault;
@@ -147,6 +148,12 @@ final class ErrorHandlerTest extends AbstractUnitTestCase
     {
         $container = new FactoryDefault();
 
+        /**
+         * The logger reads its filename and path from `config`, so the config
+         * service has to be there first - the provider list registers them in
+         * that order for the same reason.
+         */
+        (new ConfigProvider())->register($container);
         (new LoggerProvider())->register($container);
 
         /** @var Logger $logger */

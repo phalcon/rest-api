@@ -26,8 +26,6 @@ use Phalcon\Api\Tests\Integration\AbstractIntegrationTestCase;
 use Phalcon\Api\Tests\Support\Data;
 use Phalcon\Api\Transformers\ProductsTransformer;
 
-use function Phalcon\Api\Core\envValue;
-use function sprintf;
 use function uniqid;
 
 final class ProductsTransformerTest extends AbstractIntegrationTestCase
@@ -78,7 +76,7 @@ final class ProductsTransformerTest extends AbstractIntegrationTestCase
             ]
         );
 
-        $url     = envValue('APP_URL', 'http://localhost');
+        $url     = $this->getBaseUrl();
         $manager = new Manager();
         $manager->setSerializer(new JsonApiSerializer($url));
         $manager->parseIncludes([Relationships::COMPANIES, Relationships::PRODUCT_TYPES]);
@@ -88,42 +86,14 @@ final class ProductsTransformerTest extends AbstractIntegrationTestCase
         ;
         $expected = [
             'data'     => [
-                [
-                    'type'          => Relationships::PRODUCTS,
-                    'id'            => (string) $product->get('id'),
-                    'attributes'    => [
-                        'typeId'      => $productType->get('id'),
-                        'name'        => $product->get('name'),
-                        'description' => $product->get('description'),
-                        'quantity'    => $product->get('quantity'),
-                        'price'       => $product->get('price'),
-                    ],
-                    'links'         => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            $url,
-                            Relationships::PRODUCTS,
-                            $product->get('id')
-                        ),
-                    ],
+                Data::productResponse($product) + [
                     'relationships' => [
                         Relationships::COMPANIES     => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    $url,
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::COMPANIES
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    $url,
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::COMPANIES
-                                ),
-                            ],
+                            'links' => Data::relationshipLinks(
+                                Relationships::PRODUCTS,
+                                $product->get('id'),
+                                Relationships::COMPANIES
+                            ),
                             'data'  => [
                                 [
                                     'type' => Relationships::COMPANIES,
@@ -132,22 +102,11 @@ final class ProductsTransformerTest extends AbstractIntegrationTestCase
                             ],
                         ],
                         Relationships::PRODUCT_TYPES => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    $url,
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::PRODUCT_TYPES
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    $url,
-                                    Relationships::PRODUCTS,
-                                    $product->get('id'),
-                                    Relationships::PRODUCT_TYPES
-                                ),
-                            ],
+                            'links' => Data::relationshipLinks(
+                                Relationships::PRODUCTS,
+                                $product->get('id'),
+                                Relationships::PRODUCT_TYPES
+                            ),
                             'data'  => [
                                 'type' => Relationships::PRODUCT_TYPES,
                                 'id'   => (string) $productType->get('id'),

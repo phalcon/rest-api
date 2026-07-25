@@ -25,8 +25,6 @@ use Phalcon\Api\Tests\Integration\AbstractIntegrationTestCase;
 use Phalcon\Api\Tests\Support\Data;
 use Phalcon\Api\Transformers\IndividualsTransformer;
 
-use function Phalcon\Api\Core\envValue;
-use function sprintf;
 use function uniqid;
 
 final class IndividualsTransformerTest extends AbstractIntegrationTestCase
@@ -70,7 +68,7 @@ final class IndividualsTransformerTest extends AbstractIntegrationTestCase
             ]
         );
 
-        $url     = envValue('APP_URL', 'http://localhost');
+        $url     = $this->getBaseUrl();
         $manager = new Manager();
         $manager->setSerializer(new JsonApiSerializer($url));
         $manager->parseIncludes([Relationships::COMPANIES, Relationships::INDIVIDUAL_TYPES]);
@@ -80,66 +78,25 @@ final class IndividualsTransformerTest extends AbstractIntegrationTestCase
         ;
         $expected = [
             'data'     => [
-                [
-                    'type'          => Relationships::INDIVIDUALS,
-                    'id'            => (string) $individual->get('id'),
-                    'attributes'    => [
-                        'companyId' => $individual->get('companyId'),
-                        'typeId'    => $individual->get('typeId'),
-                        'prefix'    => $individual->get('prefix'),
-                        'first'     => $individual->get('first'),
-                        'middle'    => $individual->get('middle'),
-                        'last'      => $individual->get('last'),
-                        'suffix'    => $individual->get('suffix'),
-                    ],
-                    'links'         => [
-                        'self' => sprintf(
-                            '%s/%s/%s',
-                            $url,
-                            Relationships::INDIVIDUALS,
-                            $individual->get('id')
-                        ),
-                    ],
+                Data::individualResponse($individual) + [
                     'relationships' => [
                         Relationships::COMPANIES        => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    $url,
-                                    Relationships::INDIVIDUALS,
-                                    $individual->get('id'),
-                                    Relationships::COMPANIES
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    $url,
-                                    Relationships::INDIVIDUALS,
-                                    $individual->get('id'),
-                                    Relationships::COMPANIES
-                                ),
-                            ],
+                            'links' => Data::relationshipLinks(
+                                Relationships::INDIVIDUALS,
+                                $individual->get('id'),
+                                Relationships::COMPANIES
+                            ),
                             'data'  => [
                                 'type' => Relationships::COMPANIES,
                                 'id'   => (string) $company->get('id'),
                             ],
                         ],
                         Relationships::INDIVIDUAL_TYPES => [
-                            'links' => [
-                                'self'    => sprintf(
-                                    '%s/%s/%s/relationships/%s',
-                                    $url,
-                                    Relationships::INDIVIDUALS,
-                                    $individual->get('id'),
-                                    Relationships::INDIVIDUAL_TYPES
-                                ),
-                                'related' => sprintf(
-                                    '%s/%s/%s/%s',
-                                    $url,
-                                    Relationships::INDIVIDUALS,
-                                    $individual->get('id'),
-                                    Relationships::INDIVIDUAL_TYPES
-                                ),
-                            ],
+                            'links' => Data::relationshipLinks(
+                                Relationships::INDIVIDUALS,
+                                $individual->get('id'),
+                                Relationships::INDIVIDUAL_TYPES
+                            ),
                             'data'  => [
                                 'type' => Relationships::INDIVIDUAL_TYPES,
                                 'id'   => (string) $individualType->get('id'),

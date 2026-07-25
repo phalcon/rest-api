@@ -19,7 +19,6 @@ use Phalcon\Api\Tests\Support\Data;
 
 use function count;
 use function implode;
-use function Phalcon\Api\Core\envValue;
 use function sprintf;
 
 final class GetTest extends AbstractApiTestCase
@@ -132,48 +131,17 @@ final class GetTest extends AbstractApiTestCase
         );
         $this->assertResponseIsSuccessful();
 
-        $element = [
-            'type'       => Relationships::INDIVIDUALS,
-            'id'         => (string) $individual->get('id'),
-            'attributes' => [
-                'companyId' => $individual->get('companyId'),
-                'typeId'    => $individual->get('typeId'),
-                'prefix'    => $individual->get('prefix'),
-                'first'     => $individual->get('first'),
-                'middle'    => $individual->get('middle'),
-                'last'      => $individual->get('last'),
-                'suffix'    => $individual->get('suffix'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL', 'localhost'),
-                    Relationships::INDIVIDUALS,
-                    $individual->get('id')
-                ),
-            ],
-        ];
+        $element = Data::individualResponse($individual);
 
         $included = [];
         foreach ($includes as $include) {
             if (Relationships::COMPANIES === $include) {
                 $element['relationships'][Relationships::COMPANIES] = [
-                    'links' => [
-                        'self'    => sprintf(
-                            '%s/%s/%s/relationships/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::INDIVIDUALS,
-                            $individual->get('id'),
-                            Relationships::COMPANIES
-                        ),
-                        'related' => sprintf(
-                            '%s/%s/%s/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::INDIVIDUALS,
-                            $individual->get('id'),
-                            Relationships::COMPANIES
-                        ),
-                    ],
+                    'links' => Data::relationshipLinks(
+                        Relationships::INDIVIDUALS,
+                        $individual->get('id'),
+                        Relationships::COMPANIES
+                    ),
                     'data'  => [
                         'type' => Relationships::COMPANIES,
                         'id'   => (string) $company->get('id'),
@@ -185,22 +153,11 @@ final class GetTest extends AbstractApiTestCase
 
             if (Relationships::INDIVIDUAL_TYPES === $include) {
                 $element['relationships'][Relationships::INDIVIDUAL_TYPES] = [
-                    'links' => [
-                        'self'    => sprintf(
-                            '%s/%s/%s/relationships/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::INDIVIDUALS,
-                            $individual->get('id'),
-                            Relationships::INDIVIDUAL_TYPES
-                        ),
-                        'related' => sprintf(
-                            '%s/%s/%s/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::INDIVIDUALS,
-                            $individual->get('id'),
-                            Relationships::INDIVIDUAL_TYPES
-                        ),
-                    ],
+                    'links' => Data::relationshipLinks(
+                        Relationships::INDIVIDUALS,
+                        $individual->get('id'),
+                        Relationships::INDIVIDUAL_TYPES
+                    ),
                     'data'  => [
                         'type' => Relationships::INDIVIDUAL_TYPES,
                         'id'   => (string) $individualType->get('id'),

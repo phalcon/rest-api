@@ -18,7 +18,6 @@ use Phalcon\Api\Tests\Support\Data;
 
 use function count;
 use function implode;
-use function Phalcon\Api\Core\envValue;
 use function sprintf;
 
 final class GetIncludesTest extends AbstractGetTestCase
@@ -75,45 +74,26 @@ final class GetIncludesTest extends AbstractGetTestCase
         );
         $this->assertResponseIsSuccessful();
 
-        $element = [
-            'type'       => Relationships::COMPANIES,
-            'id'         => (string) $com->get('id'),
-            'attributes' => [
+        $element = Data::resource(
+            Relationships::COMPANIES,
+            $com,
+            [
                 'name'    => $com->get('name'),
                 'address' => $com->get('address'),
                 'city'    => $com->get('city'),
                 'phone'   => $com->get('phone'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL', 'localhost'),
-                    Relationships::COMPANIES,
-                    $com->get('id')
-                ),
-            ],
-        ];
+            ]
+        );
 
         $included = [];
         foreach ($includes as $include) {
             if (Relationships::INDIVIDUALS === $include) {
                 $element['relationships'][Relationships::INDIVIDUALS] = [
-                    'links' => [
-                        'self'    => sprintf(
-                            '%s/%s/%s/relationships/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::COMPANIES,
-                            $com->get('id'),
-                            Relationships::INDIVIDUALS
-                        ),
-                        'related' => sprintf(
-                            '%s/%s/%s/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::COMPANIES,
-                            $com->get('id'),
-                            Relationships::INDIVIDUALS
-                        ),
-                    ],
+                    'links' => Data::relationshipLinks(
+                        Relationships::COMPANIES,
+                        $com->get('id'),
+                        Relationships::INDIVIDUALS
+                    ),
                     'data'  => [
                         [
                             'type' => Relationships::INDIVIDUALS,
@@ -132,22 +112,11 @@ final class GetIncludesTest extends AbstractGetTestCase
 
             if (Relationships::PRODUCTS === $include) {
                 $element['relationships'][Relationships::PRODUCTS] = [
-                    'links' => [
-                        'self'    => sprintf(
-                            '%s/%s/%s/relationships/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::COMPANIES,
-                            $com->get('id'),
-                            Relationships::PRODUCTS
-                        ),
-                        'related' => sprintf(
-                            '%s/%s/%s/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::COMPANIES,
-                            $com->get('id'),
-                            Relationships::PRODUCTS
-                        ),
-                    ],
+                    'links' => Data::relationshipLinks(
+                        Relationships::COMPANIES,
+                        $com->get('id'),
+                        Relationships::PRODUCTS
+                    ),
                     'data'  => [
                         [
                             'type' => Relationships::PRODUCTS,

@@ -19,7 +19,6 @@ use Phalcon\Api\Tests\Support\Data;
 
 use function count;
 use function implode;
-use function Phalcon\Api\Core\envValue;
 use function sprintf;
 
 final class GetTest extends AbstractApiTestCase
@@ -134,46 +133,17 @@ final class GetTest extends AbstractApiTestCase
         );
         $this->assertResponseIsSuccessful();
 
-        $element = [
-            'type'       => Relationships::PRODUCTS,
-            'id'         => (string) $product->get('id'),
-            'attributes' => [
-                'typeId'      => $productType->get('id'),
-                'name'        => $product->get('name'),
-                'description' => $product->get('description'),
-                'quantity'    => $product->get('quantity'),
-                'price'       => $product->get('price'),
-            ],
-            'links'      => [
-                'self' => sprintf(
-                    '%s/%s/%s',
-                    envValue('APP_URL', 'localhost'),
-                    Relationships::PRODUCTS,
-                    $product->get('id')
-                ),
-            ],
-        ];
+        $element = Data::productResponse($product);
 
         $included = [];
         foreach ($includes as $include) {
             if (Relationships::COMPANIES === $include) {
                 $element['relationships'][Relationships::COMPANIES] = [
-                    'links' => [
-                        'self'    => sprintf(
-                            '%s/%s/%s/relationships/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::PRODUCTS,
-                            $product->get('id'),
-                            Relationships::COMPANIES
-                        ),
-                        'related' => sprintf(
-                            '%s/%s/%s/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::PRODUCTS,
-                            $product->get('id'),
-                            Relationships::COMPANIES
-                        ),
-                    ],
+                    'links' => Data::relationshipLinks(
+                        Relationships::PRODUCTS,
+                        $product->get('id'),
+                        Relationships::COMPANIES
+                    ),
                     'data'  => [
                         [
                             'type' => Relationships::COMPANIES,
@@ -192,22 +162,11 @@ final class GetTest extends AbstractApiTestCase
 
             if (Relationships::PRODUCT_TYPES === $include) {
                 $element['relationships'][Relationships::PRODUCT_TYPES] = [
-                    'links' => [
-                        'self'    => sprintf(
-                            '%s/%s/%s/relationships/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::PRODUCTS,
-                            $product->get('id'),
-                            Relationships::PRODUCT_TYPES
-                        ),
-                        'related' => sprintf(
-                            '%s/%s/%s/%s',
-                            envValue('APP_URL', 'localhost'),
-                            Relationships::PRODUCTS,
-                            $product->get('id'),
-                            Relationships::PRODUCT_TYPES
-                        ),
-                    ],
+                    'links' => Data::relationshipLinks(
+                        Relationships::PRODUCTS,
+                        $product->get('id'),
+                        Relationships::PRODUCT_TYPES
+                    ),
                     'data'  => [
                         'type' => Relationships::PRODUCT_TYPES,
                         'id'   => (string) $productType->get('id'),

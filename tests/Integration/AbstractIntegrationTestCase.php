@@ -178,6 +178,24 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
     }
 
     /**
+     * Satisfies FractalTrait for the tests that format documents the way the
+     * controllers do. Answered once here rather than in each of them - the
+     * controllers read the same value from the same service.
+     *
+     * @return string
+     */
+    protected function getBaseUrl(): string
+    {
+        /** @var PhConfig $config */
+        $config = $this->grabFromDi('config');
+
+        /** @var string $url */
+        $url = $config->path('app.url', 'http://localhost');
+
+        return $url;
+    }
+
+    /**
      * Returns the relationships that a model has.
      *
      * @return array<int, array<int, mixed>>

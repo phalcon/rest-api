@@ -47,9 +47,9 @@
         "pds/composer-script-names": "^1.0",
         "pds/skeleton": "^1.0",
         "phalcon/ide-stubs": "^5.16",
-        "phalcon/phalcon": "v6.0.x-dev",
+        "phalcon/phalcon": "^6.0@beta",
         "phalcon/phql": "1.0.x-dev",
-        "phalcon/talon": "^0.9.0",
+        "phalcon/talon": "^1.0.0",
         "phpstan/phpstan": "^2.2",
         "phpunit/phpunit": "^10.5",
         "squizlabs/php_codesniffer": "^4.0"

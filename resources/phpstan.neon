@@ -9,7 +9,7 @@ parameters:
     tmpDir: ../tests/_output
     # The application registers its own namespaces via library/Core/autoload.php,
     # but that file also loads Dotenv and therefore needs a .env present. Bootstrap
-    # from Composer only; the analysed paths above cover the application's classes.
+    # from Composer only; the analyzed paths above cover the application's classes.
     bootstrapFiles:
         - ../vendor/autoload.php
     ignoreErrors:

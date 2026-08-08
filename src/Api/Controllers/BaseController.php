@@ -193,31 +193,6 @@ class BaseController extends Controller
     }
 
     /**
-     * Keeps the names this resource actually publishes, in the vocabulary the
-     * transformer and the model relationships share. Shared by `?includes=`
-     * and by the relationship routes so the two cannot answer differently
-     * about what exists.
-     *
-     * @param string $requested Comma separated relationship names
-     *
-     * @return array<int, string>
-     */
-    private function filterRelationships(string $requested): array
-    {
-        $related = [];
-
-        if (true !== empty($requested)) {
-            foreach (explode(',', $requested) as $include) {
-                if (true === in_array($include, $this->includes)) {
-                    $related[] = strtolower($include);
-                }
-            }
-        }
-
-        return $related;
-    }
-
-    /**
      * Process the sort. If supplied change the `orderBy` of the builder. If a
      * field that is not supported has been supplied return false
      *
@@ -258,6 +233,31 @@ class BaseController extends Controller
         }
 
         return true;
+    }
+
+    /**
+     * Keeps the names this resource actually publishes, in the vocabulary the
+     * transformer and the model relationships share. Shared by `?includes=`
+     * and by the relationship routes so the two cannot answer differently
+     * about what exists.
+     *
+     * @param string $requested Comma separated relationship names
+     *
+     * @return array<int, string>
+     */
+    private function filterRelationships(string $requested): array
+    {
+        $related = [];
+
+        if (true !== empty($requested)) {
+            foreach (explode(',', $requested) as $include) {
+                if (true === in_array($include, $this->includes)) {
+                    $related[] = strtolower($include);
+                }
+            }
+        }
+
+        return $related;
     }
 
 

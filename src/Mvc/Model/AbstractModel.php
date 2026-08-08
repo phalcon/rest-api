@@ -185,7 +185,7 @@ abstract class AbstractModel extends PhModel
      * Uses the Phalcon Filter to sanitize the variable passed
      *
      * @param mixed                     $value  The value to sanitize
-     * @param string|array<int, string>  $filter The filter, or a chain of them
+     * @param array<int, string>|string  $filter The filter, or a chain of them
      *
      * @return mixed
      * @throws ModelException

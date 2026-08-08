@@ -11,6 +11,17 @@
 
 declare(strict_types=1);
 
+/**
+ * Ordering rules:
+ * - use statements: alphabetical
+ * - class members: by visibility (public -> protected -> private), then
+ *   alphabetical within each group
+ *
+ * Run from the project root:
+ *   composer cs-fixer       (dry-run, shows diff)
+ *   composer cs-fixer-fix   (applies the changes)
+ */
+
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
@@ -36,11 +47,6 @@ return (new Config())
     ->setCacheFile($root . '/tests/_output/.php-cs-fixer.cache')
     ->setRules(
         [
-            // The two rules below are a local addition on top of the ordering
-            // rules shared with the other Phalcon projects. They are kept here
-            // until the global coding standard is agreed, at which point they
-            // should move into the shared set rather than stay a divergence.
-            // PSR-12 (via phpcs) checks neither, so nothing else enforces them.
             'declare_strict_types'   => true,
             'no_unused_imports'      => true,
             'ordered_imports'        => [
@@ -72,6 +78,17 @@ return (new Config())
                     'method_protected',
                     'method_private',
                 ],
+            ],
+            'ordered_types'          => [
+                'sort_algorithm'  => 'alpha',
+                'null_adjustment' => 'always_last',
+            ],
+            'phpdoc_types_order'     => [
+                'sort_algorithm'  => 'alpha',
+                'null_adjustment' => 'always_last',
+            ],
+            'types_spaces'           => [
+                'space' => 'single',
             ],
         ]
     )

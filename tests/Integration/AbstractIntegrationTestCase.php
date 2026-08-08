@@ -226,7 +226,7 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
      *
      * @param array<string, mixed> $fields
      *
-     * @return bool|AbstractModel
+     * @return AbstractModel|bool
      */
     protected function getRecordWithFields(string $modelName, array $fields = [])
     {
@@ -346,7 +346,7 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
      * Check that a record created with haveRecordWithFields can be fetched and
      * that all its fields contain valid values.
      *
-     * @param string|array<int, string> $by
+     * @param array<int, string>|string $by
      * @param array<string, mixed>      $except
      *
      * @return mixed

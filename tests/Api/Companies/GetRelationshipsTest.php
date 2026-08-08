@@ -32,6 +32,33 @@ use function sprintf;
  */
 final class GetRelationshipsTest extends AbstractGetTestCase
 {
+    /**
+     * Several at once, the way the route regex allows.
+     */
+    public function testRelatedRouteAcceptsSeveralRelationships(): void
+    {
+        [$com] = $this->addRecords();
+        $this->addApiUserRecord();
+        $token = $this->apiLogin();
+
+        $both = Relationships::INDIVIDUALS . ',' . Relationships::PRODUCTS;
+
+        $expected = $this->documentFor(
+            $token,
+            sprintf(Data::$companiesRecordIncludesUrl, $com->get('id'), $both)
+        );
+        $actual = $this->documentFor(
+            $token,
+            sprintf(
+                '/%s/%s/%s',
+                Relationships::COMPANIES,
+                $com->get('id'),
+                $both
+            )
+        );
+
+        $this->assertSame($expected, $actual);
+    }
     public function testRelatedRouteReturnsTheRelationship(): void
     {
         [$com] = $this->addRecords();
@@ -85,34 +112,6 @@ final class GetRelationshipsTest extends AbstractGetTestCase
         );
 
         $this->assertArrayHasKey('included', $actual);
-        $this->assertSame($expected, $actual);
-    }
-
-    /**
-     * Several at once, the way the route regex allows.
-     */
-    public function testRelatedRouteAcceptsSeveralRelationships(): void
-    {
-        [$com] = $this->addRecords();
-        $this->addApiUserRecord();
-        $token = $this->apiLogin();
-
-        $both = Relationships::INDIVIDUALS . ',' . Relationships::PRODUCTS;
-
-        $expected = $this->documentFor(
-            $token,
-            sprintf(Data::$companiesRecordIncludesUrl, $com->get('id'), $both)
-        );
-        $actual = $this->documentFor(
-            $token,
-            sprintf(
-                '/%s/%s/%s',
-                Relationships::COMPANIES,
-                $com->get('id'),
-                $both
-            )
-        );
-
         $this->assertSame($expected, $actual);
     }
 

@@ -32,10 +32,10 @@ abstract class AbstractBootstrap
      *
      * @var Console|Micro
      */
-    protected Console|Micro $application;
+    protected Console | Micro $application;
 
     /** @var FactoryDefault|PhCli */
-    protected FactoryDefault|PhCli $container;
+    protected FactoryDefault | PhCli $container;
 
     /** @var array<string, string> */
     protected array $options = [];
@@ -65,7 +65,7 @@ abstract class AbstractBootstrap
     /**
      * @return Console|Micro
      */
-    public function getApplication(): Console|Micro
+    public function getApplication(): Console | Micro
     {
         return $this->application;
     }
@@ -73,7 +73,7 @@ abstract class AbstractBootstrap
     /**
      * @return FactoryDefault|PhCli
      */
-    public function getContainer(): FactoryDefault|PhCli
+    public function getContainer(): FactoryDefault | PhCli
     {
         return $this->container;
     }

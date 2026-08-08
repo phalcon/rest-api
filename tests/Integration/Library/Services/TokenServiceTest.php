@@ -50,31 +50,6 @@ final class TokenServiceTest extends AbstractIntegrationTestCase
     }
 
     /**
-     * The user is found, but the signature was made with another passphrase -
-     * rejected at phase 2.
-     */
-    public function testAuthenticateRejectsWrongPassphrase(): void
-    {
-        $service = $this->getTokenService();
-        $this->haveUser();
-
-        $token = (new Builder(new Hmac()))
-            ->setIssuer(Data::$testIssuer)
-            ->setAudience($service->getAudience())
-            ->setId(Data::$testTokenId)
-            ->setExpirationTime(time() + 10)
-            ->setPassphrase(Data::$strongPassphrase . '-wrong')
-            ->getToken()
-            ->getToken()
-        ;
-
-        $this->expectException(TokenException::class);
-        $this->expectExceptionMessage('Invalid Token (verification)');
-
-        $service->authenticate($token);
-    }
-
-    /**
      * Signature is good and the user exists, but the claims do not hold -
      * rejected at phase 3.
      */
@@ -99,18 +74,28 @@ final class TokenServiceTest extends AbstractIntegrationTestCase
     }
 
     /**
-     * The full round trip: a token this service issued is one it accepts, and
-     * it answers with the record the token belongs to.
+     * The user is found, but the signature was made with another passphrase -
+     * rejected at phase 2.
      */
-    public function testIssuedTokenAuthenticates(): void
+    public function testAuthenticateRejectsWrongPassphrase(): void
     {
         $service = $this->getTokenService();
-        $user    = $this->haveUser();
+        $this->haveUser();
 
-        $actual = $service->authenticate($service->issue($user));
+        $token = (new Builder(new Hmac()))
+            ->setIssuer(Data::$testIssuer)
+            ->setAudience($service->getAudience())
+            ->setId(Data::$testTokenId)
+            ->setExpirationTime(time() + 10)
+            ->setPassphrase(Data::$strongPassphrase . '-wrong')
+            ->getToken()
+            ->getToken()
+        ;
 
-        $this->assertSame($user->get('id'), $actual->get('id'));
-        $this->assertSame($user->get('username'), $actual->get('username'));
+        $this->expectException(TokenException::class);
+        $this->expectExceptionMessage('Invalid Token (verification)');
+
+        $service->authenticate($token);
     }
 
     /**
@@ -150,6 +135,21 @@ final class TokenServiceTest extends AbstractIntegrationTestCase
         $this->assertLessThanOrEqual($now, $claims->get(Enum::ISSUED_AT));
         $this->assertLessThanOrEqual($now, $claims->get(Enum::NOT_BEFORE));
         $this->assertGreaterThan($now, $claims->get(Enum::EXPIRATION_TIME));
+    }
+
+    /**
+     * The full round trip: a token this service issued is one it accepts, and
+     * it answers with the record the token belongs to.
+     */
+    public function testIssuedTokenAuthenticates(): void
+    {
+        $service = $this->getTokenService();
+        $user    = $this->haveUser();
+
+        $actual = $service->authenticate($service->issue($user));
+
+        $this->assertSame($user->get('id'), $actual->get('id'));
+        $this->assertSame($user->get('username'), $actual->get('username'));
     }
 
     /**

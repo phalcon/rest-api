@@ -29,15 +29,50 @@ final class ResponseTest extends AbstractUnitTestCase
     public function testHttpCodes(): void
     {
         $response = new Response();
-        $this->assertSame('200 (OK)', $response->getHttpCodeDescription($response::OK));
-        $this->assertSame('301 (Moved Permanently)', $response->getHttpCodeDescription($response::MOVED_PERMANENTLY));
-        $this->assertSame('302 (Found)', $response->getHttpCodeDescription($response::FOUND));
-        $this->assertSame('307 (Temporary Redirect)', $response->getHttpCodeDescription($response::TEMPORARY_REDIRECT));
-        $this->assertSame('308 (Permanent Redirect)', $response->getHttpCodeDescription($response::PERMANENTLY_REDIRECT));
-        $this->assertSame('400 (Bad Request)', $response->getHttpCodeDescription($response::BAD_REQUEST));
-        $this->assertSame('401 (Unauthorized)', $response->getHttpCodeDescription($response::UNAUTHORIZED));
-        $this->assertSame('403 (Forbidden)', $response->getHttpCodeDescription($response::FORBIDDEN));
-        $this->assertSame('404 (Not Found)', $response->getHttpCodeDescription($response::NOT_FOUND));
+        $this->assertSame(
+            '301 (Moved Permanently)',
+            $response->getHttpCodeDescription($response::MOVED_PERMANENTLY)
+        );
+        $this->assertSame(
+            '200 (OK)',
+            $response->getHttpCodeDescription($response::OK)
+        );
+        $this->assertSame(
+            '200 (OK)',
+            $response->getHttpCodeDescription($response::OK)
+        );
+        $this->assertSame(
+            '301 (Moved Permanently)',
+            $response->getHttpCodeDescription($response::MOVED_PERMANENTLY)
+        );
+        $this->assertSame(
+            '302 (Found)',
+            $response->getHttpCodeDescription($response::FOUND)
+        );
+        $this->assertSame(
+            '307 (Temporary Redirect)',
+            $response->getHttpCodeDescription($response::TEMPORARY_REDIRECT)
+        );
+        $this->assertSame(
+            '308 (Permanent Redirect)',
+            $response->getHttpCodeDescription($response::PERMANENTLY_REDIRECT)
+        );
+        $this->assertSame(
+            '400 (Bad Request)',
+            $response->getHttpCodeDescription($response::BAD_REQUEST)
+        );
+        $this->assertSame(
+            '401 (Unauthorized)',
+            $response->getHttpCodeDescription($response::UNAUTHORIZED)
+        );
+        $this->assertSame(
+            '403 (Forbidden)',
+            $response->getHttpCodeDescription($response::FORBIDDEN)
+        );
+        $this->assertSame(
+            '404 (Not Found)',
+            $response->getHttpCodeDescription($response::NOT_FOUND)
+        );
         $this->assertSame(
             '500 (Internal Server Error)',
             $response->getHttpCodeDescription($response::INTERNAL_SERVER_ERROR)

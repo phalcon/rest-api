@@ -6,7 +6,6 @@
     <arg value="p"/>
     <rule ref="PSR12">
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
-        <exclude name="Generic.Files.LineLength.TooLong"/>
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
     </rule>
     <exclude-pattern>*/public/*</exclude-pattern>

@@ -39,18 +39,13 @@ class Companies extends AbstractModel
             'phone'   => Filter::FILTER_STRING,
         ];
     }
+
     /**
      * @return array<int, string>
      */
     public function getPublicFields(): array
     {
-        return [
-            'id',
-            'name',
-            'address',
-            'city',
-            'phone',
-        ];
+        return $this->getCommonFields();
     }
 
     /**
@@ -58,13 +53,7 @@ class Companies extends AbstractModel
      */
     public function getSortableFields(): array
     {
-        return [
-            'id',
-            'name',
-            'address',
-            'city',
-            'phone',
-        ];
+        return $this->getCommonFields();
     }
 
     /**
@@ -128,5 +117,19 @@ class Companies extends AbstractModel
         );
 
         return $this->validate($validator);
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function getCommonFields(): array
+    {
+        return [
+            'id',
+            'name',
+            'address',
+            'city',
+            'phone',
+        ];
     }
 }

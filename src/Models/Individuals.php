@@ -46,16 +46,7 @@ class Individuals extends AbstractModel
      */
     public function getPublicFields(): array
     {
-        return [
-            'id',
-            'companyId',
-            'typeId',
-            'prefix',
-            'first',
-            'middle',
-            'last',
-            'suffix',
-        ];
+        return $this->getCommonFields();
     }
 
     /**
@@ -63,16 +54,7 @@ class Individuals extends AbstractModel
      */
     public function getSortableFields(): array
     {
-        return [
-            'id',
-            'companyId',
-            'typeId',
-            'prefix',
-            'first',
-            'middle',
-            'last',
-            'suffix',
-        ];
+        return $this->getCommonFields();
     }
 
     /**
@@ -105,5 +87,22 @@ class Individuals extends AbstractModel
         );
 
         parent::initialize();
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function getCommonFields(): array
+    {
+        return [
+            'id',
+            'companyId',
+            'typeId',
+            'prefix',
+            'first',
+            'middle',
+            'last',
+            'suffix',
+        ];
     }
 }

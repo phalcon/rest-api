@@ -2922,16 +2922,16 @@
         },
         {
             "name": "phalcon/ide-stubs",
-            "version": "v5.20.1",
+            "version": "v5.20.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/ide-stubs.git",
-                "reference": "4cb649aa15e767cd08a476fdd697a94fe2198e1c"
+                "reference": "867aa2baf8acf3bec040beff4f81e748f718f832"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/4cb649aa15e767cd08a476fdd697a94fe2198e1c",
-                "reference": "4cb649aa15e767cd08a476fdd697a94fe2198e1c",
+                "url": "https://api.github.com/repos/phalcon/ide-stubs/zipball/867aa2baf8acf3bec040beff4f81e748f718f832",
+                "reference": "867aa2baf8acf3bec040beff4f81e748f718f832",
                 "shasum": ""
             },
             "require": {
@@ -2987,7 +2987,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-08-25T02:12:31+00:00"
+            "time": "2026-08-27T13:10:07+00:00"
         },
         {
             "name": "phalcon/phalcon",

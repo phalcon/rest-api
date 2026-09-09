@@ -39,7 +39,9 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "allow-plugins": {
-            "infection/extension-installer": true
+            "pds/skeleton": false,
+            "infection/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "require-dev": {
@@ -49,6 +51,7 @@
         "phalcon/ide-stubs": "^5.16",
         "phalcon/phalcon": "^6.0@beta",
         "phalcon/phql": "1.0.x-dev",
+        "phalcon/code-quality": "^1.0",
         "phalcon/talon": "^1.0.0",
         "phpstan/phpstan": "^2.2",
         "phpunit/phpunit": "^10.5",

@@ -21,8 +21,6 @@ class UsersRepositoryProvider implements ServiceProviderInterface
 {
     /**
      * Registers the users repository
-     *
-     * @param DiInterface $container
      */
     public function register(DiInterface $container): void
     {

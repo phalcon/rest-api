@@ -26,18 +26,31 @@ use function sprintf;
 class Response extends PhResponse
 {
     public const ACCEPTED              = 202;
+
     public const BAD_GATEWAY           = 502;
+
     public const BAD_REQUEST           = 400;
+
     public const CREATED               = 201;
+
     public const FORBIDDEN             = 403;
+
     public const FOUND                 = 302;
+
     public const INTERNAL_SERVER_ERROR = 500;
+
     public const MOVED_PERMANENTLY     = 301;
+
     public const NOT_FOUND             = 404;
+
     public const NOT_IMPLEMENTED       = 501;
+
     public const OK                    = 200;
+
     public const PERMANENTLY_REDIRECT  = 308;
+
     public const TEMPORARY_REDIRECT    = 307;
+
     public const UNAUTHORIZED          = 401;
 
     /** @var array<int, string> */
@@ -58,10 +71,6 @@ class Response extends PhResponse
 
     /**
      * Returns the http code description or if not found the code itself
-     *
-     * @param int $code
-     *
-     * @return string
      */
     public function getHttpCodeDescription(int $code): string
     {
@@ -74,8 +83,6 @@ class Response extends PhResponse
 
     /**
      * Send the response back
-     *
-     * @return ResponseInterface
      */
     public function send(): ResponseInterface
     {
@@ -113,10 +120,6 @@ class Response extends PhResponse
 
     /**
      * Sets the payload code as Error
-     *
-     * @param string $detail
-     *
-     * @return Response
      */
     public function setPayloadError(string $detail = ''): Response
     {
@@ -133,8 +136,6 @@ class Response extends PhResponse
      * something iterable whose items carry getMessage().
      *
      * @param iterable<MessageInterface> $errors
-     *
-     * @return Response
      */
     public function setPayloadErrors($errors): Response
     {
@@ -152,8 +153,6 @@ class Response extends PhResponse
      * Sets the payload code as Success
      *
      * @param array<string, mixed>|string|null $content The content
-     *
-     * @return Response
      */
     public function setPayloadSuccess($content = []): Response
     {

@@ -21,8 +21,6 @@ class TokenServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers the token service
-     *
-     * @param DiInterface $container
      */
     public function register(DiInterface $container): void
     {

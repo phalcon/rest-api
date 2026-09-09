@@ -29,12 +29,9 @@ abstract class AbstractBootstrap
      * by a subclass before parent::__construct() or by it, the application by
      * setupApplication(). Declared without a null default so that is the type
      * rather than a promise.
-     *
-     * @var Console|Micro
      */
     protected Console | Micro $application;
 
-    /** @var FactoryDefault|PhCli */
     protected FactoryDefault | PhCli $container;
 
     /** @var array<string, string> */
@@ -62,25 +59,16 @@ abstract class AbstractBootstrap
         ;
     }
 
-    /**
-     * @return Console|Micro
-     */
     public function getApplication(): Console | Micro
     {
         return $this->application;
     }
 
-    /**
-     * @return FactoryDefault|PhCli
-     */
     public function getContainer(): FactoryDefault | PhCli
     {
         return $this->container;
     }
 
-    /**
-     * @return Response
-     */
     public function getResponse(): Response
     {
         return $this->container->getShared('response');
@@ -101,15 +89,11 @@ abstract class AbstractBootstrap
 
     /**
      * The provider list this application registers, relative to the app root.
-     *
-     * @return string
      */
     abstract protected function providersPath(): string;
 
     /**
      * Set up the application object in the container
-     *
-     * @return AbstractBootstrap
      */
     protected function setupApplication(): AbstractBootstrap
     {

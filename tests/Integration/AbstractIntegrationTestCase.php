@@ -181,8 +181,6 @@ abstract class AbstractIntegrationTestCase extends AbstractUnitTestCase
      * Satisfies FractalTrait for the tests that format documents the way the
      * controllers do. Answered once here rather than in each of them - the
      * controllers read the same value from the same service.
-     *
-     * @return string
      */
     protected function getBaseUrl(): string
     {

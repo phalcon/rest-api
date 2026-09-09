@@ -28,10 +28,9 @@ class GetController extends BaseController
     protected array $includes = [
         Relationships::PRODUCTS,
     ];
-    /** @var string */
+
     protected string $model = ProductTypes::class;
 
-    /** @var string */
     protected string $resource = Relationships::PRODUCT_TYPES;
 
     /** @var class-string<BaseTransformer> */

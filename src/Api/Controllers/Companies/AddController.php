@@ -39,7 +39,6 @@ class AddController extends Controller
     /**
      * Adds a record in the database
      *
-     * @return void
      * @throws ModelException
      */
     public function callAction(): void

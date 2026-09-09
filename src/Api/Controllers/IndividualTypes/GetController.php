@@ -28,10 +28,9 @@ class GetController extends BaseController
     protected array $includes = [
         Relationships::INDIVIDUALS,
     ];
-    /** @var string */
+
     protected string $model = IndividualTypes::class;
 
-    /** @var string */
     protected string $resource = Relationships::INDIVIDUAL_TYPES;
 
     /** @var class-string<BaseTransformer> */

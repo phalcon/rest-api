@@ -21,8 +21,6 @@ class QueryServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers the query service
-     *
-     * @param DiInterface $container
      */
     public function register(DiInterface $container): void
     {

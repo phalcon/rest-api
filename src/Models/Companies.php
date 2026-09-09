@@ -58,8 +58,6 @@ class Companies extends AbstractModel
 
     /**
      * Initialize relationships and model properties
-     *
-     * @return void
      */
     public function initialize(): void
     {

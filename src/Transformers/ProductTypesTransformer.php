@@ -27,11 +27,6 @@ class ProductTypesTransformer extends BaseTransformer
         Relationships::PRODUCTS,
     ];
 
-    /**
-     * @param ProductTypes $type
-     *
-     * @return Collection
-     */
     public function includeProducts(ProductTypes $type): Collection
     {
         return $this->getRelatedCollection(

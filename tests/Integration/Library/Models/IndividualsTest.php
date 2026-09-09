@@ -37,6 +37,7 @@ final class IndividualsTest extends AbstractIntegrationTestCase
         ];
         $this->assertSame($expected, $model->getModelFilters());
     }
+
     public function testValidateModel(): void
     {
         $this->haveModelDefinition(

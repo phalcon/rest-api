@@ -29,14 +29,12 @@ class BaseTransformer extends TransformerAbstract
     /** @var array<string, array<int, string>> */
     private array $fields = [];
 
-    /** @var string */
     private string $resource = '';
 
     /**
      * BaseTransformer constructor.
      *
      * @param array<string, array<int, string>> $fields
-     * @param string                            $resource
      */
     public function __construct(array $fields = [], string $resource = '')
     {
@@ -45,8 +43,6 @@ class BaseTransformer extends TransformerAbstract
     }
 
     /**
-     * @param AbstractModel $model
-     *
      * @return array<string, mixed>
      * @throws ModelException
      */
@@ -76,11 +72,7 @@ class BaseTransformer extends TransformerAbstract
      * one method returning Collection|Item cannot tell a caller which it got,
      * so every includeXxx() declaring `: Collection` was lying by half.
      *
-     * @param AbstractModel                 $model
      * @param class-string<BaseTransformer> $transformer
-     * @param string                        $resource
-     *
-     * @return Collection
      */
     protected function getRelatedCollection(
         AbstractModel $model,
@@ -97,11 +89,7 @@ class BaseTransformer extends TransformerAbstract
     /**
      * A related resource holding a single record.
      *
-     * @param AbstractModel                 $model
      * @param class-string<BaseTransformer> $transformer
-     * @param string                        $resource
-     *
-     * @return Item
      */
     protected function getRelatedItem(
         AbstractModel $model,

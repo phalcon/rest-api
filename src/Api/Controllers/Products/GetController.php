@@ -29,10 +29,9 @@ class GetController extends BaseController
         Relationships::COMPANIES,
         Relationships::PRODUCT_TYPES,
     ];
-    /** @var string */
+
     protected string $model = Products::class;
 
-    /** @var string */
     protected string $resource = Relationships::PRODUCTS;
 
     /** @var class-string<BaseTransformer> */

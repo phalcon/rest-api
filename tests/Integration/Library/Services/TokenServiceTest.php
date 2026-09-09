@@ -152,9 +152,6 @@ final class TokenServiceTest extends AbstractIntegrationTestCase
         $this->assertSame($user->get('username'), $actual->get('username'));
     }
 
-    /**
-     * @return TokenService
-     */
     private function getTokenService(): TokenService
     {
         /** @var TokenService $service */
@@ -163,9 +160,6 @@ final class TokenServiceTest extends AbstractIntegrationTestCase
         return $service;
     }
 
-    /**
-     * @return Users
-     */
     private function haveUser(): Users
     {
         /** @var Users $user */

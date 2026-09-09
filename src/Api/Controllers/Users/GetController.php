@@ -23,13 +23,10 @@ use Phalcon\Api\Transformers\BaseTransformer;
  */
 class GetController extends BaseController
 {
-    /** @var string */
     protected string $model = Users::class;
 
-    /** @var string */
     protected string $orderBy = 'username';
 
-    /** @var string */
     protected string $resource = Relationships::USERS;
 
     /** @var class-string<BaseTransformer> */

@@ -37,9 +37,6 @@ class AuthenticationMiddleware implements MiddlewareInterface
     /**
      * Call me
      *
-     * @param Micro $api
-     *
-     * @return bool
      * @throws ModelException
      */
     public function call(Micro $api): bool

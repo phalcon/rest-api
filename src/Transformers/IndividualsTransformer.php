@@ -30,10 +30,6 @@ class IndividualsTransformer extends BaseTransformer
 
     /**
      * Includes the companies
-     *
-     * @param Individuals $individual
-     *
-     * @return Item
      */
     public function includeCompanies(Individuals $individual): Item
     {
@@ -46,10 +42,6 @@ class IndividualsTransformer extends BaseTransformer
 
     /**
      * Includes the product types
-     *
-     * @param Individuals $individual
-     *
-     * @return Item
      */
     public function includeIndividualTypes(Individuals $individual): Item
     {

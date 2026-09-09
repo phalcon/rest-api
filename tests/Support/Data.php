@@ -27,42 +27,63 @@ use function Phalcon\Api\Core\appUrl;
 class Data
 {
     public static $companiesRecordIncludesUrl       = '/companies/%s?includes=%s';
+
     public static $companiesRecordUrl               = '/companies/%s';
+
     public static $companiesSortUrl                 = '/companies?sort=%s';
+
     public static $companiesUrl                     = '/companies';
+
     public static $individualsRecordIncludesUrl     = '/individuals/%s?includes=%s';
+
     public static $individualsRecordUrl             = '/individuals/%s';
+
     public static $individualsUrl                   = '/individuals';
+
     public static $individualTypesRecordIncludesUrl = '/individual-types/%s?includes=%s';
+
     public static $individualTypesRecordUrl         = '/individual-types/%s';
+
     public static $individualTypesUrl               = '/individual-types';
+
     public static $loginUrl                         = '/login';
+
     public static $productsRecordIncludesUrl        = '/products/%s?includes=%s';
+
     public static $productsRecordUrl                = '/products/%s';
+
     public static $productsUrl                      = '/products';
+
     public static $productTypesRecordIncludesUrl    = '/product-types/%s?includes=%s';
+
     public static $productTypesRecordUrl            = '/product-types/%s';
+
     public static $productTypesUrl                  = '/product-types';
 
     public static $strongPassphrase = 'DR^3*ZwnAHKc9yP$YSpW98dsmHJBax5&';
+
     public static $testIssuer       = 'https://niden.net';
+
     public static $testPassword     = 'testpass';
+
     /**
      * The bcrypt hash of $testPassword. Hardcoded on purpose: fixtures store
      * the hash, requests send the plain password, and hashing on every insert
      * would cost a bcrypt round per fixture for no benefit.
      */
     public static $testPasswordHash    = '$2y$10$DSCDlw9tZtmQikTY8cwbGuUZSMcPo64YfRYCTREygVUMJTDqjTHFu';
+
     public static $testTokenId         = '110011';
+
     public static $testTokenPassword   = 'DR^4*ZwnAHKc0yP$YSpW09dsmHJBax6&';
+
     public static $testUsername        = 'testuser';
+
     public static $usersUrl                         = '/users';
+
     public static $wrongUrl                         = '/sommething';
 
     /**
-     * @param Companies $record
-     *
-     * @return array
      * @throws ModelException
      */
     public static function companiesAddResponse(Companies $record): array
@@ -80,9 +101,6 @@ class Data
     }
 
     /**
-     * @param Companies $record
-     *
-     * @return array
      * @throws ModelException
      */
     public static function companiesResponse(Companies $record): array
@@ -119,7 +137,6 @@ class Data
     }
 
     /**
-     * @param        $name
      * @param string $address
      * @param string $city
      * @param string $phone
@@ -137,9 +154,6 @@ class Data
     }
 
     /**
-     * @param Individuals $record
-     *
-     * @return array
      * @throws ModelException
      */
     public static function individualResponse(Individuals $record): array
@@ -160,9 +174,6 @@ class Data
     }
 
     /**
-     * @param IndividualTypes $record
-     *
-     * @return array
      * @throws ModelException
      */
     public static function individualTypeResponse(IndividualTypes $record): array
@@ -189,9 +200,6 @@ class Data
     }
 
     /**
-     * @param Products $record
-     *
-     * @return array
      * @throws ModelException
      */
     public static function productFieldsResponse(Products $record): array
@@ -207,9 +215,6 @@ class Data
     }
 
     /**
-     * @param Products $record
-     *
-     * @return array
      * @throws ModelException
      */
     public static function productResponse(Products $record): array
@@ -228,9 +233,6 @@ class Data
     }
 
     /**
-     * @param ProductTypes $record
-     *
-     * @return array
      * @throws ModelException
      */
     public static function productTypeResponse(ProductTypes $record): array
@@ -248,11 +250,7 @@ class Data
     /**
      * The self/related pair a relationship carries.
      *
-     * @param string $type
-     * @param mixed  $recordId
-     * @param string $relationship
-     *
-     * @return array
+     * @param mixed $recordId
      */
     public static function relationshipLinks(
         string $type,
@@ -272,11 +270,6 @@ class Data
      * self link. Only the attributes differ between resources, so only the
      * attributes are worth stating at each call site.
      *
-     * @param string        $type
-     * @param AbstractModel $record
-     * @param array         $attributes
-     *
-     * @return array
      * @throws ModelException
      */
     public static function resource(
@@ -295,8 +288,6 @@ class Data
     }
 
     /**
-     * @param AbstractModel $record
-     *
      * @return array
      * @throws ModelException
      */

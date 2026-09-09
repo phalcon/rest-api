@@ -31,10 +31,6 @@ class ProductsTransformer extends BaseTransformer
 
     /**
      * Includes the companies
-     *
-     * @param Products $product
-     *
-     * @return Collection
      */
     public function includeCompanies(Products $product): Collection
     {
@@ -47,10 +43,6 @@ class ProductsTransformer extends BaseTransformer
 
     /**
      * Includes the product types
-     *
-     * @param Products $product
-     *
-     * @return Item
      */
     public function includeProductTypes(Products $product): Item
     {

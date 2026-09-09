@@ -123,9 +123,6 @@ abstract class AbstractApiTestCase extends AbstractIntegrationTestCase
      *
      * The header is per-test rather than per-request state, so leaving it set
      * would leak into whatever the test does next.
-     *
-     * @param string $token
-     * @param string $url
      */
     protected function sendGetAs(string $token, string $url): void
     {

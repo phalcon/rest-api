@@ -22,9 +22,6 @@ use Phalcon\Storage\SerializerFactory;
 
 class CacheDataProvider implements ServiceProviderInterface
 {
-    /**
-     * @param DiInterface $container
-     */
     public function register(DiInterface $container): void
     {
         /** @var Config $config */

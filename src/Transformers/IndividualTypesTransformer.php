@@ -27,11 +27,6 @@ class IndividualTypesTransformer extends BaseTransformer
         Relationships::INDIVIDUALS,
     ];
 
-    /**
-     * @param IndividualTypes $type
-     *
-     * @return Collection
-     */
     public function includeIndividuals(IndividualTypes $type): Collection
     {
         return $this->getRelatedCollection(

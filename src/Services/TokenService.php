@@ -41,10 +41,6 @@ use function time;
  */
 class TokenService
 {
-    /**
-     * @param UsersRepository $usersRepository
-     * @param Config          $config
-     */
     public function __construct(
         private readonly UsersRepository $usersRepository,
         private readonly Config $config
@@ -61,9 +57,6 @@ class TokenService
      * Answers the user the token belongs to, or throws saying which phase
      * rejected it.
      *
-     * @param string $bearer
-     *
-     * @return Users
      * @throws ModelException
      * @throws TokenException
      */
@@ -93,8 +86,6 @@ class TokenService
     /**
      * The audience every token this application issues is stamped with, and
      * the one every token it accepts must carry.
-     *
-     * @return string
      */
     public function getAudience(): string
     {
@@ -106,8 +97,6 @@ class TokenService
 
     /**
      * The expiry time for a token issued now
-     *
-     * @return int
      */
     public function getExpirationTime(): int
     {
@@ -119,8 +108,6 @@ class TokenService
 
     /**
      * The time a token issued now is issued at
-     *
-     * @return int
      */
     public function getIssuedAtTime(): int
     {
@@ -129,8 +116,6 @@ class TokenService
 
     /**
      * The time drift, i.e. a token issued now is valid not before
-     *
-     * @return int
      */
     public function getNotBeforeTime(): int
     {
@@ -143,9 +128,6 @@ class TokenService
     /**
      * Builds and signs a token for this user
      *
-     * @param Users $user
-     *
-     * @return string
      * @throws ModelException
      */
     public function issue(Users $user): string
@@ -167,10 +149,6 @@ class TokenService
 
     /**
      * Parses a token string into the token object
-     *
-     * @param string $token
-     *
-     * @return Token
      */
     public function parse(string $token): Token
     {
@@ -182,9 +160,7 @@ class TokenService
      * hold.
      *
      * @param Token $token The token from the request - it is the one validated
-     * @param Users $user
      *
-     * @return Validator
      * @throws ModelException
      */
     private function getValidator(Token $token, Users $user): Validator

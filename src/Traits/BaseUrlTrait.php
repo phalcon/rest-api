@@ -30,9 +30,6 @@ use Phalcon\Config\Config;
  */
 trait BaseUrlTrait
 {
-    /**
-     * @return string
-     */
     protected function getBaseUrl(): string
     {
         /** @var string $url */

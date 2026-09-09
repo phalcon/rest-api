@@ -59,6 +59,7 @@ final class GetRelationshipsTest extends AbstractGetTestCase
 
         $this->assertSame($expected, $actual);
     }
+
     public function testRelatedRouteReturnsTheRelationship(): void
     {
         [$com] = $this->addRecords();
@@ -159,9 +160,6 @@ final class GetRelationshipsTest extends AbstractGetTestCase
     /**
      * The response body without the per-request envelope, so two requests can
      * be compared.
-     *
-     * @param string $token
-     * @param string $url
      *
      * @return array<string, mixed>
      */

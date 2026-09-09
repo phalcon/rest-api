@@ -35,8 +35,6 @@ class RouterProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
-     *
-     * @param DiInterface $container
      */
     public function register(DiInterface $container): void
     {
@@ -53,11 +51,6 @@ class RouterProvider implements ServiceProviderInterface
 
     /**
      * Attaches the middleware to the application
-     *
-     * @param Micro   $application
-     * @param Manager $eventsManager
-     *
-     * @return void
      */
     private function attachMiddleware(
         Micro $application,
@@ -80,10 +73,6 @@ class RouterProvider implements ServiceProviderInterface
 
     /**
      * Attaches the routes to the application; lazy loaded
-     *
-     * @param Micro $application
-     *
-     * @return void
      */
     private function attachRoutes(Micro $application): void
     {
@@ -120,7 +109,6 @@ class RouterProvider implements ServiceProviderInterface
      *
      * @param array<int, array{0: class-string, 1: string, 2: string, 3: string}> $routes
      * @param class-string                                                        $class
-     * @param string                                                              $relationship
      *
      * @return array<int, array{0: class-string, 1: string, 2: string, 3: string}>
      */

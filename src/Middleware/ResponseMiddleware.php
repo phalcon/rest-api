@@ -24,10 +24,6 @@ class ResponseMiddleware implements MiddlewareInterface
 
     /**
      * Call me
-     *
-     * @param Micro $api
-     *
-     * @return bool
      */
     public function call(Micro $api): bool
     {

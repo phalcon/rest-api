@@ -80,8 +80,6 @@ class Users extends AbstractModel
 
     /**
      * Returns the source table from the database
-     *
-     * @return void
      */
     public function initialize(): void
     {
@@ -96,8 +94,6 @@ class Users extends AbstractModel
      * long as the entry lived.
      *
      * The cost is one indexed lookup per authenticated request.
-     *
-     * @return bool
      */
     public function isCacheable(): bool
     {

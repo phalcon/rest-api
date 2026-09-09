@@ -19,9 +19,6 @@ use Phalcon\Di\ServiceProviderInterface;
 
 class CliDispatcherProvider implements ServiceProviderInterface
 {
-    /**
-     * @param DiInterface $container
-     */
     public function register(DiInterface $container): void
     {
         $container->setShared(

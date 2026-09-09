@@ -28,9 +28,6 @@ use Phalcon\Filter\Validation\Validator\PresenceOf;
  */
 class CompaniesValidator extends Validation
 {
-    /**
-     * @return void
-     */
     public function initialize(): void
     {
         $presenceOf = new PresenceOf(

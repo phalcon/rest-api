@@ -28,11 +28,6 @@ class CompaniesTransformer extends BaseTransformer
         Relationships::INDIVIDUALS,
     ];
 
-    /**
-     * @param Companies $company
-     *
-     * @return Collection
-     */
     public function includeIndividuals(Companies $company): Collection
     {
         return $this->getRelatedCollection(
@@ -42,11 +37,6 @@ class CompaniesTransformer extends BaseTransformer
         );
     }
 
-    /**
-     * @param Companies $company
-     *
-     * @return Collection
-     */
     public function includeProducts(Companies $company): Collection
     {
         return $this->getRelatedCollection(

@@ -21,9 +21,6 @@ use function Phalcon\Api\Core\appPath;
 
 class ConfigProvider implements ServiceProviderInterface
 {
-    /**
-     * @param DiInterface $container
-     */
     public function register(DiInterface $container): void
     {
         $container->setShared(

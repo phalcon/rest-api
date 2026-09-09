@@ -21,8 +21,6 @@ class MainTask extends PhTask
 {
     /**
      * Executes the main action of the cli mapping passed parameters to tasks
-     *
-     * @return void
      */
     public function mainAction(): void
     {

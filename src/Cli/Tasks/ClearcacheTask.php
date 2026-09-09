@@ -36,8 +36,6 @@ class ClearcacheTask extends PhTask
 {
     /**
      * Clears the data cache from the application
-     *
-     * @return void
      */
     public function mainAction(): void
     {
@@ -47,8 +45,6 @@ class ClearcacheTask extends PhTask
 
     /**
      * Clears file based cache
-     *
-     * @return void
      */
     private function clearFileCache(): void
     {
@@ -83,8 +79,6 @@ class ClearcacheTask extends PhTask
 
     /**
      * Clears redis data cache
-     *
-     * @return void
      */
     private function clearRedis(): void
     {

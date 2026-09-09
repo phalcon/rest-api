@@ -32,7 +32,6 @@ trait FractalTrait
      * @param string                            $method        'collection' or 'item'
      * @param mixed                             $results
      * @param class-string<BaseTransformer>     $transformer
-     * @param string                            $resource
      * @param array<int, string>                $relationships
      * @param array<string, array<int, string>> $fields
      *
@@ -86,8 +85,6 @@ trait FractalTrait
      * at compile time, where reaching for the default container would have
      * hidden it and reading the environment here would have gone around
      * config.php entirely.
-     *
-     * @return string
      */
     abstract protected function getBaseUrl(): string;
 }

@@ -18,10 +18,6 @@ use function function_exists;
 if (true !== function_exists('Phalcon\Api\Core\appPath')) {
     /**
      * Get the application path.
-     *
-     * @param string $path
-     *
-     * @return string
      */
     function appPath(string $path = ''): string
     {
@@ -42,11 +38,6 @@ if (true !== function_exists('Phalcon\Api\Core\envValue')) {
      * $_ENV. Between the two, an exported variable would otherwise be invisible
      * here AND suppress the .env entry of the same name, leaving only the
      * default.
-     *
-     * @param string     $variable
-     * @param mixed|null $default
-     *
-     * @return mixed
      */
     function envValue(string $variable, mixed $default = null): mixed
     {
@@ -69,9 +60,6 @@ if (true !== function_exists('Phalcon\Api\Core\envValue')) {
 if (true !== function_exists('Phalcon\Api\Core\appUrl')) {
     /**
      * Constructs a URL for links with resource and id
-     *
-     * @param string $resource
-     * @param int    $recordId
      *
      * @return array|false|mixed|string
      */

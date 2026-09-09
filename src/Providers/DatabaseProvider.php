@@ -20,9 +20,6 @@ use Phalcon\Di\ServiceProviderInterface;
 
 class DatabaseProvider implements ServiceProviderInterface
 {
-    /**
-     * @param DiInterface $container
-     */
     public function register(DiInterface $container): void
     {
         /** @var Config $config */

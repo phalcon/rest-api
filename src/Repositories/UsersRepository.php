@@ -38,10 +38,6 @@ class UsersRepository
      */
     private const DUMMY_HASH = '$2y$10$jG0Drp7/ZBXXPPsW1zzG6uCNpNMMwTOucqTCnX5ikNmicIJ0kqcEq';
 
-    /**
-     * @param QueryService $queryService
-     * @param Security     $security
-     */
     public function __construct(
         private readonly QueryService $queryService,
         private readonly Security $security
@@ -50,10 +46,6 @@ class UsersRepository
 
     /**
      * Gets a user from the database based on the JWT token
-     *
-     * @param Token $token
-     *
-     * @return Users|null
      */
     public function getByToken(Token $token): ?Users
     {
@@ -89,11 +81,6 @@ class UsersRepository
      *
      * This read is uncached, as every read of this table is: Users declares
      * itself uncacheable rather than each caller passing a flag.
-     *
-     * @param string $username
-     * @param string $password
-     *
-     * @return Users|null
      */
     public function getByUsernameAndPassword(
         string $username,

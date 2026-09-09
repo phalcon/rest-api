@@ -44,10 +44,6 @@ abstract class AbstractModel extends PhModel
 
     /**
      * Returns model messages
-     *
-     * @param Logger|null $logger
-     *
-     * @return  string
      */
     public function getModelMessages(Logger $logger = null): string
     {
@@ -92,8 +88,6 @@ abstract class AbstractModel extends PhModel
 
     /**
      * Master initializer
-     *
-     * @return void
      */
     public function initialize(): void
     {
@@ -114,8 +108,6 @@ abstract class AbstractModel extends PhModel
      * and one did not: the credential lookup opted out, while the token lookup
      * on the same table did not, so password hashes reached the cache on every
      * authenticated request anyway.
-     *
-     * @return bool
      */
     public function isCacheable(): bool
     {
@@ -132,7 +124,6 @@ abstract class AbstractModel extends PhModel
      * @param string $field The name of the field
      * @param mixed  $value The value of the field
      *
-     * @return AbstractModel
      * @throws ModelException
      */
     public function set($field, $value): AbstractModel
@@ -150,11 +141,8 @@ abstract class AbstractModel extends PhModel
      * filter map is still consulted for both, so an unknown field is rejected
      * either way.
      *
-     * @param string $type
-     * @param string $field
-     * @param mixed  $value
+     * @param mixed $value
      *
-     * @return mixed
      * @throws ModelException
      */
     private function getSetFields(string $type, string $field, $value = ''): mixed
@@ -185,9 +173,8 @@ abstract class AbstractModel extends PhModel
      * Uses the Phalcon Filter to sanitize the variable passed
      *
      * @param mixed                     $value  The value to sanitize
-     * @param array<int, string>|string  $filter The filter, or a chain of them
+     * @param array<int, string>|string $filter The filter, or a chain of them
      *
-     * @return mixed
      * @throws ModelException
      */
     private function sanitize($value, $filter): mixed

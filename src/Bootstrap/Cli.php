@@ -53,9 +53,6 @@ class Cli extends AbstractBootstrap
         return Console::class;
     }
 
-    /**
-     * @return string
-     */
     protected function providersPath(): string
     {
         return 'src/Cli/providers.php';
@@ -63,8 +60,6 @@ class Cli extends AbstractBootstrap
 
     /**
      * Parses arguments from the command line
-     *
-     * @return Cli
      */
     private function processArguments(): Cli
     {

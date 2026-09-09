@@ -31,8 +31,6 @@ class ErrorHandlerProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
-     *
-     * @param DiInterface $container
      */
     public function register(DiInterface $container): void
     {

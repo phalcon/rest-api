@@ -48,16 +48,12 @@ class BaseController extends Controller
     /** @var array<int, string> */
     protected array $includes = [];
 
-    /** @var string */
     protected string $method = 'collection';
 
-    /** @var string */
     protected string $model = '';
 
-    /** @var string */
     protected string $orderBy = 'name';
 
-    /** @var string */
     protected string $resource = '';
 
     /**
@@ -78,10 +74,8 @@ class BaseController extends Controller
      * plain record - while every response went on advertising those same URLs
      * in its `links`.
      *
-     * @param mixed  $id
      * @param string $relationships Comma separated, from the route
      *
-     * @return void
      * @throws Exception
      */
     public function callAction(mixed $id = 0, string $relationships = ''): void
@@ -161,8 +155,6 @@ class BaseController extends Controller
     /**
      * Checks the passed id parameter and returns the relevant array back
      *
-     * @param mixed $recordId
-     *
      * @return array<string, int>
      * @throws Exception
      */
@@ -199,8 +191,6 @@ class BaseController extends Controller
      * The sortable set comes from the model rather than a copy kept here: two
      * lists of the same columns drifted apart, and the model is what knows
      * which of them it owns.
-     *
-     * @return bool
      */
     private function checkSort(): bool
     {
@@ -260,11 +250,8 @@ class BaseController extends Controller
         return $related;
     }
 
-
     /**
      * Return the field name and direction
-     *
-     * @param string $field
      *
      * @return array{0: string, 1: string} The field name and its direction
      */
@@ -286,10 +273,6 @@ class BaseController extends Controller
 
     /**
      * Sets the response with an error code
-     *
-     * @param int $code
-     *
-     * @return void
      */
     private function sendError(int $code): void
     {

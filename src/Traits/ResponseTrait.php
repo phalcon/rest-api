@@ -23,12 +23,6 @@ trait ResponseTrait
 {
     /**
      * Halt execution after setting the message in the response
-     *
-     * @param Micro  $api
-     * @param int    $status
-     * @param string $message
-     *
-     * @return void
      */
     protected function halt(Micro $api, int $status, string $message): void
     {

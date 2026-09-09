@@ -32,10 +32,6 @@ use function sprintf;
  */
 class QueryService
 {
-    /**
-     * @param Config $config
-     * @param Cache  $cache
-     */
     public function __construct(
         private readonly Config $config,
         private readonly Cache $cache
@@ -45,11 +41,7 @@ class QueryService
     /**
      * Runs a query using the builder
      *
-     * @param string               $class
      * @param array<string, mixed> $where
-     * @param string               $orderBy
-     *
-     * @return ResultsetInterface
      */
     public function getRecords(
         string $class,
@@ -82,11 +74,7 @@ class QueryService
      * question, not this service's and not the caller's - see
      * AbstractModel::isCacheable().
      *
-     * @param Builder              $builder
-     * @param string               $class
      * @param array<string, mixed> $where
-     *
-     * @return ResultsetInterface
      */
     private function getResults(
         Builder $builder,

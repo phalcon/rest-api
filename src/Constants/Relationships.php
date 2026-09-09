@@ -36,9 +36,14 @@ namespace Phalcon\Api\Constants;
 class Relationships
 {
     public const COMPANIES        = 'companies';
+
     public const INDIVIDUAL_TYPES = 'individual-types';
+
     public const INDIVIDUALS      = 'individuals';
+
     public const PRODUCT_TYPES    = 'product-types';
+
     public const PRODUCTS         = 'products';
+
     public const USERS            = 'users';
 }

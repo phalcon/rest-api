@@ -29,13 +29,11 @@ class GetController extends BaseController
         Relationships::COMPANIES,
         Relationships::INDIVIDUAL_TYPES,
     ];
-    /** @var string */
+
     protected string $model = Individuals::class;
 
-    /** @var string */
     protected string $orderBy = 'last, first';
 
-    /** @var string */
     protected string $resource = Relationships::INDIVIDUALS;
 
     /** @var class-string<BaseTransformer> */

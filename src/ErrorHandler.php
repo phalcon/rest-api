@@ -34,9 +34,6 @@ class ErrorHandler
 
     /**
      * ErrorHandler constructor.
-     *
-     * @param Logger $logger
-     * @param Config $config
      */
     public function __construct(Logger $logger, Config $config)
     {
@@ -47,12 +44,6 @@ class ErrorHandler
     /**
      * Handles errors by logging them
      *
-     * @param int    $number
-     * @param string $message
-     * @param string $file
-     * @param int    $line
-     *
-     * @return bool
      * @throws Exception
      */
     public function handle(
@@ -85,7 +76,6 @@ class ErrorHandler
     /**
      * Application shutdown - logs metrics in devMode
      *
-     * @return void
      * @throws Exception
      */
     public function shutdown(): void

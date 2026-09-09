@@ -25,8 +25,6 @@ class LoggerProvider implements ServiceProviderInterface
 {
     /**
      * Registers the logger component
-     *
-     * @param DiInterface $container
      */
     public function register(DiInterface $container): void
     {

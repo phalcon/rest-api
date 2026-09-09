@@ -105,6 +105,7 @@ final class ModelTest extends AbstractIntegrationTestCase
 
         $user->get('some_field');
     }
+
     public function testModelGetSetFields(): void
     {
         $this->haveRecordWithFields(

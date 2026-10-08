@@ -12,7 +12,7 @@ return [
     ],
     'environments'  => [
         'default_migration_table' => 'ut_migrations',
-        'default_database'        => 'development',
+        'default_environment'     => 'development',
         'production'              => [
             'adapter' => 'mysql',
             'host'    => 'localhost',

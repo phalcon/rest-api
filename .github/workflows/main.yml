@@ -44,7 +44,7 @@ jobs:
           fetch-depth: 1
 
       - name: "Setup PHP"
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: '8.3'
           extensions: ${{ env.EXTENSIONS }}
@@ -118,7 +118,7 @@ jobs:
           fetch-depth: 1
 
       - name: "Setup PHP"
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.EXTENSIONS }}
@@ -219,7 +219,7 @@ jobs:
           fetch-depth: 0
 
       - name: "Setup PHP"
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: '8.3'
           extensions: ${{ env.EXTENSIONS }}
@@ -277,7 +277,7 @@ jobs:
       # SonarQube first (push only) so a failing octocov gate can't skip the upload.
       - name: "SonarQube Scan"
         if: github.event_name == 'push'
-        uses: SonarSource/sonarqube-scan-action@d209202bc7d53ff1cc128f7f907dac145c9d6ae9 # v8.3.0
+        uses: SonarSource/sonarqube-scan-action@4d1dc0c91ee400dcf8a6dddf2f705ac36542e304 # v8.4.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -299,7 +299,7 @@ jobs:
 
       - name: "Upload coverage badge"
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: coverage-badge
           path: tests/_output/coverage.svg
